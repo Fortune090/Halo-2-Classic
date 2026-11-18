@@ -2,7 +2,7 @@ H2Classic change log: the notes that went out with each test build, newest first
 "s10l", "s9q" and so on name the build steps; each section says what changed, why, what was checked, and how to test it.
 The developer's side of the same builds (files, addresses, how each thing was found) is in DEVLOG.txt.
 
-H2Classic (stage 9, build s10l) - Halo 2's own code as a Windows program (test build)
+H2Classic (stage 9, build s10m) - Halo 2's own code as a Windows program (test build)
 =====================================================================================
 
 What this is
@@ -10,6 +10,61 @@ What this is
   code of the functions the decompilation does not have yet (or has only as unproven drafts) from YOUR unmodified
   v1.0 default.xbe each time it starts, and reads the maps from the Rom folder; it does not run without them.
   Nothing of the XBE, of the console or of Microsoft is in the exe or written to disk.
+  Source code: https://github.com/Fortune090/Halo-2-Classic. H2Classic is free software under the GNU General Public
+  License, version 3 or later (LICENSE.txt); LICENSES.txt has its notices and those of the code it uses.
+
+New in s10m (build 35): rebuilt on the decompilation of 18 November, and the rocket launcher's fix applied everywhere
+  1. The new decompilation
+  Your upload of 18 November matches 10,697 of the game's 11,326 functions and 1,429 of Havok's 1,436. H2Classic was
+        still built on the source of 15 November (10,630 matched): 146 more functions are matched now (69 of the game's,
+        77 of Havok's), 44 of them since your previous upload.
+  The whole recompilation was done again on it: every source compiled for Windows (1,879, none failed), the tables of
+        where each piece of the game's data and each vtable sits in the XBE, and which functions run from your XBE. The
+        calls between functions that can be checked against the XBE all agree (27,563, none disagree). H2Classic's own
+        changes to the game's source went back in; three had to be redone by hand where the code around them changed.
+  What runs where now:
+      - 63 functions that ran as your XBE's own code run as compiled source, because they are proven now: 51 of
+        Havok's physics, the actors' movement update (the one behind the old "AI never stops" fix) and two of the
+        network code's.
+      - 76 functions that ran as unproven drafts run their matched source instead.
+      - 7 unproven drafts run from your XBE instead (a matched function calls them now; one of them, 0xc2d00, lost its
+        match upstream).
+      - Functions running from the XBE in all: 197 before, 141 now.
+  What the new matches confirmed: the adapters written for the actors' movement update and the network message
+        handler took their arguments the way the matched code does; the instance fade routine's old draft passed its
+        arguments in the wrong order (it ran from the XBE, so it never mattered); two Havok classes' vtables placed by
+        guesswork are the same XBE tables the matched constructors use; 9 vtable slots that had to stay on the XBE's
+        code now reach this build's destructors; 8 more of the game's globals are confirmed at their XBE addresses.
+  2. The rocket launcher's animation fix (build 32) was skipped whenever the XBE's own code loaded the animations - the
+        game's object creation and drawing do - the same kind of problem as Increased LODs in build 34. It now goes into
+        the XBE's code as well. Checked here: with the rocket launcher as the starting weapon on Ivory Tower the log says
+        "the rocket launcher's animation fix: 51 of 51 places written" - the first time a run showed it.
+  Every other change H2Classic makes to the game was checked the same way: none of the others is skipped.
+  Checked here: start and the menus, the self-test (32 of 32), a run with a poisoned stack, and Ivory Tower with
+        rocket launchers (rockets, grenades, jumping, splash damage), with no stop.
+
+Testing (s10m)
+  Before you start
+    - Unzip over your H2Classic folder (your h2classic and Rom folders are not touched).
+    - Unlock Performance on in H2Classic Settings (for Test 3).
+  Test 1: the campaign's AI
+    1. Play a campaign level with enemies and Marines for a few minutes (Cairo Station, Outskirts or Metropolis).
+       Expect: enemies and Marines move, take cover and stand still as in build 34; no stop.
+    If it fails: h2classic_log.txt and h2classic_stop.bin, and where in the level it happened.
+  Test 2: physics
+    1. Drive a Warthog or a Ghost, knock crates and barrels about, bounce grenades, try a superbounce spot you know.
+       Expect: everything behaves as in build 34 and on the Xbox.
+    If it fails: a short video of it and h2classic_log.txt.
+  Test 3: the rocket launcher at a high frame rate
+    1. A split screen game with Game Setup > Quick Options > Starting Weapon: Rocket Launcher. Fire, reload, switch
+       weapons, and watch the rocket launcher's animations.
+       Expect: no broken frames in its animations; h2classic_log.txt has "the rocket launcher's animation fix: 51 of
+       51 places written".
+    If it fails: a short video and h2classic_log.txt.
+  Test 4 (only if you use system link): join or host a system link game with an Xbox or xemu.
+       Expect: it joins and plays as in build 34 (two of the network code's functions are compiled source now).
+  Send me
+    - h2classic_log.txt (and h2classic_stop.bin if it stopped), and a video of anything that looks off.
 
 New in s10l (build 34): controller vibration, and Increased LODs really applied
   1. Vibration

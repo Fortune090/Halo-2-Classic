@@ -164,7 +164,7 @@ diff -ruN a/src/unknown_013450.cpp b/src/unknown_013450.cpp
 diff -ruN a/src/unknown_01cf50.cpp b/src/unknown_01cf50.cpp
 --- a/src/unknown_01cf50.cpp
 +++ b/src/unknown_01cf50.cpp
-@@ -696,9 +696,17 @@
+@@ -762,9 +762,17 @@
  	}
  }
  
@@ -182,7 +182,7 @@ diff -ruN a/src/unknown_01cf50.cpp b/src/unknown_01cf50.cpp
  	// Retail callers keep the rectangle argument on the stack.
  	s_short_rectangle const *const *rectangle_reference = &rectangle;
  	function_1cf50();
-@@ -713,6 +721,7 @@
+@@ -779,6 +787,7 @@
  		D3DDevice_SetVertexData2f(0, (real)x, (real)y);
  	}
  	D3DDevice::End();
@@ -190,7 +190,7 @@ diff -ruN a/src/unknown_01cf50.cpp b/src/unknown_01cf50.cpp
  }
  
  // @retail 0x14980
-@@ -1990,7 +1999,7 @@
+@@ -2056,7 +2065,7 @@
  
  long g_4858b8;
  
@@ -199,7 +199,7 @@ diff -ruN a/src/unknown_01cf50.cpp b/src/unknown_01cf50.cpp
  // Retail 0x14b60. The additional clear call changes matched 0x14ac0's stack frame.
  // Modeled on r789 (marker corrected to @retail so it is checked): the reduced-image
  // form is retail's 91 bytes with the flags expression written twice and no local, but
-@@ -3051,7 +3060,11 @@
+@@ -3203,7 +3212,11 @@
      vertices[0].y = vertices[1].y = y;
      vertices[2].v = vertices[3].v = (real)(v + height);
      if (!callback || callback(vertices, context))
@@ -211,7 +211,7 @@ diff -ruN a/src/unknown_01cf50.cpp b/src/unknown_01cf50.cpp
  }
  
  void __stdcall function_423c0(void *payload);
-@@ -8877,7 +8890,12 @@
+@@ -9495,7 +9508,12 @@
      function_1ccb0(36);
      function_1c710(g_51f0f0);
      function_1cf50();
@@ -237,7 +237,7 @@ diff -ruN a/src/unknown_023540.cpp b/src/unknown_023540.cpp
  struct s_223240;
  struct s_frame_parameters_12a50
  {
-@@ -4494,6 +4494,8 @@
+@@ -4582,6 +4582,8 @@
  void function_15680(short mode);
  void function_1beb0();
  void function_3d2c0();
@@ -246,7 +246,7 @@ diff -ruN a/src/unknown_023540.cpp b/src/unknown_023540.cpp
  void function_3ea60();
  void function_c15a0();
  void function_156040();
-@@ -4503,6 +4505,7 @@
+@@ -4591,6 +4593,7 @@
  void function_40890();
  void function_1917eb();
  class c_render_window;
@@ -254,7 +254,7 @@ diff -ruN a/src/unknown_023540.cpp b/src/unknown_023540.cpp
  void function_147af1(long first, long second, c_render_window *window);
  struct s_2f800_view;
  void function_2fd90(s_2f800_view const *view, box2f const *clip, byte *out);
-@@ -4531,7 +4534,9 @@
+@@ -4619,7 +4622,9 @@
      *(byte *)&g_4ba010 = 0; /* address-taken in retail: see above */
      memcpy(&g_4b9da0, view, 0x74);
      function_2fd90((s_2f800_view const *)&g_4b9da0, (box2f const *)sky_color, (byte *)&g_4b9e14);
@@ -264,7 +264,7 @@ diff -ruN a/src/unknown_023540.cpp b/src/unknown_023540.cpp
      function_3ea60();
      function_c15a0();
      s_frame_view_2c560 frame;
-@@ -4571,6 +4576,8 @@
+@@ -4659,6 +4664,8 @@
      function_15680(0);
      if (g_4b9ed8 != NONE) function_1917eb();
      function_40890();
@@ -358,7 +358,7 @@ diff -ruN a/src/unknown_02c560.cpp b/src/unknown_02c560.cpp
 diff -ruN a/src/unknown_0350e0.cpp b/src/unknown_0350e0.cpp
 --- a/src/unknown_0350e0.cpp
 +++ b/src/unknown_0350e0.cpp
-@@ -4854,7 +4854,8 @@
+@@ -5310,7 +5310,8 @@
          g_485a30 = g_485a34 = g_485a38 = g_485a3c = 1.0f;
          g_485a40 = 0.0f;
      }
@@ -368,7 +368,7 @@ diff -ruN a/src/unknown_0350e0.cpp b/src/unknown_0350e0.cpp
          &g_485a2c, (vector4f *)g_485a0c, (vector4f *)(g_485a0c + 4));
      s_bounds3d bounds;
      if (resource)
-@@ -6144,7 +6145,7 @@
+@@ -6675,7 +6676,7 @@
  
  void function_14ac0();
  
@@ -377,7 +377,7 @@ diff -ruN a/src/unknown_0350e0.cpp b/src/unknown_0350e0.cpp
  // Retail 0x289e0
  bool function_289e0()
  {
-@@ -6193,7 +6194,7 @@
+@@ -6724,7 +6725,7 @@
          fade = fade < 0.0f ? 0.0f : fade > 1.0f ? 1.0f : fade;
          real rectangle[4] = {0.0f, 640.0f, 0.0f, 480.0f};
          real sliding[4] = {(1.0f - progress) * 640.0f, (1.0f - progress) * 640.0f + 640.0f, 0.0f, 480.0f};
@@ -389,15 +389,15 @@ diff -ruN a/src/unknown_0350e0.cpp b/src/unknown_0350e0.cpp
 diff -ruN a/src/unknown_03bcb0.cpp b/src/unknown_03bcb0.cpp
 --- a/src/unknown_03bcb0.cpp
 +++ b/src/unknown_03bcb0.cpp
-@@ -631,6 +631,7 @@
+@@ -638,6 +638,7 @@
+ extern bool g_4ba019;
  extern real g_485b28[7];
  
- // @retail 0x1bf50
 +extern "C" int __cdecl h2n_lods(void);   /* h2native: layer2/interp.c */
+ // @retail 0x1bf50
  bool function_1bf50(long level, long tag, real distance, long *out)
  {
-     long selected = 0;
-@@ -803,7 +804,7 @@
+@@ -811,7 +812,7 @@
  {
      byte *definition = g_4e3b44[tag & 0xffff].bytes;
      long pass;
@@ -406,7 +406,7 @@ diff -ruN a/src/unknown_03bcb0.cpp b/src/unknown_03bcb0.cpp
      byte *groups = record_format_groups(tag);
      dword flags = *(dword *)(*(byte **)(groups + 4) + pass * 10 + 2);
      if (flags & 0x10006e)
-@@ -1056,6 +1057,76 @@
+@@ -1064,6 +1065,76 @@
  // frame is 0x4c, ours 0x60.
  // Tried: store order z,x,y,scale (291 -> 291), volatile tangent (-6), volatile tangent+view_tangent (-6), writing only
  // g_4c1b08[3].y and keeping the other corners in locals (same code).
@@ -483,7 +483,7 @@ diff -ruN a/src/unknown_03bcb0.cpp b/src/unknown_03bcb0.cpp
  // @retail 0x3ca90
  void function_3ca90(byte const *state)
  {
-@@ -1074,7 +1145,8 @@
+@@ -1082,7 +1153,8 @@
  	g_4c1b68.position.z = height - distance * offset;
  	real aspect = ((real)(short)g_48564e - (real)(short)g_48564a) / ((short)g_48564c - (short)g_485648);
  	real tangent = (real)(tan(*(real const *)(state + 0x7c) * 0.5f) * *(real const *)(state + 0x80));
@@ -493,7 +493,7 @@ diff -ruN a/src/unknown_03bcb0.cpp b/src/unknown_03bcb0.cpp
  		aspect *= 1.5f;
  	real half_angle = g_485640 * 0.5f;
  	if (!(half_angle < 0.7806857824325562f)) half_angle = 0.7806857824325562f;
-@@ -1120,6 +1192,7 @@
+@@ -1128,6 +1200,7 @@
  		corners[i].z = g_4c1b38[2][1] * g_4c1b08[i].y + g_4c1b38[2][0] * g_4c1b08[i].x + g_4c1b38[2][2] * g_4c1b08[i].z + g_4c1b38[2][3];
  	}
  	memcpy(g_4c1b08, corners, sizeof(corners));
@@ -501,7 +501,7 @@ diff -ruN a/src/unknown_03bcb0.cpp b/src/unknown_03bcb0.cpp
  }
  
  
-@@ -1190,7 +1263,7 @@
+@@ -1198,7 +1271,7 @@
      if (material == NONE) material = context->material;
      byte const *definition = g_4e3b44[material & 0xffff].bytes;
      long pass;
@@ -510,7 +510,7 @@ diff -ruN a/src/unknown_03bcb0.cpp b/src/unknown_03bcb0.cpp
      byte const *groups = record_format_groups(material);
      dword flags = *(dword const *)(*(byte **)(groups + 4) + pass * 10 + 2);
      if (material_override != NONE)
-@@ -1384,7 +1457,7 @@
+@@ -1392,7 +1465,7 @@
      return result;
  }
  
@@ -519,7 +519,7 @@ diff -ruN a/src/unknown_03bcb0.cpp b/src/unknown_03bcb0.cpp
  struct s_projection_copy_3bd00
  {
      transform4x3f transform;
-@@ -1706,7 +1779,7 @@
+@@ -1714,7 +1787,7 @@
      long const *level_reference = &level;
      short const *kind_reference = &kind;
      (void)*kind_reference;
@@ -528,7 +528,7 @@ diff -ruN a/src/unknown_03bcb0.cpp b/src/unknown_03bcb0.cpp
          function_3b9d0(&g_4c1a48[group], tag, *(long *)&distance, and_mask, or_mask, fill, value, context, 0);
  }
  
-@@ -1884,8 +1957,8 @@
+@@ -1892,8 +1965,8 @@
      {
          function_4d9c0(part, mode, value, index, tag, second, fourth, record[4]);
          function_4d640(index, mode, compound);
@@ -542,7 +542,7 @@ diff -ruN a/src/unknown_03bcb0.cpp b/src/unknown_03bcb0.cpp
 diff -ruN a/src/unknown_03fdf0.cpp b/src/unknown_03fdf0.cpp
 --- a/src/unknown_03fdf0.cpp
 +++ b/src/unknown_03fdf0.cpp
-@@ -743,7 +743,8 @@
+@@ -772,7 +772,8 @@
                  parent = *(long *)(*(byte **)(g_4e0300->data + (parent & 0xffff) * 12 + 8) + 0x14);
          }
          function_402b0(cache_index, mode);
@@ -612,7 +612,7 @@ diff -ruN a/src/unknown_12b690.cpp b/src/unknown_12b690.cpp
 diff -ruN a/src/unknown_1321f0.cpp b/src/unknown_1321f0.cpp
 --- a/src/unknown_1321f0.cpp
 +++ b/src/unknown_1321f0.cpp
-@@ -769,6 +769,7 @@
+@@ -839,6 +839,7 @@
  	}
  }
  
@@ -620,7 +620,7 @@ diff -ruN a/src/unknown_1321f0.cpp b/src/unknown_1321f0.cpp
  // @retail 0x133520
  void __stdcall function_133520(s_bit_vector_pool *arg_1)
  {
-@@ -801,6 +802,7 @@
+@@ -870,6 +871,7 @@
  				local_10 = local_13;
  		}
  		byte local_11 = (byte)(long)(local_10 * 255.0f);
@@ -631,7 +631,7 @@ diff -ruN a/src/unknown_1321f0.cpp b/src/unknown_1321f0.cpp
 diff -ruN a/src/unknown_139296.cpp b/src/unknown_139296.cpp
 --- a/src/unknown_139296.cpp
 +++ b/src/unknown_139296.cpp
-@@ -1400,6 +1400,8 @@
+@@ -1436,6 +1436,8 @@
  	return success;
  }
  
@@ -640,7 +640,7 @@ diff -ruN a/src/unknown_139296.cpp b/src/unknown_139296.cpp
  // @retail 0x13a532
  void function_13a532(long arg_1, long arg_2, byte const *arg_3, long arg_4)
  {
-@@ -1422,7 +1424,9 @@
+@@ -1458,7 +1460,9 @@
              {
                  real local_10[4];
                  function_13ad48(arg_2, local_9 + 4, local_10, arg_3, item);
@@ -650,7 +650,7 @@ diff -ruN a/src/unknown_139296.cpp b/src/unknown_139296.cpp
              }
              local_8 += 0x50;
          }
-@@ -1440,7 +1444,9 @@
+@@ -1476,7 +1480,9 @@
              {
                  real local_10[4];
                  function_13ad48(arg_2, local_9 + 4, local_10, arg_3, item);
@@ -660,7 +660,7 @@ diff -ruN a/src/unknown_139296.cpp b/src/unknown_139296.cpp
              }
              local_8 += 0x64;
          }
-@@ -1458,7 +1464,9 @@
+@@ -1494,7 +1500,9 @@
              {
                  real local_10[4];
                  function_13ad48(arg_2, local_9 + 4, local_10, arg_3, item);
@@ -720,7 +720,7 @@ diff -ruN a/src/unknown_13cf00.cpp b/src/unknown_13cf00.cpp
 diff -ruN a/src/unknown_157450.cpp b/src/unknown_157450.cpp
 --- a/src/unknown_157450.cpp
 +++ b/src/unknown_157450.cpp
-@@ -5372,6 +5372,7 @@
+@@ -5411,6 +5411,7 @@
  extern long g_4e64a8;
  void function_36580(void);
  void function_36880(s_short_rectangle const *rectangle, color4f const *color);
@@ -728,7 +728,7 @@ diff -ruN a/src/unknown_157450.cpp b/src/unknown_157450.cpp
  void function_161420(long player_index, real alpha);
  
  // MiniMax D (11-10): no new form, no lower score (2); retail stores the x87 power (fstp dword ptr
-@@ -5470,7 +5471,7 @@
+@@ -5509,7 +5510,7 @@
              if (intensity > 0.0f)
              {
                  real power = pow(intensity, 1.9f);
@@ -740,7 +740,7 @@ diff -ruN a/src/unknown_157450.cpp b/src/unknown_157450.cpp
 diff -ruN a/src/unknown_16e290.cpp b/src/unknown_16e290.cpp
 --- a/src/unknown_16e290.cpp
 +++ b/src/unknown_16e290.cpp
-@@ -1554,6 +1554,7 @@
+@@ -1525,6 +1525,7 @@
  void __stdcall function_170fd0(long user_index);
  long function_155760(long user_index);
  void __stdcall function_1546f0(long user_index, transform4x3f *matrix);
@@ -748,7 +748,7 @@ diff -ruN a/src/unknown_16e290.cpp b/src/unknown_16e290.cpp
  bool function_a74c0(vector3f const *forward, vector3f const *up);
  real function_1201a0(vector3f *vector, vector3f const *fallback);
  bool function_171d00(point3f const *start, point3f const *end, real *fraction, bool narrow);
-@@ -1812,7 +1813,7 @@
+@@ -1808,7 +1809,7 @@
  			case 2:
  				{
  					void (__stdcall *const adjust_view)(long, transform4x3f *) = function_1546f0;
@@ -787,7 +787,7 @@ diff -ruN a/src/unknown_200462.cpp b/src/unknown_200462.cpp
  real function_200891(s_interface_pulse const *arg_0, bool arg_1);
  real function_2008fc(s_interface_pulse const *arg_0, bool arg_1);
  void function_22a664(s_widget_quad_2b11 const *arg_0, s_float_rect const *arg_1,
-@@ -225,7 +226,7 @@
+@@ -259,7 +260,7 @@
          }
      }
      point2f local_14;
@@ -835,15 +835,15 @@ diff -ruN a/src/unknown_223240.cpp b/src/unknown_223240.cpp
  bool function_68290(void);
  void main_time_wait_for_vblank(void);
  void function_13f10(long, long);
-@@ -401,6 +403,7 @@
- 			local_5 = g_4e9c8c[local_1].field_0;
- 		else
- 			local_5 = 0;
+@@ -430,6 +432,7 @@
+ 			if (g_4686c4 != NONE)
+ 				local_5 = g_4e9c8c[local_1].field_0;
+ 		}
 +		local_5 = (byte const *)h2n_ip_view(local_1, local_5);   /* h2native: H2N_UNLOCK - a scripted camera between its ticks (layer2/interp.c) */
  		function_223080(0, local_0, local_1, (s_223080 *)&g_47f0f8[local_0 + 1],
  			local_2, local_3, (s_223081 const *)local_5);
  		++local_0;
-@@ -417,7 +420,9 @@
+@@ -446,7 +449,9 @@
  	else
  		function_2232a0();
  	bool local_0 = g_4e6470 <= 0 && g_4e64a0 <= 0;
@@ -951,7 +951,7 @@ diff -ruN a/src/unknown_22e27b.cpp b/src/unknown_22e27b.cpp
  
  void unicode_string_copy(word *destination, const word *source, long maximum_count);
  void function_22d2ee(word *string, long maximum_length);
-@@ -1858,7 +1859,11 @@
+@@ -1892,7 +1893,11 @@
  		}
  		real scale = (last.x - first.x) * text->value20 / (real)(bounds->right - bounds->left);
  		if (function_13ee20(buffer, g_4e73a0.font))
@@ -966,10 +966,10 @@ diff -ruN a/src/unknown_22e27b.cpp b/src/unknown_22e27b.cpp
 diff -ruN a/src/unknown_24c7c1.cpp b/src/unknown_24c7c1.cpp
 --- a/src/unknown_24c7c1.cpp
 +++ b/src/unknown_24c7c1.cpp
-@@ -770,6 +770,19 @@
- // inside the loop block 114 (same code).
- // MiniMax S (11-15): no new form, no lower score (114): retail keeps the timer message as a byte at -0xf and the left
- // coordinate as a word at -0x3c where ours stores a dword, and the frame homes of the row counter and the flash scalar differ.
+@@ -804,6 +804,19 @@
+ // the stack homes (the timer byte, the left word, the view and the font), the tutorial colour's block order and 0x24ce9d's
+ // argument setup; reordering 0x24ce9d's parameters reaches 103 to 110 but changes a function's parameter order, so it is not
+ // applied.
 +/* h2native s10g: Spooky Ghost's prompt_box_hook (v2.0.17): the HUD messages' text boxes - the pick-up / vehicle prompt,
 +   the messages under it (Checkpoint... done), the status lines at the bottom middle (WELCOME!, GAME OVER) - each
 +   between h2n_hud_text_box(1, its rectangle) and h2n_hud_text_box(0): past 16:9 the letters to their 16:9 width about
@@ -986,7 +986,7 @@ diff -ruN a/src/unknown_24c7c1.cpp b/src/unknown_24c7c1.cpp
  // @retail 0x24cf66
  void function_24cf66(long local_player_index)
  {
-@@ -869,7 +882,7 @@
+@@ -903,7 +916,7 @@
  				if (function_13ee20(text, g_4e73a0.font))
  				{
  					function_24ce9d(text, left, top, &bounds, &text_bounds);
@@ -995,7 +995,7 @@ diff -ruN a/src/unknown_24c7c1.cpp b/src/unknown_24c7c1.cpp
  				}
  			}
  
-@@ -929,14 +942,14 @@
+@@ -963,14 +976,14 @@
  				{
  					function_24ce9d(text, left, top, &bounds, &text_bounds);
  					message_height = (short)(bounds.bottom - bounds.top);
@@ -1012,7 +1012,7 @@ diff -ruN a/src/unknown_24c7c1.cpp b/src/unknown_24c7c1.cpp
  			}
  
  			top = (short)((real)message_height * view->line_spacing + (real)top);
-@@ -963,7 +976,7 @@
+@@ -997,7 +1010,7 @@
  			field_24.alpha = function_1392a9(local_player_index) * fade;
  			function_13edb0(font, NONE, 2, 0, &color, &field_24);
  			if (function_13ef30(status_player->text_454))
@@ -1021,7 +1021,7 @@ diff -ruN a/src/unknown_24c7c1.cpp b/src/unknown_24c7c1.cpp
  		}
  
  		bounds.bottom += 0x12;
-@@ -977,7 +990,7 @@
+@@ -1011,7 +1024,7 @@
  		{
  			function_13edb0(font, NONE, 2, 0, &color, &field_24);
  			if (function_13ee20(text, g_4e73a0.font))
@@ -1033,15 +1033,15 @@ diff -ruN a/src/unknown_24c7c1.cpp b/src/unknown_24c7c1.cpp
 diff -ruN a/src/unknown_254200.cpp b/src/unknown_254200.cpp
 --- a/src/unknown_254200.cpp
 +++ b/src/unknown_254200.cpp
-@@ -523,6 +523,7 @@
- // code), taking the colour and the lower and upper coordinates computed at the call 384 (2258 bytes). In this pair and in
- // 0x254490's, retail emits the two reloads in ascending register order (xmm0 first), ours in descending order; the
- // register each value gets already agrees.
+@@ -579,6 +579,7 @@
+ // calls to the C form 446/369/375); the first block's eleven texture-stage calls through the existing wrapper 0x224f0
+ // 465 (2236 bytes); the colour bound by a `color3f const &` 2 (same code). Diagnostics: the first quad's inline-depth
+ // start moved one call later 2; an unreferenced float function added to the file leaves 2 and 0x254490's 4.
 +extern "C" void __cdecl h2n_hud_tracker(int on);     /* h2native: the Widescreen Fix (layer2/xd3d.cpp) */
  // @retail 0x2548f0
  void __stdcall function_2548f0(point2f const *arg_0, real arg_1)
  {
-@@ -638,6 +639,7 @@
+@@ -694,6 +695,7 @@
  			real const *point_x = &arg_0->x;
  			real const *point_y = &arg_0->y;
  			function_1cf50();
@@ -1049,7 +1049,7 @@ diff -ruN a/src/unknown_254200.cpp b/src/unknown_254200.cpp
  			D3DDevice_Begin(D3DPT_TRIANGLEFAN);
  			D3DDevice_SetVertexData2s(1, 0, 0);
  			D3DDevice_SetVertexData4f(D3DVSDE_VERTEX, *point_x - local_7, *point_y - local_7, 16777215.f, 16777215.f);
-@@ -648,6 +650,7 @@
+@@ -704,6 +706,7 @@
  			D3DDevice_SetVertexData2s(1, 0, 1);
  			D3DDevice_SetVertexData4f(D3DVSDE_VERTEX, *point_x - local_7, *point_y + local_7, 16777215.f, 16777215.f);
  			D3DDevice_End();
@@ -1080,7 +1080,7 @@ diff -ruN a/src/unknown_2b116a.cpp b/src/unknown_2b116a.cpp
          }
      }
      if (show_label)
-@@ -6125,8 +6130,12 @@
+@@ -6221,8 +6226,12 @@
          visibility_object_lists_add(extra_indices, extra_count, model_visibility_lists, object_indices, object_count, false);
          function_2cbc0(true);
          function_44720();

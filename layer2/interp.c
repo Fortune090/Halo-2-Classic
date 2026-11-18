@@ -1924,6 +1924,25 @@ static void rk_patch(DWORD h, DWORD size_left)
 	}
 	if (n && g_rk_applied++ < 8) h2n_log("       the rocket launcher's animation fix: %u of 51 places written (the animation data at %08lx)\n", n, h);
 }
+/* s10m: retail's animation_cache_get_resource (0x1237e0) through helpers.S h2n_anim_get_hook as well, with the fix on:
+ * retail's own object creation and drawing code reaches it without passing the source's function. Its first five bytes
+ * (push ebx; push esi; mov esi, eax; push edi) and the instruction after them (mov ebx, esi) are checked first. */
+extern char h2n_anim_get_hook[];
+void __cdecl h2n_animation_retail(void)
+{
+	static const BYTE head[7] = { 0x53, 0x56, 0x8b, 0xf0, 0x57, 0x8b, 0xde };
+	BYTE *p = (BYTE *)(ULONG_PTR)0x1237e0;
+	if (g_rk_on < 0) g_rk_on = h2n_unlock_wanted() && h2n_env_int("H2N_ROCKETFIX", 1) ? 1 : 0;
+	if (!g_rk_on || !h2n_retail_code_loaded()) return;
+	if (memcmp(p, head, sizeof(head)))
+	{
+		h2n_log("       the rocket launcher's animation fix: retail's 0x1237e0 is not as expected; its own calls are left as they are\n");
+		return;
+	}
+	p[0] = 0xe9;
+	*(DWORD *)(p + 1) = (DWORD)(ULONG_PTR)h2n_anim_get_hook - (0x1237e0 + 5);
+	h2n_log("       the rocket launcher's animation fix: retail's animation_cache_get_resource (0x1237e0) goes through the layer too\n");
+}
 void __cdecl h2n_animation_resource(long resource, long size, void *data)
 {
 	DWORD r = (DWORD)resource, d = (DWORD)(ULONG_PTR)data, slot = (r >> 4) & 511u, k, i;

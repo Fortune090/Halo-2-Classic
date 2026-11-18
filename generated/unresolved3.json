@@ -65,6 +65,7 @@
 "unit_animation_access.obj",
 "unit_animation_blend.obj",
 "unit_object_type.obj",
+"unknown_013450.obj",
 "unknown_0167a0.obj",
 "unknown_01cf50.obj",
 "unknown_01e930.obj",
@@ -619,7 +620,6 @@
 "unknown_2dd930.obj",
 "unknown_2ddd00.obj",
 "unknown_2dddf0.obj",
-"unknown_2ddfc0.obj",
 "unknown_2de0a0.obj",
 "unknown_2de0f0.obj",
 "unknown_2de750.obj",
@@ -748,22 +748,15 @@
 "unknown_3032c0.obj",
 "unknown_303360.obj",
 "unknown_303b80.obj",
-"unknown_303dd0.obj",
-"unknown_3048a0.obj",
-"unknown_305900.obj",
 "unknown_305940.obj",
 "unknown_3059e0.obj",
 "unknown_305a60.obj",
 "unknown_305b30.obj",
-"unknown_305ca0.obj",
-"unknown_305d40.obj",
-"unknown_305e10.obj",
 "unknown_305f60.obj",
 "unknown_306400.obj",
 "unknown_306b90.obj",
 "unknown_306e70.obj",
 "unknown_306f80.obj",
-"unknown_3072f0.obj",
 "unknown_307530.obj",
 "unknown_3076a0.obj",
 "unknown_308260.obj",
@@ -814,6 +807,7 @@
 "unknown_3152f0.obj",
 "unknown_315340.obj",
 "unknown_315620.obj",
+"unknown_315740.obj",
 "unknown_315ba0.obj",
 "unknown_3163c0.obj",
 "unknown_316b30.obj",
@@ -848,6 +842,7 @@
 "unknown_31ad80.obj",
 "unknown_31ae70.obj",
 "unknown_31b060.obj",
+"unknown_31be80.obj",
 "unknown_31c100.obj",
 "unknown_31c520.obj",
 "unknown_31c940.obj",
@@ -1049,6 +1044,9 @@
 "unknown_225700.obj",
 "unknown_2b116a.obj",
 "xbox_texture_cache_update.obj"
+],
+"_h2n_animation_resource": [
+"animation_cache.obj"
 ],
 "_SwitchToThread@0": [
 "async.obj",
@@ -1378,6 +1376,7 @@
 "unknown_314220.obj",
 "unknown_314fc0.obj",
 "unknown_315620.obj",
+"unknown_315740.obj",
 "unknown_3158d0.obj",
 "unknown_317280.obj",
 "unknown_318970.obj",
@@ -1565,6 +1564,7 @@
 ],
 "_D3D__RenderState": [
 "flexible_surface.obj",
+"unknown_013450.obj",
 "unknown_0167a0.obj",
 "unknown_01cf50.obj",
 "unknown_020560.obj",
@@ -1582,6 +1582,7 @@
 ],
 "_D3DDevice_SetRenderState_DoNotCullUncompressed@4": [
 "flexible_surface.obj",
+"unknown_013450.obj",
 "unknown_0167a0.obj",
 "unknown_01cf50.obj",
 "unknown_020560.obj",
@@ -1599,6 +1600,7 @@
 ],
 "_D3DDevice_SetRenderState_RopZRead@4": [
 "flexible_surface.obj",
+"unknown_013450.obj",
 "unknown_0167a0.obj",
 "unknown_01cf50.obj",
 "unknown_020560.obj",
@@ -1616,6 +1618,7 @@
 ],
 "_D3DDevice_SetRenderState_RopZCmpAlwaysRead@4": [
 "flexible_surface.obj",
+"unknown_013450.obj",
 "unknown_0167a0.obj",
 "unknown_01cf50.obj",
 "unknown_020560.obj",
@@ -1633,6 +1636,7 @@
 ],
 "_D3DDevice_SetRenderState_StencilCullEnable@4": [
 "flexible_surface.obj",
+"unknown_013450.obj",
 "unknown_0167a0.obj",
 "unknown_01cf50.obj",
 "unknown_020560.obj",
@@ -1650,6 +1654,7 @@
 ],
 "_D3DDevice_SetRenderState_OcclusionCullEnable@4": [
 "flexible_surface.obj",
+"unknown_013450.obj",
 "unknown_0167a0.obj",
 "unknown_01cf50.obj",
 "unknown_020560.obj",
@@ -1667,6 +1672,7 @@
 ],
 "_D3DDevice_SetRenderState_YuvEnable@4": [
 "flexible_surface.obj",
+"unknown_013450.obj",
 "unknown_0167a0.obj",
 "unknown_01cf50.obj",
 "unknown_020560.obj",
@@ -1684,6 +1690,7 @@
 ],
 "_D3DDevice_SetRenderState_Dxt1NoiseEnable@4": [
 "flexible_surface.obj",
+"unknown_013450.obj",
 "unknown_0167a0.obj",
 "unknown_01cf50.obj",
 "unknown_020560.obj",
@@ -1701,6 +1708,7 @@
 ],
 "_D3DDevice_SetRenderState_SampleAlpha@4": [
 "flexible_surface.obj",
+"unknown_013450.obj",
 "unknown_0167a0.obj",
 "unknown_01cf50.obj",
 "unknown_020560.obj",
@@ -1718,6 +1726,7 @@
 ],
 "_D3DDevice_SetRenderState_LineWidth@4": [
 "flexible_surface.obj",
+"unknown_013450.obj",
 "unknown_0167a0.obj",
 "unknown_01cf50.obj",
 "unknown_020560.obj",
@@ -1735,6 +1744,7 @@
 ],
 "_D3DDevice_SetRenderState_ShadowFunc@4": [
 "flexible_surface.obj",
+"unknown_013450.obj",
 "unknown_0167a0.obj",
 "unknown_01cf50.obj",
 "unknown_020560.obj",
@@ -1752,6 +1762,7 @@
 ],
 "_D3DDevice_SetRenderState_MultiSampleRenderTargetMode@4": [
 "flexible_surface.obj",
+"unknown_013450.obj",
 "unknown_0167a0.obj",
 "unknown_01cf50.obj",
 "unknown_020560.obj",
@@ -1769,6 +1780,7 @@
 ],
 "_D3DDevice_SetRenderState_MultiSampleMode@4": [
 "flexible_surface.obj",
+"unknown_013450.obj",
 "unknown_0167a0.obj",
 "unknown_01cf50.obj",
 "unknown_020560.obj",
@@ -1786,6 +1798,7 @@
 ],
 "_D3DDevice_SetRenderState_MultiSampleMask@4": [
 "flexible_surface.obj",
+"unknown_013450.obj",
 "unknown_0167a0.obj",
 "unknown_01cf50.obj",
 "unknown_020560.obj",
@@ -1803,6 +1816,7 @@
 ],
 "_D3DDevice_SetRenderState_MultiSampleAntiAlias@4": [
 "flexible_surface.obj",
+"unknown_013450.obj",
 "unknown_0167a0.obj",
 "unknown_01cf50.obj",
 "unknown_020560.obj",
@@ -1820,6 +1834,7 @@
 ],
 "_D3DDevice_SetRenderState_EdgeAntiAlias@4": [
 "flexible_surface.obj",
+"unknown_013450.obj",
 "unknown_0167a0.obj",
 "unknown_01cf50.obj",
 "unknown_020560.obj",
@@ -1837,6 +1852,7 @@
 ],
 "_D3DDevice_SetRenderState_LogicOp@4": [
 "flexible_surface.obj",
+"unknown_013450.obj",
 "unknown_0167a0.obj",
 "unknown_01cf50.obj",
 "unknown_020560.obj",
@@ -1854,6 +1870,7 @@
 ],
 "_D3DDevice_SetRenderState_ZBias@4": [
 "flexible_surface.obj",
+"unknown_013450.obj",
 "unknown_0167a0.obj",
 "unknown_01cf50.obj",
 "unknown_020560.obj",
@@ -1871,6 +1888,7 @@
 ],
 "_D3DDevice_SetRenderState_TextureFactor@4": [
 "flexible_surface.obj",
+"unknown_013450.obj",
 "unknown_0167a0.obj",
 "unknown_01cf50.obj",
 "unknown_020560.obj",
@@ -1888,6 +1906,7 @@
 ],
 "_D3DDevice_SetRenderState_FrontFace@4": [
 "flexible_surface.obj",
+"unknown_013450.obj",
 "unknown_0167a0.obj",
 "unknown_01cf50.obj",
 "unknown_020560.obj",
@@ -1905,6 +1924,7 @@
 ],
 "_D3DDevice_SetRenderState_CullMode@4": [
 "flexible_surface.obj",
+"unknown_013450.obj",
 "unknown_0167a0.obj",
 "unknown_01cf50.obj",
 "unknown_020560.obj",
@@ -1922,6 +1942,7 @@
 ],
 "_D3DDevice_SetRenderState_StencilFail@4": [
 "flexible_surface.obj",
+"unknown_013450.obj",
 "unknown_0167a0.obj",
 "unknown_01cf50.obj",
 "unknown_020560.obj",
@@ -1939,6 +1960,7 @@
 ],
 "_D3DDevice_SetRenderState_StencilEnable@4": [
 "flexible_surface.obj",
+"unknown_013450.obj",
 "unknown_0167a0.obj",
 "unknown_01cf50.obj",
 "unknown_020560.obj",
@@ -1956,6 +1978,7 @@
 ],
 "_D3DDevice_SetRenderState_ZEnable@4": [
 "flexible_surface.obj",
+"unknown_013450.obj",
 "unknown_0167a0.obj",
 "unknown_01cf50.obj",
 "unknown_020560.obj",
@@ -1973,6 +1996,7 @@
 ],
 "_D3DDevice_SetRenderState_NormalizeNormals@4": [
 "flexible_surface.obj",
+"unknown_013450.obj",
 "unknown_0167a0.obj",
 "unknown_01cf50.obj",
 "unknown_020560.obj",
@@ -1990,6 +2014,7 @@
 ],
 "_D3DDevice_SetRenderState_TwoSidedLighting@4": [
 "flexible_surface.obj",
+"unknown_013450.obj",
 "unknown_0167a0.obj",
 "unknown_01cf50.obj",
 "unknown_020560.obj",
@@ -2007,6 +2032,7 @@
 ],
 "_D3DDevice_SetRenderState_BackFillMode@4": [
 "flexible_surface.obj",
+"unknown_013450.obj",
 "unknown_0167a0.obj",
 "unknown_01cf50.obj",
 "unknown_020560.obj",
@@ -2024,6 +2050,7 @@
 ],
 "_D3DDevice_SetRenderState_FillMode@4": [
 "flexible_surface.obj",
+"unknown_013450.obj",
 "unknown_0167a0.obj",
 "unknown_01cf50.obj",
 "unknown_020560.obj",
@@ -2041,6 +2068,7 @@
 ],
 "_D3DDevice_SetRenderState_FogColor@4": [
 "flexible_surface.obj",
+"unknown_013450.obj",
 "unknown_0167a0.obj",
 "unknown_01cf50.obj",
 "unknown_020560.obj",
@@ -2058,6 +2086,7 @@
 ],
 "_D3DDevice_SetRenderState_VertexBlend@4": [
 "flexible_surface.obj",
+"unknown_013450.obj",
 "unknown_0167a0.obj",
 "unknown_01cf50.obj",
 "unknown_020560.obj",
@@ -2075,6 +2104,7 @@
 ],
 "_D3DDevice_SetRenderState_PSTextureModes@4": [
 "flexible_surface.obj",
+"unknown_013450.obj",
 "unknown_0167a0.obj",
 "unknown_01cf50.obj",
 "unknown_020560.obj",
@@ -2092,6 +2122,7 @@
 ],
 "_D3D__DirtyFlags": [
 "flexible_surface.obj",
+"unknown_013450.obj",
 "unknown_0167a0.obj",
 "unknown_01cf50.obj",
 "unknown_020560.obj",
@@ -2110,6 +2141,7 @@
 ],
 "@D3DDevice_SetRenderState_Simple@8": [
 "flexible_surface.obj",
+"unknown_013450.obj",
 "unknown_0167a0.obj",
 "unknown_01cf50.obj",
 "unknown_020560.obj",
@@ -2220,6 +2252,9 @@
 "unknown_1d48f0.obj",
 "unknown_1d5120.obj"
 ],
+"_h2n_ip_tick_before": [
+"game_loop.obj"
+],
 "_wcsncpy": [
 "game_variant_presets.obj",
 "network_session_membership.obj",
@@ -2291,9 +2326,10 @@
 "unknown_2df680.obj",
 "unknown_2df760.obj",
 "unknown_2df8a0.obj",
+"unknown_2dfec0.obj",
 "unknown_2e18e0.obj",
 "unknown_2e24b0.obj",
-"unknown_2e3370.obj",
+"unknown_2e2f70.obj",
 "unknown_2e3d40.obj",
 "unknown_2e4f70.obj",
 "unknown_2e50d0.obj",
@@ -2487,9 +2523,10 @@
 "unknown_2df680.obj",
 "unknown_2df760.obj",
 "unknown_2df8a0.obj",
+"unknown_2dfec0.obj",
 "unknown_2e18e0.obj",
 "unknown_2e24b0.obj",
-"unknown_2e3370.obj",
+"unknown_2e2f70.obj",
 "unknown_2e3d40.obj",
 "unknown_2e4f70.obj",
 "unknown_2e50d0.obj",
@@ -2695,8 +2732,6 @@
 "unknown_2cb350.obj",
 "unknown_2d7880.obj",
 "unknown_2d7aa0.obj",
-"unknown_2d8030.obj",
-"unknown_2d8780.obj",
 "unknown_2d9a20.obj",
 "unknown_2d9c00.obj",
 "unknown_2d9ce0.obj",
@@ -2735,6 +2770,7 @@
 "unknown_314220.obj",
 "unknown_314fc0.obj",
 "unknown_315620.obj",
+"unknown_315740.obj",
 "unknown_315e70.obj",
 "unknown_318b90.obj",
 "unknown_318c10.obj",
@@ -2753,6 +2789,9 @@
 "unknown_2ae170.obj",
 "unknown_2d8dd0.obj",
 "user_interface_text_parser.obj"
+],
+"_h2n_menu_exit": [
+"main_menu.obj"
 ],
 "_XNetQosRelease@4": [
 "network_qos.obj"
@@ -3180,6 +3219,18 @@
 "_XMemFreeDefault@8": [
 "unknown_012280.obj"
 ],
+"_D3DDevice_SetDepthClipPlanes@12": [
+"unknown_013450.obj",
+"unknown_01cf50.obj",
+"unknown_03fdf0.obj"
+],
+"_D3DDevice_Clear@24": [
+"unknown_013450.obj",
+"unknown_01cf50.obj",
+"unknown_0350e0.obj",
+"unknown_03bcb0.obj",
+"unknown_254200.obj"
+],
 "_D3DResource_Release@4": [
 "unknown_0158f0.obj",
 "unknown_01cf50.obj",
@@ -3324,14 +3375,7 @@
 "_D3DDevice_GetDepthStencilSurface2@0": [
 "unknown_01cf50.obj"
 ],
-"_D3DDevice_Clear@24": [
-"unknown_01cf50.obj",
-"unknown_254200.obj"
-],
 "_D3DDevice_Release@0": [
-"unknown_01cf50.obj"
-],
-"_D3DDevice_GetRenderTarget2@0": [
 "unknown_01cf50.obj"
 ],
 "_D3DDevice_SetVertexData2s@12": [
@@ -3414,10 +3458,6 @@
 "_D3DDevice_GetViewport@4": [
 "unknown_01cf50.obj"
 ],
-"_D3DDevice_SetDepthClipPlanes@12": [
-"unknown_01cf50.obj",
-"unknown_03fdf0.obj"
-],
 "_D3DDevice_SetStipple@4": [
 "unknown_01cf50.obj",
 "unknown_020560.obj",
@@ -3463,16 +3503,20 @@
 "_D3DDevice_SetBackBufferScale@8": [
 "unknown_01cf50.obj"
 ],
-"_D3DResource_BlockUntilNotBusy@4": [
-"unknown_01cf50.obj",
-"unknown_12c0d0.obj",
-"unknown_223b60.obj"
-],
 "_D3DDevice_DrawVertices@12": [
 "unknown_01cf50.obj",
 "unknown_03f2b0.obj"
 ],
 "_D3DDevice_SetGammaRamp@8": [
+"unknown_01cf50.obj"
+],
+"_h2n_menu_pic_end": [
+"unknown_01cf50.obj"
+],
+"_h2n_menu_pic_next": [
+"unknown_01cf50.obj"
+],
+"_h2n_menu_pic_begin": [
 "unknown_01cf50.obj"
 ],
 "_D3DDevice_SetVertexShader@4": [
@@ -3481,10 +3525,20 @@
 "_Direct3D_SetPushBufferSize@8": [
 "unknown_01cf50.obj"
 ],
+"_h2n_ui_scope": [
+"unknown_01cf50.obj",
+"unknown_22a664.obj"
+],
+"_h2n_ui_fill": [
+"unknown_01cf50.obj"
+],
 "_D3DDevice_SetScissors@12": [
 "unknown_01cf50.obj",
 "unknown_0350e0.obj",
 "unknown_03fdf0.obj"
+],
+"_h2n_ui_glyph": [
+"unknown_01cf50.obj"
 ],
 "_XMountSecondaryUtilityDrive@0": [
 "unknown_01cf50.obj"
@@ -3560,6 +3614,40 @@
 ],
 "_D3DDevice_InsertCallback@12": [
 "unknown_023540.obj"
+],
+"_h2n_ui_window": [
+"unknown_023540.obj",
+"unknown_02c560.obj"
+],
+"_h2n_fp_after": [
+"unknown_023540.obj",
+"unknown_02c560.obj"
+],
+"_h2n_fp_before": [
+"unknown_023540.obj",
+"unknown_02c560.obj"
+],
+"_h2n_ws_factor": [
+"unknown_02b400.obj",
+"unknown_03bcb0.obj"
+],
+"_h2n_menu_wide": [
+"unknown_02b400.obj",
+"unknown_03bcb0.obj"
+],
+"_h2n_log": [
+"unknown_03bcb0.obj"
+],
+"_h2n_seconds": [
+"unknown_03bcb0.obj"
+],
+"_h2n_env_int": [
+"unknown_03bcb0.obj"
+],
+"_h2n_lods": [
+"unknown_03bcb0.obj",
+"unknown_1321f0.obj",
+"unknown_4bcc0.obj"
 ],
 "_D3DDevice_FlushVertexCache@0": [
 "unknown_03f2b0.obj"
@@ -3808,6 +3896,29 @@
 "_XPhysicalAlloc@16": [
 "unknown_12b400.obj"
 ],
+"_h2n_ip_draw_after": [
+"unknown_12b450.obj"
+],
+"_h2n_ip_draw_before": [
+"unknown_12b450.obj"
+],
+"_h2n_ip_director_before": [
+"unknown_12b450.obj"
+],
+"_h2n_perf": [
+"unknown_12b450.obj",
+"unknown_223240.obj"
+],
+"_h2n_zoom_hold": [
+"unknown_12b450.obj"
+],
+"_h2n_intro_wanted": [
+"unknown_12b690.obj"
+],
+"_D3DResource_BlockUntilNotBusy@4": [
+"unknown_12c0d0.obj",
+"unknown_223b60.obj"
+],
 "_FindNextFileA@8": [
 "unknown_136770.obj"
 ],
@@ -3816,6 +3927,17 @@
 ],
 "_GetLocalTime@4": [
 "unknown_139030.obj"
+],
+"_h2n_hud_element": [
+"unknown_139296.obj",
+"unknown_13954b.obj"
+],
+"_h2n_ui_panel": [
+"unknown_13954b.obj",
+"unknown_157450.obj"
+],
+"_h2n_title_text": [
+"unknown_13cf00.obj"
 ],
 "_atexit": [
 "unknown_1470f0.obj",
@@ -3828,6 +3950,12 @@
 "__CIasin": [
 "unknown_163110.obj",
 "unknown_23bc90.obj"
+],
+"_h2n_view_effects": [
+"unknown_16e290.obj"
+],
+"_h2n_ip_particle": [
+"unknown_173b90.obj"
 ],
 "_IDirectSound_GetEffectData@20": [
 "unknown_191270.obj"
@@ -3861,6 +3989,12 @@
 ],
 "_FlushFileBuffers@4": [
 "unknown_1a08d0.obj"
+],
+"_h2n_hud_anchor": [
+"unknown_200462.obj",
+"unknown_22aa16.obj",
+"unknown_22aff1.obj",
+"unknown_22b8e2.obj"
 ],
 "_XCalculateSignatureEnd@8": [
 "unknown_213380.obj",
@@ -3991,9 +4125,6 @@
 "unknown_21fa80.obj",
 "unknown_236299.obj"
 ],
-"_sqrt": [
-"unknown_21fa80.obj"
-],
 "_IDirectSoundBuffer_StopEx@16": [
 "unknown_21fa80.obj"
 ],
@@ -4017,6 +4148,9 @@
 "unknown_21fa80.obj"
 ],
 "_log10": [
+"unknown_21fa80.obj"
+],
+"_sqrt": [
 "unknown_21fa80.obj"
 ],
 "_IDirectSoundBuffer_SetHeadroom@8": [
@@ -4054,6 +4188,12 @@
 "_IDirectSoundBuffer_SetPosition@20": [
 "unknown_221490.obj"
 ],
+"_h2n_draw_distance": [
+"unknown_223080.obj"
+],
+"_h2n_ip_view": [
+"unknown_223240.obj"
+],
 "_D3DDevice_PersistDisplay@0": [
 "unknown_22376b.obj"
 ],
@@ -4076,6 +4216,12 @@
 "_sin": [
 "unknown_22a648.obj"
 ],
+"_h2n_ui_quad": [
+"unknown_22a664.obj"
+],
+"_h2n_ui_text": [
+"unknown_22e27b.obj"
+],
 "_memcpy": [
 "unknown_23760b.obj"
 ],
@@ -4097,6 +4243,12 @@
 "_pow": [
 "unknown_24c7c1.obj"
 ],
+"_h2n_hud_text_box": [
+"unknown_24c7c1.obj"
+],
+"_h2n_hud_tracker": [
+"unknown_254200.obj"
+],
 "__strnicmp": [
 "unknown_290e20.obj"
 ],
@@ -4111,6 +4263,15 @@
 ],
 "_WmaCreateInMemoryDecoder@20": [
 "unknown_2ae170.obj"
+],
+"_h2n_ui_pause": [
+"unknown_2b116a.obj"
+],
+"_h2n_menu_model": [
+"unknown_2b116a.obj"
+],
+"_h2n_menu_wrap": [
+"unknown_2b116a.obj"
 ],
 "_FileTimeToSystemTime@8": [
 "unknown_2c4e9c.obj"

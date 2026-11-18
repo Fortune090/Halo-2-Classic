@@ -11,7 +11,7 @@ newest first. Its section "For whoever continues this work" is the long version 
 | --- | --- |
 | The Xbox SDK the game was built with (XDK 5849: `bin/vc71` with CL 13.10.3077, `include`, `lib`). You must obtain it lawfully yourself | `/home/claude/sdk/xbox` |
 | Your own unmodified Halo 2 v1.0 `default.xbe` (4,861,952 bytes, SHA-256 `03215919bb7163259257d361f4c7bf802a7ab12aa85e2689436369b5c427935d`) | `/home/claude/xbe/default.xbe` |
-| The [halo2-decompiled](https://github.com/kirklandsig/halo2-decompiled) source at the snapshot of 15 November 2026 (its README: 10,630 of 11,326 game functions matched), with `decomp_patches/h2classic_decomp.patch` applied, and its own `orig/default.xbe` in place | `/home/claude/h2decomp_src/halo2-decompiled-main` |
+| The [halo2-decompiled](https://github.com/kirklandsig/halo2-decompiled) source at the snapshot of 18 November 2026 (its README: 10,697 of 11,326 game functions matched), with `decomp_patches/h2classic_decomp.patch` applied, and its own `orig/default.xbe` in place | `/home/claude/h2decomp_src/halo2-decompiled-main` |
 | Linux with 32-bit Wine (`wine32:i386`; Wine 9 was used), python3 with `ziglang` (zig 0.17.1), `capstone`, `unicorn` and `Pillow`, and LLVM 18's `lld-link`, `llvm-nm` and `llvm-ar` | |
 | Only for the DLSS helper: NVIDIA's DLSS SDK (`include/` and `lib/Windows_x86_64/x64/nvsdk_ngx_d.lib`). `dlss/build_helper.sh` shows how to fetch just those | `/home/claude/ext/DLSS` |
 
@@ -39,7 +39,9 @@ small C program with `ZIG_VERBOSE_LINK=1 python3 -m ziglang cc -target x86-windo
 
 ## Wine, once per session
 
-Do this before the first compile. Otherwise the first tool run hangs on Wine's background services:
+Do this before the first compile. Otherwise the first tool run hangs on Wine's background services. On a machine
+without `/run/user/<uid>` (a container, say), create it first (`mkdir -p /run/user/0 && chmod 700 /run/user/0`):
+Wine 9's server stops with "free(): invalid pointer" without it.
 
     export WINEDEBUG=-all WINEPREFIX=/home/claude/.wine32 XDK_DIR=/home/claude/xdkw
     setsid wineserver -p </dev/null >/dev/null 2>&1 &
@@ -81,9 +83,18 @@ The game's objects are not published either. Make them from the decompilation:
 
 The tables in `generated/` (`plan.json`, `fixups2.json`, `statics_plan.json`, `vtables_plan.json`, the route lists
 and the rest) are the ones the published builds were made with. Make them again only after the decompilation itself
-has changed (new matched functions): DEVLOG.txt, "The full path", gives the order (`oracle.py`, `undef3.py`,
-`plan.py`, `oracle2.py`, `scan.py`, `scan2.py`, `statics1.py`, `statics2.py`, `vtables.py`, `gen.py`,
-`gen_code.py`). Two inputs of that path are not published because they are names from the SDK's own libraries:
+has changed (new matched functions). The order, as run for build s10m (DEVLOG.txt has the details):
+
+1. The decompilation's own build and check on an UNPATCHED copy of the repository (`tools/build.py`, then
+   `tools/check.py --no-build`). Its `build/` feeds the oracle; H2Classic's hooks would make the functions they sit
+   in mismatch there.
+2. The patched repository's `build/gen/<stem>_tu.cpp` (its `tools/build.py`; the files include their source by
+   absolute path, so make them where the tree will stay), then steps 3-5 above.
+3. `oracle.py <unpatched>`, `undef3.py`, `emuinit.py`, `plan.py`, `oracle2.py <unpatched>`,
+   `statics1.py <unpatched>`, `statics2.py`, `vtables.py`, `add_globals.py`, `scan.py`, `scan2.py`,
+   `retailconv.py`, `unproven_routes.py`, `pointer_routes.py`, `code_immediates.py`, `rewrite.py`,
+   `scene_hook.py`, `gen.py`, `fix_resolve.py` (the clean-up of the code pointers whose symbol no object defines),
+   `gen_code.py`, then the link. Two inputs of that path are not published because they are names from the SDK's own libraries:
 `libsig.json` (`scripts/libsig.py`, from your SDK's libraries) and the `libnames` part of `oracle2.json`
 (`scripts/oracle2.py`).
 

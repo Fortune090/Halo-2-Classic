@@ -3,11 +3,78 @@ newest first (each section was the top of REBUILD.txt in that build's kit). The 
 BUILD.md maps them to this repository. The "kit" mentioned below is a private archive of the workspace that included the
 compiled game objects and other files this repository leaves out.
 
+H2Classic - rebuilding the workspace (stage 9, build s10m)
+==========================================================
+Build s10m (build 35, 18 Nov 2026): the full path run against the user's 18 Nov decomp upload (a57f8c89, README
+"matched 10697 of 11326 game functions"; Havok 1429 of 1436). The previous base was decomp_1115 (10630): 146 newly
+matched (69 game, 77 Havok; 44 since 1117c); 0x41640 and 0xc2d00 lost their match (0x41640: comments only).
+  The decomp tree is now /home/claude/h2decomp_src/halo2-decompiled-main = the 18 Nov upload + this kit's
+    source_changes/h2classic_decomp_1118.patch (35 files; applies cleanly with patch -p1, checked). The old tree is
+    kept as /home/claude/h2decomp_1115_tree. Three hunks were redone by hand (unknown_223240.cpp h2n_ip_view before
+    function_223080; unknown_24c7c1.cpp h2n_text_box above the 0x24cf66 marker; unknown_254200.cpp h2n_hud_tracker
+    above 0x2548f0), and one declaration moved: unknown_03bcb0.cpp's extern "C" h2n_lods sat between "// @retail
+    0x1bf50" and the function, and the new tools/build.py then took h2n_lods for the marked function (a bogus
+    stand-in "static "C" int volatile standin_unknown_03bcb0_result_20", unresolved at link). Rule: nothing of ours
+    between a @retail marker and its function.
+  How the full path was run (in this order; commands from /home/claude/native unless said):
+    0. Wine after an environment restart: wineserver aborts ("free(): invalid pointer") unless /run/user/0 exists:
+       mkdir -p /run/user/0 && chmod 700 /run/user/0, then the usual warm-up.
+    1. A PURE copy of the upload (/home/claude/h2decomp_1118_pure/halo2-decompiled-main, orig/default.xbe added):
+       python3 -c "import sys; sys.path.insert(0,'tools'); import build; print(build.build(jobs=2))" then
+       python3 tools/check.py --no-build (5.5 min with 2 cores). Its build/ (halo2.exe, .map, report.json) feeds the
+       oracle: with our hooks in it, the hooked matched functions would not match and their votes would be lost.
+    2. The PATCHED tree's TUs only: build.build(jobs=1) with build.run_tool replaced by a no-op for CL.Exe and
+       Link.Exe (writes build/gen/<stem>_tu.cpp, compiles nothing). The TUs #include their source by ABSOLUTE path:
+       make them where the tree will stay (the first set pointed at a folder that was then moved: 1,879 failures).
+    3. scripts/oracle.py <pure>; native_compile.py <patched> obj2 2 (3.7 min, 1879, none failed);
+       ls obj2/*.obj > objects2.rsp; undef3.py (only new names: the h2n_ hooks, defined by the layer).
+    4. emuinit.py: init_delta.json identical (checked against a copy). plan.py; oracle2.py <pure> (27,563 calls
+       consistent, 0 inconsistent; 45 data fields inconsistent with the plan, was 46); statics1.py <pure>;
+       statics2.py (11 placed, as before); vtables.py; add_globals.py (g_4b8478 corrected again).
+    5. scan.py; scan2.py (9072 accepted, 22 rejected, as before); retailconv.py; unproven_routes.py;
+       pointer_routes.py; code_immediates.py (599, as before).
+    6. rewrite.py (fresh obj_r); scene_hook.py obj_r/unknown_023540.obj (h2n_scene_13680 once); gen.py;
+       scripts/fix_resolve.py (NEW: the hand clean-up, now a script; "defined" takes in the game objects, the
+       layer's objects and the mingw libraries - __purecall comes from the UCRT, 104 slots); gen_code.py; build2.sh.
+  What changed in the tables: data symbols placed 2194 -> 2192 (8 new from matched code: the light / instance marks
+    storage, g_557c90 now an s_cache_file_table, g_47ff94, four vtables; 10 gone with upstream renames; none moved);
+    vtables_plan: array_owner_2dc1c0 / derived_2ecb70 no longer placed by vtables.py - retail 0x4123d8 / 0x412b80
+    are now placed for array_owner_2dc150 / swapped_keyed_list_2ecb80 by matched constructors (same retail classes);
+    fix-ups 9072 (2 slots name renamed symbols; 9 slots that the old record dropped now reach a defined ??_G);
+    routes 197 -> 141: routes_unproven 62 -> 31 and routes_called 102 -> 81 (all removals now matched; 8 added:
+    0x1e4e0, 0xc2d00, 0x172840, 0x1c4590, 0x215e60, 0x279410 (also hand), 0x296580, 0x29bab0), routes_pointer 86 -> 48.
+  gen_code.py: hand routes whose function is now matched are left out (printed): 0x785d0, 0x938e0, 0x1f38c0,
+    0x2e2f70. The tick pair 0x137fe0 / 0x1554b0 stays listed (retail.c only uses them with H2N_TICK=retail).
+  Audit, closure over retail's call graph (stopping at h2n_game_patches, where retail jumps to ours): which functions
+    with an h2n_ hook can be reached from code that runs as retail's. s10l: 0x4bcc0, 0x133520, 0x1237e0 (and
+    0x157ae0, but only through 0x15ca10, which is a BACK patch). Now: 0x4bcc0 (patched in retail since s10l) and
+    0x1237e0 - animation_cache_get_resource, reached from the hand-routed object creation (0xb7430 / 0xb7b40 /
+    0xb8540) and 0x4b5d0's drawing: the rocket launcher's fix (s10j) was skipped on those paths.
+  helpers.S h2n_anim_get_hook + interp.c h2n_animation_retail (with the fix on, after main_menu_six /
+    h2n_lods_retail): retail 0x1237e0 (push ebx; push esi; mov esi, eax; push edi; then mov ebx, esi - checked)
+    becomes jmp hook; the hook keeps the resource (eax), pushes the name again, calls the five bytes + jmp 0x1237e5,
+    then h2n_animation_resource(resource, [resource+4], data) and ret 4. Log: "retail's animation_cache_get_resource
+    (0x1237e0) goes through the layer too". Seen live: Ivory Tower with Starting Weapon: Rocket Launcher, "51 of 51
+    places written" (the first run that showed it).
+  What the new matches say about earlier guesses: 0x1f38c0 void(long actor_index) (the 'eax1' adapter fits);
+    0x938e0 c_class_938e0::function_938e0(address, message_type, message) ('this3_eax_edx' fits); 0x133520's old
+    draft passed function_2cbf0 its arguments in the wrong order (it ran from the XBE); 0x2234e0 (still a draft) now
+    builds the last view through function_223080(1, ...) as retail's single call site does (Draw Distance's hook sees
+    it); 0x16ebf0 / 0x186ab0 reshaped, same behaviour. 0x4d0b0 still unproven (our flag swap from retail's code kept;
+    0x4cbf0's draft passes the flags the other way, also unproven).
+  Checked: 70 s to the menu with H2N_UNLOCK=1; self-test 32/32 (run/selftest_s10m); H2N_STACK=poison 60 s; live on
+    Ivory Tower (rockets, grenades, jumps, splash damage), no stop. Not checked here: campaign AI (no level with AI
+    reachable from the test profiles), vehicles, system link.
+
 H2Classic - rebuilding the workspace (stage 9, build s10l)
 ==========================================================
 Build s10l (build 34): layer only (input.c, xpad.cpp, interp.c, helpers.S, main.c, timing.c, xapi.c;
 source_changes/s10k_to_s10l_layer.diff); build2.sh passes H2N_CDEFS to the .S files too; the game objects are s10j's.
 Test launcher: H2N_LODS, H2N_RUMBLE (s10k_to_s10l_build_launcher.diff). Settings exe and DLSS helper: build 33's.
+  Public source (18 Nov): https://github.com/Fortune090/Halo-2-Classic (GPL-3.0-or-later + the decomp's XDK section 7
+    permission; dlss/ MIT). Every build zip from now on carries LICENSE.txt (the GPL text), LICENSES.txt (H2Classic's
+    notice with the source address, the DLSS helper's MIT notice, then the third-party sections) and the source line in
+    README.txt's "What this is"; keep the repository in step with each build that is posted publicly.
   Vibration (the user: "Controller vibration does not work"). The game (function_124ee0, matched) calls XInputSetState
     for each open pad each input update while the header's dwStatus reads ERROR_SUCCESS, with the speeds the rumble code
     set (function_124a40: 0 with the profile's vibration off; function_222a70 per tick); 0 outside a game (g_4e6948

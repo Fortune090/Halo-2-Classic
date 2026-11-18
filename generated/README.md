@@ -8,12 +8,12 @@ in brackets.
 | File | What it holds |
 | --- | --- |
 | `retail_syms.S` | One absolute symbol per data symbol of the game's source that stands for retail data, at its retail address (`gen.py`) |
-| `retail_tables.template.S` | The XBE sections to load (with their CRCs) and the code pointers in the game's data to re-aim at the build's functions; `@@H2N_DELTA@@` marks where `make_retail_tables.py` puts the initialisers' writes (`gen.py`, then the clean-up in `fix_resolve.json`) |
+| `retail_tables.template.S` | The XBE sections to load (with their CRCs) and the code pointers in the game's data to re-aim at the build's functions; `@@H2N_DELTA@@` marks where `make_retail_tables.py` puts the initialisers' writes (`gen.py`, then `fix_resolve.py`) |
 | `retail_code.S` | The XBE's code sections (with their CRCs), the kernel imports, which functions run as the XBE's code, and which of the XBE's library functions jump to the build's own (`gen_code.py`) |
 | `plan.json` | Which retail address each data symbol stands for (`plan.py`, then `statics2.py`, `vtables.py`, `add_globals.py`) |
 | `oracle.json`, `oracle2.json`, `funcmap.json` | Symbol and retail-address pairs read from the matched functions, and their cross-check (`oracle.py`, `oracle2.py`). The published `oracle2.json` leaves out `libnames`, which are names from the SDK's libraries |
 | `fixups.json`, `fixups2.json` | Pointers to code inside the game's data (`scan.py`, `scan2.py`). `gen.py` reads `fixups2.json` |
-| `fix_resolve.json` | The hand clean-up of those pointers: a vector deleting destructor re-aimed to the scalar one, or the entry dropped |
+| `fix_resolve.json` | The clean-up of those pointers whose symbol no object defines: a vector deleting destructor re-aimed to the scalar one, or the entry dropped (`fix_resolve.py`, after `gen.py`) |
 | `statics_plan.json`, `statics_fields.json` | File-scope statics that are really a retail global reached by name from another file (`statics1.py`, `statics2.py`) |
 | `vtables_plan.json` | Retail's vtable for classes the plan doesn't place, found by the functions both hold (`vtables.py`) |
 | `extra_globals.json` | Data symbols that newly compiled source defines for retail data (read by `add_globals.py`) |

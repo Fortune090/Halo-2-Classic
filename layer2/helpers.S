@@ -133,3 +133,33 @@ _h2n_obj_lod_hook:
 #endif
 	movl $5,%eax
 	ret $4                          /* and the caller's, as 0x4c450 does */
+
+/* s10m: the rocket launcher's animation fix (interp.c h2n_animation_resource) where the game runs retail's own code.
+ * Retail's object creation and drawing code reaches retail's animation_cache_get_resource (0x1237e0) itself, so the
+ * source's call of h2n_animation_resource is not made on those paths. interp.c h2n_animation_retail points 0x1237e0 at
+ * this (a jmp over its first five bytes): retail's function runs as it was - the resource in eax, the name on the
+ * stack, ret 4 - and the data it hands back goes to h2n_animation_resource(resource, resource->size, data) as in the
+ * source. ebx, esi, edi and ebp come back as retail's function leaves them; it changes ecx and edx itself. */
+.data
+.globl _h2n_retail_1237e5_at
+_h2n_retail_1237e5_at: .long 0x001237e5
+.text
+.globl _h2n_anim_get_hook
+_h2n_anim_get_hook:
+	pushl %eax                      /* the resource */
+	pushl 8(%esp)                   /* the name again, under the call below */
+	call 1f                         /* retail's function; its ret 4 takes the copy off */
+	popl %ecx                       /* the resource */
+	pushl %eax                      /* the data, kept */
+	pushl %eax
+	pushl 4(%ecx)                   /* resource->size */
+	pushl %ecx
+	call _h2n_animation_resource
+	addl $12,%esp
+	popl %eax
+	ret $4
+1:	pushl %ebx                      /* the five bytes the jump at 0x1237e0 took the place of */
+	pushl %esi
+	movl %eax,%esi
+	pushl %edi
+	jmp *_h2n_retail_1237e5_at

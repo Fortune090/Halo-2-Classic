@@ -13,8 +13,8 @@
 "??_7stdio_reader_2d7880@@6B@" = 0x411d5c
 .globl "??_7stdio_writer_2d7aa0@@6B@"
 "??_7stdio_writer_2d7aa0@@6B@" = 0x411d88
-.globl "??_7default_error_handler_2d8780@@6B@"
-"??_7default_error_handler_2d8780@@6B@" = 0x411da4
+.globl "??_7error_handler_2d8030@@6B@"
+"??_7error_handler_2d8030@@6B@" = 0x411da4
 .globl "??_7scratch_owner_2d88a0@@6B@"
 "??_7scratch_owner_2d88a0@@6B@" = 0x411e00
 .globl "??_7stream_holder_2d8e70@@6B@"
@@ -111,6 +111,8 @@
 "??_7lane_b_flag_body_pair_collector@@6B@" = 0x4129cc
 .globl "??_7lane_b_closest_point_collector@@6B@"
 "??_7lane_b_closest_point_collector@@6B@" = 0x4129d4
+.globl "??_7closest_collector_2fe830@@6B@"
+"??_7closest_collector_2fe830@@6B@" = 0x4129d4
 .globl "??_7lane_b_bv_agent@@6B@"
 "??_7lane_b_bv_agent@@6B@" = 0x4129dc
 .globl "??_7lane_b_symmetric_bv_agent@@6B@"
@@ -257,6 +259,8 @@
 "??_7class_311890@@6B@" = 0x4143a8
 .globl "??_7class_311920@@6B@"
 "??_7class_311920@@6B@" = 0x414428
+.globl "??_7placed_shape_312800@@6B@"
+"??_7placed_shape_312800@@6B@" = 0x4144fc
 .globl "??_7lane_a_hinge@@6Blane_a_constraint_interface@@@"
 "??_7lane_a_hinge@@6Blane_a_constraint_interface@@@" = 0x4146ec
 .globl "??_7lane_a_limited_hinge@@6Blane_a_constraint_interface@@@"
@@ -299,6 +303,8 @@
 "??_7object_3171a0@@6Bfirst_3171a0@@@" = 0x414fd0
 .globl "??_7owner_317280@@6Bfirst_base_317280@@@"
 "??_7owner_317280@@6Bfirst_base_317280@@@" = 0x414fd0
+.globl "??_7lane_a_simple_contact_manager@@6B@"
+"??_7lane_a_simple_contact_manager@@6B@" = 0x415040
 .globl "??_7class_318b90@@6B@"
 "??_7class_318b90@@6B@" = 0x415060
 .globl "??_7class_319080@@6B@"
@@ -2191,6 +2197,8 @@
 "?g_47ff8c@@3JA" = 0x47ff8c
 .globl "?g_47ff90@@3JA"
 "?g_47ff90@@3JA" = 0x47ff90
+.globl "?g_47ff94@@3MA"
+"?g_47ff94@@3MA" = 0x47ff94
 .globl "?g_47ff98@@3MA"
 "?g_47ff98@@3MA" = 0x47ff98
 .globl "?g_47ff9c@@3PAMA"
@@ -2487,6 +2495,8 @@
 "?g_485af1@@3EA" = 0x485af1
 .globl "?g_texture_stage_dimensions@@3Us_texture_stage_dimensions@@A"
 "?g_texture_stage_dimensions@@3Us_texture_stage_dimensions@@A" = 0x485af4
+.globl "?g_485b14@@3Tvector3f@@A"
+"?g_485b14@@3Tvector3f@@A" = 0x485b14
 .globl "?g_game_loop_frame_seconds@@3MA"
 "?g_game_loop_frame_seconds@@3MA" = 0x485b20
 .globl "?g_485b28@@3PAMA"
@@ -2497,8 +2507,14 @@
 "?g_487b10@@3Us_487b10_arena@@A" = 0x487b10
 .globl "?g_487b18@@3Us_matrix_workspace@@A"
 "?g_487b18@@3Us_matrix_workspace@@A" = 0x487b18
+.globl "?g_4aeb1c@@3JA"
+"?g_4aeb1c@@3JA" = 0x4aeb1c
+.globl "?g_4aeb28@@3JA"
+"?g_4aeb28@@3JA" = 0x4aeb28
 .globl "?g_4aeb48@@3_NA"
 "?g_4aeb48@@3_NA" = 0x4aeb48
+.globl "?g_4aeb4c@@3MA"
+"?g_4aeb4c@@3MA" = 0x4aeb4c
 .globl "?g_4b4b58@@3PAUs_unknown_01dcc0@@A"
 "?g_4b4b58@@3PAUs_unknown_01dcc0@@A" = 0x4b4b58
 .globl "?g_4b50c4@@3KA"
@@ -2579,8 +2595,12 @@
 "?g_4b8464@@3KA" = 0x4b8464
 .globl "?g_4b846c@@3KA"
 "?g_4b846c@@3KA" = 0x4b846c
+.globl "?g_4b8478@@3KA"
+"?g_4b8478@@3KA" = 0x4b8478
 .globl "?g_4b8494@@3MA"
 "?g_4b8494@@3MA" = 0x4b8494
+.globl "?g_4b893c@@3MA"
+"?g_4b893c@@3MA" = 0x4b893c
 .globl "?g_4b8940@@3PAMA"
 "?g_4b8940@@3PAMA" = 0x4b8940
 .globl "?g_4b8964@@3PAMA"
@@ -2923,10 +2943,8 @@
 "?g_object_masks_storage@@3Us_object_masks_storage@@A" = 0x4de2f8
 .globl "?g_4e0300@@3PAUs_record_pool@@A"
 "?g_4e0300@@3PAUs_record_pool@@A" = 0x4e0300
-.globl "?g_4e0304@@3_NA"
-"?g_4e0304@@3_NA" = 0x4e0304
-.globl "?g_4e0308@@3JA"
-"?g_4e0308@@3JA" = 0x4e0308
+.globl "?g_light_marks_storage@@3Us_light_marks_storage@@A"
+"?g_light_marks_storage@@3Us_light_marks_storage@@A" = 0x4e0304
 .globl "?g_4e030c@@3PAUs_record_pool@@A"
 "?g_4e030c@@3PAUs_record_pool@@A" = 0x4e030c
 .globl "?g_4e0310_partition@@3Us_cluster_partition@@A"
@@ -3125,12 +3143,8 @@
 "?g_4e7408@@3PAUs_random_globals@@A" = 0x4e7408
 .globl "?g_cluster_marks_storage@@3Us_cluster_marks_storage@@A"
 "?g_cluster_marks_storage@@3Us_cluster_marks_storage@@A" = 0x4e7410
-.globl "?g_4e7c18@@3_NA"
-"?g_4e7c18@@3_NA" = 0x4e7c18
-.globl "?g_4e7c1c@@3JA"
-"?g_4e7c1c@@3JA" = 0x4e7c1c
-.globl "?g_4e7c20@@3PAJA"
-"?g_4e7c20@@3PAJA" = 0x4e7c20
+.globl "?g_instance_marks_storage@@3Us_instance_marks_storage@@A"
+"?g_instance_marks_storage@@3Us_instance_marks_storage@@A" = 0x4e7c18
 .globl "?g_4e8c20@@3PAUs_index_table@@A"
 "?g_4e8c20@@3PAUs_index_table@@A" = 0x4e8c20
 .globl "?g_4e8c24@@3PAUs_record_pool@@A"
@@ -3489,8 +3503,6 @@
 "?g_509354@@3PAPAUD3DTexture@@A" = 0x509354
 .globl "?g_50935c@@3PAPAUD3DSurface@@A"
 "?g_50935c@@3PAPAUD3DSurface@@A" = 0x50935c
-.globl "?g_4b8478@@3KA"
-"?g_4b8478@@3KA" = 0x4b8478
 .globl "?g_509364@@3PAUD3DSurface@@A"
 "?g_509364@@3PAUD3DSurface@@A" = 0x509364
 .globl "?g_509368@@3PAUD3DTexture@@A"
@@ -3717,8 +3729,6 @@
 "?global_preferences_globals@@3Us_global_preferences_globals@@A" = 0x510818
 .globl "?g_510819@@3_NA"
 "?g_510819@@3_NA" = 0x510819
-.globl "?g_51098c@@3JA"
-"?g_51098c@@3JA" = 0x51098c
 .globl "?g_510990@@3JA"
 "?g_510990@@3JA" = 0x510990
 .globl "?g_51099c@@3PAJA"
@@ -4169,12 +4179,8 @@
 "?g_557c70@@3MA" = 0x557c70
 .globl "?g_557c74@@3Us_flag_bits@@A"
 "?g_557c74@@3Us_flag_bits@@A" = 0x557c74
-.globl "?g_557c90@@3PAUs_cache_file@@A"
-"?g_557c90@@3PAUs_cache_file@@A" = 0x557c90
-.globl "?g_55aca8@@3JA"
-"?g_55aca8@@3JA" = 0x55aca8
-.globl "?g_55acac@@3PAUs_cache_copy@@A"
-"?g_55acac@@3PAUs_cache_copy@@A" = 0x55acac
+.globl "?g_557c90@@3Us_cache_file_table@@A"
+"?g_557c90@@3Us_cache_file_table@@A" = 0x557c90
 .globl "?g_55b4f0@@3Us_cache_copy_globals@@A"
 "?g_55b4f0@@3Us_cache_copy_globals@@A" = 0x55b4f0
 .globl "?g_55c14c@@3_NA"
@@ -4377,13 +4383,3 @@
 "?g_55eed8@@3Us_render_view_2b790@@A" = 0x55eed8
 .globl "?g_55eff0@@3KA"
 "?g_55eff0@@3KA" = 0x55eff0
-.globl "?g_485b14@@3Tvector3f@@A"
-"?g_485b14@@3Tvector3f@@A" = 0x485b14
-.globl "?g_4aeb1c@@3JA"
-"?g_4aeb1c@@3JA" = 0x4aeb1c
-.globl "?g_4aeb28@@3JA"
-"?g_4aeb28@@3JA" = 0x4aeb28
-.globl "?g_4aeb4c@@3MA"
-"?g_4aeb4c@@3MA" = 0x4aeb4c
-.globl "?g_4b893c@@3MA"
-"?g_4b893c@@3MA" = 0x4b893c

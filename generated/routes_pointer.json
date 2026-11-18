@@ -15,7 +15,7 @@
 "va": 483264,
 "status": "todo",
 "why": "",
-"routed": false
+"routed": true
 },
 {
 "va": 574960,
@@ -45,7 +45,7 @@
 "va": 803856,
 "status": "todo",
 "why": "",
-"routed": false
+"routed": true
 },
 {
 "va": 872032,
@@ -78,12 +78,6 @@
 "routed": false
 },
 {
-"va": 953360,
-"status": "todo",
-"why": "",
-"routed": false
-},
-{
 "va": 967920,
 "status": "todo",
 "why": "",
@@ -103,12 +97,6 @@
 },
 {
 "va": 1016320,
-"status": "todo",
-"why": "",
-"routed": false
-},
-{
-"va": 1039056,
 "status": "todo",
 "why": "",
 "routed": false
@@ -147,7 +135,7 @@
 "va": 1122416,
 "status": "todo",
 "why": "",
-"routed": false
+"routed": true
 },
 {
 "va": 1148672,
@@ -192,16 +180,10 @@
 "routed": true
 },
 {
-"va": 1750192,
-"status": "near",
-"why": "",
-"routed": true
-},
-{
 "va": 1762944,
 "status": "todo",
 "why": "",
-"routed": false
+"routed": true
 },
 {
 "va": 1801792,
@@ -246,18 +228,6 @@
 "routed": true
 },
 {
-"va": 2279472,
-"status": "todo",
-"why": "",
-"routed": true
-},
-{
-"va": 2310889,
-"status": "todo",
-"why": "",
-"routed": true
-},
-{
 "va": 2315036,
 "status": "todo",
 "why": "",
@@ -282,16 +252,10 @@
 "routed": true
 },
 {
-"va": 2447168,
-"status": "todo",
-"why": "",
-"routed": true
-},
-{
 "va": 2451472,
 "status": "todo",
 "why": "",
-"routed": false
+"routed": true
 },
 {
 "va": 2486928,
@@ -303,191 +267,11 @@
 "va": 2916999,
 "status": "todo",
 "why": "",
-"routed": false
+"routed": true
 },
 {
 "va": 2918398,
 "status": "near",
-"why": "",
-"routed": true
-},
-{
-"va": 2929488,
-"status": "todo",
-"why": "",
-"routed": false
-},
-{
-"va": 2992864,
-"status": "todo",
-"why": "",
-"routed": true
-},
-{
-"va": 3006896,
-"status": "todo",
-"why": "",
-"routed": false
-},
-{
-"va": 3009312,
-"status": "todo",
-"why": "",
-"routed": false
-},
-{
-"va": 3015504,
-"status": "todo",
-"why": "",
-"routed": true
-},
-{
-"va": 3024048,
-"status": "todo",
-"why": "",
-"routed": true
-},
-{
-"va": 3025328,
-"status": "todo",
-"why": "",
-"routed": true
-},
-{
-"va": 3027824,
-"status": "todo",
-"why": "",
-"routed": true
-},
-{
-"va": 3029760,
-"status": "todo",
-"why": "",
-"routed": true
-},
-{
-"va": 3030336,
-"status": "todo",
-"why": "",
-"routed": true
-},
-{
-"va": 3032672,
-"status": "todo",
-"why": "",
-"routed": true
-},
-{
-"va": 3036560,
-"status": "todo",
-"why": "",
-"routed": true
-},
-{
-"va": 3056656,
-"status": "todo",
-"why": "",
-"routed": true
-},
-{
-"va": 3056944,
-"status": "todo",
-"why": "",
-"routed": true
-},
-{
-"va": 3057712,
-"status": "todo",
-"why": "",
-"routed": true
-},
-{
-"va": 3064784,
-"status": "todo",
-"why": "",
-"routed": true
-},
-{
-"va": 3087232,
-"status": "todo",
-"why": "",
-"routed": true
-},
-{
-"va": 3088032,
-"status": "todo",
-"why": "",
-"routed": true
-},
-{
-"va": 3092528,
-"status": "near",
-"why": "",
-"routed": true
-},
-{
-"va": 3094816,
-"status": "near",
-"why": "",
-"routed": true
-},
-{
-"va": 3105744,
-"status": "todo",
-"why": "",
-"routed": true
-},
-{
-"va": 3125584,
-"status": "todo",
-"why": "",
-"routed": true
-},
-{
-"va": 3134048,
-"status": "todo",
-"why": "",
-"routed": true
-},
-{
-"va": 3138896,
-"status": "todo",
-"why": "",
-"routed": false
-},
-{
-"va": 3140624,
-"status": "todo",
-"why": "",
-"routed": true
-},
-{
-"va": 3200128,
-"status": "todo",
-"why": "",
-"routed": true
-},
-{
-"va": 3223520,
-"status": "todo",
-"why": "",
-"routed": true
-},
-{
-"va": 3233312,
-"status": "todo",
-"why": "",
-"routed": true
-},
-{
-"va": 3236112,
-"status": "todo",
-"why": "",
-"routed": true
-},
-{
-"va": 3239376,
-"status": "todo",
 "why": "",
 "routed": true
 },
@@ -498,19 +282,7 @@
 "routed": true
 },
 {
-"va": 3247024,
-"status": "todo",
-"why": "",
-"routed": true
-},
-{
 "va": 3247120,
-"status": "todo",
-"why": "",
-"routed": false
-},
-{
-"va": 3248688,
 "status": "todo",
 "why": "",
 "routed": false

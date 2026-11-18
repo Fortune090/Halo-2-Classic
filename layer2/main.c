@@ -141,6 +141,7 @@ void __cdecl h2n_stub_hit(unsigned index)
 
 /* ---- the retail data, in place ---- */
 void __cdecl h2n_lods_retail(void);
+void __cdecl h2n_animation_retail(void);
 void h2n_load_retail_code(const BYTE *xbe, size_t size);
 int h2n_retail_code_loaded(void);
 static DWORD crc32_of(const unsigned char *p, size_t n);
@@ -298,6 +299,7 @@ static void load_retail_data(const char *xbe_path)
 	}
 	main_menu_six();                        /* (s10j) the main menu's sixth item, EXIT (after retail's code, which also writes table entries) */
 	h2n_lods_retail();                      /* (s10l) Increased LODs in retail's code: the instances' fade, the objects' level of detail */
+	h2n_animation_retail();                 /* (s10m) the rocket launcher's animation fix in retail's code as well */
 	h2n_title_keys(xbe, (size_t)size);      /* the keys saved files are signed with come from the certificate in the XBE */
 	if (h2n_env_int("H2N_SKIPATTRACT", 0) && h2n_retail_code_loaded() && *(BYTE *)0x223a21 == 0x55)
 	{	/* s9w: no attract movie when the menu stands idle: retail's attract_mode_play_movie (0x223a21, called by 0x1479c3 when

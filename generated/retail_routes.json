@@ -13,26 +13,12 @@
 "status": "todo",
 "stub": true
 },
-"??0placed_shape_312800@@QAE@PBUdescription_315ba0@@@Z": {
-"kind": "jmp",
-"retail": 3221504,
-"source": "src/unknown_312800.cpp",
-"status": "near",
-"stub": false
-},
 "??1c_page_allocator@@UAE@XZ": {
 "kind": "jmp",
 "retail": 3317264,
 "source": "",
 "status": "todo",
 "stub": true
-},
-"??1error_handler_2d8030@@UAE@XZ": {
-"kind": "jmp",
-"retail": 2983184,
-"source": "src/unknown_2d8030.cpp",
-"status": "todo",
-"stub": false
 },
 "?add@lane_a_simple_contact_manager@@UAEGPBUlane_a_contact_body@@0PBXPBUlane_a_contact_point@@@Z": {
 "kind": "jmp",
@@ -44,14 +30,7 @@
 "?add@lane_b_contact_constraint_prefix@@QAEJPAPAUlane_b_contact_point@@PAPAUlane_b_contact_property@@@Z": {
 "kind": "jmp",
 "retail": 3260032,
-"source": "src/unknown_318c10.cpp",
-"status": "todo",
-"stub": false
-},
-"?allocate16@c_havok_page_pool_allocator@@UAEPAXJJ@Z": {
-"kind": "jmp",
-"retail": 2279472,
-"source": "src/unknown_22c720.cpp",
+"source": "src/unknown_31be80.cpp",
 "status": "todo",
 "stub": false
 },
@@ -59,27 +38,6 @@
 "kind": "jmp",
 "retail": 2277584,
 "source": "src/unknown_22c0a0.cpp",
-"status": "todo",
-"stub": false
-},
-"?build@contact_sizes_3155f0@@UAEXPBUlane_a_solver_input@@PAUlane_a_solver_output@@@Z": {
-"kind": "jmp",
-"retail": 3233312,
-"source": "src/unknown_315620.cpp",
-"status": "todo",
-"stub": false
-},
-"?build@lane_a_ragdoll@@UAEXPBUlane_a_solver_input@@PAUlane_a_solver_output@@@Z": {
-"kind": "jmp",
-"retail": 3223520,
-"source": "src/unknown_312e00.cpp",
-"status": "todo",
-"stub": false
-},
-"?build_swing_limits@lane_a_ragdoll@@QBEXABU__m128@@00PBUlane_a_solver_input@@PAUlane_a_solver_output@@@Z": {
-"kind": "jmp",
-"retail": 3223040,
-"source": "src/unknown_312e00.cpp",
 "status": "todo",
 "stub": false
 },
@@ -97,10 +55,10 @@
 "status": "todo",
 "stub": false
 },
-"?contact_2daae0@class_2da9f0@@UAEXPAX@Z": {
+"?connection_v05@s_network_observer@@UAE_NJ_N00PA_N1PAJ2JPAE@Z": {
 "kind": "jmp",
-"retail": 2992864,
-"source": "src/unknown_2da9f0.cpp",
+"retail": 483264,
+"source": "src/unknown_075fc0.cpp",
 "status": "todo",
 "stub": false
 },
@@ -118,17 +76,17 @@
 "status": "todo",
 "stub": false
 },
-"?fill_row@c_postgame_statistics_list_459680@@UAEXPAVc_class_1a2c81@@J@Z": {
+"?first_person_weapons_get_models@@YGJJJJPAUs_first_person_model@@@Z": {
 "kind": "jmp",
-"retail": 2310889,
-"source": "src/unknown_232d43.cpp",
+"retail": 1466134,
+"source": "src/unknown_165ce5.cpp",
 "status": "todo",
 "stub": false
 },
-"?function_01fd20@@YIPAUs_timed_effect_globals@@PAU1@@Z": {
-"kind": "jmp",
-"retail": 130336,
-"source": "src/unknown_01fbb0.cpp",
+"?font_cache_predict_character@@YI_NUs_13eeb1@@0@Z": {
+"kind": "fast2",
+"retail": 1316048,
+"source": "src/unknown_1406b0.cpp",
 "status": "todo",
 "stub": false
 },
@@ -143,13 +101,6 @@
 "kind": "jmp",
 "retail": 477856,
 "source": "src/unknown_072db0.cpp",
-"status": "todo",
-"stub": false
-},
-"?function_0785d0@@YGXPAXPBUs_type_99af70@@PBX@Z": {
-"kind": "jmp",
-"retail": 493008,
-"source": "src/unknown_075870.cpp",
 "status": "todo",
 "stub": false
 },
@@ -209,6 +160,13 @@
 "status": "todo",
 "stub": false
 },
+"?function_112070@@YGXJPBKJPAUreal_quaternion_transform@@@Z": {
+"kind": "jmp",
+"retail": 1122416,
+"source": "src/unknown_10f1e0.cpp",
+"status": "todo",
+"stub": false
+},
 "?function_113980@@YGXJJ_NMPAUs_animation_state@@PAUs_graph_pair_iterator@@JPAUtransform4x3f@@@Z": {
 "kind": "jmp",
 "retail": 1128832,
@@ -258,6 +216,20 @@
 "status": "todo",
 "stub": false
 },
+"?function_127400@@YIX_N@Z": {
+"kind": "fast1",
+"retail": 1209344,
+"source": "src/unknown_124f90.cpp",
+"status": "todo",
+"stub": false
+},
+"?function_1282d0@@YIXXZ": {
+"kind": "jmp",
+"retail": 1213136,
+"source": "src/unknown_124f90.cpp",
+"status": "todo",
+"stub": false
+},
 "?function_1295e0@@YG_NF@Z": {
 "kind": "jmp",
 "retail": 1218016,
@@ -286,13 +258,6 @@
 "status": "todo",
 "stub": false
 },
-"?function_133520@@YGXPAUs_bit_vector_pool@@@Z": {
-"kind": "jmp",
-"retail": 1258784,
-"source": "src/unknown_1321f0.cpp",
-"status": "todo",
-"stub": false
-},
 "?function_13450@@YI_NPBUs_depth_parameters_13450@@@Z": {
 "kind": "jmp",
 "retail": 78928,
@@ -304,13 +269,6 @@
 "kind": "jmp",
 "retail": 79984,
 "source": "src/unknown_01cf50.cpp",
-"status": "todo",
-"stub": false
-},
-"?function_146bf0@@YIXXZ": {
-"kind": "jmp",
-"retail": 1338352,
-"source": "src/unknown_146a20.cpp",
 "status": "todo",
 "stub": false
 },
@@ -328,17 +286,17 @@
 "status": "todo",
 "stub": false
 },
-"?function_14f820@@YGXJJPAE@Z": {
+"?function_14f2e0@@YG_NJ@Z": {
 "kind": "jmp",
-"retail": 1374240,
+"retail": 1372896,
 "source": "src/unknown_14b560.cpp",
 "status": "todo",
 "stub": false
 },
-"?function_152660@@YIXPAUs_tail_transfer_options@@@Z": {
-"kind": "fast1",
-"retail": 1386080,
-"source": "src/unknown_1502e0.cpp",
+"?function_14f820@@YGXJJPAE@Z": {
+"kind": "jmp",
+"retail": 1374240,
+"source": "src/unknown_14b560.cpp",
 "status": "todo",
 "stub": false
 },
@@ -419,6 +377,13 @@
 "status": "todo",
 "stub": false
 },
+"?function_1697c0@@YG_NJPBTpoint3f@@PBTvector3f@@JJPAUs_collision_result_1697c0@@@Z": {
+"kind": "jmp",
+"retail": 1480640,
+"source": "src/unknown_1689b0.cpp",
+"status": "near",
+"stub": false
+},
 "?function_170fd0@@YGXJ@Z": {
 "kind": "jmp",
 "retail": 1511376,
@@ -433,10 +398,17 @@
 "status": "todo",
 "stub": false
 },
-"?function_174420@@YGXJ_N00@Z": {
+"?function_174220@@YGX_N@Z": {
 "kind": "jmp",
-"retail": 1524768,
+"retail": 1524256,
 "source": "src/unknown_173b90.cpp",
+"status": "todo",
+"stub": false
+},
+"?function_17bc40@@YIXM@Z": {
+"kind": "fast1",
+"retail": 1555520,
+"source": "src/unknown_17b850.cpp",
 "status": "todo",
 "stub": false
 },
@@ -552,11 +524,11 @@
 "status": "todo",
 "stub": false
 },
-"?function_1ab4b0@@YG_NJPAUs_slot@@@Z": {
+"?function_1ae680@@YGFJPAUs_slot@@@Z": {
 "kind": "jmp",
-"retail": 1750192,
-"source": "src/unknown_1ab3d0.cpp",
-"status": "near",
+"retail": 1762944,
+"source": "src/unknown_1adba0.cpp",
+"status": "todo",
 "stub": false
 },
 "?function_1b7e40@@YGFJ@Z": {
@@ -608,10 +580,10 @@
 "status": "near",
 "stub": false
 },
-"?function_1c50c0@@YIXXZ": {
+"?function_1c89b0@@YGFJFPAUs_ai_capsule_view@@@Z": {
 "kind": "jmp",
-"retail": 1855680,
-"source": "src/unknown_1c25a0.cpp",
+"retail": 1870256,
+"source": "src/ai.cpp",
 "status": "todo",
 "stub": false
 },
@@ -675,13 +647,20 @@
 "kind": "jmp",
 "retail": 123760,
 "source": "src/unknown_01cf50.cpp",
-"status": "todo",
+"status": "near",
 "stub": false
 },
-"?function_1e4e0@@YI_NPBTpoint3f@@P6GXPAX@ZPBXJ@Z": {
+"?function_1e4e0@@YI_NJPBTpoint3f@@P6GXPAX@ZPBX@Z": {
 "kind": "jmp",
 "retail": 124128,
 "source": "src/unknown_01cf50.cpp",
+"status": "todo",
+"stub": false
+},
+"?function_1e9fa0@@YGXPAXJJGE@Z": {
+"kind": "jmp",
+"retail": 2006944,
+"source": "src/unknown_1e9700.cpp",
 "status": "todo",
 "stub": false
 },
@@ -720,6 +699,13 @@
 "status": "todo",
 "stub": true
 },
+"?function_202a00@@YGXJJ@Z": {
+"kind": "jmp",
+"retail": 2107904,
+"source": "src/unknown_2003a0.cpp",
+"status": "todo",
+"stub": false
+},
 "?function_206090@@YG_NPAUs_vehicle_physics_state@@PATvector3f@@1@Z": {
 "kind": "jmp",
 "retail": 2121872,
@@ -752,13 +738,20 @@
 "kind": "jmp",
 "retail": 2186848,
 "source": "src/unknown_215b40.cpp",
-"status": "todo",
+"status": "near",
 "stub": false
 },
 "?function_217c40@@YIXXZ": {
 "kind": "jmp",
 "retail": 2194496,
 "source": "src/unknown_217c40.cpp",
+"status": "todo",
+"stub": false
+},
+"?function_21b0e0@@YIX_N@Z": {
+"kind": "fast1",
+"retail": 2207968,
+"source": "src/unknown_12a1b0.cpp",
 "status": "todo",
 "stub": false
 },
@@ -811,6 +804,13 @@
 "status": "todo",
 "stub": false
 },
+"?function_2423f0@@YI_NXZ": {
+"kind": "jmp",
+"retail": 2368496,
+"source": "src/unknown_2420a0.cpp",
+"status": "todo",
+"stub": false
+},
 "?function_24a691@c_list_24a64d@@UAEPBGJ_N@Z": {
 "kind": "jmp",
 "retail": 2401937,
@@ -846,10 +846,10 @@
 "status": "near",
 "stub": false
 },
-"?function_255740@@YGFJPAUs_slot@@@Z": {
+"?function_256810@@YGFJPAUs_slot@@@Z": {
 "kind": "jmp",
-"retail": 2447168,
-"source": "src/unknown_2551c0.cpp",
+"retail": 2451472,
+"source": "src/unknown_256260.cpp",
 "status": "todo",
 "stub": false
 },
@@ -881,10 +881,45 @@
 "status": "todo",
 "stub": false
 },
-"?function_264b50@@YGXJJPAUs_2641c0@@PAUs_2640c0@@@Z": {
+"?function_261d20@@YGFJPAUs_261d20_entry@@JPBUs_2605d0_request@@@Z": {
 "kind": "jmp",
-"retail": 2509648,
-"source": "src/unknown_264330.cpp",
+"retail": 2497824,
+"source": "src/unknown_261280.cpp",
+"status": "todo",
+"stub": false
+},
+"?function_266640@@YIXJ@Z": {
+"kind": "fast1",
+"retail": 2516544,
+"source": "src/unknown_265cb0.cpp",
+"status": "todo",
+"stub": false
+},
+"?function_26a4f0@@YIJPAUs_clump_activity_view@@F@Z": {
+"kind": "fast2",
+"retail": 2532592,
+"source": "src/unknown_26b230.cpp",
+"status": "todo",
+"stub": false
+},
+"?function_273200@@YIXJ_N@Z": {
+"kind": "jmp",
+"retail": 2568704,
+"source": "src/unknown_272b70.cpp",
+"status": "todo",
+"stub": false
+},
+"?function_2732e0@@YI_NJ@Z": {
+"kind": "jmp",
+"retail": 2568928,
+"source": "src/unknown_272b70.cpp",
+"status": "todo",
+"stub": false
+},
+"?function_276380@@YI_NJ@Z": {
+"kind": "jmp",
+"retail": 2581376,
+"source": "src/unknown_272b70.cpp",
 "status": "todo",
 "stub": false
 },
@@ -930,6 +965,13 @@
 "status": "todo",
 "stub": true
 },
+"?function_2902b0@@YGXJJJJMMPBUtransform4x3f@@F@Z": {
+"kind": "jmp",
+"retail": 2687664,
+"source": "",
+"status": "todo",
+"stub": true
+},
 "?function_2919e0@@YGXPAUs_ai_scene@@PAUs_ai_scene_assignment@@PAFFFFJJJ@Z": {
 "kind": "jmp",
 "retail": 2693600,
@@ -941,6 +983,13 @@
 "kind": "jmp",
 "retail": 2695856,
 "source": "src/unknown_2922b0.cpp",
+"status": "todo",
+"stub": false
+},
+"?function_293130@@YGJJ@Z": {
+"kind": "jmp",
+"retail": 2699568,
+"source": "src/unknown_293130.cpp",
 "status": "todo",
 "stub": false
 },
@@ -976,6 +1025,13 @@
 "kind": "jmp",
 "retail": 2734768,
 "source": "src/unknown_29bab0.cpp",
+"status": "todo",
+"stub": false
+},
+"?function_29e0f0@@YG_NPBTpoint3f@@JUs_reference@@PAUs_29de21@@PAUs_29e0f9@@@Z": {
+"kind": "jmp",
+"retail": 2744560,
+"source": "src/unknown_29e0f0.cpp",
 "status": "todo",
 "stub": false
 },
@@ -1028,90 +1084,6 @@
 "status": "todo",
 "stub": true
 },
-"?function_2d6fe0@@YAXPAVc_havok_abstract_allocator@@@Z": {
-"kind": "jmp",
-"retail": 2977760,
-"source": "src/service_lifecycle_2d6fe0.cpp",
-"status": "todo",
-"stub": false
-},
-"?function_2dce60@class_2dce60@@QAEXPAUpending_2ddbd0@@PBXPBU__m128@@@Z": {
-"kind": "jmp",
-"retail": 3001952,
-"source": "src/unknown_2dc220.cpp",
-"status": "todo",
-"stub": false
-},
-"?function_2dd930@@YAXPAXPBUs_visibility_plane_query@@PAUs_visibility_query_list@@2@Z": {
-"kind": "jmp",
-"retail": 3004720,
-"source": "src/unknown_2dd930.cpp",
-"status": "todo",
-"stub": false
-},
-"?function_2ddbd0@@YAXPAXPBUs_visibility_sphere_query@@PAUs_visibility_query_list@@2@Z": {
-"kind": "jmp",
-"retail": 3005392,
-"source": "src/unknown_2dd930.cpp",
-"status": "todo",
-"stub": false
-},
-"?function_2e0350@class_2e1090@@QAEXPBQAJPBUbounds_2e0020@@JPAUpairs_2e1090@@2@Z": {
-"kind": "jmp",
-"retail": 3015504,
-"source": "src/unknown_2e0350.cpp",
-"status": "todo",
-"stub": false
-},
-"?function_2e24b0@class_2e1090@@QAEXPAJPBUbounds_2e0020@@PAUpairs_2e1090@@@Z": {
-"kind": "jmp",
-"retail": 3024048,
-"source": "src/unknown_2e24b0.cpp",
-"status": "todo",
-"stub": false
-},
-"?function_2e29b0@class_2e1090@@QAEXPAJPAUpairs_2e1090@@@Z": {
-"kind": "jmp",
-"retail": 3025328,
-"source": "src/unknown_2e24b0.cpp",
-"status": "todo",
-"stub": false
-},
-"?function_2e2f70@sweep_batches_2e50d0@@QAEXPAUendpoint_2e0f80@@JPAUpairs_2e1090@@Upair_change_2e2f70@@@Z": {
-"kind": "jmp",
-"retail": 3026800,
-"source": "",
-"status": "todo",
-"stub": true
-},
-"?function_2e3370@class_2e1090@@QAEXPBUbounds_2e0020@@PAUoverlap_endpoints_2e3370@@@Z": {
-"kind": "jmp",
-"retail": 3027824,
-"source": "src/unknown_2e3370.cpp",
-"status": "todo",
-"stub": false
-},
-"?function_2e3b00@class_2e1090@@QAEXXZ": {
-"kind": "jmp",
-"retail": 3029760,
-"source": "src/unknown_2e3370.cpp",
-"status": "todo",
-"stub": false
-},
-"?function_2e3d40@class_2e1090@@QAEXPBUrays_2e3d40@@PAVray_collector_2e4660@@J@Z": {
-"kind": "jmp",
-"retail": 3030336,
-"source": "src/unknown_2e3d40.cpp",
-"status": "todo",
-"stub": false
-},
-"?function_2e4660@class_2e1090@@QAEXPBUray_2e4660@@PAVray_collector_2e4660@@@Z": {
-"kind": "jmp",
-"retail": 3032672,
-"source": "src/unknown_2e3d40.cpp",
-"status": "todo",
-"stub": false
-},
 "?function_2e540@@YGJPAUs_slot@@PAE@Z": {
 "kind": "jmp",
 "retail": 189760,
@@ -1119,241 +1091,10 @@
 "status": "todo",
 "stub": false
 },
-"?function_2e5590@sweep_batches_2e50d0@@QAEXPBUowners_2e50d0@@PAUpairs_2e1090@@@Z": {
+"?function_2e9e0@@YGJPBEPBUs_2e3f0_record@@@Z": {
 "kind": "jmp",
-"retail": 3036560,
-"source": "src/unknown_2e50d0.cpp",
-"status": "todo",
-"stub": false
-},
-"?function_2ea410@class_2ea410@@QAEXPBX00PAX@Z": {
-"kind": "jmp",
-"retail": 3056656,
-"source": "src/unknown_2ea410.cpp",
-"status": "todo",
-"stub": false
-},
-"?function_2ea530@class_2ea530@@QAEXPBX00PAX1@Z": {
-"kind": "jmp",
-"retail": 3056944,
-"source": "src/unknown_2ea410.cpp",
-"status": "todo",
-"stub": false
-},
-"?function_2ea830@class_2ea830@@QAEXPBX00PAX@Z": {
-"kind": "jmp",
-"retail": 3057712,
-"source": "src/unknown_2ea640.cpp",
-"status": "todo",
-"stub": false
-},
-"?function_2ec3d0@keyed_list_2ec680@@QAEXPBUdescription_2edd00@@PAPAUtyped_2edd00@@PBUcontext_2edd00@@@Z": {
-"kind": "jmp",
-"retail": 3064784,
-"source": "src/unknown_2ec3d0.cpp",
-"status": "todo",
-"stub": false
-},
-"?function_2f1b80@class_2f1b80@@QAEXPBX00PAX@Z": {
-"kind": "jmp",
-"retail": 3087232,
-"source": "src/unknown_2f1b80.cpp",
-"status": "todo",
-"stub": false
-},
-"?function_2f1ea0@class_2f1ea0@@QAEXPBX00PAX@Z": {
-"kind": "jmp",
-"retail": 3088032,
-"source": "src/unknown_2f1ea0.cpp",
-"status": "todo",
-"stub": false
-},
-"?function_2f2130@@YAXPBX00PAX@Z": {
-"kind": "jmp",
-"retail": 3088688,
-"source": "src/unknown_2f1ea0.cpp",
-"status": "todo",
-"stub": false
-},
-"?function_2f3030@indexed_2f28b0@@QAEXPBUbody_2f28f0@@0PBUinput_2f3030@@PAUresults_2f3030@@@Z": {
-"kind": "jmp",
-"retail": 3092528,
-"source": "src/unknown_2f28b0.cpp",
-"status": "near",
-"stub": false
-},
-"?function_2f3920@capsule_pair_2f3920@@QAEXPBX00PAX@Z": {
-"kind": "jmp",
-"retail": 3094816,
-"source": "src/unknown_2f3920.cpp",
-"status": "near",
-"stub": false
-},
-"?function_2f3d00@@YAXPBX00PAX@Z": {
-"kind": "jmp",
-"retail": 3095808,
-"source": "src/unknown_2f3920.cpp",
-"status": "near",
-"stub": false
-},
-"?function_2f63d0@class_2f63d0@@QAEXPBX00PAX@Z": {
-"kind": "jmp",
-"retail": 3105744,
-"source": "src/unknown_2f4f00.cpp",
-"status": "todo",
-"stub": false
-},
-"?function_2f6db0@@YAXPBX00PAX@Z": {
-"kind": "jmp",
-"retail": 3108272,
-"source": "src/unknown_2f4f00.cpp",
-"status": "todo",
-"stub": false
-},
-"?function_2fb150@class_2fb150@@QAEXPBX00PAX@Z": {
-"kind": "jmp",
-"retail": 3125584,
-"source": "src/unknown_2fb0f0.cpp",
-"status": "todo",
-"stub": false
-},
-"?function_2fd260@convex_vertices_2fd260@@QBEXPBU__m128@@PAU2@@Z": {
-"kind": "jmp",
-"retail": 3134048,
-"source": "src/unknown_2fd260.cpp",
-"status": "todo",
-"stub": false
-},
-"?function_2fd8d0@blocked_convex_2fd8d0@@QBEXPAUdescription_2fd8d0@@@Z": {
-"kind": "jmp",
-"retail": 3135696,
-"source": "src/unknown_2fd8d0.cpp",
-"status": "todo",
-"stub": false
-},
-"?function_2fe350@@YAXPBXPBU__m128@@MPAX@Z": {
-"kind": "jmp",
-"retail": 3138384,
-"source": "src/unknown_2fe350.cpp",
-"status": "todo",
-"stub": false
-},
-"?function_2fe830@@YAXPBX00PAX1@Z": {
-"kind": "jmp",
-"retail": 3139632,
-"source": "src/unknown_2fe830.cpp",
-"status": "todo",
-"stub": false
-},
-"?function_2fec10@class_2fec10@@QAEXPBX00PAX1@Z": {
-"kind": "jmp",
-"retail": 3140624,
-"source": "src/unknown_2fe830.cpp",
-"status": "todo",
-"stub": false
-},
-"?function_2ff8b0@class_300150@@QAEXPBUcell_range_2ff8b0@@PBE@Z": {
-"kind": "jmp",
-"retail": 3143856,
-"source": "src/unknown_2ff8b0.cpp",
-"status": "todo",
-"stub": false
-},
-"?function_300290@class_3008d0@@QAEXPBUcell_box_300290@@PBE@Z": {
-"kind": "jmp",
-"retail": 3146384,
-"source": "src/unknown_2ff8b0.cpp",
-"status": "todo",
-"stub": false
-},
-"?function_3008d0@class_3008d0@@QAEXPBXPBU__m128@@PAUs_surface_key_array@@@Z": {
-"kind": "jmp",
-"retail": 3147984,
-"source": "src/unknown_2ff8b0.cpp",
-"status": "todo",
-"stub": false
-},
-"?function_3009e0@class_2df670@@QAEXPAUpending_301800@@PBXQAUfixed_ray_301800@@@Z": {
-"kind": "jmp",
-"retail": 3148256,
-"source": "src/unknown_3009e0.cpp",
-"status": "todo",
-"stub": false
-},
-"?function_301a60@class_301a60@@QAEXPAUwalk_3028c0@@PBDPBUsegment_3028c0@@@Z": {
-"kind": "jmp",
-"retail": 3152480,
-"source": "src/unknown_301a60.cpp",
-"status": "todo",
-"stub": false
-},
-"?function_3028c0@walker_3028c0@@QAEXPBUinput_3028c0@@JJ@Z": {
-"kind": "jmp",
-"retail": 3156160,
-"source": "src/unknown_3028c0.cpp",
-"status": "todo",
-"stub": false
-},
-"?function_303dd0@class_3048a0@@QAEHPBVconvex_2fefd0@@0PBUc_query_transform@@PAUpair_state_2fefd0@@@Z": {
-"kind": "jmp",
-"retail": 3161552,
-"source": "src/unknown_303dd0.cpp",
-"status": "todo",
-"stub": false
-},
-"?function_306400@box_pair_306400@@QAEXXZ": {
-"kind": "jmp",
-"retail": 3171328,
-"source": "src/unknown_306400.cpp",
-"status": "todo",
-"stub": false
-},
-"?function_306b90@box_306b90@@QBEXPAUface_306b90@@H@Z": {
-"kind": "jmp",
-"retail": 3173264,
-"source": "src/unknown_306b90.cpp",
-"status": "todo",
-"stub": false
-},
-"?function_306d00@box_306b90@@QBEXPAUface_306b90@@H@Z": {
-"kind": "jmp",
-"retail": 3173632,
-"source": "src/unknown_306b90.cpp",
-"status": "todo",
-"stub": false
-},
-"?function_3072f0@box_pair_3072f0@@QAEXPAVclass_308180@@@Z": {
-"kind": "jmp",
-"retail": 3175152,
-"source": "src/unknown_3072f0.cpp",
-"status": "todo",
-"stub": false
-},
-"?function_307f90@query_2ef260@@QAEXPAVanswer_307f90@@PAUcontact_307f90@@@Z": {
-"kind": "jmp",
-"retail": 3178384,
-"source": "src/unknown_306400.cpp",
-"status": "todo",
-"stub": false
-},
-"?function_30ae70@class_30a810@@QAEHJPAUedge_30aac0@@PBU__m128@@@Z": {
-"kind": "jmp",
-"retail": 3190384,
-"source": "src/unknown_30a950.cpp",
-"status": "todo",
-"stub": false
-},
-"?function_30d480@@YAXPBUowner_30d480@@PAUpointers_30c650@@@Z": {
-"kind": "jmp",
-"retail": 3200128,
-"source": "src/unknown_30c650.cpp",
-"status": "todo",
-"stub": false
-},
-"?function_30df80@owner_30c8e0@@QAEXPAUmember_30c8e0@@@Z": {
-"kind": "jmp",
-"retail": 3202944,
-"source": "src/unknown_30df80.cpp",
+"retail": 190944,
+"source": "src/unknown_0350e0.cpp",
 "status": "todo",
 "stub": false
 },
@@ -1364,59 +1105,10 @@
 "status": "todo",
 "stub": false
 },
-"?function_3124c0@class_312430@@QAEXPBUdescription_312430@@@Z": {
+"?function_30ed0@@YIXXZ": {
 "kind": "jmp",
-"retail": 3220672,
-"source": "src/unknown_312430.cpp",
-"status": "todo",
-"stub": false
-},
-"?function_315340@@YAXPAXPAVhkEntity@@1MM@Z": {
-"kind": "jmp",
-"retail": 3232576,
-"source": "src/unknown_315340.cpp",
-"status": "todo",
-"stub": false
-},
-"?function_316110@cache_316110@@QAEXPBUpair_316110@@@Z": {
-"kind": "jmp",
-"retail": 3236112,
-"source": "src/unknown_316110.cpp",
-"status": "todo",
-"stub": false
-},
-"?function_316dd0@merger_316dd0@@QAEXPBUhandle_pair_316dd0@@@Z": {
-"kind": "jmp",
-"retail": 3239376,
-"source": "src/unknown_316dd0.cpp",
-"status": "todo",
-"stub": false
-},
-"?function_3173f0@collector_3173f0@@QAEXPAUpair_30d870@@J0J@Z": {
-"kind": "jmp",
-"retail": 3240944,
-"source": "src/unknown_3173f0.cpp",
-"status": "todo",
-"stub": false
-},
-"?function_317d90@class_317d90@@QBEXPAUid_pairs_317d90@@@Z": {
-"kind": "jmp",
-"retail": 3243408,
-"source": "src/unknown_317d90.cpp",
-"status": "todo",
-"stub": false
-},
-"?function_318bb0@class_318b90@@UAEPAVlane_a_simple_contact_manager@@PBUlane_a_contact_body@@0PBX@Z": {
-"kind": "jmp",
-"retail": 3247024,
-"source": "src/unknown_318b90.cpp",
-"status": "todo",
-"stub": false
-},
-"?function_31c100@@YAXPAX00000JJJ@Z": {
-"kind": "jmp",
-"retail": 3260672,
-"source": "src/unknown_31c100.cpp",
+"retail": 200400,
+"source": "src/unknown_0350e0.cpp",
 "status": "todo",
 "stub": false
 },
@@ -1529,6 +1221,13 @@
 "kind": "jmp",
 "retail": 266304,
 "source": "src/unknown_03bcb0.cpp",
+"status": "todo",
+"stub": false
+},
+"?function_41640@@YIXXZ": {
+"kind": "jmp",
+"retail": 267840,
+"source": "src/unknown_0350e0.cpp",
 "status": "todo",
 "stub": false
 },
@@ -1707,6 +1406,13 @@
 "status": "todo",
 "stub": false
 },
+"?function_b7b40@@YGJPAX@Z": {
+"kind": "jmp",
+"retail": 752448,
+"source": "",
+"status": "todo",
+"stub": true
+},
 "?function_b8540@@YGXJ@Z": {
 "kind": "jmp",
 "retail": 755008,
@@ -1717,6 +1423,13 @@
 "?function_b93b0@@YGXJJF@Z": {
 "kind": "jmp",
 "retail": 758704,
+"source": "src/unknown_0b8ca0.cpp",
+"status": "todo",
+"stub": false
+},
+"?function_bb670@@YGJF_N@Z": {
+"kind": "jmp",
+"retail": 767600,
 "source": "src/unknown_0b8ca0.cpp",
 "status": "todo",
 "stub": false
@@ -1756,6 +1469,13 @@
 "status": "todo",
 "stub": false
 },
+"?function_bf600@@YGXJMPBUs_animation_frame_event@@@Z": {
+"kind": "jmp",
+"retail": 783872,
+"source": "src/unknown_0b9fc0.cpp",
+"status": "todo",
+"stub": false
+},
 "?function_c1d90@@YGXPBUs_light_frame_ab@@PBUs_light_shape_ab@@PAUs_light_projection_ab@@PAF@Z": {
 "kind": "jmp",
 "retail": 794000,
@@ -1763,10 +1483,24 @@
 "status": "todo",
 "stub": false
 },
+"?function_c2d00@@YGXJ@Z": {
+"kind": "jmp",
+"retail": 797952,
+"source": "src/unknown_0bffa0.cpp",
+"status": "near",
+"stub": false
+},
 "?function_c3340@@YGXJJ@Z": {
 "kind": "jmp",
 "retail": 799552,
 "source": "src/unknown_0bffa0.cpp",
+"status": "todo",
+"stub": false
+},
+"?function_c4410@@YG_NJPBXPA_N@Z": {
+"kind": "jmp",
+"retail": 803856,
+"source": "src/unit_object_type.cpp",
 "status": "todo",
 "stub": false
 },
@@ -1789,13 +1523,6 @@
 "retail": 815872,
 "source": "src/unit_object_type.cpp",
 "status": "todo",
-"stub": false
-},
-"?function_c92c0@@YG_NJJFPAJPA_N@Z": {
-"kind": "jmp",
-"retail": 824000,
-"source": "src/unit_object_type.cpp",
-"status": "near",
 "stub": false
 },
 "?function_ca0b0@@YGXJPBUs_damage_report@@@Z": {
@@ -1826,10 +1553,45 @@
 "status": "todo",
 "stub": false
 },
+"?function_cf3d0@@YGXJJEM@Z": {
+"kind": "jmp",
+"retail": 848848,
+"source": "src/unit_object_type.cpp",
+"status": "todo",
+"stub": false
+},
 "?function_d1a30@@YGJJPBTpoint3f@@PAUs_sky_surface_record@@@Z": {
 "kind": "jmp",
 "retail": 858672,
 "source": "src/unknown_0d0690.cpp",
+"status": "todo",
+"stub": false
+},
+"?function_d1e10@@YGJPBXPAUs_effect_color_query@@J_N@Z": {
+"kind": "jmp",
+"retail": 859664,
+"source": "src/unknown_0d0690.cpp",
+"status": "todo",
+"stub": false
+},
+"?function_d4e60@@YIXF@Z": {
+"kind": "fast1",
+"retail": 872032,
+"source": "src/unknown_0b7300.cpp",
+"status": "todo",
+"stub": false
+},
+"?function_d5560@@YIX_N@Z": {
+"kind": "fast1",
+"retail": 873824,
+"source": "src/unknown_0b7300.cpp",
+"status": "todo",
+"stub": false
+},
+"?function_d5640@@YIXXZ": {
+"kind": "jmp",
+"retail": 874048,
+"source": "src/unknown_0b7300.cpp",
 "status": "todo",
 "stub": false
 },
@@ -1875,6 +1637,13 @@
 "status": "todo",
 "stub": false
 },
+"?function_de4c0@@YGXJ@Z": {
+"kind": "jmp",
+"retail": 910528,
+"source": "src/bipeds.cpp",
+"status": "todo",
+"stub": false
+},
 "?function_e01d0@@YG_NJPAJ@Z": {
 "kind": "jmp",
 "retail": 917968,
@@ -1910,16 +1679,16 @@
 "status": "near",
 "stub": false
 },
-"?function_e7900@@YGXJ_NPBTpoint3f@@PBTvector3f@@@Z": {
+"?function_e7fb0@@YG_NJPAUs_unit_request@@@Z": {
 "kind": "jmp",
-"retail": 948480,
+"retail": 950192,
 "source": "src/unknown_0a76b0.cpp",
 "status": "todo",
 "stub": false
 },
-"?function_e7fb0@@YG_NJPAUs_unit_request@@@Z": {
+"?function_e9a20@@YG_NJJJE@Z": {
 "kind": "jmp",
-"retail": 950192,
+"retail": 956960,
 "source": "src/unknown_0a76b0.cpp",
 "status": "todo",
 "stub": false
@@ -1934,13 +1703,6 @@
 "?function_f0760@@YGXJP6GXJPAUs_graph_tag@@PAVc_animation_channel@@MMMPAX@Z2@Z": {
 "kind": "jmp",
 "retail": 984928,
-"source": "src/vehicles.cpp",
-"status": "todo",
-"stub": false
-},
-"?function_f1f80@@YGXJPAUs_vehicle_physics_state@@@Z": {
-"kind": "jmp",
-"retail": 991104,
 "source": "src/vehicles.cpp",
 "status": "todo",
 "stub": false
@@ -1966,11 +1728,11 @@
 "status": "todo",
 "stub": false
 },
-"?function_f62f0@@YGXJ@Z": {
+"?function_f6060@@YGXJ@Z": {
 "kind": "jmp",
-"retail": 1008368,
+"retail": 1007712,
 "source": "src/vehicles.cpp",
-"status": "near",
+"status": "todo",
 "stub": false
 },
 "?function_f6d10@@YG_NJJPAMPA_N@Z": {
@@ -2029,10 +1791,10 @@
 "status": "todo",
 "stub": false
 },
-"?handle_item@c_game_engine_variant_category_list@@QAEXPAPAUs_controller_reference@@PAJ@Z": {
+"?looping_sound_update_locations@@YIXXZ": {
 "kind": "jmp",
-"retail": 2906263,
-"source": "src/unknown_2c4e9c.cpp",
+"retail": 2203904,
+"source": "src/unknown_12a1b0.cpp",
 "status": "todo",
 "stub": false
 },
@@ -2057,24 +1819,17 @@
 "status": "todo",
 "stub": false
 },
+"?online_tasks_dispose_all@@YIXXZ": {
+"kind": "jmp",
+"retail": 440656,
+"source": "src/online_tasks.cpp",
+"status": "todo",
+"stub": false
+},
 "?ray_test@c_vertex_shape@@UAEXPA_NPBUs_shape_ray@@PAUs_shape_ray_result@@@Z": {
 "kind": "jmp",
 "retail": 2023248,
 "source": "src/unknown_1ee340.cpp",
-"status": "todo",
-"stub": false
-},
-"?remove@lane_b_contact_constraint_prefix@@QAEXG@Z": {
-"kind": "jmp",
-"retail": 3259536,
-"source": "src/unknown_31bc70.cpp",
-"status": "todo",
-"stub": false
-},
-"?saved_game_file_copy_finish@@YIXPAUs_saved_game_file@@_N@Z": {
-"kind": "fast2",
-"retail": 2806912,
-"source": "src/unknown_2accd0.cpp",
 "status": "todo",
 "stub": false
 },
@@ -2089,13 +1844,6 @@
 "kind": "fast2",
 "retail": 1354848,
 "source": "src/structures.cpp",
-"status": "todo",
-"stub": false
-},
-"?unit_action_weapon_switch_interrupted@@YGXJJ@Z": {
-"kind": "jmp",
-"retail": 953360,
-"source": "src/unknown_0a76b0.cpp",
 "status": "todo",
 "stub": false
 },
