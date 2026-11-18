@@ -1,0 +1,3 @@
+#!/bin/sh
+export WINEDEBUG=-all WINEPREFIX=/home/claude/.wine32
+exec wine /home/claude/sdk/xbox/bin/vc71/Lib.Exe "$@"
