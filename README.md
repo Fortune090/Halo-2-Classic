@@ -2,8 +2,8 @@
 
 H2Classic runs **Halo 2 for the original Xbox (v1.0)** as a native Windows program. It is built from the source of
 [halo2-decompiled](https://github.com/kirklandsig/halo2-decompiled), the community decompilation of the game's
-executable, together with a Windows layer that does the console's work: graphics on Direct3D 9, the audio processor
-in software, controllers through XInput, saved games and profiles, and the network.
+executable, together with a Windows layer that does the console's work: graphics in Direct3D9, a software audio 
+processor, controllers through XInput, and networking.
 
 H2Classic is not an emulator. The game's code is compiled for the PC. Where the decompilation doesn't have a function
 yet, or only has an unproven draft of it, the program runs that function from **your own copy** of the game: at start
