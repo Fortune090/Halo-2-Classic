@@ -1,4 +1,4 @@
-# H2Classic
+# Halo 2 Classic - A Halo 2 Recompilation
 
 H2Classic runs **Halo 2 for the original Xbox (v1.0)** as a native Windows program. It is built from the source of
 [halo2-decompiled](https://github.com/kirklandsig/halo2-decompiled), the community decompilation of the game's
