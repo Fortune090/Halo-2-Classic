@@ -1,0 +1,129 @@
+"""Generate the stand-ins for every Xbox library symbol the game objects need and the layer does not define.
+
+Where the SDK's headers declare the function, the stand-in is written in C++ with that exact prototype (compiled by
+the SDK's compiler, like the game), so that it can clear every OUT parameter before returning: a stand-in that
+"succeeds" and leaves its outputs untouched hands the game whatever was on the stack. Everything else falls back to an
+assembly stand-in that only returns. Either way the first call is logged, and the return value is 0 or the one given
+in the returns file.
+
+usage: mkstubs3.py <unresolved.json> <defined.txt> <out.S> <out_typed.cpp> <returns.json> <sdk include dir> [<skip.json>]
+  skip.json (optional, written by build2.sh from compiler errors): names to give the assembly stand-in instead."""
+import json, re, sys, os, glob
+
+unresolved = json.load(open(sys.argv[1]))
+have = set(open(sys.argv[2]).read().split())
+out_asm, out_cpp = sys.argv[3], sys.argv[4]
+returns = json.load(open(sys.argv[5])) if os.path.exists(sys.argv[5]) else {}
+include = sys.argv[6]
+skip = set(json.load(open(sys.argv[7]))) if len(sys.argv) > 7 and os.path.exists(sys.argv[7]) else set()
+
+xbox = re.compile(r'^_?@?(D3D|Direct3D|IDirectSound|DirectSound|CDirectSound|XOnline|_XOnline|XNet|XHV|X[A-Z]\w*|Wma|Mm[A-Z])')
+cpp_names = {'?LazySetStateVB@CDevice@D3D@@QAEXK@Z': 4, '?SetFence@D3D@@YGKK@Z': 4,
+             '?FindSurfaceWithinTexture@PixelJar@D3D@@YGXPAUD3DPixelContainer@@W4_D3DCUBEMAP_FACES@@IPAPAEPAK333@Z': 32}
+
+# ---- which symbols need a stand-in (as before) ----
+wanted = []          # (symbol, bytes of arguments to pop)
+for n in sorted(unresolved):
+    if n in have: continue
+    if n in cpp_names: wanted.append((n, cpp_names[n])); continue
+    if n.startswith('?') or not xbox.match(n): continue
+    s = re.match(r'^_\w+@(\d+)$', n); f = re.match(r'^@\w+@(\d+)$', n)
+    if not s and not f: continue                       # data: defined in the layer
+    wanted.append((n, int(s.group(1)) if s else max(0, int(f.group(1)) - 8)))
+
+# ---- the SDK's declarations ----
+text = ''
+for path in sorted(glob.glob(os.path.join(include, '*.h')) + glob.glob(os.path.join(include, '*.H'))):
+    try: t = open(path, errors='replace').read()
+    except OSError: continue
+    t = re.sub(r'/\*.*?\*/', ' ', t, flags=re.S)
+    t = re.sub(r'//[^\n]*', ' ', t)
+    text += '\n' + t
+
+def declaration(name):
+    """-> (head, params) for 'head Name(params);' or None"""
+    for m in re.finditer(r'\b' + re.escape(name) + r'\s*\(', text):
+        end = text.find(')', m.end())
+        # the parameter list: up to the matching ')', which must be followed by ';'
+        depth, i = 1, m.end()
+        while i < len(text) and depth:
+            depth += text[i] == '('; depth -= text[i] == ')'; i += 1
+        tail = text[i:i + 8]
+        if not re.match(r'\s*;', tail): continue
+        params = text[m.end():i - 1]
+        before = text[max(0, m.start() - 200):m.start()]
+        h = re.search(r'(STDAPI_\([^)]*\)|STDAPI)\s*$', before)
+        if h: return h.group(1), params
+        h = re.search(r'(?:XBOXAPI\s+|WINBASEAPI\s+|WINSOCK_API_LINKAGE\s+)?((?:const\s+)?[A-Za-z_]\w*(?:\s*\*)*)\s+(WINAPI|WSAAPI|__stdcall|APIENTRY)\s*$', before)
+        if h and h.group(1) not in ('return', 'define', 'typedef'): return h.group(1) + ' ' + h.group(2), params
+    return None
+
+def split_params(params):
+    out, depth, cur = [], 0, ''
+    for c in params:
+        if c == ',' and depth == 0: out.append(cur); cur = ''
+        else:
+            depth += c in '(['; depth -= c in ')]'; cur += c
+    if cur.strip(): out.append(cur)
+    return [' '.join(p.split()) for p in out]
+
+void_like = re.compile(r'^(const\s+)?(void|VOID)\s*\*$|^(P|LP)C?VOID$')
+typed, plain = [], []
+for k, (sym, pop) in enumerate(wanted):
+    base = re.sub(r'@\d+$', '', sym.lstrip('_@'))
+    d = None if (sym in skip or sym.startswith('?') or sym.startswith('@')) else declaration(base)
+    value = int(returns.get(sym, 0)) & 0xffffffff
+    if not d: plain.append((k, sym, pop, value)); continue
+    head, params = d
+    ps = split_params(params)
+    if len(ps) == 1 and ps[0] in ('void', 'VOID', ''): ps = []
+    zero = []
+    for p in ps:
+        words = p.split()
+        is_out = 'OUT' in words and 'IN' not in words
+        m = re.match(r'^(.*?)(\b[A-Za-z_]\w*)\s*(\[[^\]]*\])?$', re.sub(r'\b(IN|OUT|OPTIONAL)\b', '', p).strip())
+        if not m: zero = None; break
+        kind, name = m.group(1).strip(), m.group(2)
+        if is_out and not void_like.match(kind) and (kind.endswith('*') or re.match(r'^(const\s+)?(P|LP)[A-Z]', kind)):
+            zero.append(name)
+    if zero is None: plain.append((k, sym, pop, value)); continue
+    returns_value = not re.match(r'^(VOID|void)\b', head.replace('STDAPI_(', '').strip()) or head == 'STDAPI'
+    typed.append((k, sym, base, head, params, zero, value, returns_value))
+
+# ---- the typed stand-ins ----
+c = ['/* generated by mkstubs3.py: stand-ins with the SDK\'s own prototypes; every OUT parameter is cleared */',
+     '#include <xtl.h>', '#include <xonline.h>', '#include <xhv.h>', '#include <string.h>',
+     'extern "C" void __cdecl h2n_stub_hit(unsigned index);', 'extern "C" {', '']
+lines_of = {}
+for k, sym, base, head, params, zero, value, returns_value in typed:
+    first = len(c) + 1
+    c.append('%s %s(%s)' % (head, base, ' '.join(params.split())))
+    c.append('{')
+    c.append('\th2n_stub_hit(%d);' % k)
+    for name in zero: c.append('\tif (%s) memset(%s, 0, sizeof(*%s));' % (name, name, name))
+    if returns_value:
+        ret = head[8:-1] if head.startswith('STDAPI_(') else ('HRESULT' if head == 'STDAPI' else head.rsplit(' ', 1)[0])
+        c.append('\treturn (%s)0x%x;' % (ret, value))
+    c.append('}')
+    for line in range(first, len(c) + 1): lines_of[line] = sym
+c += ['', '}']
+open(out_cpp, 'w').write('\n'.join(c) + '\n')
+json.dump(lines_of, open(out_cpp + '.lines.json', 'w'))
+
+# ---- the assembly stand-ins, and the tables for both kinds ----
+a = ['/* generated by mkstubs3.py: stand-ins the SDK\'s headers do not declare, and the tables for all stand-ins */', '.text']
+for k, sym, pop, value in plain:
+    a += ['.globl "%s"' % sym, '"%s":' % sym, '  pushl %ecx', '  pushl %edx', '  pushl $%d' % k, '  call _h2n_stub_hit',
+          '  addl $4,%esp', '  popl %edx', '  popl %ecx', ('  movl $0x%x,%%eax' % value) if value else '  xorl %eax,%eax',
+          ('  ret $%d' % pop) if pop else '  ret']
+names = [sym for sym, _ in wanted]
+values = [int(returns.get(sym, 0)) & 0xffffffff for sym in names]
+cleared = {k: len(zero) for k, _, _, _, _, zero, _, _ in typed}
+a += ['.section .rdata,"dr"', '.globl _h2n_stub_names', '_h2n_stub_names:'] + ['  .long LN%d' % k for k in range(len(names))]
+a += ['LN%d: .asciz "%s"' % (k, n) for k, n in enumerate(names)]
+a += ['.globl _h2n_stub_returns', '_h2n_stub_returns:'] + ['  .long 0x%x' % v for v in values]
+a += ['.globl _h2n_stub_cleared', '_h2n_stub_cleared:'] + ['  .long %d' % cleared.get(k, -1) for k in range(len(names))]
+a += ['.globl _h2n_stub_count', '_h2n_stub_count: .long %d' % len(names), '.globl __except_list', '__except_list = 0']
+open(out_asm, 'w').write('\n'.join(a) + '\n')
+print('stand-ins: %d (%d with the SDK\'s prototype, clearing %d outputs; %d plain; %d return a failure code)' % (
+    len(names), len(typed), sum(len(t[5]) for t in typed), len(plain), sum(1 for v in values if v)))
