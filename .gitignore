@@ -1,0 +1,76 @@
+# Game files (yours; never part of the repository)
+Rom/
+*.xbe
+*.iso
+*.xiso
+*.map.bak
+maps/
+*.bik
+*.wma
+*.xmv
+
+# Console keys and firmware
+keys.bin
+*.bin
+*.rom
+bios*/
+mcpx*
+
+# What the program writes next to itself
+h2classic/
+h2native/
+h2classic_log.txt
+h2native_log.txt
+h2classic_stop.bin
+h2native_stop.bin
+h2classic_frame_*.bmp
+h2classic_surface_*.bmp
+
+# Data made from your XBE (scripts/emuinit.py, scripts/make_retail_tables.py)
+init_delta.json
+retail_tables.S
+
+# Names from the SDK's own libraries (scripts/libsig.py)
+libsig.json
+
+# The SDK and its tools
+sdk/
+xbox/
+mingw/
+
+# Build output
+out/
+obj/
+obj2/
+obj_r/
+obj_keep/
+build/
+*.exe
+!tools/xdkw/*.Exe
+*.dll
+*.pdb
+*.obj
+*.o
+*.lib
+*.exp
+*.ilk
+*.res.tmp
+*.log
+
+# NVIDIA's DLSS SDK and runtime
+nvngx_dlss.dll
+ext/
+dlss/emptylibs/
+
+# Archives
+*.zip
+*.7z
+*.rar
+
+# Editors and systems
+.vscode/
+.idea/
+*.swp
+__pycache__/
+.DS_Store
+Thumbs.db
