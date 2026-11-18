@@ -1,0 +1,716 @@
+[
+{
+"va": 1870256,
+"name": "?function_1c89b0@@YGFJFPAUs_ai_capsule_view@@@Z",
+"owner": "game",
+"status": "todo",
+"why": ""
+},
+{
+"va": 1139184,
+"name": "?function_1161f0@@YGXPAUs_chain_record@@PAUs_chain_definition@@M@Z",
+"owner": "game",
+"status": "todo",
+"why": ""
+},
+{
+"va": 351760,
+"name": "?function_55e10@@YGJPAUs_voice_channel@@PAEJ_N@Z",
+"owner": "game",
+"status": "todo",
+"why": ""
+},
+{
+"va": 440656,
+"name": "?online_tasks_dispose_all@@YIXXZ",
+"owner": "game",
+"status": "todo",
+"why": ""
+},
+{
+"va": 439456,
+"name": "?function_6b4a0@@YIXXZ",
+"owner": "game",
+"status": "todo",
+"why": ""
+},
+{
+"va": 2977760,
+"name": "?function_2d6fe0@@YAXPAVc_havok_abstract_allocator@@@Z",
+"owner": "third:havok",
+"status": "todo",
+"why": ""
+},
+{
+"va": 1629328,
+"name": "?function_18dc90@@YGXPAUs_portal_path_bsp@@JPBTpoint3f@@MPAJ2222@Z",
+"owner": "game",
+"status": "todo",
+"why": ""
+},
+{
+"va": 1353952,
+"name": "?function_14a8e0@@YG_NPBUs_structure_collision_result@@JPAUs_structure_lightmap_triangle@@@Z",
+"owner": "game",
+"status": "todo",
+"why": ""
+},
+{
+"va": 837648,
+"name": "?function_cc810@@YGXJ@Z",
+"owner": "game",
+"status": "todo",
+"why": ""
+},
+{
+"va": 824000,
+"name": "?function_c92c0@@YG_NJJFPAJPA_N@Z",
+"owner": "game",
+"status": "near",
+"why": ""
+},
+{
+"va": 841648,
+"name": "?function_cd7b0@@YG_NJJPA_N@Z",
+"owner": "game",
+"status": "todo",
+"why": ""
+},
+{
+"va": 809200,
+"name": "?function_c58f0@@YG_NJ@Z",
+"owner": "game",
+"status": "todo",
+"why": ""
+},
+{
+"va": 811200,
+"name": "?function_c60c0@@YG_NJ@Z",
+"owner": "game",
+"status": "todo",
+"why": ""
+},
+{
+"va": 308688,
+"name": "?function_4b5d0@@YIX_NJJMMPAUs_133f70@@PBTpoint3f@@0@Z",
+"owner": "game",
+"status": "todo",
+"why": ""
+},
+{
+"va": 413040,
+"name": "?function_64d70@@YG_NPAUs_session_browser_summary@@@Z",
+"owner": "game",
+"status": "todo",
+"why": ""
+},
+{
+"va": 477856,
+"name": "?function_074aa0@@YIXXZ",
+"owner": "game",
+"status": "todo",
+"why": ""
+},
+{
+"va": 538128,
+"name": "?function_83610@@YGXPAUs_simulation_world_owner@@PAJPAUs_simulation_player_update@@@Z",
+"owner": "game",
+"status": "todo",
+"why": ""
+},
+{
+"va": 696176,
+"name": "?function_a9f70@@YGJJJPBTpoint3f@@@Z",
+"owner": "game",
+"status": "todo",
+"why": ""
+},
+{
+"va": 775696,
+"name": "?function_bd610@@YGPBUtransform4x3f@@JPBEPBU1@@Z",
+"owner": "game",
+"status": "todo",
+"why": ""
+},
+{
+"va": 774288,
+"name": "?function_bd090@@YGXJ@Z",
+"owner": "game",
+"status": "todo",
+"why": ""
+},
+{
+"va": 778816,
+"name": "?function_be240@@YGXJKPBUcolor3f@@@Z",
+"owner": "game",
+"status": "todo",
+"why": ""
+},
+{
+"va": 780512,
+"name": "?function_be8e0@@YG_NJ@Z",
+"owner": "game",
+"status": "todo",
+"why": ""
+},
+{
+"va": 794000,
+"name": "?function_c1d90@@YGXPBUs_light_frame_ab@@PBUs_light_shape_ab@@PAUs_light_projection_ab@@PAF@Z",
+"owner": "game",
+"status": "todo",
+"why": ""
+},
+{
+"va": 858672,
+"name": "?function_d1a30@@YGJJPBTpoint3f@@PAUs_sky_surface_record@@@Z",
+"owner": "game",
+"status": "todo",
+"why": ""
+},
+{
+"va": 859664,
+"name": "?function_d1e10@@YGJPBXPAUs_effect_color_query@@J_N@Z",
+"owner": "game",
+"status": "todo",
+"why": ""
+},
+{
+"va": 1128832,
+"name": "?function_113980@@YGXJJ_NMPAUs_animation_state@@PAUs_graph_pair_iterator@@JPAUtransform4x3f@@@Z",
+"owner": "game",
+"status": "near",
+"why": ""
+},
+{
+"va": 1116848,
+"name": "?function_110ab0@@YG_NJ@Z",
+"owner": "game",
+"status": "todo",
+"why": ""
+},
+{
+"va": 1170816,
+"name": "?function_11dd80@@YIXPBUreal_quaternion_transform@@PAU1@@Z",
+"owner": "game",
+"status": "todo",
+"why": ""
+},
+{
+"va": 1208336,
+"name": "?function_127010@@YIJF@Z",
+"owner": "game",
+"status": "todo",
+"why": ""
+},
+{
+"va": 1218016,
+"name": "?function_1295e0@@YG_NF@Z",
+"owner": "game",
+"status": "todo",
+"why": ""
+},
+{
+"va": 1213136,
+"name": "?function_1282d0@@YIXXZ",
+"owner": "game",
+"status": "todo",
+"why": ""
+},
+{
+"va": 2203904,
+"name": "?looping_sound_update_locations@@YIXXZ",
+"owner": "game",
+"status": "todo",
+"why": ""
+},
+{
+"va": 1227472,
+"name": "?function_12bad0@@YI_NXZ",
+"owner": "game",
+"status": "todo",
+"why": ""
+},
+{
+"va": 1258784,
+"name": "?function_133520@@YGXPAUs_bit_vector_pool@@@Z",
+"owner": "game",
+"status": "todo",
+"why": ""
+},
+{
+"va": 1367872,
+"name": "?function_14df40@@YG_NPAJ@Z",
+"owner": "game",
+"status": "todo",
+"why": ""
+},
+{
+"va": 1409344,
+"name": "?function_158140@@YIXXZ",
+"owner": "game",
+"status": "todo",
+"why": ""
+},
+{
+"va": 1436448,
+"name": "?function_15eb20@@YI_NJ@Z",
+"owner": "game",
+"status": "todo",
+"why": ""
+},
+{
+"va": 1427184,
+"name": "?function_15c6f0@@YIXXZ",
+"owner": "game",
+"status": "todo",
+"why": ""
+},
+{
+"va": 1444064,
+"name": "?function_1608e0@@YGXJPAUs_score_panel_1608e0@@M@Z",
+"owner": "game",
+"status": "todo",
+"why": ""
+},
+{
+"va": 1479952,
+"name": "?function_169510@@YG_NJ_NKKPBTpoint3f@@PBTvector3f@@JJPAUs_collision_result_1697c0@@@Z",
+"owner": "game",
+"status": "todo",
+"why": ""
+},
+{
+"va": 1480640,
+"name": "?function_1697c0@@YG_NJPBTpoint3f@@PBTvector3f@@JJPAUs_collision_result_1697c0@@@Z",
+"owner": "game",
+"status": "todo",
+"why": ""
+},
+{
+"va": 1511376,
+"name": "?function_170fd0@@YGXJ@Z",
+"owner": "game",
+"status": "todo",
+"why": ""
+},
+{
+"va": 1600176,
+"name": "?function_186ab0@@YGXJMMPAUs_player_action@@@Z",
+"owner": "game",
+"status": "todo",
+"why": ""
+},
+{
+"va": 1605312,
+"name": "?function_187ec0@@YI_NXZ",
+"owner": "game",
+"status": "todo",
+"why": ""
+},
+{
+"va": 1624608,
+"name": "?function_18ca20@@YGXJJPBUs_sound_permutation@@M@Z",
+"owner": "game",
+"status": "near",
+"why": ""
+},
+{
+"va": 1662672,
+"name": "?function_195ed0@@YIXXZ",
+"owner": "game",
+"status": "todo",
+"why": ""
+},
+{
+"va": 1696192,
+"name": "?function_19e1c0@@YIJPAUs_event@@JPBGPAGJ@Z",
+"owner": "game",
+"status": "todo",
+"why": ""
+},
+{
+"va": 1737696,
+"name": "?function_1a83e0@@YG_NJPAFPAMPAUpoint2f@@PA_N@Z",
+"owner": "game",
+"status": "todo",
+"why": ""
+},
+{
+"va": 1855680,
+"name": "?function_1c50c0@@YIXXZ",
+"owner": "game",
+"status": "todo",
+"why": ""
+},
+{
+"va": 1854544,
+"name": "?function_1c4c50@@YG_NJJPBTpoint3f@@PBTvector3f@@1PAJPAT2@3@Z",
+"owner": "game",
+"status": "near",
+"why": ""
+},
+{
+"va": 1873968,
+"name": "?function_1c9830@@YGXFF_N0@Z",
+"owner": "game",
+"status": "todo",
+"why": ""
+},
+{
+"va": 1935280,
+"name": "?function_1d87b0@@YGXPAUs_havok_component_rigid_body@@JPAUs_havok_component@@@Z",
+"owner": "game",
+"status": "todo",
+"why": ""
+},
+{
+"va": 1909920,
+"name": "?function_1d24a0@@YGXPAUs_havok_component@@M@Z",
+"owner": "game",
+"status": "todo",
+"why": ""
+},
+{
+"va": 1931216,
+"name": "?function_1d77d0@@YGXPAUs_havok_component@@PAUs_physics_model_owner@@@Z",
+"owner": "game",
+"status": "todo",
+"why": ""
+},
+{
+"va": 1972736,
+"name": "?function_1e1a00@@YGXJJ@Z",
+"owner": "game",
+"status": "todo",
+"why": ""
+},
+{
+"va": 2006944,
+"name": "?function_1e9fa0@@YGXPAXJJGE@Z",
+"owner": "game",
+"status": "todo",
+"why": ""
+},
+{
+"va": 2107904,
+"name": "?function_202a00@@YGXJJ@Z",
+"owner": "game",
+"status": "todo",
+"why": ""
+},
+{
+"va": 2134176,
+"name": "?function_2090a0@@YIXXZ",
+"owner": "game",
+"status": "todo",
+"why": ""
+},
+{
+"va": 2185472,
+"name": "?function_215900@@YGXJJPAGPAJ_N@Z",
+"owner": "game",
+"status": "todo",
+"why": ""
+},
+{
+"va": 2194496,
+"name": "?function_217c40@@YIXXZ",
+"owner": "game",
+"status": "todo",
+"why": ""
+},
+{
+"va": 2292744,
+"name": "?function_22fc08@@YGXPAVc_class_1473c9@@@Z",
+"owner": "game",
+"status": "todo",
+"why": ""
+},
+{
+"va": 2331566,
+"name": "?function_2393ae@@YGXJJ@Z",
+"owner": "game",
+"status": "todo",
+"why": ""
+},
+{
+"va": 2337488,
+"name": "?function_23aad0@@YGXJJJ@Z",
+"owner": "game",
+"status": "todo",
+"why": ""
+},
+{
+"va": 2497824,
+"name": "?function_261d20@@YGFJPAUs_261d20_entry@@JPBUs_2605d0_request@@@Z",
+"owner": "game",
+"status": "todo",
+"why": ""
+},
+{
+"va": 2495760,
+"name": "?function_261510@@YGXJPBUs_2605d0_request@@@Z",
+"owner": "game",
+"status": "todo",
+"why": ""
+},
+{
+"va": 2568928,
+"name": "?function_2732e0@@YI_NJ@Z",
+"owner": "game",
+"status": "todo",
+"why": ""
+},
+{
+"va": 2578608,
+"name": "?function_2758b0@@YIXJ@Z",
+"owner": "game",
+"status": "todo",
+"why": ""
+},
+{
+"va": 2581376,
+"name": "?function_276380@@YI_NJ@Z",
+"owner": "game",
+"status": "todo",
+"why": ""
+},
+{
+"va": 2582992,
+"name": "?function_2769d0@@YIXJ@Z",
+"owner": "game",
+"status": "todo",
+"why": ""
+},
+{
+"va": 2613232,
+"name": "?function_27dff0@@YIXXZ",
+"owner": "game",
+"status": "near",
+"why": ""
+},
+{
+"va": 2628448,
+"name": "?function_281b60@@YIXXZ",
+"owner": "game",
+"status": "near",
+"why": ""
+},
+{
+"va": 2693600,
+"name": "?function_2919e0@@YGXPAUs_ai_scene@@PAUs_ai_scene_assignment@@PAFFFFJJJ@Z",
+"owner": "game",
+"status": "todo",
+"why": ""
+},
+{
+"va": 2723216,
+"name": "?function_298d90@@YIXJJPBUs_298c30@@PBUpoint2f@@11M11@Z",
+"owner": "game",
+"status": "todo",
+"why": ""
+},
+{
+"va": 2744560,
+"name": "?function_29e0f0@@YG_NPBTpoint3f@@JUs_reference@@PAUs_29de21@@PAUs_29e0f9@@@Z",
+"owner": "game",
+"status": "todo",
+"why": ""
+},
+{
+"va": 2830036,
+"name": "?function_2b2ed4@@YGXPAVc_y_menu_list@@_N1PAVc_class_1a2c81@@PAUs_friend@@@Z",
+"owner": "game",
+"status": "todo",
+"why": ""
+},
+{
+"va": 2891872,
+"name": "?function_2c2060@@YGXPAUs_type_f17a25@@FPBUs_path_step_view@@PAFPAU2@PA_N@Z",
+"owner": "game",
+"status": "todo",
+"why": ""
+},
+{
+"va": 2983184,
+"name": "??1error_handler_2d8030@@UAE@XZ",
+"owner": "third:havok",
+"status": "todo",
+"why": ""
+},
+{
+"va": 3005392,
+"name": "?function_2ddbd0@@YAXPAXPBUs_visibility_sphere_query@@PAUs_visibility_query_list@@2@Z",
+"owner": "third:havok",
+"status": "todo",
+"why": ""
+},
+{
+"va": 3088688,
+"name": "?function_2f2130@@YAXPBX00PAX@Z",
+"owner": "third:havok",
+"status": "todo",
+"why": ""
+},
+{
+"va": 3108272,
+"name": "?function_2f6db0@@YAXPBX00PAX@Z",
+"owner": "third:havok",
+"status": "todo",
+"why": ""
+},
+{
+"va": 3135696,
+"name": "?function_2fd8d0@blocked_convex_2fd8d0@@QBEXPAUdescription_2fd8d0@@@Z",
+"owner": "third:havok",
+"status": "todo",
+"why": ""
+},
+{
+"va": 3138384,
+"name": "?function_2fe350@@YAXPBXPBU__m128@@MPAX@Z",
+"owner": "third:havok",
+"status": "todo",
+"why": ""
+},
+{
+"va": 3139632,
+"name": "?function_2fe830@@YAXPBX00PAX1@Z",
+"owner": "third:havok",
+"status": "todo",
+"why": ""
+},
+{
+"va": 3143856,
+"name": "?function_2ff8b0@class_300150@@QAEXPBUcell_range_2ff8b0@@PBE@Z",
+"owner": "third:havok",
+"status": "todo",
+"why": ""
+},
+{
+"va": 3147984,
+"name": "?function_3008d0@class_3008d0@@QAEXPBXPBU__m128@@PAUs_surface_key_array@@@Z",
+"owner": "third:havok",
+"status": "todo",
+"why": ""
+},
+{
+"va": 3148256,
+"name": "?function_3009e0@class_2df670@@QAEXPAUpending_301800@@PBXQAUfixed_ray_301800@@@Z",
+"owner": "third:havok",
+"status": "todo",
+"why": ""
+},
+{
+"va": 3156160,
+"name": "?function_3028c0@walker_3028c0@@QAEXPBUinput_3028c0@@JJ@Z",
+"owner": "third:havok",
+"status": "todo",
+"why": ""
+},
+{
+"va": 3178384,
+"name": "?function_307f90@query_2ef260@@QAEXPAVanswer_307f90@@PAUcontact_307f90@@@Z",
+"owner": "third:havok",
+"status": "todo",
+"why": ""
+},
+{
+"va": 3175152,
+"name": "?function_3072f0@box_pair_3072f0@@QAEXPAVclass_308180@@@Z",
+"owner": "third:havok",
+"status": "todo",
+"why": ""
+},
+{
+"va": 3185488,
+"name": "?function_309b50@class_309b50@@QAEJJ@Z",
+"owner": "third:havok",
+"status": "todo",
+"why": ""
+},
+{
+"va": 3202944,
+"name": "?function_30df80@owner_30c8e0@@QAEXPAUmember_30c8e0@@@Z",
+"owner": "third:havok",
+"status": "todo",
+"why": ""
+},
+{
+"va": 3204896,
+"name": "?function_30e720@c_311100@@QAEXXZ",
+"owner": "third:havok",
+"status": "todo",
+"why": ""
+},
+{
+"va": 3220672,
+"name": "?function_3124c0@class_312430@@QAEXPBUdescription_312430@@@Z",
+"owner": "third:havok",
+"status": "todo",
+"why": ""
+},
+{
+"va": 3221504,
+"name": "??0placed_shape_312800@@QAE@PBUdescription_315ba0@@@Z",
+"owner": "third:havok",
+"status": "near",
+"why": ""
+},
+{
+"va": 3232576,
+"name": "?function_315340@@YAXPAXPAVhkEntity@@1MM@Z",
+"owner": "third:havok",
+"status": "todo",
+"why": ""
+},
+{
+"va": 3240944,
+"name": "?function_3173f0@collector_3173f0@@QAEXPAUpair_30d870@@J0J@Z",
+"owner": "third:havok",
+"status": "todo",
+"why": ""
+},
+{
+"va": 3259536,
+"name": "?remove@lane_b_contact_constraint_prefix@@QAEXG@Z",
+"owner": "third:havok",
+"status": "todo",
+"why": ""
+},
+{
+"va": 3260672,
+"name": "?function_31c100@@YAXPAX00000JJJ@Z",
+"owner": "third:havok",
+"status": "todo",
+"why": ""
+},
+{
+"va": 984928,
+"name": "?function_f0760@@YGXJP6GXJPAUs_graph_tag@@PAVc_animation_channel@@MMMPAX@Z2@Z",
+"owner": "game",
+"status": "todo",
+"why": ""
+},
+{
+"va": 2079424,
+"name": "?function_1fbac0@@YGXJJ_NJPAUs_1fbac0_event@@@Z",
+"owner": "game",
+"status": "todo",
+"why": ""
+},
+{
+"va": 3026800,
+"name": "?function_2e2f70@sweep_batches_2e50d0@@QAEXPAUendpoint_2e0f80@@JPAUpairs_2e1090@@Upair_change_2e2f70@@@Z",
+"owner": "third:havok",
+"status": "todo",
+"why": ""
+},
+{
+"va": 1915168,
+"name": "?function_1d3920@@YGXPAEPAKM@Z",
+"owner": "game",
+"status": "todo",
+"why": ""
+}
+]

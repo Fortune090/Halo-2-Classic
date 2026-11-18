@@ -1,0 +1,101 @@
+{
+ "/home/claude/native/obj_keep/unknown_0bfd20_keep.obj": [
+  "?function_0bfe60@@YI_NPBKJ@Z",
+  "?function_0bfe20@@YIXPAKJ_N@Z",
+  "?function_0bfed0@s_bit_vector@@QAEXJ@Z",
+  "?function_0bfe80@s_bit_vector@@QAEXXZ",
+  "?function_0bff60@@YIMMM@Z"
+ ],
+ "/home/claude/native/obj_keep/unknown_0259d0_keep.obj": [
+  "?function_259d0@@YIMPAKPBDJMM@Z",
+  "?distance3d@@YIMPBTpoint3f@@0@Z"
+ ],
+ "/home/claude/native/obj_keep/async_keep.obj": [
+  "?function_120d50@@YIXPC_N_N@Z",
+  "?function_120ba0@@YIJJPATs_async_task@@JP6GJ0@ZPC_N@Z",
+  "?function_120bf0@@YIJXZ"
+ ],
+ "/home/claude/native/obj_keep/unknown_0b7740_keep.obj": [
+  "?function_ba160@@YIPAUtransform4x3f@@JPAU1@@Z",
+  "?function_b8b70@@YIXJ@Z"
+ ],
+ "/home/claude/native/obj_keep/unknown_1689b0_keep.obj": [
+  "?function_168f40@@YG_NJPBUs_vehicle_ray@@JJ@Z"
+ ],
+ "/home/claude/native/obj_keep/unknown_0b66c0_keep.obj": [
+  "?function_0b67a0@@YIFPBUs_small_index@@@Z"
+ ],
+ "/home/claude/native/obj_keep/unknown_2055f0_keep.obj": [
+  "?impact_data_set@@YIXPAUs_impact_data@@_NJJVc_type_47f957@@JJ2PBTpoint3f@@PBTvector3f@@JPBUs_physics_model_shape_key@@@Z"
+ ],
+ "/home/claude/native/obj_keep/data_iterator_keep.obj": [
+  "?data_datum_iterator_next@@YI_NPAUs_data_datum_iterator@@@Z"
+ ],
+ "/home/claude/native/obj_keep/unknown_1a2c81_keep.obj": [
+  "?get_controller_index@c_class_1a2c81@@QAEJXZ"
+ ],
+ "/home/claude/native/obj_keep/unknown_058d90_keep.obj": [
+  "?function_058d90@@YI_NPAVc_class_58d20@@@Z"
+ ],
+ "/home/claude/native/obj_keep/unknown_058cb0_keep.obj": [
+  "?function_058d50@@YI_NPAVc_class_58d20@@@Z",
+  "?function_058d20@c_class_58d20@@QAE_NXZ",
+  "?function_058d70@@YI_NPAVc_class_58d20@@@Z"
+ ],
+ "/home/claude/native/obj_keep/network_qos_keep.obj": [
+  "?qos_is_complete@@YI_NJ@Z"
+ ],
+ "/home/claude/native/obj_keep/unknown_054fe0_keep.obj": [
+  "?xuid_equal@@YI_NPBU_XUID@@0_N@Z"
+ ],
+ "/home/claude/native/obj_keep/unknown_2b116a_keep.obj": [
+  "?function_2b3923@@YIJPAUs_screen_view_2b39@@@Z"
+ ],
+ "/home/claude/native/obj_keep/unknown_14b410_keep.obj": [
+  "?machine_identifier_build@@YIXPAUs_type_fb9815@@J@Z"
+ ],
+ "/home/claude/native/obj_keep/unknown_02b400_keep.obj": [
+  "?function_4efb0@@YIPATvector3f@@PAT1@@Z"
+ ],
+ "/home/claude/native/obj_keep/unknown_0167a0_keep.obj": [
+  "?function_016ae0@@YIJM@Z"
+ ],
+ "/home/claude/native/obj_keep/network_session_client_keep.obj": [
+  "?network_session_members_ready@@YI_NPAVc_class_58d20@@PAK@Z"
+ ],
+ "/home/claude/native/obj_keep/network_session_membership_keep.obj": [
+  "?count_bits@@YIJK@Z"
+ ],
+ "/home/claude/native/obj_keep/link_connection_keep.obj": [
+  "?link_connection_callback_initialize@@YIXPAUs_connection_callback@@PBQAVc_connection_client@@PAXP6GX2@ZJPBK_N@Z"
+ ],
+ "/home/claude/native/obj_keep/unknown_0a0190_keep.obj": [
+  "?function_a0190@@YI_NPBTvector3f@@@Z",
+  "?function_a75d0@@YG_NPATvector3f@@M@Z"
+ ],
+ "/home/claude/native/obj_keep/unknown_120850_keep.obj": [
+  "?function_120850@@YIFPBTvector3f@@@Z"
+ ],
+ "/home/claude/native/obj_keep/unknown_0e4050_keep.obj": [
+  "?function_12aff0@@YIMMMM_N@Z"
+ ],
+ "/home/claude/native/obj_keep/unknown_1321f0_keep.obj": [
+  "?function_135880@@YIMG@Z"
+ ],
+ "/home/claude/native/obj_keep/unknown_1682bf_keep.obj": [
+  "?function_1682bf@@YIXJJJ@Z"
+ ],
+ "/home/claude/native/obj_keep/unknown_1a4840_keep.obj": [
+  "?function_1a4870@@YIMMMMM@Z"
+ ],
+ "/home/claude/native/obj_keep/unknown_1e4290_keep.obj": [
+  "?function_1e4290@@YIXJ_N@Z",
+  "?function_1e4260@@YIXJ@Z"
+ ],
+ "/home/claude/native/obj_keep/unknown_1f8640_keep.obj": [
+  "?function_1f86f0@@YI_NJ@Z"
+ ],
+ "/home/claude/native/obj_keep/unknown_187ec0_keep.obj": [
+  "?function_188640@@YIPAUs_globals_element@@J@Z"
+ ]
+}

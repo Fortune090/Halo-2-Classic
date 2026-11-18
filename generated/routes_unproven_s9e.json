@@ -1,0 +1,394 @@
+[
+{
+"va": 1076592,
+"name": "?device_export_function@@YG_NJJPAMPA_N@Z",
+"owner": "game",
+"status": "near",
+"why": ""
+},
+{
+"va": 425696,
+"name": "?function_67ee0@@YIXXZ",
+"owner": "game",
+"status": "todo",
+"why": ""
+},
+{
+"va": 471904,
+"name": "?v7@c_helper_b@@UAE_NXZ",
+"owner": "game",
+"status": "todo",
+"why": ""
+},
+{
+"va": 574960,
+"name": "?bungienet_user_voice_apply@@YG_NPAUs_bungienet_user_request@@@Z",
+"owner": "game",
+"status": "todo",
+"why": ""
+},
+{
+"va": 621952,
+"name": "?function_97d80@c_aggregate_450cf4@@UAEJPAKPAUs_request@@@Z",
+"owner": "game",
+"status": "todo",
+"why": ""
+},
+{
+"va": 678496,
+"name": "?v22@c_object_type_definition@@UAE_NPAUs_entity@@JPAUs_entity_info@@JJJ@Z",
+"owner": "game",
+"status": "todo",
+"why": ""
+},
+{
+"va": 671216,
+"name": "?v27@c_device_type@@UAEJJJJJ@Z",
+"owner": "game",
+"status": "todo",
+"why": ""
+},
+{
+"va": 1581808,
+"name": "?collect@c_query_batch_collector@@UAEXPBUs_batch_contact@@@Z",
+"owner": "game",
+"status": "todo",
+"why": ""
+},
+{
+"va": 1742688,
+"name": "?function_1a9760@@YGXJPAUs_slot@@@Z",
+"owner": "game",
+"status": "todo",
+"why": ""
+},
+{
+"va": 1745104,
+"name": "?function_1aa0d0@@YG_NJPAUs_slot@@@Z",
+"owner": "game",
+"status": "todo",
+"why": ""
+},
+{
+"va": 1747792,
+"name": "?function_1aab50@@YG_NJPAUs_slot@@@Z",
+"owner": "game",
+"status": "todo",
+"why": ""
+},
+{
+"va": 1750192,
+"name": "?function_1ab4b0@@YG_NJPAUs_slot@@@Z",
+"owner": "game",
+"status": "near",
+"why": ""
+},
+{
+"va": 1801792,
+"name": "?function_1b7e40@@YGFJ@Z",
+"owner": "game",
+"status": "todo",
+"why": ""
+},
+{
+"va": 1812672,
+"name": "?function_1ba8c0@@YGXJPAUs_slot@@PAUs_slot_target_list@@@Z",
+"owner": "game",
+"status": "todo",
+"why": ""
+},
+{
+"va": 1810576,
+"name": "?function_1ba090@@YGJJPAUs_slot@@@Z",
+"owner": "game",
+"status": "todo",
+"why": ""
+},
+{
+"va": 2023248,
+"name": "?ray_test@c_vertex_shape@@UAEXPA_NPBUs_shape_ray@@PAUs_shape_ray_result@@@Z",
+"owner": "game",
+"status": "todo",
+"why": ""
+},
+{
+"va": 2130032,
+"name": "?function_208070@@YGXFJ_N@Z",
+"owner": "game",
+"status": "todo",
+"why": ""
+},
+{
+"va": 2277584,
+"name": "?allocate_aligned@c_havok_fixed_memory@@UAEPAXJJJ@Z",
+"owner": "game",
+"status": "todo",
+"why": ""
+},
+{
+"va": 2279472,
+"name": "?allocate16@c_havok_page_pool_allocator@@UAEPAXJJ@Z",
+"owner": "third:havok",
+"status": "todo",
+"why": ""
+},
+{
+"va": 2310889,
+"name": "?fill_row@c_postgame_statistics_list_459680@@UAEXPAVc_class_1a2c81@@J@Z",
+"owner": "game",
+"status": "todo",
+"why": ""
+},
+{
+"va": 2315036,
+"name": "?v10@c_window_channel@@UAEXXZ",
+"owner": "game",
+"status": "todo",
+"why": ""
+},
+{
+"va": 2401937,
+"name": "?function_24a691@c_list_24a64d@@UAEPBGJ_N@Z",
+"owner": "game",
+"status": "todo",
+"why": ""
+},
+{
+"va": 2430205,
+"name": "?v3@c_matchmaking_list@@UAEXXZ",
+"owner": "game",
+"status": "todo",
+"why": ""
+},
+{
+"va": 2434388,
+"name": "?v3@c_4way_signin_screen@@UAEXXZ",
+"owner": "game",
+"status": "todo",
+"why": ""
+},
+{
+"va": 2447168,
+"name": "?function_255740@@YGFJPAUs_slot@@@Z",
+"owner": "game",
+"status": "todo",
+"why": ""
+},
+{
+"va": 2486928,
+"name": "?function_25f290@@YGXJPAUs_type_967e20@@FPAUs_type_b36ac5@@@Z",
+"owner": "game",
+"status": "todo",
+"why": ""
+},
+{
+"va": 2918398,
+"name": "?v10@c_screen_45d2b8@@UAE_NPAUs_widget_event@@@Z",
+"owner": "game",
+"status": "near",
+"why": ""
+},
+{
+"va": 2992864,
+"name": "?contact_2daae0@class_2da9f0@@UAEXPAX@Z",
+"owner": "third:havok",
+"status": "todo",
+"why": ""
+},
+{
+"va": 3015504,
+"name": "?function_2e0350@class_2e1090@@QAEXPBQAJPBUbounds_2e0020@@JPAUpairs_2e1090@@2@Z",
+"owner": "third:havok",
+"status": "todo",
+"why": ""
+},
+{
+"va": 3024048,
+"name": "?function_2e24b0@class_2e1090@@QAEXPAJPBUbounds_2e0020@@PAUpairs_2e1090@@@Z",
+"owner": "third:havok",
+"status": "todo",
+"why": ""
+},
+{
+"va": 3025328,
+"name": "?function_2e29b0@class_2e1090@@QAEXPAJPAUpairs_2e1090@@@Z",
+"owner": "third:havok",
+"status": "todo",
+"why": ""
+},
+{
+"va": 3027824,
+"name": "?function_2e3370@class_2e1090@@QAEXPBUbounds_2e0020@@PAUoverlap_endpoints_2e3370@@@Z",
+"owner": "third:havok",
+"status": "todo",
+"why": ""
+},
+{
+"va": 3029760,
+"name": "?function_2e3b00@class_2e1090@@QAEXXZ",
+"owner": "third:havok",
+"status": "todo",
+"why": ""
+},
+{
+"va": 3030336,
+"name": "?function_2e3d40@class_2e1090@@QAEXPBUrays_2e3d40@@PAVray_collector_2e4660@@J@Z",
+"owner": "third:havok",
+"status": "todo",
+"why": ""
+},
+{
+"va": 3032672,
+"name": "?function_2e4660@class_2e1090@@QAEXPBUray_2e4660@@PAVray_collector_2e4660@@@Z",
+"owner": "third:havok",
+"status": "todo",
+"why": ""
+},
+{
+"va": 3036560,
+"name": "?function_2e5590@sweep_batches_2e50d0@@QAEXPBUowners_2e50d0@@PAUpairs_2e1090@@@Z",
+"owner": "third:havok",
+"status": "todo",
+"why": ""
+},
+{
+"va": 3056656,
+"name": "?function_2ea410@class_2ea410@@QAEXPBX00PAX@Z",
+"owner": "third:havok",
+"status": "todo",
+"why": ""
+},
+{
+"va": 3056944,
+"name": "?function_2ea530@class_2ea530@@QAEXPBX00PAX1@Z",
+"owner": "third:havok",
+"status": "todo",
+"why": ""
+},
+{
+"va": 3057712,
+"name": "?function_2ea830@class_2ea830@@QAEXPBX00PAX@Z",
+"owner": "third:havok",
+"status": "todo",
+"why": ""
+},
+{
+"va": 3064784,
+"name": "?function_2ec3d0@keyed_list_2ec680@@QAEXPBUdescription_2edd00@@PAPAUtyped_2edd00@@PBUcontext_2edd00@@@Z",
+"owner": "third:havok",
+"status": "todo",
+"why": ""
+},
+{
+"va": 3087232,
+"name": "?function_2f1b80@class_2f1b80@@QAEXPBX00PAX@Z",
+"owner": "third:havok",
+"status": "todo",
+"why": ""
+},
+{
+"va": 3088032,
+"name": "?function_2f1ea0@class_2f1ea0@@QAEXPBX00PAX@Z",
+"owner": "third:havok",
+"status": "todo",
+"why": ""
+},
+{
+"va": 3092528,
+"name": "?function_2f3030@indexed_2f28b0@@QAEXPBUbody_2f28f0@@0PBUinput_2f3030@@PAUresults_2f3030@@@Z",
+"owner": "third:havok",
+"status": "near",
+"why": ""
+},
+{
+"va": 3094816,
+"name": "?function_2f3920@capsule_pair_2f3920@@QAEXPBX00PAX@Z",
+"owner": "third:havok",
+"status": "near",
+"why": ""
+},
+{
+"va": 3105744,
+"name": "?function_2f63d0@class_2f63d0@@QAEXPBX00PAX@Z",
+"owner": "third:havok",
+"status": "todo",
+"why": ""
+},
+{
+"va": 3125584,
+"name": "?function_2fb150@class_2fb150@@QAEXPBX00PAX@Z",
+"owner": "third:havok",
+"status": "todo",
+"why": ""
+},
+{
+"va": 3134048,
+"name": "?function_2fd260@convex_vertices_2fd260@@QBEXPBU__m128@@PAU2@@Z",
+"owner": "third:havok",
+"status": "todo",
+"why": ""
+},
+{
+"va": 3140624,
+"name": "?function_2fec10@class_2fec10@@QAEXPBX00PAX1@Z",
+"owner": "third:havok",
+"status": "todo",
+"why": ""
+},
+{
+"va": 3200128,
+"name": "?function_30d480@@YAXPBUowner_30d480@@PAUpointers_30c650@@@Z",
+"owner": "third:havok",
+"status": "todo",
+"why": ""
+},
+{
+"va": 3223520,
+"name": "?build@lane_a_ragdoll@@UAEXPBUlane_a_solver_input@@PAUlane_a_solver_output@@@Z",
+"owner": "third:havok",
+"status": "todo",
+"why": ""
+},
+{
+"va": 3233312,
+"name": "?build@contact_sizes_3155f0@@UAEXPBUlane_a_solver_input@@PAUlane_a_solver_output@@@Z",
+"owner": "third:havok",
+"status": "todo",
+"why": ""
+},
+{
+"va": 3236112,
+"name": "?function_316110@cache_316110@@QAEXPBUpair_316110@@@Z",
+"owner": "third:havok",
+"status": "todo",
+"why": ""
+},
+{
+"va": 3239376,
+"name": "?function_316dd0@merger_316dd0@@QAEXPBUhandle_pair_316dd0@@@Z",
+"owner": "third:havok",
+"status": "todo",
+"why": ""
+},
+{
+"va": 3246736,
+"name": "?add@lane_a_simple_contact_manager@@UAEGPBUlane_a_contact_body@@0PBXPBUlane_a_contact_point@@@Z",
+"owner": "third:havok",
+"status": "near",
+"why": ""
+},
+{
+"va": 3247024,
+"name": "?function_318bb0@class_318b90@@UAEPAVlane_a_simple_contact_manager@@PBUlane_a_contact_body@@0PBX@Z",
+"owner": "third:havok",
+"status": "todo",
+"why": ""
+},
+{
+"va": 1010960,
+"name": "?function_f6d10@@YG_NJJPAMPA_N@Z",
+"owner": "game",
+"status": "todo",
+"why": ""
+}
+]

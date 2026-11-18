@@ -1,0 +1,1292 @@
+H2Classic change log: the notes that went out with each test build, newest first, as written for the tester.
+"s10l", "s9q" and so on name the build steps; each section says what changed, why, what was checked, and how to test it.
+The developer's side of the same builds (files, addresses, how each thing was found) is in DEVLOG.txt.
+
+H2Classic (stage 9, build s10l) - Halo 2's own code as a Windows program (test build)
+=====================================================================================
+
+What this is
+  H2Classic.exe is the halo2-decompiled source compiled for Windows. It takes the game's starting data and the
+  code of the functions the decompilation does not have yet (or has only as unproven drafts) from YOUR unmodified
+  v1.0 default.xbe each time it starts, and reads the maps from the Rom folder; it does not run without them.
+  Nothing of the XBE, of the console or of Microsoft is in the exe or written to disk.
+
+New in s10l (build 34): controller vibration, and Increased LODs really applied
+  1. Vibration
+  The game works out two motor speeds for each controller (from what happens to you: firing, explosions, damage) and
+        hands them to the console every time it reads the controllers. H2Classic took them and threw them away, so no
+        build so far has ever made a controller vibrate.
+  Now they go to the PC controller in the same port, through Windows' controller library (XInput). The Xbox pad's
+        left motor is the heavy, slow one and its right motor the light, fast one; XInput's are the same and use the
+        same range (0 to 65535), so the game's numbers go across unchanged. The game's own rules still decide when it
+        vibrates: nothing with Vibration off in the player's profile, outside a game or while paused.
+  Two things are the PC's, not the game's: the motors stop while another program has the focus (the controller
+        reads as untouched then too), and when H2Classic closes (window, EXIT, a crash), so a pad is never left
+        running.
+  Checked here with a stand-in for Windows' controller library that writes down what it is sent: firing the SMG on
+        Ivory Tower sent left motor 32768, right motor 39321 while the trigger was held, then 0 when it was let go.
+  2. Instanced geometry (and objects) still dropping out at a distance with Unlock Performance
+  Increased LODs (from Spooky Ghost) has three parts: instanced geometry never faded out by distance, objects always
+        at their most detailed model, shaders at their most detailed level. They were put into the game's source in
+        s9q, but two of the three never ran: H2Classic runs some of the game's routines as the XBE's own code
+        (where the decompilation only has an unproven draft), and the instance fade routine is one of them; the
+        objects' level-of-detail routine is only ever called from another such routine, which calls the XBE's own
+        copy. So instances kept fading out and objects kept dropping to simpler models at a distance; only the shader
+        part worked.
+  Now Spooky Ghost's own two patches go into the XBE's code at the same two places the mod patches on the console:
+        the instance fade answers "fully drawn" (an instance is drawn whenever it is in view), and an object's level
+        of detail is set to the highest, which the game's own limit then brings down to the most it allows.
+  Checked here on Ivory Tower with a counting build: over 240 frames, 7524 instance fades were worked out and 498 of
+        them would have faded out or left the piece out - all drawn fully now; every object's level was raised (596 of
+        596). The log says "Increased LODs: 2 of 2 places in retail's code go through the layer". I also went through
+        every other change made to the game's source for H2Classic (about 50 routines): none of the others sits where
+        the XBE's own code runs instead.
+  Drawing every far piece and every object at full detail costs some frame time, as on the Xbox with the mod.
+  Test launcher: "Increased LODs off (for comparing)" (H2N_LODS=0) and "No vibration (for comparing)" (H2N_RUMBLE=0).
+  H2Classic Settings.exe and H2Classic_DLSS.exe are build 33's, unchanged.
+
+Testing (s10l)
+  Before you start
+    - Unzip over your H2Classic folder (your h2classic and Rom folders are not touched).
+    - Controller connected; in the game, your profile's Vibration is on (it is unless you turned it off).
+    - In H2Classic Settings, Unlock Performance on (for Test 2).
+  Test 1: vibration
+    1. In a campaign level, fire a few weapons, throw a grenade near you and take some damage.
+       Expect: the controller vibrates for each as on the Xbox, and stops when the effect is over.
+    2. Hold fire, then press Start (the campaign's pause menu).
+       Expect: the vibration stops while the game is paused.
+    3. Hold fire, then Alt+Tab to another window.
+       Expect: it stops; back in the game it vibrates again with the next effect.
+    If it fails: no vibration at all - look in h2classic_log.txt for "controller 1: vibration, left motor ..." (the
+       game sent it) or "was not taken: XInputSetState gave ..." (Windows refused it), and tell me which controller
+       it is (Xbox 360 / One / Series, or another pad through Steam or DS4Windows).
+  Test 2: instanced geometry at a distance (Unlock Performance on)
+    1. Go back to where you saw it (Ivory Tower or elsewhere): look at the pieces that dropped out and back away
+       from them, keeping them in view.
+       Expect: they stay drawn at every distance; weapons, vehicles and players keep their detailed models far away.
+    2. For comparing: the test launcher with "Unlock frame rate in a game" and "Increased LODs off (for comparing)"
+       ticked, the same spot.
+       Expect: the pieces fade and drop out again as before.
+    If it fails: a short video of the spot, and h2classic_log.txt (it should have the "2 of 2 places" line).
+  Send me
+    - h2classic_log.txt, which controller you used, and a video of Test 2 if anything still drops out.
+
+New in s10k (build 33): the light on the ground that disappears when you get close (your video, Ivory Tower)
+  The overhead lights' patch of light on the ground is drawn in a pass of its own. Near a light, the game also gives
+        that pass the light's shadow map: a depth picture the light "sees". For each pixel of floor the console compares
+        that depth with the pixel's distance from the light, and multiplies the light by the result: 1 where nothing
+        is in the way, 0 where something is. The game only does this for lights near you; farther away the light is
+        drawn without the test.
+  H2Classic couldn't read a shadow map (its depth format, 0x2e), so that test read 0 everywhere. "Something is in
+        the way everywhere" means the whole patch of light was gone, but only near the light, where the game uses the
+        test. Your Metropolis capture from build 28 shows it too: the tunnel light's pass reads its shadow map
+        (0x82b1b000, format 0x2e), marked "not available". It has been like this in every build so far: shadow maps were
+        on the list of things not read yet since the first builds that drew anything.
+  Now the pass reads the shadow map's depth and does the console's compare (the game sets "greater": lit where what
+        the light sees is farther away than the floor). So the light on the ground should stay when you walk up to it,
+        now with the shadows of whatever stands in it (you, crates, pillars).
+  Checked here: every variant of the new shader is accepted by Direct3D 9 (256 shaders made in a test that forced the
+        compare onto every texture, none refused, none failing this build's own check), self-test 32 of 32. I didn't
+        get to one of these lights here, so how it looks is for you to see.
+  For comparing: "Lights near you without their shadow map (as build 32)" in the test launcher (H2N_SHADOWMAP=0).
+  H2Classic Settings.exe and H2Classic_DLSS.exe are build 32's, unchanged.
+
+Testing (s10k)
+  Before you start
+    - Unzip over your H2Classic folder (your h2classic and Rom folders are not touched).
+  Test 1: the light on the ground (Ivory Tower)
+    1. Go to the overhead light from your video and walk up to it, then under it, then away, while it turns.
+       Expect: its light on the ground stays at every distance, moving and turning with it.
+    2. Stand in the light and look down; walk a crate or pillar's edge through it.
+       Expect: your shadow and theirs in the light, moving with you.
+    If it fails: the light still goes, or it looks wrong (always black, always full, odd shapes): a short video, and the
+       same spot again from the test launcher with "Lights near you without their shadow map (as build 32)" ticked.
+  Test 2: elsewhere (if you pass one): the Metropolis tunnel lights, or any light near you.
+       Expect: the light stays; the log says "a light's shadow map (format 0x2e, 512x512) read by stage 0 and compared".
+  Send me
+    - h2classic_log.txt and a short video of Test 1.
+
+New in s10j (build 32)
+
+  Shield recharge rings stuttering while you move (your video)
+    The rings are particles of an effect the game starts on your own body when the shield begins to recharge. With
+        Unlock Performance, frames between two ticks draw your body and the camera at the in-between moment, and
+        what an object carries (its lights, its effects' particles) is moved with it for that frame. Everything on
+        your own unit was left out of that in first person. That rule came from Spooky Ghost v2.0.36: there, moving
+        your own lights or particle places had upset the first-person arms, and which of the two did it was never
+        found. So the rings stayed where the last tick put them, up to a tick ahead of you. Standing still, that's no
+        difference. Moving, it's a shake 30 times a second.
+    Now the particle places of effects on your own unit move with it too. What your unit holds (your weapon's
+        effects) and your lights stay as before. This goes one step past Spooky Ghost's rule, so there's a switch to
+        go back (below).
+    Checked here in Metropolis with a test build that drained the shield every 5 seconds: the recharge effect is one
+        particle system with its places on your body's parts, none of them first-person. Each in-between frame, its
+        place now moves exactly as the part it sits on.
+
+  Main menu: EXIT
+    A sixth item, EXIT, under SETTINGS. All six show at once, with no scrolling and no arrows. Choosing it closes the
+        program the same way the window's close button does: the log ends with its usual closing report. The menu
+        wraps as before: up from CAMPAIGN goes to EXIT.
+    How: the screen's own definition already asks for six rows, but the game code gives the menu's list only five
+        item slots. Now the list has six records and six slots, and EXIT's text is set directly (the screen's string
+        list has no EXIT). Three table entries follow the new size: the list's item count, and the code that takes
+        the list and the screen apart (retail shares that code with another screen built for five slots). EXIT is
+        English in every language.
+    Checked here: six rows; up from CAMPAIGN to EXIT; EXIT closes the program; into Campaign, Settings and System
+        Link and back; a Metropolis game, then Save and Quit back to the menu, six rows again.
+
+  Your HCM animation fixes (AnimationFixes.cpp), with Unlock Performance only (as you asked: they're seen above 30)
+    - Fix 2, the Ivory Tower lifts: ported. The lift (object 0, a machine, as in your fix) runs its position from 0
+        to 1 and starts again: 0.986 -> 0.000 every 72 ticks (2.4 s) here. On that tick its pose jumps back a whole
+        travel, and blending the two ticks ran it backward through all of it. Now a device whose position moves
+        more than half a cycle in one tick is drawn as the tick left it for that tick, along with anything riding on
+        it. This works for any looping machine, not only on Ivory Tower. Checked live on Ivory Tower: it catches the
+        lift's wrap every time.
+    - Fix 3, the rocket launcher's animation (the grenade throw pop): it does apply. The Xbox's shared.map holds the
+        same animation data, and all 51 places hold the bytes your fix replaces. They're patched in memory when the
+        animation cache loads that data; the map file is never written. Only multiplayer maps use it: no campaign
+        map contains this data. Checked with the data from shared.map: 51 of 51 places written, and written again
+        after the data is reloaded. Not seen in a live game here yet: that needs a rocket launcher in hand. When it
+        happens, the log says "the rocket launcher's animation fix: 51 of 51 places written".
+    - Fix 1b (the rocket barrel guard): already in H2Classic. A part that turns more than about 75 degrees in a
+        tick is drawn as the tick left it (your threshold, 1 + 2cos < 1.5), for every model.
+    - Fix 4 (first-person legs) and Fix 5 (crouch): already in H2Classic. Your body's parts are blended like every
+        object's, and the crouch (the biped's +0x2C4 on the Xbox) is one of your unit's blended values.
+    - Fix 1 (the 60-tick codec snap): doesn't apply. H2Classic runs 30 ticks a second; that pop comes from sampling
+        between animation frames at 60.
+
+  H2Classic Settings
+    - No title bar. Hold the top of the window (the band with the title, above its line) and drag to move it. The
+        - and x at the top right minimize and close it (x turns red under the pointer). A right-click on the top
+        band gives Windows' own window menu; Alt+F4 and Esc still close it. On Windows 11 the corners are rounded,
+        with a thin border in the window's line colour.
+    - The note under "Generate Xbox keys.bin file" reads "(used for Xbox save compatibility and crossplay with
+        Xbox/xemu)" on one line, and the buttons below moved up by the line it saved.
+    - The keys.bin window keeps its title bar, which is now light or dark as Windows' own apps are set.
+
+  Your new decomp upload: used as the reference for the main menu and its list, the animation cache, the devices and
+        the particles. The exe is still compiled from the earlier tree, plus the files changed here.
+
+  Test launcher (h2classic_launcher.cmd): two new options under "In-between frames (Unlock)":
+    "Effects on your own unit stay at the tick (as before build 32)" (H2N_CARRY_MINE=0) and
+    "Rocket launcher animation fix off (for comparing)" (H2N_ROCKETFIX=0).
+  H2Classic_DLSS.exe is build 29's, unchanged.
+
+Testing (s10j)
+  Before you start
+    - Unzip over your H2Classic folder (your h2classic and Rom folders are not touched).
+    - In H2Classic Settings, turn Unlock Performance on: the shield and animation fixes only work with it.
+  Test 1: shield rings while moving
+    1. Start a campaign level and take fire until your shield drops, then get into cover.
+    2. When the yellow rings rise, walk or strafe; stop; walk again.
+       Expect: the rings move smoothly with you while you move, as they do when you stand still.
+    3. Walk, turn, fire, reload, melee, switch weapons, flashlight on and off, during the rings and without them.
+       Expect: the first-person arms and weapon as in build 31.
+    If it fails: if the arms or weapon look wrong, start from the test launcher with "Effects on your own unit stay at
+       the tick (as before build 32)" ticked and tell me whether that cures them. If the rings still stutter, a short
+       video.
+  Test 2: EXIT on the main menu
+    1. At the main menu: six items, EXIT under SETTINGS, no arrows, nothing scrolls.
+    2. Press up on CAMPAIGN: EXIT. Press down on EXIT: CAMPAIGN.
+    3. Go into Campaign and back. Play a level and Save and Quit back to the menu: six items again.
+    4. In full screen, choose EXIT. Expect: the program closes.
+    If it fails: a screenshot and h2classic_log.txt.
+  Test 3: Ivory Tower lifts
+    1. Slayer on Ivory Tower (split screen or system link). Watch a lift go round for a minute, from beside it and
+       from on it.
+       Expect: no backward flicker when it starts over.
+    If it fails: a short video and h2classic_log.txt.
+  Test 4: the rocket launcher (multiplayer)
+    1. On a multiplayer map with a rocket launcher, pick it up. Throw grenades, fire, reload.
+       Expect: no pop. The log has "the rocket launcher's animation fix: 51 of 51 places written".
+    If it fails: tell me whether the log has that line, and send a video. For comparing, the test launcher's
+       "Rocket launcher animation fix off".
+  Test 5: H2Classic Settings
+    1. Hold the top band (above the title's line) and drag: the window moves. Dragging anywhere else doesn't.
+    2. The - and x at the top right: minimize, close. A right-click on the top band: Windows' window menu.
+    3. The keys.bin note is on one line.
+    4. Generate Xbox keys.bin file: its title bar dark if Windows is in dark mode.
+    If it fails: a screenshot.
+  Send me
+    - h2classic_log.txt after Tests 1-4.
+    - A video of anything that still stutters, flickers or pops.
+    - Screenshots of the settings window if anything looks off.
+    - Still open from earlier builds: build 29's tests (HUD text at 21:9 / 32:9, the Metropolis tunnel's "surfaces
+      made", the DLSS and SMAA presets).
+
+New in s10i (your note: settings slow to change when clicking fast)
+  The cause: every other quick click was lost. The settings' controls asked Windows for double-clicks, so a second
+        click inside the double-click time arrived as a double-click, and the selectors ignored it. Clicking six
+        times fast moved a setting three steps. Now every click is a click: six fast clicks move six steps. Checked
+        here with real mouse clicks 80 ms apart: build 30 moved 3 of 6, this build 6 of 6.
+  Also: settings.ini is written a quarter of a second after the last change instead of at every click. Start Game,
+        Exit and closing the window write anything still waiting.
+  H2Classic.exe and H2Classic_DLSS.exe are build 29's (s10g), unchanged.
+
+Testing (s10i)
+  Before you start
+    - Unzip over your H2Classic folder.
+  Test 1: fast clicks
+    1. In H2Classic Settings, click the right arrow of Render Scale quickly several times, then the left arrow.
+       Expect one step per click, stopping at 50% and 400%.
+    2. Do the same with Display Mode and Anti-Aliasing (they go round), then the toggles.
+    3. Close the window right after a change and open it again: the change is kept.
+    If it fails: tell me which control and how many clicks it took.
+  Send me
+    - Only if something is off: which control, and a screenshot.
+
+New in s10h (your notes on H2Classic Settings in build 29)
+  Build 29's H2Classic Settings.exe was built before my last fixes to it (the shorter quality notes, the extra room
+        for them), so the cut-off SMAA note you saw was still in it. Those fixes are in this one, with yours:
+  - The selectors moved left, same width: the gap from their right end to the frame is now the labels' gap on the left.
+  - "Widescreen Support" is "Aspect Ratio", and "Off (4:3)" is "4:3".
+  - Display: Display Mode, Window Size, Render Scale, Aspect Ratio, in that order.
+  - Choices stop at their lowest and highest values instead of going round, and the arrow on that side dims. Display
+        Mode and Anti-Aliasing still go round.
+  - The anti-aliasing notes fit (two lines of room).
+  H2Classic.exe and H2Classic_DLSS.exe are build 29's (s10g), unchanged.
+
+Testing (s10h)
+  Before you start
+    - Unzip over your H2Classic folder (your h2classic and Rom folders are not touched).
+  Test 1: H2Classic Settings
+    1. Open it. Expect the selectors with an even margin on both sides, the order Display Mode, Window Size, Render
+       Scale, Aspect Ratio, and "Aspect Ratio" offering 4:3 / 16:9 / 21:9 / 32:9.
+    2. Click past the end of Render Scale, Window Size, Aspect Ratio and Quality: they stop, and that arrow dims.
+       Display Mode and Anti-Aliasing go round.
+    3. SMAA, each quality: its note shows in full.
+    If it fails: a screenshot of the window.
+  Test 2: build 29's tests (HUD text, the Metropolis tunnel, the presets), if not done yet.
+  Send me
+    - A screenshot of the settings window if anything looks off, and build 29's test results.
+
+New in s10g (your reports and requests: the prompts and Checkpoint text still wide at 21:9; the bad slowdown in Metropolis;
+H2Classic Settings.exe with a Halo-style look and an anti-aliasing quality choice; icons for the three exes)
+  HUD text, for real this time. Build 28's fix for the pick-up and vehicle prompts, the messages under them (Checkpoint...
+        done) and the status line (WELCOME!, GAME OVER) did nothing. It changed the XBE's copy of the function that draws
+        them, but the game never runs that copy: it runs the one compiled from the decompiled source. The fix now sits
+        in that source (src/unknown_24c7c1.cpp), around its five text calls. Same method as before, from Spooky Ghost:
+        above 16:9 the letters go back to their 16:9 width, in the same place. You confirmed "Hold X to drive Scorpion"
+        at 21:9 from my screenshot. Chapter titles were already right in build 28.
+  The Metropolis slowdown (your capture of frames 12994-12995). Every draw there went to a light's 512x512 shadow
+        map. The console draws a shadow map with its picture surface and its depth surface at the same memory, with
+        the picture switched off. Here, one memory could hold only one surface, so the two kept replacing each other:
+        both were rebuilt for every draw, 82 draws a frame, each 4096x4096 at render scale 8. That's about 95 of your
+        120 ms a frame. The same memory also holds a 128x128 and a 160x120 picture each frame, so those were rebuilt
+        too. Now each use of a memory keeps its own surface from frame to frame. The shadow-map pass draws its depth
+        into the memory's depth surface and uses a spare picture surface that nothing reads. The log's "picture time"
+        line now ends with "surfaces made N a frame", which should stay near 0. Not changed: that light's shadow
+        still isn't drawn. The game reads the shadow map in a depth format this build can't read yet, so it was
+        missing before too.
+  DLSS works. Your log shows the helper ready, the textures open, and 11,109 views through DLSS. Build 28's
+        format change was the cause.
+  H2Classic Settings.exe, renamed from H2Classic Launcher.exe. The window's title is "H2Classic Settings" too.
+        The look follows Halo 2's menus: deep navy, light-blue lines and text, frames with cut corners, and controls
+        drawn to match (choices with arrows, toggles, buttons). The font is Windows' own Bahnschrift, or Segoe UI on
+        older Windows. Choices change with a click, the mouse wheel or the arrow keys. Same settings, same
+        settings.ini, plus the new line below. H2Classic.exe now opens H2Classic Settings.exe on a first start.
+        You can delete the old H2Classic Launcher.exe.
+  Anti-aliasing quality, a new line under Anti-Aliasing, where the method has levels:
+        - SMAA: Low, Medium, High (as before) and Ultra, the four presets from SMAA's own source. Low and Medium
+          leave out the diagonal and corner smoothing, as the reference does. Saved as smaa_quality.
+        - DLSS: NVIDIA Default, Preset K or Preset J. These are NVIDIA's render presets for DLAA: K is the default
+          (transformer model), J has a little less ghosting and a little more flicker. Saved as dlss_preset. The
+          helper log says which one DLSS was given.
+        - FXAA and TAA have no levels, so the line reads "Standard" and is greyed out. (FXAA here is a single pass;
+          its "2x/4x/8x" would be supersampling, which Render Scale already does.)
+        Checked here: SMAA Low and Medium at the main menu (371 and 380 views, no shader refused); High and Ultra
+        are unchanged byte for byte. The DLSS preset couldn't be run here.
+  Icons: H2Classic.exe has the H2C panel, H2Classic Settings.exe a cog, H2Classic_DLSS.exe a jagged-to-smooth
+        mark. They're original drawings in the style of Halo 2's menus (res/make_icons.py in the kit).
+  Test launcher: "SMAA preset" (low / medium / high / ultra) and "DLSS preset" (k / j) replace the old Ultra tick box.
+
+Testing (s10g)
+  Before you start
+    - Unzip over your H2Classic folder; your h2classic and Rom folders stay as they are. Delete H2Classic Launcher.exe.
+    - Windows may show the old icons for a minute (its icon cache). Renaming the folder or signing out refreshes them.
+  Test 1: H2Classic Settings
+    1. Open H2Classic Settings.exe. Expect the dark blue look, your saved settings, and the H2C/cog icons.
+    2. Anti-Aliasing SMAA: Quality offers Low / Medium / High / Ultra. DLSS: NVIDIA Default / Preset K / Preset J.
+       FXAA or TAA: "Standard", greyed out. Each choice changes the line under it.
+    3. Close and reopen: everything is as you left it.
+    If it fails: a screenshot of the window.
+  Test 2: HUD text at 21:9 and 32:9
+    1. Metropolis: "Hold X to drive Scorpion", a Checkpoint message, a weapon pick-up prompt.
+    2. A multiplayer game for WELCOME! and GAME OVER.
+    Expect all of them as wide as at 16:9, in the same places. 16:9 itself looks as before.
+    If it fails: F12 screenshots and the log.
+  Test 3: the Metropolis slowdown
+    1. Same settings as your capture (render scale 8, DLSS). Go back to the dark tunnel and stand there for 20 seconds.
+    Expect: no drop. The log's picture time lines say "surfaces made 0.00 a frame" (or close to it).
+    If it fails: the log, and F11 there again.
+  Test 4: DLSS preset and SMAA presets
+    1. DLSS with Preset J, then Preset K: a minute each in the same place. dlss_helper_log.txt should name the preset.
+    2. SMAA Low, then Ultra: look at edges and the FPS counter.
+  Send me
+    - h2classic_log.txt from Test 3, and h2classic\dlss_helper_log.txt from Test 4 (rename the logs between runs).
+    - Screenshots from Test 2, and of the settings window if anything looks off.
+
+New in s10f (your requests: the Rom folder; keys.bin from other BIOS images; hide the console window; the console,
+pick-up, WELCOME!/GAME OVER and chapter-title text at 21:9 and 32:9; the slow spot in Outskirts; the launcher not
+remembering its settings; the water edge at 32:9; the test launcher overridden by settings.ini; DLSS not running)
+  The Rom folder. The game's files now go in a folder named Rom next to H2Classic.exe: default.xbe and the maps folder,
+        or a disc image (.iso) of the game. The folder looks like this (Rom and h2classic are folders):
+            h2classic\                   made by the game: settings, profiles, map cache, keys.bin
+            Rom\                         your game: default.xbe and maps\, or a disc image (.iso)
+            H2Classic Launcher.exe
+            H2Classic.exe
+            H2Classic_DLSS.exe
+            LICENSES.txt
+            NVIDIA_RTX_SDKs_LICENSE.txt
+            nvngx_dlss.dll               yours, for DLSS (NVIDIA's file: I can't put it in the zip)
+        The zip has the two folders, empty. If Rom holds neither the files nor an image, the game stops and says which
+        folder it looked in (in a message box when it was started from the launcher or Explorer). A folder or image
+        named on the command line still works as before. The log's second line names the Rom folder it read from.
+        The DLSS helper is renamed H2Classic_DLSS.exe.
+        Checked here: the game files in Rom, a disc image in Rom, and an empty folder (the message).
+  keys.bin from other BIOS images. The launcher's Generate button now works with every BIOS layout. BIOS 4817 and
+        later are made for the MCPX 1.1 boot ROM (mcpx_1.1.bin); 3944, 4034 and the 4627s for MCPX 1.0
+        (mcpx_1.0.bin). If the two files don't go together, it says which boot ROM the BIOS needs. If keys.bin is
+        already there with the same key, it says so and changes nothing; with a different key it asks before
+        replacing it. Checked here with made-up images of both layouts (your zip had no boot ROMs, so your own
+        pairs couldn't be tried here).
+  The console window is gone. H2Classic.exe is a Windows program now, not a console one. Started from PowerShell or
+        the test launcher, its messages still appear in that window. Started from the launcher or Explorer, a
+        problem that stops it shows in a message box.
+  The launcher remembers its settings. The cause: it read three saved values (widescreen, display mode,
+        anti-aliasing) through one shared buffer, so they came back wrong, and the wrong values were then saved over
+        yours. Checked here: opened with a saved settings.ini, every choice came back, and the file was unchanged.
+  The test launcher: what is ticked there is now the whole set. The game doesn't read h2classic\settings.ini when the
+        test launcher starts it.
+  HUD text at 21:9 and 32:9, done the way you did it in Spooky Ghost (v2.0.17 and v2.0.38): the pick-up and vehicle
+        prompts, the messages under them, the status line at the bottom middle (WELCOME!, GAME OVER) and the chapter
+        titles. Above 16:9, each text's letters go back to the width they have at 16:9. The text stays where the
+        game places it (its left edge, right edge or middle, as the game justifies it). At 16:9 nothing changes. The
+        training help box ("Use [stick] to look up") was already handled, as in the mod's v2.0.37.
+        Checked here at 32:9: the chapter titles ("One Size Fits All", "Ladies Like Armor-Plating") are half as wide
+        as before and in the same place; "Hold X to drive Scorpion" has its 16:9 width, under the HUD's top-left
+        corner.
+  The water at 32:9. The water-edge fix (from Spooky Ghost's water_fit) worked out the view's width with the 16:9
+        factor at every widescreen size. At 32:9 that is half the real width, so the water was made too narrow. It
+        now uses the same factor as the camera (16:9, 21:9 and 32:9 each their own). Checked in Metropolis at 32:9:
+        the log's water line shows the water made 2.2 times as wide as the game makes it (about 1.1 before).
+  The slow spot in Outskirts (your recording and log). In your log, converting vertices took about 20 ms a frame
+        there. Each draw converted every vertex between the lowest and highest one it uses, and some draws use a
+        few hundred out of a range of tens of thousands. Such a draw now converts only the vertices it uses. I can't
+        measure it here (no Outskirts map), so the log's "picture time" line now also gives the vertices converted
+        a frame, how many the draws' ranges spanned, and how many draws got only their used vertices. A log from
+        the same spot will show whether this was the cost.
+  DLSS. Your helper log shows the helper ready but never asked to run DLSS. My best reading of the code: the game
+        opened the shared picture DLSS writes into in a format Direct3D 9 can't draw into (8-bit A8B8G8R8), so the
+        game's side failed before it asked. Both sides now use a 16-bit float picture. Your h2classic_log.txt from a
+        DLSS run will confirm it or show the real cause (the lines starting "picture: DLSS:").
+
+Testing (s10f)
+  Before you start
+    - Unzip into a new folder, for example D:\Emulators\Xbox\H2Classic.
+    - Put your game in its Rom folder: default.xbe and the maps folder from D:\Emulators\Xbox\Roms\Halo2 (or your .iso).
+    - Copy your old h2classic folder (from the old game folder) into the new folder: it holds your profiles,
+      settings.ini and keys.bin. Put nvngx_dlss.dll next to H2Classic.exe for DLSS.
+  Test 1: the Rom folder and the launcher
+    1. Start H2Classic Launcher.exe. Expect your saved settings, not the defaults. Change one, close, open it again:
+       the change is still there.
+    2. Press Start Game. Expect: no console window; the game starts as before. The second line of h2classic_log.txt
+       names ...\H2Classic\Rom.
+    3. Quit, rename Rom to Rom_off, start H2Classic.exe. Expect a message box that says Halo 2's files were not found
+       in the Rom folder, with its full path. Rename it back.
+    If it fails: send the log and a photo of any message.
+  Test 2: keys.bin
+    1. In the launcher, press Generate Xbox keys.bin file. Pick a BIOS of 4817 or later (e.g. xbox-5838.bin) with
+       mcpx_1.1.bin, then one before 4817 (e.g. xbox-4034.bin) with mcpx_1.0.bin.
+    2. Expect each to say keys.bin was made, or that it is already there with the same key. If it says DIFFERENT
+       key, press No and tell me which BIOS you used: I'd like to know before anything is replaced.
+    3. Try a wrong pair (xbox-5838.bin with mcpx_1.0.bin): expect a message that names the boot ROM it needs.
+    If it fails: a photo of the message, and which BIOS and MCPX files you picked.
+  Test 3: text and water at 21:9 and 32:9
+    1. Launcher: Widescreen 32:9. Start a level with a chapter title and a prompt (Metropolis: the title, then
+       walk up to a tank for "Hold X to drive Scorpion"). Expect the title and the prompt as narrow as at 16:9 and in
+       the same places; the water reaching both sides of the screen.
+    2. Same at 21:9, and a multiplayer game for WELCOME! and GAME OVER.
+    3. At 16:9 everything should look as it did in build27.
+    If it fails: a screenshot (F12 saves one) and the log.
+  Test 4: Outskirts
+    1. Go to the same spot as your recording and play there for 20 seconds or so.
+    Expect: maybe faster. Either way the log has the new numbers.
+  Test 5: DLSS
+    1. Launcher: Anti-Aliasing DLSS (NVIDIA RTX). Start a level and play for a minute.
+    Expect: a sharper, steadier picture than TAA, if the cause was the one I found. The log says what happened
+    either way.
+  Test 6: the test launcher
+    1. Start h2classic_launcher.cmd, tick a few settings (e.g. 4:3), launch. Expect exactly what is ticked, whatever
+       settings.ini says. Its game folder box can stay empty (empty = the Rom folder).
+  Send me
+    - h2classic_log.txt from Test 3 (32:9), Test 4 (Outskirts) and Test 5 (DLSS): rename each before the next run.
+    - h2classic\dlss_helper_log.txt from Test 5.
+    - Screenshots from Test 3 (32:9 and 21:9), and photos of any message boxes.
+    - What the keys.bin window said in Test 2.
+
+New in s10e (your request: the DLSS work and its tests in this build, and the anti-aliasing fixes)
+  This is s10d with the anti-aliasing and DLSS work from your other prompt (s9y-dlss2) added. Everything in s10d stays:
+  the name, the intro fix, the launcher opening first, the keys.bin button.
+  Anti-aliasing (FXAA, SMAA, TAA) works again. There were three causes:
+        - From the other prompt: the code that finds the player's 3D view had ended up inside the code for the menus'
+          tint draws, so it never saw the 3D view. It's back where it belongs.
+        - From the other prompt: after each smoothed view, the graphics-settings cache added in s9r still held the
+          settings from before the pass and skipped calls it thought were already made. The cache now resets after
+          each anti-aliasing pass.
+        - Mine: the anti-aliasing needs a small change to one of the game's compiled files (the call that draws each
+          view's 3D is pointed at the layer). Every time I recompiled a game source file (s9z and s10d), my build
+          script rebuilt that compiled file without the change, so in build25 and build26 the anti-aliasing never ran
+          at all. The change is back, and the build script now puts it back by itself.
+        Checked here at the main menu (its 3D background): SMAA 473 views done, FXAA 434, TAA 424 (354,126 draws given
+        the sub-pixel offsets). With the cache's own check on (H2N_GFXCACHE=2), SMAA and FXAA show no differences.
+  TAA (H2N_AA=taa) is in both launchers now.
+  DLSS (H2N_AA=dlss), carried over from s9p-dlss1. NVIDIA's DLSS is 64-bit only and the game has to stay 32-bit, so
+        it runs in a helper program, h2classic_dlss.exe (in this zip):
+        - the game makes its Direct3D 9 device as a "9Ex" one, whose textures can be shared with another program;
+        - it starts h2classic_dlss.exe, which makes a Direct3D 11 device on the same card, starts NVIDIA's NGX and
+          checks that DLSS is available;
+        - for each player's view the game hands over the 3D picture before the HUD, its motion and its depth; the helper
+          returns DLSS's result, and the HUD goes on top.
+        The mode is DLAA (DLSS at the size the picture is drawn, with TAA's 16 sub-pixel offsets). It needs an NVIDIA RTX
+        card with a recent driver, and your nvngx_dlss.dll next to H2Classic.exe (it's NVIDIA's, not in this zip). If
+        anything on the way fails, the log says why and the game uses TAA instead. The helper writes
+        h2classic\dlss_helper_log.txt and NGX's folder h2classic\ngx; its main lines also go into h2classic_log.txt
+        as "dlss helper: ...".
+        The helper is renamed for H2Classic (exe, log, folders). I rebuilt it here from the other prompt's source with
+        NVIDIA's DLSS SDK 310.9.16. Built from the unchanged source, it matches that prompt's helper byte for byte,
+        apart from the build date and debug file name. Running NVIDIA's code isn't allowed here, so the real helper was
+        built, not run.
+  Launchers:
+        - H2Classic Launcher.exe: Anti-Aliasing is Off / FXAA / SMAA / TAA / DLSS (NVIDIA RTX). With DLSS picked, a line
+          under it says if h2classic_dlss.exe or nvngx_dlss.dll is missing, or that it needs an RTX card. Saved as
+          anti_aliasing=taa or dlss. That line and the keys.bin note look the same (small, grey).
+        - h2classic_launcher.cmd (test launcher, every test option): anti-aliasing smaa, fxaa, taa, dlss; "TAA/DLSS test
+          view", "DLSS test: the jitter the other way", "DLSS test: motion and depth unconverted"; "AA log: the first 30
+          depth-tested draws" under Logging (H2N_AADIAG). The Experiments group is gone, as you asked earlier.
+  Also checked here: DLSS with no helper next to the exe: the 9Ex device, TAA takes over and the log says why (443
+        views); DLSS with a test copy of the helper that has no NVIDIA code: started, found the game's card, ready,
+        then Wine refused the shared texture and TAA took over, and the helper closed when the game did; the intro
+        movie draws on the 9Ex device.
+  Licences: h2classic_dlss.exe contains NVIDIA's NGX library (DLSS SDK, NVIDIA RTX SDKs licence). "This software
+        contains source code provided by NVIDIA Corporation." See LICENSES.txt and NVIDIA_RTX_SDKs_LICENSE.txt.
+
+New in s10d (your requests: the intro's menu music; the new name; the launcher first when nothing is set; a keys.bin
+            button in the launcher)
+  The name: everything is H2Classic now. The game is H2Classic.exe, the launcher H2Classic Launcher.exe, the folder
+        h2classic\ (settings.ini, keys.bin, the console's drives), the log h2classic_log.txt, the stop file
+        h2classic_stop.bin, the pictures h2classic_frame_*.bmp and h2classic_surface_*.bmp, the test launcher
+        h2classic_launcher.cmd, the window's title H2Classic. The test switches keep their H2N_ names. To keep what you
+        have (settings, keys.bin, profiles, the map cache), rename your h2native folder to h2classic.
+  The intro's menu music - fixed, the way the console does it:
+        - The game's very first start-up call is the XDK's XMountSecondaryUtilityDrive (0x2d5d0a). On the console it
+          picks a second cache partition, FORMATS it every time (the format call has no condition in front of it) and
+          mounts it as N:. N: holds the main menu's map cache (n:\cache002.map), the other map slots and the
+          temporary saved-game files.
+        - So on a console the main menu's map is never in the cache at start. The game copies it behind the intro
+          through its loading code (0x163890), which plays the intro (flags 0x3c6) and holds the main loop and the
+          menus until the movie ends. Only then does the main menu open and its music start.
+        - H2Classic kept N: between runs, so the main menu loaded at once, the intro was started by the menu's own
+          start-up, and the menu ran (with its music) under the movie. Now N: (h2classic\N) is emptied at every start,
+          as the console formats it. The log says "N: (the second utility drive) formatted ...".
+        - Checked here with your intro_60.bik and the sound recorded (H2N_SOUNDWAV): during the intro only the movie's
+          own sound is heard - what is left after taking the movie's sound out of the recording is about 22 dB below
+          it (with the menu music laid under the movie as a check, it is 5-11 dB below) - and the menu's music starts
+          after the movie. The same on a first start and on a second start with everything cached.
+        - Skipping: a button ends the intro once the main menu's map is loaded (the game's own rule; before that,
+          buttons do nothing). Tried here: A pressed 10 s in ended the movie at frame 235 of 556, then the menu and its
+          music started.
+        - The attract movie (your attract_60.bik) plays after 75 s idle on the main menu (the game's timer, flags 0xe:
+          a button ends it). Tried here: the menu music stays off while it plays and starts again when it ends.
+        - The main menu's map (60 MB) is now copied at every start, behind the intro, as on the console.
+  The launcher first: when h2classic\settings.ini isn't there, H2Classic.exe starts H2Classic Launcher.exe and closes,
+        so the settings are chosen before the game runs; Start Game there starts it. The launcher writes settings.ini as
+        soon as it opens, so after that H2Classic.exe goes straight to the game. The test launcher sets H2N_NOLAUNCHER=1
+        and is not affected.
+  Generate Xbox keys.bin file: a new button in the launcher, with the note under it. It opens a window with two files,
+        each a path you can type with Browse... next to it: the BIOS (Flash ROM) and the MCPX Boot ROM. Generate makes
+        h2classic\keys.bin; Cancel goes back to the launcher.
+        - You asked for the BIOS and the EEPROM. The EEPROM doesn't hold this key: it is inside the BIOS, in its
+          second-stage loader, which is scrambled with a key held in the MCPX boot ROM (on the console that ROM
+          unscrambles it at power-on). So the second file is the MCPX boot ROM - the 512-byte file xemu asks for as
+          "MCPX Boot ROM File" (mcpx_1.0.bin) - with the BIOS image you use in xemu. The EEPROM's key only signs the
+          game's preferences file, which never leaves the console; saved games and profiles don't use it, and system
+          link doesn't either.
+        - Nothing of the key is in the launcher. It reads your two files, checks that they belong together (the
+          unscrambled loader has to start where the console starts it) and writes the 16 bytes. If they don't belong
+          together it says so and writes nothing; if keys.bin is already there it asks before replacing it.
+        - Tried here with made-up files (no console data): a right pair writes exactly the 16 bytes planted in them
+          (1 MB and 256 KB images); a wrong boot ROM, wrong sizes and a missing file each give their message and write
+          nothing. make_keys.py (the same for the command line) is still in the package.
+
+New in s9z (your requests: up to 32:9; keep looking for what holds the game during a movie)
+  32:9: Widescreen Support now has 32:9 (H2N_ASPECT=32:9). The game's widescreen factor is 8/3 there: the projection
+        widens the 4:3 frame by it, and the HUD and menus are narrowed by 3/8. The picture is 32:9 with black bars as
+        needed. Any H2N_ASPECT=W:H from 16:9 up to 32:9 works the same way. 21:9 stays 64:27, as in Spooky Ghost and your
+        xemu build. The launcher lists 3840 x 1080 and 5120 x 1440 when the screen is that big. A window can still be
+        resized freely. Not seen on screen here (no working display for test runs).
+  The intro's menu music, found so far:
+        - It is a looping sound that the game's sound update starts while the movie plays: function_125b40 ->
+          function_129380 -> function_1293f0 -> function_21c400 (the looping channel) -> sound_voice_queue_chunk -> the
+          WMA codec. H2Classic logs this now: "WmaCreateInMemoryDecoder - called from".
+        - The game has one switch that pauses and resumes the whole sound system (function_125a90: 0 pause, 1 resume).
+          Its callers so far are the controller-unplugged dialog, the pause screen, and the menus' resume. Nothing in
+          the movie code calls it.
+        - Next: what keeps that looping sound from starting under a movie on the console. I'm looking at where the
+          looping sound is asked for and when, and at the main menu's start-up.
+
+New in s9y (your Spooky Ghost v2.0.40 source: 21:9)
+  21:9, done the way Spooky Ghost v2.0.4 reads it and your xemu build sets it:
+        - The game's projection (function_2fb70) multiplies the 4:3 frame's width by one widescreen factor: 4/3 for 16:9.
+          At 21:9 that factor is the game's own 16/9, so the picture is 64:27. Retail loads it once, at 0x2fc88, and uses it
+          for both the width and the cinematic angle. The source now does the same through h2n_ws_factor(), and
+          unknown_02b400 is recompiled.
+        - The HUD Widescreen Fix narrows each element by 1/factor: 3/4 at 16:9, 0.5625 at 21:9. The menus are narrowed by
+          the same amount.
+        - The window's picture is 64:27.
+        Launcher: Widescreen Support has 21:9. Test switches: H2N_WIDE=1 with H2N_ASPECT=21:9.
+        Not checked here: the display server on this machine stopped working before the run, so I haven't seen a 21:9
+        frame. It is built, and a plain run starts and runs normally.
+  The intro's menu music: you're right that something has to hold the game while a movie plays. I haven't found where
+        retail does it yet. The game's main loop (0x12b450) asks the movie player to update each frame, then runs the
+        game's time and ticks without a movie check. The loading code (0x163890) holds the menu by waiting until the
+        movie ends, but only when the map has to be loaded. Still to check: the game's time update (0x146660) and
+        0x2184a0 (it reads the movie's state, next to the controller code).
+
+New in s9x (you away: "continue working on the other missing items")
+  System link join: the next draft on the join path now runs from the XBE too - network_observer_update_connection
+        (0x76ff0), called right after the connect handling. The XBE takes its two arguments differently from how the
+        source declares them (one in a register the caller expects kept), so it goes through a new small adapter that
+        keeps that register. With 0x785d0 and 0x938e0 (s9u), the three drafts the join touched first are now the XBE's.
+        Not tested: a join needs both copies in the menus at once, which I can't drive reliably here.
+  FXAA/SMAA (still not working in s9w, looked into): H2N_AADIAG=1 writes what the hook sees. At the title screen and
+        the main menu, the only draws inside the view hook have no depth buffer, and no depth-tested draw happens there
+        at all in 3 minutes, so there is nothing for it to smooth in those menus here. It has to be tried in a level. On
+        your PC: H2N_AA=smaa and H2N_AADIAG=1 in a level, then send the log.
+  The intro's menu music, found so far: when the main menu's map is already in the cache, the game's loading code
+        doesn't wait (that path is the one that holds everything until the intro has finished). The intro is then started
+        by the main menu's own start-up, after the menu's level is already running, so its sounds play under the movie.
+        Next: whether the console stops the game's sound or ticks while a movie plays, and where.
+  21:9: I need the source of the Spooky Ghost build that has 21:9 (or of your xemu build, which logs "camera
+        projection set for 21:9"), to port its camera and HUD changes as they are. The skill I have here is v2.0 and
+        doesn't include it.
+
+New in s9w (your requests: a launcher exe for a release, settings.ini, window sizes and modes, 21:9, the controller only
+           in focus, FXAA/SMAA from the handoff, "FPS counter" under VSync)
+  H2Classic Launcher.exe: the new launcher. Title "H2Classic"; Render Scale (%), Window Size (pixels), Widescreen
+        Support, Display Mode (Full Screen / Borderless Windowed / Windowed), Unlock Performance, VSync, FPS counter,
+        Anti-Aliasing (Off / FXAA / SMAA), Skip Intro Video, Skip Attract Idle Video; Start Game, Reset to Defaults,
+        Exit. Every change is saved at once to h2classic\settings.ini. System link with consoles and xemu is always on
+        (network=retail; network_peer and network_port can be changed in that file). The old launcher
+        (h2classic_launcher.cmd) is still here for testing, with the new switches added.
+  settings.ini is read by H2Classic.exe itself when it starts, so it applies whether the game is started from the
+        launcher or not. A value set in the environment (the test launcher, PowerShell) wins over the file.
+  Window: H2N_WINDOW_SIZE=<width>x<height> is the picture's size in pixels. H2N_DISPLAY can be:
+        - windowed: a normal window you can resize freely;
+        - borderless: covers the screen;
+        - fullscreen: also covers the screen, and also stays on top and hides the pointer. It does not change the
+          display's mode.
+        The game's picture keeps its shape (4:3, or 16:9 with widescreen) with black bars around it. Resizing the window
+        refits it, so the picture and HUD are never stretched. Render Scale (H2N_RENDERSCALE, %) sets the size the game
+        draws at, against the picture's height on the screen, in whole multiples of 640x480: at 1440 pixels, 100% draws
+        1920x1440.
+  Controller: while another program has the focus, the controller reads as untouched (the keyboard already did).
+  Skip Attract Idle Video (H2N_SKIPATTRACT=1): the movie the menu plays when it stands idle is not played. The XBE's
+        attract_mode_play_movie (0x223a21) returns at once.
+  FXAA/SMAA: the handoff's module is in. I applied its gfx9.c changes by hand on top of s9w, and repointed the view
+        hook in unknown_023540.obj. LICENSES.txt (SMAA, MIT) ships with the build. NOT WORKING YET IN THIS BUILD: in my
+        test it smoothed nothing ("0 views done" with H2N_AA=smaa, at the main menu, with the old window or the new one),
+        where s9p-aa3 smoothed the menu's 3D background. Something that changed in gfx9.c since s9p stops it from
+        recognising the 3D view. The option is in both launchers so you can check it on your PC.
+  21:9: NOT in this build. It needs Spooky Ghost's widescreen work ported (the camera and the HUD), which I haven't
+        done yet. Widescreen offers Off (4:3) and 16:9 for now.
+
+New in s9v (your notes on s9u: an fps counter and a VSync-off option in the launcher; the menu music plays under the
+           intro movie; xemu's games don't show in System Link)
+  Frames-a-second counter: H2N_FPS=1 (launcher: Picture, "Frames-a-second counter"). Frames the window shows each
+        second, counted over half a second, in the top left corner. It is drawn on the finished picture, and every
+        graphics setting is put back afterwards.
+  VSync off: H2N_VSYNC=off (launcher: Picture, "VSync off"). It turns on the unlocked frame rate (H2N_UNLOCK) with the
+        timing beat at 1000 a second instead of your display's 240, so a new frame starts as soon as the last one is done. The game's own
+        ticks stay 30 a second. In a window, Windows still shows at most 240 a second on your monitor, but the counter
+        shows how many the PC makes. Checked here: the log reports the 1000-a-second timing beat, and the counter draws.
+  System link logging (with H2N_XNET=retail): the game's own system link packets are now written to the log, as the
+        game receives them after the network library has decrypted them. That is the first 3 of each kind, whole, on
+        lines starting "game network:". Your s9u log already shows the cable side working both ways: every search
+        H2Classic sent was answered by xemu (a 259-byte frame, the same size of answer an H2Classic host gives). So
+        xemu decrypts H2Classic's packets. What these new lines will show is whether xemu's answer reaches the game,
+        and what is in it.
+  The menu music under the intro: reproduced here with a 20-second test movie: the menu's music plays under it. It is
+        not fixed in this build. What I found so far: the game's menu screens do wait for the movie (the menu code
+        checks "a movie is playing", 0x155f60, before it opens the main menu). The music is started by something
+        else while the movie plays. Running the movie player's own start (0x156090) from the XBE made no difference,
+        so that is not it. Next: find what starts the music and what the console does there.
+
+New in s9u (your request: system link with real consoles and xemu - "go for it, do as much internal testing as you can")
+  What it is. H2N_XNET=retail (launcher: Network, "System link with consoles / xemu") makes the game's network calls
+        go to the console's own network library, the copy inside YOUR default.xbe (XNet), instead of the PC versions
+        s9t added. That library is what speaks the console's encrypted system-link format, so it is the only way to be
+        understood by a console or by xemu. It runs exactly as on the console; only what sits under it is new:
+        - the console kernel's services it calls (timers, deferred calls, events, memory, time, and the crypto:
+          SHA-1, HMAC, DES/3DES, RC4, the 768-bit key exchange - each checked here against published test vectors);
+        - the network "cable": the library has a built-in path for the console's debug monitor, which hands it whole
+          Ethernet frames instead of letting it drive the network chip. This build uses that path. Every frame goes
+          out as one UDP packet to H2N_XNET_PEER and every UDP packet that arrives on H2N_XNET_PORT (default 9368) comes
+          in as one frame. That is the same format as xemu's "UDP tunnel" network setting.
+        The system link key comes from your h2classic\keys.bin (make_keys.py), as the console derives it. Without that
+        file the key is not the console's: two H2Classic copies without it still see each other, but consoles and
+        xemu won't.
+  Two drafts the join needs now run from the XBE: the connect-request handler 0x785d0 and the message dispatcher
+        0x938e0 (both unproven in the decompilation). In a test here the draft handler stopped the joining copy with a
+        null pointer. These two also apply to the default PC network mode, which would have stopped the same way.
+  Checked here (two copies on this machine, joined by a relay that logs every frame):
+        - the library starts, attaches to the tunnel, asks for an address (DHCP), and then uses the console's
+          no-server address (0.0.0.1), as consoles do on a direct cable;
+        - every frame has valid IP and UDP checksums. System link traffic is the console's own: encrypted broadcasts
+          on UDP 3074;
+        - two copies exchanged test messages through their libraries;
+        - in the game's System Link menu, copy B's Available Games listed copy A's lobby, with A's game type and map
+          (Slayer on Ivory Tower).
+        - Not confirmed: the join itself. Its first try stopped in the draft above. After that fix I couldn't get the
+          second copy onto A's lobby in the menu: with two copies drawing at once it ran at about 3 frames a second here,
+          and my presses kept landing on "Create New Game".
+        - Not checked: a real console or xemu. This machine has neither.
+  Default mode unchanged. Without H2N_XNET=retail the network is s9t's (checked: a run with the network found, its
+        sockets opened, 29 frames a second).
+
+New in s9t (your notes: the game says no network is detected - use the PC's default network adapter; the scene after
+           the credits seen on Easy)
+  The network. The game's network code already used Windows' own sockets; what said "no network" was the console's
+        network library (XNet), which had only stand-ins answering "no cable". It now answers from the adapter Windows
+        uses for its default route (the one it sends internet traffic through), checked every 2 seconds:
+        - the link: up or down, as that adapter is (a faster link is reported as 100 Mbps, the fastest the console
+          knows);
+        - the console's address: that adapter's IPv4 address and MAC, DHCP or fixed, gateway and DNS as Windows has them;
+        - system link's session keys, and the console's "secure" peer addresses, which here are simply the other PC's
+          own address (this build keeps a table of which console address and key go with which IP);
+        - the game's VDP sockets (the console's own kind, for game data and voice) are UDP sockets here, with the
+          packets left exactly as the game writes them.
+        System link opens UDP ports 1000, 1001 (the one it searches for games with, by broadcast), 1005 and 1006. The
+        first time it runs, Windows Firewall will probably ask whether to let H2Classic.exe use the network: allow
+        it on private networks, or other PCs won't find your games.
+        Xbox Live stays off (its sign-in goes nowhere). This plays with another PC running this exe on your network, not
+        with a console or xemu: they talk the console's encrypted wire format, which this does not do.
+        Checked here: the adapter is found, the game starts its network at once, all four system link ports open, and
+        Xbox Live now goes to its sign-in dialog instead of saying there is no network. Not checked: two PCs playing
+        each other - I have only one machine here, and two copies can't share the ports on one PC.
+  H2N_NETWORK=off tells the game there is no network, as before (also in the launcher, under Network).
+  The scene after the credits on Easy: as far as I can find, that is how Halo 2 is made. Its scene after the credits
+        (Cortana and the Gravemind) plays on every difficulty; unlike Halo 1 and 3, Halo 2 has no ending only for
+        Legendary. Nothing changed for it. If what you saw was a different scene, tell me which.
+  Not changed: everything else is s9s's (the game objects too).
+
+New in s9s (your requests: check the new decompilation upload for newly matched functions; the intro and credits
+           movies never play - get them working, with a switch to leave the intro out)
+  The movies. Why they never played: the decompilation has the game's own movie player (it opens the movie, puts each
+        frame on the screen, lets a button end it when the game allows that), but not the movie library the player
+        calls - Bink, by RAD, which is built into the XBE. The source only had empty stand-ins for it that answer "no
+        movie", so the player gave up every time, at once.
+        Now those stand-ins lead to the XBE's own Bink code, the way other functions without source already run: the
+        decoding, the movie's sound and its timing are the console's own code. Around it, each done as the console has
+        it: Bink's data section (BINKDATA) is now loaded from your XBE with the game's other data; the three sound-
+        buffer calls only Bink makes (stop, where is the play cursor, set the frequency) are written from the XBE's own
+        copies of them; and the five Windows calls only Bink makes (thread, event and wait calls) and the C library's
+        malloc now lead to the same functions the rest of the game uses.
+        Checked here: I do not have your bink folder, so I made small Bink movies of my own (a coloured picture with a
+        bar moving across it, and a 375 Hz tone) and put them where the game looks for intro_60.bik and attract_60.bik.
+        The intro plays while the main menu loads, as on the console (on that first start no button ends it - that is
+        the game's own rule); the attract movie starts after 75 seconds idle on the menu and A ends it; the picture changes frame by frame; and in the recorded mix the tone runs for the whole
+        movie without a gap and stops with it. The credits are started by the last level's script when the campaign
+        ends; that I could not reach here.
+  H2N_SKIPINTRO=1 leaves the intro out. The game keeps a flag that says "play the intro"; this switch starts the game
+        with it clear - the state the game itself is in once the intro has played - so it goes straight to the menu.
+        The attract movie (after idling on the menu) and the credits still play.
+  H2N_MOVIES=off: no movie at all (s9r's behaviour), should a movie ever stop a run.
+  The launcher knows both (a new "Movies" group): it clears every switch it does not know, so without that it would
+        have dropped them. The two launcher files are in this zip; they replace the earlier ones.
+  The log now says when a movie starts (its size, frames, frame rate, whether a button can end it), where it is every
+        10 seconds, when it closes, and what the movie's sound does first.
+  The new decompilation upload (halo2-decompiled-main_2.zip): 64 functions newly matched upstream.
+        - 31 of them this build already runs as the XBE's own code: the same code, nothing to change.
+        - 32 this build compiles from the earlier drafts. I compared each draft with the new matched code: they do the
+          same thing (upstream changed how the code is written so that it compiles to the console's exact bytes, not
+          what it does). So nothing you see changes.
+        - One more (0x31bbd0, Havok) has no draft in this build; the XBE's code runs it, as before.
+        - One function (0x41640) went back from matched to unproven upstream with its code unchanged, and one (0xce6b0)
+          moved closer to matching; neither changes anything here.
+        Upstream also changed 66 functions that are still unproven drafts. Those are not taken over: they are not
+        proven either, and at least one would break the picture as written (the frame's draw loop, 0x2234e0, now skips
+        the loop when there is one view). A few functions had their arguments reordered upstream; none of them is
+        reached from the XBE's code in this build, so nothing is called with the wrong order. Rebuilding everything on
+        the new upload is a long job of its own; it is not in this build.
+  Also fixed: when the texture cache trimmed itself it released only half of the textures it dropped (a macro used its
+        argument twice), which leaked graphics memory over a long session.
+  Not changed: everything else is s9r's (the game objects too, apart from the main loop's one line for the switch).
+
+New in s9r (your reports on s9q: aim right and zoom better; the legs still shaking - your video; the A/B tips' line now
+           lighter - your picture; your performance log; the Prophets' whole crowns stuttering in The Heretic's intro)
+  The legs. Found the cause. The legs you see looking down are a copy of your unit's body that the game makes just
+        before it draws your unit. A few of the body's parts (the ones the game only poses while drawing it, the same
+        kind as the eyes and antennas fixed earlier) are, at that moment, still in their resting pose - that is what
+        the console's copy always gets. This build had already posed them for the draw, but only on the frames between
+        two ticks; on the frame of each tick they were in the resting pose. So those parts flicked between two poses
+        many times a second: the shaking. The copy now gets them exactly as the game's own copy does (in their resting
+        pose, moved between the ticks with the rest of the body). Checked here in Metropolis, frame by frame: no part of
+        the legs jumps between frames any more.
+  The line by the A/B tips. Last build's fix overlapped the bar's middle and end pieces by a pixel; the bar is see-
+        through, so that column was drawn twice - your lighter line. Now the pieces meet edge to edge, exactly as Spooky
+        Ghost's code does it (the overlap was my own addition). Checked here in widescreen at H2N_RENDER=4: no line.
+  Speed. What your log says, in plain terms:
+        - At 240 Hz most frames take one refresh (240 fps) or two (120 fps); the run averaged about 145 fps. In
+          Metropolis it holds 240 most of the time and drops to 120 in heavier views; the menus sit between the two.
+        - Almost all of a frame's time is the "draw" part. Showing the picture (Present) takes 0.2 ms and the game's
+          ticks and cameras next to nothing, so the graphics card is not what holds it back: the time is spent on the
+          processor while the frame is being drawn - the game's own drawing code, and this build turning each of the
+          console's drawing commands into Direct3D 9.
+        - Your log could not say which of those two it is. This build now writes a "picture time" line every 5 s
+          that splits the draw: this build's part (by kind: surfaces, shaders, textures, vertices, state, the draw
+          calls themselves, clears) and the game's own.
+        What is made cheaper now: for every single thing the console draws, this build was handing Direct3D 9 every
+        setting again - about 60 calls and 4 KB of shader values each time, several hundred times a frame - whether
+        they had changed or not. It now keeps a copy of what the graphics card already has and sends only what
+        changed. Here that leaves out about 95% of those calls. The same values reach the card, so the picture is
+        the same: a check mode compared every call it left out with the card's own settings over the menus and the
+        whole intro cutscene and found no difference. H2N_GFXCACHE=0 sends everything again, as s9q did, so you
+        can compare the two.
+  The Prophets' crowns: not found yet, and I am not going to guess at a cause this time. What I checked here, in those
+        close-ups, frame by frame: each Prophet's crown is a part of the Prophet's own body (its "headdress"), and
+        every part of all three Prophets is drawn exactly where the in-between frames put it, every frame; nothing
+        moves them afterwards; their animation moves every part on every tick (no steps in it); the thrones they sit
+        on move exactly with them; and no effects or particles are attached to them. In my pictures the crowns move
+        with the heads. What I could not do here is watch it at 240 frames a second - this machine draws that scene
+        at a couple of frames a second.
+        One thing I did find in your earlier F11 capture of that scene (prophetcrownstutter.zip): its second frame is
+        completely black - the game drew no scene into that frame. That may only be because F11 slows the frame
+        down, or it may be real; an F11 here in the same close-up gave two normal frames.
+        For your next look at it there is a recorder: with H2N_INTERP=3 set, pressing F9 during a cutscene writes the
+        next 4 seconds into the log frame by frame (where each Prophet's parts are drawn, how far between ticks each
+        frame is, how long each frame took). See the Testing notes.
+  Not changed: the game objects and the functions running from your XBE are s9q's.
+
+New in s9q (your reports on s9p: the Banshee's and other vehicles' shots off, turrets low and to the right; the legs
+           and the camera jittering when you look down and turn; the melee camera shake still stepping; zooming in
+           often zooming back out at high refresh rates; Spooky Ghost's Increased LODs and Render Distance 300% under
+           H2N_UNLOCK; a one-pixel dark line by the A/B tips in the widescreen main menu; and what can be done for speed)
+  Shots from vehicles and turrets. The function that fires a weapon's barrel (retail 0x104150) is one the decompilation
+        has only as an unproven draft (5,212 bytes), and the build ran that draft. It now runs as the game's own code
+        from your XBE, as about 180 other functions already do. Measured here in the Scorpion (H2N_AIMLOG, below): with
+        the draft the shell left straight along your aim; with the game's code it leaves 0.93 degrees above it, turned
+        toward the point under the reticle (the barrel sits below the line you look along). A barrel that does not turn
+        toward that point shoots low, and to the side it sits on - the Banshee's guns are far below the camera, a
+        turret's a little below and to the right of your eye. You confirmed it on s9p: with H2N_ROUTE=104150 (the same
+        change, switched on by hand) the Banshee shot where it aimed, and H2N_UNLOCK=0 made no difference without it.
+        On foot nothing changes (the shots still follow your aim to within the weapon's spread).
+        H2N_UNROUTE=104150 runs the draft again (for comparing); H2N_AIMLOG=1 writes a line for each shot fired near you.
+  The legs and the camera when you look down and turn (your video). The legs you see are your unit's own body, blended
+        between two ticks, while the view turns every frame: seen from the view, the legs swung by up to a tick's turn
+        and back. As Spooky Ghost does (6h.26, 6i.15, 6i.30), for the first-person drawing only, on foot, the body is
+        now turned about the camera by how far the view has turned past the view the last two ticks were made with
+        (blended as far as the body is), and put back right after. The legs keep the game's own small lag behind the
+        view, steadily, at any frame rate. Only with H2N_UNLOCK and the in-between frames.
+  The melee camera shake (Spooky Ghost v2.0.24). A melee swing or a weapon's kick moves the view by the first-person
+        animation's camera node, which the game copies once a tick: the view stepped 30 times a second. That copy is
+        now blended between ticks with the arms (not across a weapon change or a jump). The view's other effects
+        (shakes, explosions' impulses: 0x16ebf0) are worked out once a tick and blended too.
+  Zooming in at high refresh rates (Spooky Ghost's fix). The game tells a tap of the zoom button from a hold by counting
+        frames: held for more than 15, letting go zooms back out. That is half a second at 30 frames a second but
+        1/16 of a second at 240, so a quick tap counted as a hold. With H2N_UNLOCK the count is now in 30ths of a
+        second since the press, as on the console.
+  Increased LODs and Render Distance 300% (with H2N_UNLOCK, as Spooky Ghost does them). Objects always at their most
+        detailed level (the level 0x4c450 picks raised to the top), the shaders' detail bias at its best in the three
+        places that pick it, and instanced scenery never faded out; the view's distance scale divided by 3, so
+        everything that fades or is left out with distance goes three times as far. H2N_LODS=0 and H2N_DRAWDIST=10 turn
+        them off (H2N_DRAWDIST is in tenths: 20 = 200%).
+  The line by the A/B tips (widescreen main menu). The bottom bar is drawn narrowed in the middle and widened at the
+        ends; the end pieces now overlap the middle by one pixel, so no column between them is left unpainted.
+  Speed: a report of where each frame's time goes, every 5 seconds ("frame time" lines): before the game's update, its
+        ticks, the frame update, the cameras, the draw, the game's own wait, our copy of the picture, Direct3D 9's
+        Present, the wait for the refresh, and how many frames lasted 1, 2, 3, 4 or more refreshes. The in-between
+        frames themselves cost about 0.05 ms a frame here. Your 240 Hz lines will show what is worth making faster.
+  The lines in the lights (your video) and the Prophets' headpieces could not be reproduced here (that cutscene runs at
+        about 2 frames a second on this machine). The Prophets' crowns are ordinary parts of their bodies, blended like
+        the rest; if the frame time lines show uneven frames there, that is the cause. For the lines in the lights, see
+        the Testing notes sent with this build.
+  Not changed: the build is still made from the decompilation as it was before your 17 Nov upload. That upload changed
+        only notes in the files this build uses for aiming and looking (0x185be0, 0x186ab0), and 0x186ab0 already runs
+        as the game's own code.
+
+New in s9p (your request: the audio engine built in another prompt, with this build)
+  Sound. The other prompt's sound engine (its build s9i: h2classic_stage9_kit8 / build8 and HANDOFF_sound_s9i.md) is in
+        this build, unchanged: its new files (apu.c, apu.h, apu_dsp.c, apu_dsp.h) and its xdsound.cpp, retail.c and
+        h2n.h replace this build's; its two small changes to build2.sh (the sound compiled for speed) and timing.c (the
+        "sound:" report every 30 s and at the end) are added to this build's own versions of those files. It changed no
+        game code: its game objects are the same as this build's, byte for byte. Everything from s9o is still here.
+        Checked here (no speakers: the mix recorded with H2N_SOUNDWAV=1 and measured): the main menu, then Metropolis'
+        opening cutscene and play, with H2N_UNLOCK and the in-between frames on at 144 Hz - 256 s recorded, 0 samples
+        clipped, the device never ran dry, no stream starved, levels -21 to -37 dB, as the other build measured.
+        Its switches: H2N_VOLUME, H2N_SOUNDWAV, H2N_SOUNDLOG, H2N_SURROUND, H2N_SOUND=off, H2N_SOUNDFX=0, H2N_HRTF=0 or
+        swap, H2N_WMA=off (see its section below).
+  Your 240 Hz display: unlocked, this build aims at 240 frames a second. H2N_HZ=120 (from PowerShell) now gives an even
+        120 on it - one frame for every two of the display's refreshes, placed just after them - for comparing, or if
+        240 cannot be held steadily (H2N_HZ=80 and 60 work the same way). The menus' own animations run about 4% slow
+        at 240 Hz (the game's menu clock counts whole milliseconds a frame).
+
+The sound engine, as the other prompt's build s9i describes it (its own words; that build was made on s9h)
+  Until this build the console's sound chip was a silent stand-in: the game made its sounds and nothing played them.
+  This build has a software version of the console's audio processor, and the game's own sound code drives it:
+  - The voice processor: every sound the game plays (PCM, the console's ADPCM, streams, the 3D submixes it routes
+    looping sounds through), with its volumes, pitch, filters, envelopes and LFOs, mixed 48,000 times a second into
+    the console's 32 mix bins, as DirectSound for Xbox sets them up (its semantics read from the XBE's own copy of
+    the library, not invented).
+  - 3D sound: the XBE's own 3D code works out each sound's angles, levels and ear filters (the console's light
+    4-channel HRTF), and the voice processor applies them as the chip does.
+  - The game's own effects (the DSP image inside your XBE: reverb, the crosstalk filter for speakers, the filters
+    Halo 2 uses for its own effects) run on an interpreter of the console's DSP chip, from the image itself.
+  - The menu music and other WMA music go through the XBE's own WMA decoder.
+  - Output to your default Windows audio device, stereo (or 5.1 with H2N_SURROUND=1).
+  Checked here (no speakers here, so by recording the mix with H2N_SOUNDWAV=1 and measuring it):
+  - Main menu: the music plays (WMA, the XBE's decoder), steady level, no gaps.
+  - Metropolis with your Fortune profile: its opening cutscene, then play with the battle rifle firing; and Ivory Tower
+    in split screen: ambience, voices, gunfire, reverb. No clipped samples in the 8 1/2 minutes recorded with the
+    final build (menu, cutscene, play), nor in 90 s on Ivory Tower.
+  - A fault found on the way and fixed: on Ivory Tower the 3D ambience came out as a loud, very low rumble that
+    clipped the whole mix. The cause was mine: the console stores each ear filter's 31 taps as small floating-point
+    numbers (sign, 3 bits of exponent, 4 of mantissa, over 2048), and this build had read them as plain numbers -
+    which made every sound to the side almost one-eared at low frequencies, which the game's crosstalk filter then
+    boosts. The left and right ears were also swapped (now as the XBE's own code loads them). With both fixed the
+    same spot measures 13 to 17 dB lower and no longer clips. (Some maps really do have a deep rumble in
+    their ambience - you said so too - it is in the game's sound files and is still there, at its proper level.)
+  - Your keys.bin (the zipped one) works: your Fortune profile loads with every level listed. It stays here only.
+  Not checked: how it sounds on your speakers (I can only measure), 5.1, and whether the CPU keeps up on your PC (it
+  does here with room to spare on a slower machine; the log tells you - see the Testing section).
+  New log lines: "sound: ..." every 30 s and at the end (seconds mixed, voices, the effects' CPU time, how often the
+  audio device ran dry, starved streams, clipped samples). See Switches for the sound ones.
+
+New in s9o (your report on s9n: on foot and split screen smooth; vehicles still jitter; menus at 30; never past 60)
+  Vehicles - the jitter's cause, fixed. A vehicle's camera follows the vehicle's physics body (its centre of mass, which
+        the game reads through 0xb9ef0), and the physics moves once a tick: the mod blends that body's place too (its
+        6i.50). In s9n the check every address went through accepted only the console's memory range, but natively Havok
+        keeps its data in the PC's heap - so the body was never found and never blended, and the camera jumped ahead 30
+        times a second while the vehicle, drawn between ticks, caught up. Now an address is accepted when it is the
+        console's or memory Windows says is readable. Checked here driving Metropolis' tank at 144 Hz: the camera's
+        offset from the drawn tank changes smoothly from frame to frame, whatever the frame's place between two ticks.
+  Past 60 frames a second (H2N_UNLOCK=1). The console's picture refreshes 59.94 times a second, the layer copied that,
+        and an unlocked frame is shown once a refresh - so 60 was the ceiling, with the PC mostly idle. Now, unlocked,
+        the refresh follows your display: its rate as Windows gives it for the window's screen (made exact by the
+        desktop's compositor where the two agree), each refresh placed just after the display's own. The game is
+        given the rate the way Spooky Ghost gives it on the xemu Halo 2 build's "Game refresh rate" (its v2.0.8,
+        v2.0.9, v2.0.27): the game's own figure (60) is never written - it also sets the tick rate when a game starts,
+        which stays 30 - only the one read that turns refreshes into a frame's seconds reads the real rate, and the
+        game's own "hold to 30" becomes the rate / 30 refreshes (5 at 144 Hz). The log says what it found:
+        "refresh: the vertical blank follows ...". H2N_HZ=<rate> sets one yourself (from PowerShell: the launcher
+        clears it). Without H2N_UNLOCK everything is the console's 59.94, as before.
+  Menus at your frame rate. The game itself holds its first two screens (the main menu and "press start") to 30 and
+        runs the others at every refresh; with H2N_UNLOCK all of them run at every refresh now, with the in-between
+        frames there too (the ship and the rest of the menu's scene drawn between ticks). The menu's camera is a fixed
+        camera point, so it is left as it is. One thing that is the game's own: its menu clock adds whole
+        milliseconds each frame (a 6.9 ms frame counts as 6), so at 144 Hz the menus' own animations run about 14%
+        slower than at 30 (4% at 60, 120 or 240 Hz; 1% at 165).
+  Cutscenes at your frame rate, as Spooky Ghost's console build plays them since v2.0.26, with its two fixes for them:
+        - the scripted camera between its ticks (v2.0.31): in its animation and pan modes it moves once a tick, so the
+          camera as each tick's first frame has it is kept and a frame drawn between two ticks gets the camera between
+          the last two (a cut - a new camera command, 4 units or 35 degrees in a tick - is shown at once). The game's own
+          camera record is not written: the view is built from a copy. In a cutscene an object moved by its animation
+          alone (no velocity, nothing carrying it) is taken too once its parts have changed since the last tick.
+        - render-only nodes (v2.0.25): fingers and jaws are animated by the draw, once a tick, not by the tick; put back
+          after each in-between frame they showed the default pose on every later frame - a flicker once a tick (in
+          cutscenes, and others' hands in play). Now they are built again on those frames with the game's own two
+          functions (0x1421f0, 0x142a60), as its draw builds them. Checked here against what the game's draw builds:
+          96.5% bit for bit; the rest are the eyes (the game turns them to look at your camera after building them, on
+          every draw) and a few parts of a character that is speaking (built in a separate buffer) - both still done
+          by the game on every frame.
+  What a moving object carries (v2.0.34 - v2.0.39): its lights, the particle places and emitters of its effects, and
+        its bounding spheres were placed once a tick - the Ghost's glow, the light on the ground and the streaks under
+        it, the Banshee's wingtips sat where the vehicle will be at the next tick, a shake at 30 a second. Now, on a frame
+        drawn between ticks, they are moved and turned with the part they are on, and put back after the draw. Not for
+        the player seen in first person (the arms are built from those), as the mod.
+  Not yet: the view's kick in a melee or recoil (the mod's v2.0.24).
+  H2N_INTERP=0 turns the in-between frames off; =2 writes a line a second (now with the vehicle camera, the cutscene
+        camera, the render-only parts and what was carried); =3 a line every frame you ride something (the camera
+        against the drawn vehicle) and the render-only check.
+
+New in s9n (your report on s9m: menus and countdowns right)
+  In-between frames (first stage) - only with H2N_UNLOCK=1. The game runs its world 30 times a second. Unlocked, the
+        frames come as fast as your PC makes them, but every frame between two ticks used to show the same moment again,
+        so the world still moved at 30 and only turning the view got smoother. Now each of those frames is drawn
+        between the last two ticks, by how far the next tick has come: people, vehicles, anything moving or carried, and
+        your first-person arms and weapon move smoothly at your frame rate. This is Spooky Ghost's in-between frames,
+        with its rules: everything that can move is noted before each tick and set in between for the frame, then put
+        back after the frame is drawn, so the game itself still sees exactly its own 30 ticks. The cameras are built
+        from the in-between state (your unit's place, facing, looking direction and crouch, and the vehicle you ride),
+        so the view and what is drawn agree. A part that turned too far in one tick, an object that jumped (4 units or
+        more), or a weapon you have just switched to, is shown as the tick has it. As any interpolation, the picture is
+        one tick (1/30 s) behind. Not on the menus or in cutscenes (they stay at 30 frames, as before).
+        Also the mod's fix for effects at a high frame rate: a particle effect that was still building up to its first
+        particle was deleted on every frame without a tick, so some effects never showed (the mod's example: the
+        lifts' effects on Midship); now it is kept between ticks as the game would keep it at 30.
+        The mod covers more that is not here yet (its later steps): the view's kick in a melee or recoil, a few parts
+        the game builds while drawing, the cutscene cameras, and the lights and effects objects carry. Tell me what
+        still steps and I'll do those next.
+        H2N_INTERP=0 turns the in-between frames off (to compare); H2N_INTERP=2 writes their numbers to the log once a
+        second.
+
+New in s9m (your report on s9l: dialogs no longer squeeze the background, co-op and split screen work; the lobby's countdown
+        text flicked to the stretched width for a frame or two when it changed or a button was pressed - your video)
+  Menu text   Fixed. My own mistake in s9l: the game only draws a window's text on a frame when its font has the text
+        ready (a test in the text widget's drawing code), and the line I added to narrow that text was put where it
+        made the draw happen even when the game's test said no - without the narrowing. So on the frames where the text
+        was changing (the countdown going down, a button pressed) the game's "not yet" was overridden and the text was
+        drawn once at the stretched width. The game's test is back exactly as it was, with the narrowing inside it.
+        Checked here on the split-screen lobby's countdown with a log of every letter drawn in a menu outside the
+        narrowing: 12 in s9l, none now. I also checked every other line I have added to the game's code for the same
+        mistake: there was no other.
+
+New in s9l (your report on s9k: the background squeezing and shrinking behind a dialog on the main menu - your video and
+        F11 pictures - and in co-op player 1's half of the screen all grey)
+  Behind dialogs   Fixed. When a dialog opens (Sign Out?, Network Problems...) the game copies the screen into a picture
+        and draws it back behind the dialog, a little blurred, every frame. s9k narrowed everything drawn while the menus
+        were drawn, and that copy too: drawn back 3/4 as wide each frame, the menu behind shrank and the background
+        squeezed - your F11 pictures show the copy being drawn into only the middle three quarters of the screen. Now
+        only what Spooky Ghost narrows in the menus is narrowed - their text, their pictures, the emblems and the panels'
+        boxes - and the game's own copies of the screen are drawn as the game draws them. The menus look as in s9k.
+  Grey screen in co-op   Fixed. With two players the game clears each player's half of the screen before drawing it.
+        This build cleared the whole screen instead, so drawing player 2's half wiped out player 1's, leaving the clear
+        colour (your F11 log: the second clear in that frame, colour 0x475b63, which is the grey you saw). The console only
+        clears the part of the screen being drawn (the viewport), and now so does this build. It only showed now because
+        s9k is the first build that lets a second controller join. Checked here with a stand-in second controller (a test
+        switch): two players in split screen, both halves drawn, each with its own HUD.
+
+New in s9k (your report on s9j: the HUD correctly scaled; two-player split screen could not be tried - only your first
+        controller was seen)
+  Widescreen menus   With H2N_WIDE=1 the menus have their 4:3 shape, centred: the main menu, the profile and lobby screens,
+        the settings, the pause menu, and the panels drawn like them - the score panel (Back held in multiplayer, and
+        the game-over screen) and the help box the game shows after you stand still. This is the menus' half of Spooky
+        Ghost's Widescreen Fix (v2.0.15 - v2.0.22, v2.0.37), with the same rules: what the game's windows draw is drawn
+        3/4 as wide about the screen's middle; the bars that run in from the screen's edge (the top bar with the screen's
+        name, the bottom bar with A SELECT / B BACK) are narrowed to their 4:3 shape and still reach the edge; the moving
+        lines are narrowed and repeated out to the edges; a thin line across the whole screen and the pause menu's
+        darkening keep the full width; Master Chief in the profile screens is drawn at his 4:3 shape and place, and the
+        main menu's 3D scene behind the menus gets the widescreen view like every other screen. As in s9j, the letters
+        are narrowed with everything else. H2N_WIDEFIX=0 turns off the HUD and menu fix together.
+  Controllers   Up to four controllers now: the PC's second, third and fourth controllers are the console's ports 2, 3
+        and 4, plugged in and pulled out as you connect them, so split screen can have a player on each. Port 1 is
+        still your first controller and the keyboard.
+  Not in this build yet: the fixes for more than 30 frames a second (next).
+
+New in s9j (your report on s9i: camo no longer crashes, the loading screen shows, the water reaches the screen's edges)
+  Widescreen HUD   With H2N_WIDE=1 the HUD has its proper shape again: the crosshair and the motion tracker are round, and
+        the grenades, ammo counter, shield bar, timer and score are no longer stretched. This is Spooky Ghost's Widescreen
+        Fix for the HUD. In widescreen the game draws its HUD for a 4:3 picture and the picture is shown 4/3 as wide, so
+        every HUD element came out 4/3 too wide. Each element is now drawn 3/4 as wide around its own anchor point (the
+        corner of the screen for the corner pieces, the centre for the crosshair and scopes), so it stays where it was and
+        gets its shape back. The same elements and anchor points as the mod, and the motion tracker around the screen's
+        left edge as the mod does it.
+        One thing is more exact than in the mod: the mod narrows each kind of thing an element draws on its own, and at
+        16:9 it leaves the letters of HUD text at the stretched width. Here the whole element is narrowed at once in the
+        picture code, letters included, so HUD text has its 4:3 shape too, and the tracker's ring, the bar on it and the
+        radar inside it line up without the small nudges the mod needed for them.
+        Like the mod, it only acts in a game while the game itself draws in widescreen. H2N_WIDEFIX=0 turns it off.
+  Not in this build yet: the menus in widescreen (next), and the fixes for more than 30 frames a second.
+
+New in s9i (your report on s9h: camo right. You asked next for the water cut off at the sides, the loading screens,
+        Spooky Ghost's widescreen fixes, and its fixes for more than 30 frames a second under H2N_UNLOCK; sound is
+        being done in your other chat, not here)
+  Crash   Your long session that stopped in The Great Journey the moment you pressed White for camo: cured. The
+        camo (like the loading screen's glow, below) draws into a spare picture the game keeps in the depth buffer's
+        memory, described by a small record the game makes for itself. This build's graphics layer, asked about that
+        record, looked at the 32 bytes just in front of it to see whether the layer had made it - and in your session
+        that memory did not exist, so it crashed (your stop file shows exactly that record, at the start of a fresh
+        block of memory). Whether the memory in front happens to exist changes from run to run, which is why camo
+        worked in your earlier tests. The layer now only looks there when that memory is really there. I hit the
+        same fault here while testing the loading screen, before your report came in.
+  Loading screen   Drawn now: the dark screen with the blue rings, the HALO 2 logo with its ticker lines above and
+        below, and the light bar that crosses from left to right as the level loads, then the fade to black. It had
+        never been drawn in any build: the function that draws it (retail 0x289e0) was only a placeholder in the
+        source that said "nothing to draw", so the main menu's scene showed behind the loading text instead. The
+        decompilation has a draft of it, switched off; I checked it against your XBE's own code piece by piece (every
+        number, every call and its arguments, the order of the passes, how it resets) and it is the same, then
+        switched it on. Seen here: on a level that first has to be copied to the cache, the bar takes about six
+        seconds to cross; on one already copied, about three.
+  Water   The water's sides should no longer show at the edges of the screen in widescreen. This is Spooky Ghost's
+        water fit (v2.0.1 - v2.0.3), moved into the game's own function that sizes the water: the game makes the
+        water's mesh from an estimate of how wide the view is and adds a margin only above a certain width; just
+        below that point the mesh ends inside the picture in widescreen (the stock game does this on the console
+        too). The fit gives the mesh the same margin the game itself uses above that point, worked out from the real
+        width of the view (widescreen and cutscene shapes included). H2N_WATERFIT=0 turns it off, to compare;
+        H2N_WATERFIT=2 also writes the numbers to the log once a second.
+  Not in this build yet: the widescreen HUD and menus, and the fixes for more than 30 frames a second - next.
+
+New in s9h (your report on s9g: zoom, muzzle flashes, flashlight, legs and ranks fine; camo better, but flat yellow
+        patches on the edges of the arms and sword)
+  Camo    The flat yellow patches: cured in this build's translation of the console's vertex programs. For each corner of
+        the camouflaged arm the game works out how strongly to bend what is behind you; on corners that face away from
+        the camera it takes the logarithm of 0 (minus infinity), and 2 to the power of that is 0: no bend. This build
+        turned the console's LOG and EXP into Direct3D 9 instructions that get the whole-number part as "x minus its
+        fraction" - and the fraction of minus infinity is "not a number". Wine follows Direct3D 9's documented
+        log(0) = -3.4e38, a finite number, so it looked right here; your NVIDIA card gives minus infinity, every corner
+        facing away came out "not a number", and the triangles at the edges read the top-left corner of the screen copy
+        (the sky). The logarithm (and the value EXP works on) is now held to +-3.4e38 before the fraction is taken: the
+        same results for every finite value, and no bend on those corners, as on the console. Checked by running the
+        camo's vertex program on the 426 corners of the left arm from a frame here: the console's rules (as xemu has
+        them) give 0 bad corners, this build's old arithmetic with minus infinity 242 - exactly the corners facing away
+        - and the new arithmetic 0.
+  Nothing else changed. LOG and EXP are also used by lighting and fog: Metropolis's start looks the same as in s9g here.
+
+New in s9g (your report on s9f)
+  Zoom    Cured: the right stick click zooms again (2x on the battle rifle, with the scope). Cause: the game decides
+        whether a player's camera is in first person by comparing the camera's update function with the address that
+        function has in the console's code (retail 0x155760 compares with 0x23c110). In this build the source's own
+        functions sit at other addresses, so the answer was never "first person" - in every build so far - and the
+        game refused the zoom. 599 such function addresses written inside the XBE's code (in comparisons and as
+        arguments) are now pointed at this build's functions when it starts, as the game's data tables already were.
+        H2N_CODEPTRS=retail leaves them as they are, for comparing.
+  Muzzle flashes   Back, from the same fix: the game places a weapon's effects at the muzzle of the gun in your hands
+        only when the camera is in first person. Measured here, three bursts of the battle rifle with four screen grabs
+        each: this build 5 of 12 grabs show the flash, s9f 0 of 12, this build with H2N_CODEPTRS=retail 0 of 12.
+  Camo    Cured in this build's picture code. Active camouflage draws what is behind you, bent, from a 320x240 copy of
+        the screen. The console reads that copy by pixel numbers; one of the console's texture lookups (the one camo
+        uses: two dot products as the place to read) did not turn pixel numbers into the 0..1 range Direct3D 9 wants,
+        so every pixel read the copy's corner - the flat white/brown arms and weapon in your F11 pictures. The other
+        lookups already did this. Seen right on The Arbiter here.
+  Flashlight   Cured. Two calls in the source passed the light's place and the light's shape in swapped order
+        (checked against the XBE's own calls, retail 0x404b0 and 0x4a3d2; the two other calls were already right), so
+        the flashlight's light was worked out from the wrong numbers and lit nothing. The source now passes them as the
+        XBE does. Seen here on Metropolis: White lights up the tank in front of you.
+  Ranks   Checked how the rank is chosen (from your XBE since s9f): the map's character tags give, per difficulty, the
+        chance that an Elite becomes a Major, and a Major an Ultra; the game rolls its own random number (the
+        console's generator, inside the XBE's code) and keeps a running balance per squad and for the level, so that
+        the totals stay close to those chances. All of it is the game's own code reading the map's own numbers; the two
+        balances are started by source functions that are proven to match. So the rates are the game's. What can differ
+        from a console is WHICH enemy gets the upgrade: the whole game draws from one random sequence, and a part of the
+        game that is still an unproven draft can draw from it a different number of times. Not verified: a count side
+        by side with a console or xemu run of the same level.
+  The legs: not changed on purpose, but the "first person?" answer above was wrong in every earlier build and the
+        game asks it in many places - please look again (step 4 of the test).
+  Not started: loading screen, sound, the Spooky Ghost ports, the 16 Nov source.
+
+New in s9f (your report on s9e)
+  Ranks   Every enemy at top rank: cured here. The function that makes the actor for a squad member was a draft; it now
+        runs from your XBE. Metropolis on Normal: the three Elites at the start were all Ultras before, now a mix of
+        Minors and Majors that differs from run to run.
+  Textures going black after a few levels: cured in this build's own picture code. Its table of textures had 3,072
+        places and never gave one back; after three levels it was full and every new texture was drawn black. It now
+        lets go of textures that have not been used lately.
+  Outskirts stop   The function it stopped under (AI path finding) had two unproven drafts beneath it; both now run
+        from the XBE. Not replayed here (I do not have that map).
+  35 more unproven functions run from the XBE (181 + 24 by table). H2N_NEWROUTES=off leaves out everything s9f added.
+  NOT cured: zoom (and crouch on the left stick click), muzzle flashes, the legs.
+
+New in s9e (your report on s9d)
+  AI    Marines and enemies that never stood still: cured here. The game keeps tables of functions (what each AI
+        behaviour does, what each kind of object does each tick). 91 of the functions in those tables exist in the
+        source only as unproven drafts; 56 already ran from your XBE, and now 30 more do - every one from which the
+        XBE's code does not reach the console's graphics or network. Measured on Metropolis with the new H2N_WATCH log:
+        before, the two Marines by the start kept walking 0.7 to 2 units every second for as long as the level ran;
+        now they walk to their places and stand (0 of 10 actors moving). 146 + 30 functions run from the XBE.
+  Cairo Station   The function your run stopped in (the view of a light that casts onto the scene; a draft) now runs
+        from the XBE. Not replayed at that spot here.
+  NOT cured in this build: the slow falls, the legs that keep walking, the zoom, every enemy at top rank. None of
+        them is reproduced and understood yet - see "Still wrong" below and step 3 of the test.
+  NOT started: the Spooky Ghost ports (water edge, widescreen HUD and menus, in-between frames), the loading
+        screen, sound.
+  H2N_WATCH=30   one log line per AI actor every 30 ticks: where it is and how far it went since the last line.
+  H2N_TICK=retail   an experiment: the game's whole tick runs from the XBE (3,642 functions) instead of the source's.
+        The game runs, but the weapon in your hands and your own body are not drawn in this mode.
+
+Still wrong (known, not fixed)
+  - Your legs keep walking after you stop (to be looked at again with s9g).
+  - No loading screen, no sound, no videos.
+  - Widescreen: HUD and menus stretched, dark bands at the water's left and right edges.
+  - H2N_UNLOCK: nothing is drawn between two ticks yet.
+
+New in s9d
+  H2N_UNLOCK=1   the first half of the Spooky Ghost mod's Performance Mode, done the mod's way: the game's frame pacing
+        waits two refreshes for each frame while a game is in progress; the byte it tests for that is read from the
+        build instead, so in a game, outside cutscenes, a frame is shown every refresh (60 a second measured here in
+        a level, 30 without the switch). The game's ticks stay 30 a second. The mod's other half is NOT here:
+        nothing is blended between two ticks, so the world still moves 30 times a second and only what the game does
+        per frame (turning the view) is smoother; and the mod's fix for particle systems on frames without a tick is
+        missing, so effects that the mod had to rescue at 60 (Midship's lifts) can go missing. Off by default.
+
+New in s9c (your report on s9b)
+  AI    An actor's movement update - the function that picks the point an AI walks to, notices that it has arrived and
+        chooses its speed - was one of the source's unproven drafts, and it differs from the game's code. It now runs
+        from your XBE. On Metropolis the Marines by the bus, who never stopped running in s9b, stand and move as they
+        should here. Guns and Johnson in the Armory were not replayed here. 75 more unproven drafts run from the XBE
+        too (each has a proven caller, so both sides of the call are known to agree).
+  Water Zanzibar's sea is drawn (reflection, ripples, foam). The water's vertex program writes its fog value in a way
+        this build read wrongly, so the water came out as pure fog colour (black there, brown on Headlong). Headlong
+        and Metropolis use the same path but were not looked at here.
+  Fog   The stripes in the main menu's background are gone: the menu's fog reads the depth buffer as 16-bit numbers
+        (a pixel mode this build drew as 8-bit). The same mode is what other levels' layered fog would use.
+  Wide  H2N_WIDE=1 is the console's "widescreen" dashboard setting: the game itself widens its view and the window
+        becomes 16:9. The HUD and menus are stretched, exactly as on a console set to widescreen.
+  Edges Draw larger than the window and the picture is averaged down: H2N_RENDER=4 with H2N_SCALE=2 gives a
+        1280x960 window in which every pixel is the mean of four (H2N_RENDER=6 and H2N_SCALE=2: of nine).
+  ISO   The exe starts next to an Xbox disc image: if the folder has no default.xbe, the first .iso in it that holds
+        one is used (or name the image as the argument). Both kinds work: an image of the game partition alone, and
+        a dump of the whole disc. The image is only read. Tested here with images I made from the game folder, not
+        with a real dump.
+  F11   The trace now also writes each shader's own program and combiner words, once per run, so a wrong draw can
+        be worked out from your log alone.
+  Not done: sound; the screen while a campaign level loads (what shows is the menu's scene without the menu - I have
+        not yet established what the console draws there); 30 frames a second in a level is the game's own rate
+        (your log shows 60 in the menus and a steady 30 in the level), not a limit of this build.
+
+From s9b: new since stage 8 (the numbers are those of your stage 8 report)
+  1  Skies and clouds are drawn. The console keeps each pixel's distance (w) in its depth buffer and holds the sky to
+     the far end of it; this build now does the same, pixel by pixel, instead of using Direct3D 9's own depth.
+  2  Lens flares are no longer drawn in front of everything. The game asks the graphics chip how many pixels of a
+     light source came through; that question was never answered. It is now.
+  4  Armory: 56 more of the source's unproven functions - the ones the game only ever calls through a table of
+     pointers, the AI's among them - now run from your XBE. Here the sergeant stands at his station when the level
+     starts. I could not play the level further with the test rig, so "he stops where he should" is not seen yet.
+  5  The diagonal flicker on the main menu, and the black top and bottom of menu screens (part of 9): the menu's
+     tint is drawn from the picture into the same picture, which the console allows and Direct3D 9 does not. It is
+     now drawn from a copy. Neither fault ever showed here, so this is fixed by reading, not by seeing it go away.
+  6  Resolution. Two things: text and the HUD were drawn half a pixel off, which blurred them (fixed), and
+     H2N_RENDER=2 (up to 8) now draws the whole picture at that many times 640x480. See Switches.
+  7  Sound: still none. It is the next large piece.
+  8  Burial Mounds, Headlong, Waterworks and Zanzibar load and can be played here (and Metropolis from your profile).
+     The stop was a function for vehicles' collision shapes, one of the 56 above.
+  9  The postgame carnage report shows its rows, and its heading has the console's colours.
+  10 Not seen here (I have no Lockout, Beaver Creek or Midship map), but two faults that fit were found and fixed:
+     the fog pass reads the depth buffer, which it could not; and when the game clears only the alpha of the picture
+     (it does this ahead of a kind of fog), this build cleared the whole picture - to white on Headlong here; where
+     the colour asked for is black that is a black screen.
+  -  The single dark or red pixels scattered over floors and walls in the picture I showed you are gone (counted
+     here: no pixel of the second pass over the level's surfaces misses any more).
+  -  Saved files are signed the way the console signs them - see "Profiles from your Xbox" below.
+
+How to run it
+  Put the game in the folder named Rom, next to H2Classic.exe: default.xbe and the maps folder (the v1.0 game
+  folder's contents), or an Xbox disc image (.iso) of the game. Then start H2Classic Settings.exe and press Start Game,
+  or start H2Classic.exe itself.
+  H2Classic.exe "D:\path\to\Halo2"  names another folder (or a disc image) instead of Rom; a second argument can name
+      the default.xbe itself.
+  A window opens after a second or two. Close the window to stop (or Ctrl+C in the console).
+
+Controls (only while the game's window is the active one)
+  A controller that Windows sees as an Xbox controller works as it is (LB = white, RB = black).
+  Keyboard:   Enter = Start        Backspace or Esc = Back     arrow keys = D-pad
+              Z or Space = A       X = B       C = X       V = Y       1 = white     2 = black
+              W A S D = left stick       I J K L = right stick       Q / E = left / right trigger
+              F / G = click the left / right stick
+  F12 saves a picture of the current frame (h2classic_frame_NNNNN.bmp).
+  F9  (only with H2N_INTERP=3) writes the next 4 seconds of a cutscene into the log, frame by frame.
+  F11 describes the next two frames in the log, draw by draw, and saves every surface the game drew into during
+      them (h2classic_surface_<frame>_<memory>.bmp, a dozen or so files) and the two frames. This is what to press
+      when the picture is wrong: it lets me see which draw went wrong without another round. The game crawls for a
+      few seconds while it does this.
+
+Profiles from your Xbox
+  The game signs each saved file and calls a file "damaged" when the signature does not fit. The console makes that
+  signature with a key held in its kernel (one key, the same in every retail Xbox), mixed with a key in the game's
+  own XBE. This build does the same calculation, but the kernel's key is not in the exe and I will not put it in a
+  file for you: like the XBE, it has to come from you.
+    - The launcher's "Generate Xbox keys.bin file" button makes it from your BIOS image and MCPX boot ROM (s10d).
+    - Put it in  h2classic\keys.bin  (next to H2Classic.exe, in the folder you start it from). Accepted forms: 16 bytes (the key);
+      32 bytes (the keys.bin that Cxbx-Reloaded uses: the EEPROM key, then this key - the second half is used);
+      or the same as 32 or 64 hex digits in a text file.  H2N_CERTKEYFILE=<file> names another file;
+      H2N_CERTKEY=<32 hex digits> gives it without a file.
+    - With the right key your Xbox profiles load here and what this build saves loads on the Xbox. The method is
+      checked here against an independent calculation with made-up keys, not against the real one. Your profile
+      (the one in U.7z) was tried here by signing it again with the stand-in key: it loads, with every level listed.
+    - Without the file the key is all zeros: an Xbox profile shows as damaged (what you saw), and the log's
+      "saved files:" line says so.
+    - To check a key before trusting it:  $env:H2N_SIGCHECK="path\to\a profile file from the Xbox"  - the log then
+      says THE SAME or DIFFERENT for that file's signature. For the profile in your U.7z the signature begins
+      a1375f13 f2a0440d and ends 4755.
+    - Profiles made by stage 8 and earlier were signed with a stand-in and show as damaged now, with or without
+      the key. Make them again, or copy the Xbox ones in.
+
+What it writes, and where (all in the folder you start it from)
+  - h2classic_log.txt
+  - h2classic_stop.bin, only if the run stops on a fault or hangs. Send it along with the log.
+  - h2classic_frame_NNNNN.bmp, only for F12, F11, H2N_SHOT or "shot" in a key file
+  - h2classic_surface_*.bmp, only for F11 or H2N_GFXFRAME
+  - the folder h2classic: the console's hard disk (map cache, settings, profiles). Stage 8's folder is reused.
+    A folder named h2native from an earlier build: rename it to h2classic to keep what is in it.
+  - at every start the game empties h2classic\N, as the console formats that drive (its second map cache) at every start
+  - H2Classic Settings.exe writes h2classic\settings.ini (and h2classic\keys.bin when you press Generate);
+    H2Classic.exe starts H2Classic Settings.exe instead of the game when settings.ini is not there yet
+  - with a disc image only: a small file the game opens through the C library is copied out of the image to
+    h2classic\D first (the game looks for launch.txt this way; the retail disc has none)
+  Nothing else. The game's files in Rom (or the folder you name), and a disc image, are only ever opened for reading;
+  keys.bin and the files named by
+  H2N_KEYFILE, H2N_CERTKEYFILE and H2N_SIGCHECK are only read.
+  To undo everything, delete h2classic, h2classic_log.txt, h2classic_stop.bin and any h2classic_frame_*.bmp and
+  h2classic_surface_*.bmp.
+
+What to expect
+  - The game draws 640x480 unless H2N_RENDER says otherwise; the window is twice that when the screen is big enough.
+  - A level runs at 30 frames a second and the menus at 60: the game's own rates.
+  - A skips cutscenes.
+  - Shadows that the console draws with a depth texture are left out; lighting of objects in dim places is still
+    rough (dark first-person arms).
+  - The last lines of the log count the shaders made and how many Direct3D 9 refused (it should say 0). If your
+    graphics driver refuses the shaders that write depth, the log says so in a line beginning "picture:" and the
+    build falls back to stage 8's depth (no sky). If it has no depth buffer that can be read as a texture, another
+    "picture:" line says so and only the fog is wrong.
+  - No sound, no videos.
+  - See "Still wrong" near the top for what is known and not fixed.
+
+Switches (set before starting; PowerShell: $env:NAME="value")
+  H2N_RENDER=1..8   draw at that many times 640x480 (default 1). 2 = 1280x960, 3 = 1920x1440. The HUD and text are
+                    drawn at the same multiple, so they get sharper, not smaller.
+  H2N_SCALE=1|2|3   size of the window (times 640x480). The same number as H2N_RENDER shows every pixel; a smaller
+                    one averages the larger picture down, which smooths the edges (H2N_RENDER=4, H2N_SCALE=2).
+  H2N_WIDE=1        the console set to widescreen: a wider view in a 16:9 window (HUD and menus stretched, as there)
+  H2N_UNLOCK=1      frames every refresh in a game instead of every second one (see "New in s9d" for what is missing)
+  H2N_GFXDEPTH=0    stage 8's depth instead of the console's (for comparing if something looks worse than stage 8)
+  H2N_WINDOW=0      no window and no drawing (stops by itself after 3 minutes)
+  H2N_SECONDS=n     stop by itself after n seconds
+  H2N_SKIPINTRO=1   leave the intro movie out at start (the attract movie and the credits still play)
+  H2N_MOVIES=off    no movies at all (as s9r)
+  H2N_NETWORK=off   no network, as before s9t (the game is told the cable is out)
+  H2N_SHOT=a,b,c    save those frame numbers as pictures;  H2N_SHOT_EVERY=n  every n-th frame
+  H2N_KEYS=start@12,a@16   press buttons by themselves at those seconds, or name@f300 at that frame
+                    (names: start back up down left right a b x y white black lt rt)
+  H2N_KEYFILE=file  read presses from a text file while the game runs: each line added to it is one press (the
+                    names above, forward backward strafeleft straferight lookup lookdown lookleft lookright,
+                    name*20 to hold it for 20 readings, "shot" to save the frame, "trace" for what F11 does,
+                    lthumb rthumb for the stick clicks, "memory" to write h2classic_stop.bin and carry on).
+  H2N_WATCH=n       every n ticks, a log line per AI actor and one for the player (place, distance gone)
+  H2N_TICK=retail   the game's tick from the XBE's code (experiment; the first-person weapon and body go missing)
+  H2N_TABLES=source the 30 table functions new in s9e as the source's drafts again (s9d's behaviour, for comparing)
+  H2N_NEWROUTES=off the functions s9f moved to the XBE's code as the source's drafts again (s9e's behaviour)
+  H2N_CODEPTRS=retail  the 599 function addresses in the XBE's code left as they are (s9f's behaviour)
+  H2N_CERTKEY, H2N_CERTKEYFILE, H2N_SIGCHECK   see "Profiles from your Xbox"
+  H2N_INTERP=0      with H2N_UNLOCK: no in-between frames (=2 a line a second about them, =3 a line a frame in a vehicle)
+  H2N_HZ=120        with H2N_UNLOCK: this many frames a second instead of the display's refresh rate (a whole part of
+                    it - 120, 80, 60 on 240 Hz - is placed on the display's own refreshes). The launcher clears it.
+  H2N_LODS=0        with H2N_UNLOCK: the game's own detail levels (no Increased LODs)
+  H2N_DRAWDIST=10   with H2N_UNLOCK: the draw distance in tenths of the game's (30 = 300%, the default; 10 = the game's)
+  H2N_CARRY=0       with H2N_UNLOCK: lights, particles and effects that moving objects carry stay where the tick put
+                    them (for comparing)
+  H2N_RENDERONLY=0  with H2N_UNLOCK: the parts only the draw moves (eyes turning to you, some antennas) left to the
+                    game's draw (for comparing)
+  H2N_AIMLOG=1      a log line ("aim:") for each shot fired near you: where it flew, and how far that is from your view,
+                    your aim and the aim of what you ride, in degrees right and up
+  H2N_UNROUTE=104150  a weapon's shots fired by the decompilation's draft again (s9q's fix off, for comparing)
+  H2N_GFXCACHE=0    every Direct3D 9 setting sent for every draw again (s9r's saving off, for comparing)
+  H2N_INTERP=3      with H2N_UNLOCK: F9 in a cutscene writes its next 4 seconds into the log frame by frame
+                    The launcher clears the switches above: set them in PowerShell and start H2Classic.exe directly.
+  Sound (the other prompt's sound engine, s9p):
+  H2N_VOLUME=0.5    the whole mix at that multiple (1 = as the console; 0 to 4)
+  H2N_SOUNDWAV=1    also record the mix to h2classic\h2classic_sound.wav (about 11 MB a minute)
+  H2N_SOUNDLOG=1    the level of each mix bin and speaker every 5 s, and the first 200 3D sounds' angles and levels
+                    (=n for the first n)
+  H2N_SURROUND=1    5.1 output (falls back to stereo if the device refuses 6 channels)
+  H2N_SOUND=off     play nothing (the sound still runs, on a clock)
+  H2N_SOUNDFX=0     the game's effects (reverb, crosstalk) left out: the 3D bins go straight to the speakers
+  H2N_HRTF=0        3D sounds without the ear filters;  H2N_HRTF=swap  left and right ears exchanged (for comparing)
+  H2N_WMA=off       the music's WMA decoder replaced by silence (if the music ever stops a run)
+  H2N_SELFTEST=1    32 checks of the Windows layer instead of the game (start it in an empty folder)
+  H2N_DUMP=all      make the snapshot include all of the game's memory (about 55 MB)
+  H2N_GFXFRAME, H2N_GFXTRACE, H2N_GFXCONST, H2N_GFXDUMP, H2N_GFXTEST, H2N_GFXHALF, H2N_GFXLAZY, H2N_D3DTRACE,
+  H2N_STACK, H2N_BREAK, H2N_POKE, H2N_RETAIL, H2N_ROUTE, H2N_BACK, H2N_UNROUTE, H2N_WATCHLIGHT, H2N_GFXVERTS are for chasing a particular fault: only when asked.
+
+Source
+  h2classic_stage9_kit19.zip holds the full source of the Windows layer as of this build, the scripts, the compiled
+  game objects and the notes for rebuilding (source\REBUILD.txt).
