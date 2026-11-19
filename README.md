@@ -41,14 +41,12 @@ Start `H2Classic Settings.exe`, choose your desired settings, and press Start Ga
   AI, timing and saves are the console's.
 - Widescreen at 16:9, 21:9 and 32:9, with the HUD and menus placed for it; render scale and window modes.
 - Full keyboard + mouse support.
-- **Unlock Performance**: frame rates above 30. The game still runs at its own 30 ticks a second, and the frames in
-  between are drawn at the in-between moment. It includes fixes ported from the Spooky Ghost mod (Increased LODs,
-  Draw Distance, the zoom hold) and an animation fix for the rocket launcher.
+- **Unlock Performance**: frame rates above 30. The game still runs at its own 30 ticks a second, and frames between are iterpolated. Includes fixes ported from the Spooky Ghost mod (Increased LODs, Draw Distance, etc) and other various animation fixes (thanks Harc!).
 - **Support for BOTH v1.0 and v1.5** via a selection in the Settings launcher.
 - Anti-aliasing: SMAA, FXAA, TAA, and DLSS (DLAA) through a small 64-bit helper program.
 - Split screen with up to four controllers, controller vibration, and full keyboard + mouse support with mappable keys.
 - Software sound engine recreated to produce audio 1:1 to Xbox's original.
-- System link with consoles and xemu, using the XBE's own network library (UDP tunnel in Xemu required).
+- System link with consoles and xemu, using the XBE's own network library (UDP tunnel in Xemu required. Network > Attached to > UDP Tunnel. Set Remote <IP>:9369 and Bind <IP>:9368. Enable).
 - EXIT added to the main menu, so the game can be closed from full screen.
 
 Xbox Live/Insignia is not available.
