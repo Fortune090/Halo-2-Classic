@@ -1,0 +1,1179 @@
+diff -ruN a/include/user_interface_lists.h b/include/user_interface_lists.h
+--- a/include/user_interface_lists.h	2026-11-18 22:14:35.796742907 +0000
++++ b/include/user_interface_lists.h	2026-11-18 22:20:00.771388203 +0000
+@@ -509,7 +509,7 @@
+ 
+ 	void handle_item(s_controller_reference **controller, long *item);
+ 
+-	c_class_14750b items[5];
++	c_class_14750b items[6];                 /* (H2Classic s10j: six, the sixth EXIT; retail five) */
+ 	c_list_item_handler handler;
+ };
+ 
+diff -ruN a/src/animation_cache.cpp b/src/animation_cache.cpp
+--- a/src/animation_cache.cpp	2026-11-18 22:14:35.797597582 +0000
++++ b/src/animation_cache.cpp	2026-11-18 22:20:00.771559251 +0000
+@@ -189,6 +189,8 @@
+ 	}
+ }
+ 
++extern "C" void __cdecl h2n_animation_resource(long resource, long size, void *data);   /* (H2Classic s10j: the layer, interp.c) */
++
+ /* the resource's data, loading it now (and waiting for it) if it is not
+    loaded */
+ // @retail 0x1237e0
+@@ -221,7 +223,12 @@
+ 	}
+ 	((s_physical_block *)g_4e3b54->blocks->data)[resource->block_index & 0xffff].time = g_4e3b54->time;
+ 	block = &((s_physical_block *)g_4e3b54->blocks->data)[resource->block_index & 0xffff];
+-	return (void *)(g_animation_cache_memory + (block->offset << g_4e3b54->page_shift));
++	{
++		void *data = (void *)(g_animation_cache_memory + (block->offset << g_4e3b54->page_shift));
++
++		h2n_animation_resource((long)resource, resource->size, data);   /* (H2Classic s10j: the rocket launcher's animation fix) */
++		return data;
++	}
+ }
+ 
+ /* creates the load and request arrays and the physical memory, once */
+diff -ruN a/src/game_loop.cpp b/src/game_loop.cpp
+--- a/src/game_loop.cpp	2026-11-18 22:14:35.800742908 +0000
++++ b/src/game_loop.cpp	2026-11-18 22:20:00.771697684 +0000
+@@ -71,6 +71,7 @@
+ 
+ /* runs up to tick_count ticks; when an event stops them early, takes the
+    ticks not run off the elapsed seconds */
++extern "C" void __cdecl h2n_ip_tick_before(void);     /* h2native: H2N_UNLOCK's in-between frames (layer2/interp.c) */
+ // @retail 0x137f70
+ void game_loop_run_ticks(long tick_count, real *elapsed_seconds)
+ {
+@@ -79,6 +80,7 @@
+ 	{
+ 		if (function_12be90())
+ 			break;
++		h2n_ip_tick_before();      /* h2native: the in-between frames keep what can move (layer2/interp.c) */
+ 		game_loop_tick();
+ 		ticks_run++;
+ 	}
+diff -ruN a/src/main_menu.cpp b/src/main_menu.cpp
+--- a/src/main_menu.cpp	2026-11-18 22:14:35.800742908 +0000
++++ b/src/main_menu.cpp	2026-11-18 22:20:00.771794257 +0000
+@@ -119,7 +119,7 @@
+ 	c_class_1474e8(user_flags),
+ 	handler(this, (list_item_method)&c_main_menu_list::handle_item)
+ {
+-	data = user_interface_data_new("main menu list", 5, 4);
++	data = user_interface_data_new("main menu list", 6, 4);   /* (H2Classic s10j: a sixth, EXIT - closes the program) */
+ 	function_16b790(data);
+ 	for (long i = 0; i < data->maximum_count; i++)
+ 	{
+@@ -216,6 +216,14 @@
+ 		case 4:
+ 			string_handle = 0x8000286;
+ 			break;
++		case 5:                              /* (H2Classic s10j) EXIT: the screen's strings have none, so the text itself */
++		{
++			static word exit_text[] = { 'E', 'X', 'I', 'T', 0 };
++			c_class_22cc8e *buffer = text->function_22f52e();
++			if (buffer)
++				buffer->set_text(exit_text);
++			return;
++		}
+ 		default:
+ 			string_handle = NONE;
+ 			break;
+@@ -380,6 +388,8 @@
+ 	parameters.load(&parameters);
+ }
+ 
++extern "C" void __cdecl h2n_menu_exit(void);   /* (H2Classic s10j: the layer, gfx9.c) */
++
+ /* runs the chosen main menu item and remembers it */
+ // @retail 0x230827
+ void c_main_menu_list::handle_item(s_controller_reference **controller, long *item)
+@@ -405,6 +415,9 @@
+ 	case 4:
+ 		main_menu_list_choose_settings(controller);
+ 		break;
++	case 5:                                  /* (H2Classic s10j) EXIT: the program closes as when its window is closed */
++		h2n_menu_exit();
++		break;
+ 	}
+ }
+ 
+@@ -441,7 +454,7 @@
+ 		function_148823();
+ 		function_18f1c0(0);
+ 	}
+-	if (g_main_menu_last_item >= 0 && g_main_menu_last_item < 5)
++	if (g_main_menu_last_item >= 0 && g_main_menu_last_item < 6)   /* (H2Classic s10j: six items) */
+ 		list.select_item((short)g_main_menu_last_item);
+ 	g_main_menu_campaign_chosen = false;
+ }
+diff -ruN a/src/stubs/lane_k.cpp b/src/stubs/lane_k.cpp
+--- a/src/stubs/lane_k.cpp	2026-11-18 22:14:35.807786343 +0000
++++ b/src/stubs/lane_k.cpp	2026-11-18 22:20:00.771878590 +0000
+@@ -4,5 +4,4 @@
+ #include "unknown_0259d0.h"
+ 
+ struct s_223240;
+-// @stub 0x2b5d0
+-void function_2b5d0(long arg_0, long arg_1, long arg_2, long arg_3, s_223240 const *arg_4) { }
++// @stub 0x2b5d0 // h2native: on in the native build: the draft in unknown_023540.cpp
+diff -ruN a/src/stubs/lane_w.cpp b/src/stubs/lane_w.cpp
+--- a/src/stubs/lane_w.cpp	2026-11-18 22:14:35.807786343 +0000
++++ b/src/stubs/lane_w.cpp	2026-11-18 22:20:00.771944930 +0000
+@@ -33,8 +33,7 @@
+ struct transform4x3f;
+ 
+ 
+-// @stub 0x14b60
+-void __stdcall function_14b60(dword, dword, real, byte) {}
++// @stub 0x14b60 // h2native: on in the native build: the draft in unknown_01cf50.cpp
+ 
+ 
+ struct s_view_camera;
+@@ -42,12 +41,9 @@
+ 
+ 
+ 
+-// @stub 0x3bd00
+-bool __stdcall function_3bd00(real, dword) { return true; }
++// @stub 0x3bd00 // h2native: on in the native build: the draft in unknown_03bcb0.cpp
+ 
+ struct s_depth_parameters_13450;
+-// @stub 0x13450
+-bool function_13450(s_depth_parameters_13450 const *parameters) { return false; }
++// @stub 0x13450 // h2native: on in the native build: the draft in unknown_013450.cpp
+ 
+-// @stub 0x289e0
+-bool function_289e0() { return false; }
++// @stub 0x289e0 // h2native: on in the native build: the draft in unknown_0350e0.cpp
+diff -ruN a/src/unknown_013450.cpp b/src/unknown_013450.cpp
+--- a/src/unknown_013450.cpp	2026-11-18 22:14:35.808742908 +0000
++++ b/src/unknown_013450.cpp	2026-11-18 22:20:00.772004737 +0000
+@@ -28,7 +28,7 @@
+ void function_14bc0(short index, short element, bool use_depth);
+ void function_14ac0(void);
+ 
+-#if 0 // Draft (also defines g_4b893c, which nothing else defines yet), 477 bytes (retail 474). Writing it costs matched 0x14ac0 (LTCG stack
++#if 1 // h2native: on in the native build (0x13450) // Draft (also defines g_4b893c, which nothing else defines yet), 477 bytes (retail 474). Writing it costs matched 0x14ac0 (LTCG stack
+ // alignment: this body gets a 'push ecx' pad and 0x14ac0's frame grows 0x30 -> 0x34).
+ real g_4b893c;
+ 
+diff -ruN a/src/unknown_01cf50.cpp b/src/unknown_01cf50.cpp
+--- a/src/unknown_01cf50.cpp	2026-11-18 22:14:35.808742908 +0000
++++ b/src/unknown_01cf50.cpp	2026-11-19 17:36:28.064019569 +0000
+@@ -762,9 +762,17 @@
+ 	}
+ }
+ 
++extern "C" int __cdecl h2n_ui_fill(short left);   /* h2native: the Widescreen Fix (layer2/xd3d.cpp) */
++extern "C" void __cdecl h2n_ui_scope(int on);
++extern "C" void __cdecl h2n_ui_glyph(int on);
++extern "C" void __cdecl h2n_ui_pause(int on);
++extern "C" void __cdecl h2n_menu_pic_begin(float *v);
++extern "C" int __cdecl h2n_menu_pic_next(float *v);
++extern "C" void __cdecl h2n_menu_pic_end(float *v);
+ // @retail 0x36880
+ void function_36880(s_short_rectangle const *rectangle, color4f const *color)
+ {
++	int h2n_narrow = h2n_ui_fill(rectangle->left);   /* h2native: a panel's, not from the left edge (the HUD's fade): narrowed */
+ 	// Retail callers keep the rectangle argument on the stack.
+ 	s_short_rectangle const *const *rectangle_reference = &rectangle;
+ 	function_1cf50();
+@@ -779,6 +787,7 @@
+ 		D3DDevice_SetVertexData2f(0, (real)x, (real)y);
+ 	}
+ 	D3DDevice::End();
++	if (h2n_narrow) h2n_ui_scope(0);
+ }
+ 
+ // @retail 0x14980
+@@ -2056,7 +2065,7 @@
+ 
+ long g_4858b8;
+ 
+-#if 0
++#if 1 // h2native: on in the native build (0x14b60, clear)
+ // Retail 0x14b60. The additional clear call changes matched 0x14ac0's stack frame.
+ // Modeled on r789 (marker corrected to @retail so it is checked): the reduced-image
+ // form is retail's 91 bytes with the flags expression written twice and no local, but
+@@ -3203,7 +3212,11 @@
+     vertices[0].y = vertices[1].y = y;
+     vertices[2].v = vertices[3].v = (real)(v + height);
+     if (!callback || callback(vertices, context))
++    {
++        h2n_ui_glyph(1);         /* h2native: the Widescreen Fix narrows the menus' and panels' letters (layer2/xd3d.cpp) */
+         function_363a0(vertices);
++        h2n_ui_glyph(0);
++    }
+ }
+ 
+ void __stdcall function_423c0(void *payload);
+@@ -7981,6 +7994,14 @@
+ // MiniMax D (11-16), NOT kept: the four bounds as (real)(double)(screen[0] - 32.0f) etc. scored 558 (main 576),
+ // but a float taken to double and straight back changes no value and only steers code generation; the source form
+ // that computes them in double, a double constant ((real)(screen[0] - 32.0)), measures 586. Body back to main.
++// H2Classic (s10w): the sun's glow in the game's widescreen. This function draws the glow in screen pixels: a square of 64
++// (32 each way from the sun's point) is marked, copied and filtered, then drawn sixteen times, each 5 pixels larger each
++// way - the same number of pixels across as up and down. The widescreen picture is the 640x480 one shown wider, so the
++// glow came out as much wider as the picture is: 4/3 at 16:9 (on a console too), 16/9 at 21:9, 8/3 at 32:9. Every
++// measure across is now taken times h2n_sun_glow_k() (xd3d.cpp: 1 / that factor with the Widescreen Fix on and the
++// game's widescreen setting on; otherwise exactly 1, and the numbers are the game's): the marked and copied square and
++// the sixteen drawn ones are then as wide on the screen as they are tall, about the same point.
++extern "C" float __cdecl h2n_sun_glow_k(void);
+ // @retail 0x46ea0
+ void function_46ea0(long tag, point3f const *position)
+ {
+@@ -8005,9 +8026,10 @@
+     screen[0] = (real)floor(screen[0] + 0.5f);
+     real center_y = (real)floor(screen[1] + 0.5f);
+     real bounds[4];
+-    bounds[0] = screen[0] - 32.0f;
++    real across = h2n_sun_glow_k();                 // H2Classic (s10w): 1, or 1 / the widescreen factor
++    bounds[0] = screen[0] - 32.0f * across;
+     bounds[2] = center_y - 32.0f;
+-    bounds[1] = screen[0] + 32.0f;
++    bounds[1] = screen[0] + 32.0f * across;
+     bounds[3] = center_y + 32.0f;
+     if (!((real)(short)g_48564e > bounds[0] && (real)(short)g_48564c > bounds[2] &&
+         bounds[1] > (real)(short)g_48564a && bounds[3] > (real)(short)g_485648)) return;
+@@ -8122,13 +8144,13 @@
+         ++i;
+         D3DDevice_SetVertexData4f(9, 0.0f, 0.0f, 0.0f, strength / i);
+         D3DDevice_SetVertexData2s(3, 0, 0);
+-        D3DDevice_SetVertexData4f(0, bounds[0] - offset, bounds[2] - offset, 16777215.0f, 16777215.0f);
++        D3DDevice_SetVertexData4f(0, bounds[0] - offset * across, bounds[2] - offset, 16777215.0f, 16777215.0f);
+         D3DDevice_SetVertexData2s(3, 1, 0);
+-        D3DDevice_SetVertexData4f(0, bounds[1] + offset, bounds[2] - offset, 16777215.0f, 16777215.0f);
++        D3DDevice_SetVertexData4f(0, bounds[1] + offset * across, bounds[2] - offset, 16777215.0f, 16777215.0f);
+         D3DDevice_SetVertexData2s(3, 1, 1);
+-        D3DDevice_SetVertexData4f(0, bounds[1] + offset, bounds[3] + offset, 16777215.0f, 16777215.0f);
++        D3DDevice_SetVertexData4f(0, bounds[1] + offset * across, bounds[3] + offset, 16777215.0f, 16777215.0f);
+         D3DDevice_SetVertexData2s(3, 0, 1);
+-        D3DDevice_SetVertexData4f(0, bounds[0] - offset, bounds[3] + offset, 16777215.0f, 16777215.0f);
++        D3DDevice_SetVertexData4f(0, bounds[0] - offset * across, bounds[3] + offset, 16777215.0f, 16777215.0f);
+         D3DDevice::End();
+     } while (i < 16);
+ }
+@@ -9495,7 +9517,12 @@
+     function_1ccb0(36);
+     function_1c710(g_51f0f0);
+     function_1cf50();
+-    function_4b220(20, 0, 3, 4, (t_4b220_fill)function_52020, (void *)vertices);
++    /* h2native: the Widescreen Fix for the menus (layer2/xd3d.cpp): a picture from the left edge drawn as a bar with its
++       edges drawn out, or left whole; a moving line's piece repeated out to the edges (the mod's menu_pic_hook) */
++    h2n_menu_pic_begin((float *)vertices);
++    do function_4b220(20, 0, 3, 4, (t_4b220_fill)function_52020, (void *)vertices);
++    while (h2n_menu_pic_next((float *)vertices));
++    h2n_menu_pic_end((float *)vertices);
+     D3DDevice_SetTextureStageState(0, D3DTSS_ALPHAKILL, 0);
+ }
+ 
+diff -ruN a/src/unknown_023540.cpp b/src/unknown_023540.cpp
+--- a/src/unknown_023540.cpp	2026-11-18 22:14:35.808742908 +0000
++++ b/src/unknown_023540.cpp	2026-11-18 22:20:00.773750939 +0000
+@@ -215,7 +215,7 @@
+ struct s_matrix_workspace { long size; byte data[0x27000]; };
+ extern s_matrix_workspace g_487b18;
+ 
+-#if 0 // Activation must preserve all matched callers and callees.
++#if 1 // h2native: on in the native build (0x2b5d0, the frame renderer)
+ struct s_223240;
+ struct s_frame_parameters_12a50
+ {
+@@ -4582,6 +4582,8 @@
+ void function_15680(short mode);
+ void function_1beb0();
+ void function_3d2c0();
++extern "C" void __cdecl h2n_fp_before(void);   /* h2native: layer2/interp.c */
++extern "C" void __cdecl h2n_fp_after(void);
+ void function_3ea60();
+ void function_c15a0();
+ void function_156040();
+@@ -4591,6 +4593,7 @@
+ void function_40890();
+ void function_1917eb();
+ class c_render_window;
++extern "C" void __cdecl h2n_ui_window(int on);     /* h2native: the Widescreen Fix for the menus (layer2/xd3d.cpp) */
+ void function_147af1(long first, long second, c_render_window *window);
+ struct s_2f800_view;
+ void function_2fd90(s_2f800_view const *view, box2f const *clip, byte *out);
+@@ -4619,7 +4622,9 @@
+     *(byte *)&g_4ba010 = 0; /* address-taken in retail: see above */
+     memcpy(&g_4b9da0, view, 0x74);
+     function_2fd90((s_2f800_view const *)&g_4b9da0, (box2f const *)sky_color, (byte *)&g_4b9e14);
++    h2n_fp_before();   /* h2native: the first-person legs turned to the view between ticks (layer2/interp.c) */
+     function_3d2c0();
++    h2n_fp_after();
+     function_3ea60();
+     function_c15a0();
+     s_frame_view_2c560 frame;
+@@ -4659,6 +4664,8 @@
+     function_15680(0);
+     if (g_4b9ed8 != NONE) function_1917eb();
+     function_40890();
++    h2n_ui_window(1);    /* h2native: the windows - the Widescreen Fix narrows them (layer2/xd3d.cpp) */
+     function_147af1(NONE, object_index, (c_render_window *)(camera + 0x30));
++    h2n_ui_window(0);    /* h2native */
+     function_13c20();
+ }
+diff -ruN a/src/unknown_02b400.cpp b/src/unknown_02b400.cpp
+--- a/src/unknown_02b400.cpp	2026-11-18 22:14:35.812742908 +0000
++++ b/src/unknown_02b400.cpp	2026-11-18 22:20:00.774097557 +0000
+@@ -171,6 +171,8 @@
+ 
+ byte function_016a90();
+ 
++extern "C" int __cdecl h2n_menu_wide(void);   /* h2native: the Widescreen Fix (layer2/xd3d.cpp) */
++extern "C" float __cdecl h2n_ws_factor(void);  /* h2native s9y: 4/3, or 16/9 at 21:9 (layer2/xapi.c) */
+ // @retail 0x2fb70
+ void function_2fb70(s_2f800_view const *view, box2f const *clip, s_projection_scalars *out)
+ {
+@@ -195,11 +197,18 @@
+     output.offset_y = offset_y;
+     real tangent = (real)tan((double)(view->angle * 0.5f));
+     real aspect = output.width / output.height;
+-    if (function_016a90())
++    /* h2native: the Widescreen Fix (the mod's mm_proj, v2.0.19 / v2.0.22): on the main menu, with the widescreen setting,
++       the projection is made widescreen like any other screen's, without the cinematic globals (retail 0x2fc70) */
++    bool h2n_menu = !function_016a90() && h2n_menu_wide();
++    /* h2native s9y: retail loads the widescreen factor once (movss xmm5, [4/3] at 0x2fc88) and uses it for both; 16/9 at 21:9
++       (Spooky Ghost v2.0.4, the xemu Halo 2 build) */
++    real h2n_factor = h2n_ws_factor();
++    if (h2n_menu) aspect *= h2n_factor;
++    else if (function_016a90())
+     {
+-        aspect *= 4.0f / 3.0f;
++        aspect *= h2n_factor;
+         if (g_510c50 && ((byte *)g_510c50)[5])
+-            tangent = 0.5625f * (tangent * (4.0f / 3.0f));
++            tangent = 0.5625f * (tangent * h2n_factor);
+     }
+     else if (g_510c50 && ((byte *)g_510c50)[5])
+     {
+diff -ruN a/src/unknown_02c560.cpp b/src/unknown_02c560.cpp
+--- a/src/unknown_02c560.cpp	2026-11-18 22:14:35.812742908 +0000
++++ b/src/unknown_02c560.cpp	2026-11-18 22:20:00.774205231 +0000
+@@ -53,12 +53,15 @@
+ void function_13cd0(void);
+ void function_13c780(void);
+ void function_13e635(void);
++extern "C" void __cdecl h2n_ui_window(int on);     /* h2native: the Widescreen Fix for the menus (layer2/xd3d.cpp) */
+ void function_147af1(long index, long fallback_index, c_render_window *window);
+ void function_156040(void);
+ long map_location_get(char const *map_name);
+ real cache_copy_progress_for_map(char const *map_name);
+ void function_11bed0(s_location *location, point3f const *point);
+ void function_3d2c0(void);
++extern "C" void __cdecl h2n_fp_before(void);   /* h2native: layer2/interp.c */
++extern "C" void __cdecl h2n_fp_after(void);
+ void function_3ea60(void);
+ void function_c15a0(void);
+ void __stdcall function_2bcd0(long first, bool second, bool enabled, bool fourth,
+@@ -124,7 +127,9 @@
+     long volatile unused_view_mode = *(long const *)source;
+     function_13c780();
+     function_13e635();
++    h2n_ui_window(1);    /* h2native: the windows - the Widescreen Fix narrows them (layer2/xd3d.cpp) */
+     function_147af1(4, NONE, (c_render_window *)&g_4b9dd0);
++    h2n_ui_window(0);    /* h2native */
+     function_13c20();
+ }
+ 
+@@ -185,7 +190,9 @@
+     function_132d0(&g_4850d0[saved_index]);
+     if (g_4e9194) function_156040();
+     *(long *)g_54d598.unknown00 = NONE;
++    h2n_ui_window(1);    /* h2native: the windows - the Widescreen Fix narrows them (layer2/xd3d.cpp) */
+     function_147af1(4, NONE, (c_render_window *)(source + 0xb0));
++    h2n_ui_window(0);    /* h2native */
+     if (g_4e9bb8)
+     {
+         long location = map_location_get(g_4e9bb8);
+@@ -237,7 +244,7 @@
+     g_4ba010 = true;
+     memcpy(&g_camera_storage, frame.view, sizeof(g_camera_storage));
+     function_2fd90((s_2f800_view const *)&g_camera_storage, (box2f const *)clip, (byte *)&g_projection_storage);
+-    function_3d2c0(); function_3ea60(); function_c15a0();
++    h2n_fp_before(); function_3d2c0(); h2n_fp_after(); function_3ea60(); function_c15a0();   /* h2native: layer2/interp.c */
+     long saved_index = ++g_46701c;
+     g_4850d0[saved_index] = frame;
+     function_132d0(&g_4850d0[saved_index]);
+diff -ruN a/src/unknown_0350e0.cpp b/src/unknown_0350e0.cpp
+--- a/src/unknown_0350e0.cpp	2026-11-18 22:14:35.812742908 +0000
++++ b/src/unknown_0350e0.cpp	2026-11-18 22:20:00.774496230 +0000
+@@ -5364,7 +5364,8 @@
+         g_485a30 = g_485a34 = g_485a38 = g_485a3c = 1.0f;
+         g_485a40 = 0.0f;
+     }
+-    function_0497a0(source, (s_view_result *)g_48597c, camera, flags, &g_485944, &g_485950, g_48595c,
++    /* h2native: retail (0x4a3ab-0x4a3d2) hands 0x497a0 the shape in ECX and pushes the light's frame; the draft had the two the other way round */
++    function_0497a0((s_view_source *)camera, (s_view_result *)g_48597c, (s_view_camera *)source, flags, &g_485944, &g_485950, g_48595c,
+         &g_485a2c, (vector4f *)g_485a0c, (vector4f *)(g_485a0c + 4));
+     s_bounds3d bounds;
+     if (resource)
+@@ -6729,7 +6730,7 @@
+ 
+ void function_14ac0();
+ 
+-#if 0
++#if 1 // h2native: on in the native build (0x289e0); checked against retail's code block by block (16 Nov 2026)
+ // Retail 0x289e0
+ bool function_289e0()
+ {
+@@ -6778,7 +6779,7 @@
+         fade = fade < 0.0f ? 0.0f : fade > 1.0f ? 1.0f : fade;
+         real rectangle[4] = {0.0f, 640.0f, 0.0f, 480.0f};
+         real sliding[4] = {(1.0f - progress) * 640.0f, (1.0f - progress) * 640.0f + 640.0f, 0.0f, 480.0f};
+-        *(real *)(g_4b99b0 + 0x2c) = (real)pow((double)progress, 3.0) - 0.25f;
++        *(real *)(g_4b99b0 + 0x2c) = (real)(pow((double)progress, 3.0) - 0.25f); // h2native: retail subtracts on the x87 stack (fsub) before its fstp
+         real center = progress * 2.0f - 1.0f;
+         center = 1.0f - center * center;
+         *(real *)(g_4b99b0 + 0x30) = 1.0f - center * center * 0.6600000262260437f;
+diff -ruN a/src/unknown_03bcb0.cpp b/src/unknown_03bcb0.cpp
+--- a/src/unknown_03bcb0.cpp	2026-11-18 22:14:35.812742908 +0000
++++ b/src/unknown_03bcb0.cpp	2026-11-18 22:20:00.775052180 +0000
+@@ -638,6 +638,7 @@
+ extern bool g_4ba019;
+ extern real g_485b28[7];
+ 
++extern "C" int __cdecl h2n_lods(void);   /* h2native: layer2/interp.c */
+ // @retail 0x1bf50
+ bool function_1bf50(long level, long tag, real distance, long *out)
+ {
+@@ -811,7 +812,7 @@
+ {
+     byte *definition = g_4e3b44[tag & 0xffff].bytes;
+     long pass;
+-    function_1bf50(*(word *)(definition + 0x3c), tag, distance, &pass);
++    function_1bf50(h2n_lods() ? 5 : *(word *)(definition + 0x3c), tag, distance, &pass);   /* h2native: H2N_UNLOCK - Increased LODs (shaders) */
+     byte *groups = record_format_groups(tag);
+     dword flags = *(dword *)(*(byte **)(groups + 4) + pass * 10 + 2);
+     if (flags & 0x10006e)
+@@ -1064,6 +1065,76 @@
+ // frame is 0x4c, ours 0x60.
+ // Tried: store order z,x,y,scale (291 -> 291), volatile tangent (-6), volatile tangent+view_tangent (-6), writing only
+ // g_4c1b08[3].y and keeping the other corners in locals (same code).
++/* h2native: Spooky Ghost's water fit (v2.0.1 - v2.0.3, the sides; ported from its water_fit). The game makes its big
++   water's mesh as wide as the view only once the view's estimated reach passes the mesh's own (width_scale > 1, then
++   x 1.13); just under that the mesh has no margin and its edges show in widescreen at the game's own angle (the stock
++   game does it too). The mod gives the mesh, at every angle, the width the game itself gives above its step -
++   1.13 x 1.5 / (4/3) = 1.27125 x the view's real reach / the mesh's - whenever that is more than the game's own, and
++   moves the four corners of the water's visibility quad out with it. The real reach is worked out as the projection
++   (function_2fb70) does: tan(angle / 2) x rectangle, x the widescreen factor (4/3 at 16:9, 16/9 at 21:9, 8/3 at
++   32:9), the cinematic flag's 0.5625 x that factor.
++   H2N_WATERFIT=0 leaves the game's own width; H2N_WATERFIT=2 also logs the numbers once a second. */
++struct s_unknown_13bf00;
++extern s_unknown_13bf00 *g_510c50;
++byte function_016a90();
++extern "C" int __cdecl h2n_env_int(const char *name, int otherwise);
++extern "C" void __cdecl h2n_log(const char *format, ...);
++extern "C" double __cdecl h2n_seconds(void);
++extern "C" int __cdecl h2n_menu_wide(void);
++extern "C" float __cdecl h2n_ws_factor(void);  /* h2native s10f: 4/3, 16/9 at 21:9, 8/3 at 32:9 - the projection's (unknown_02b400.cpp) */
++static void h2n_water_fit(byte const *state)
++{
++	static int mode = -1;
++	static double logged;
++	if (mode < 0) mode = h2n_env_int("H2N_WATERFIT", 1);
++	if (!mode) return;
++	real fov = *(real const *)(state + 0x7c), ratio = *(real const *)(state + 0x80);
++	if (!(fov > 0.01f && fov < 3.1f) || !(ratio > 0.01f && ratio < 100.0f)) return;
++	long w = (short)g_48564e - (short)g_48564a, h = (short)g_48564c - (short)g_485648;
++	if (w <= 0 || h <= 0) return;
++	real view = g_485640;
++	if (!(view > 0.01f && view < 3.1f)) return;
++	real tv = (real)tan(view * 0.5f);
++	real aspect = (real)w / (real)h;
++	bool wide = function_016a90() != 0;
++	bool menu = !wide && h2n_menu_wide();   /* the main menu with the Widescreen Fix: as the projection, no cinematic globals */
++	if (menu) wide = true;
++	if (wide)
++	{
++		/* h2native s10f: the same factor the projection (function_2fb70) uses - it was 4/3 here at every widescreen
++		   aspect, so at 32:9 (8/3) the reach came out 1/2 of the real one and the water's right and left edges showed */
++		real factor = h2n_ws_factor();
++		aspect *= factor;
++		if (!menu && g_510c50 && ((byte *)g_510c50)[5]) tv = 0.5625f * (tv * factor);
++	}
++	real th = tv * aspect;                                  /* the view's real horizontal reach */
++	real tangent = (real)tan(fov * 0.5f) * ratio;           /* the mesh's own */
++	if (!(tangent > 0.001f) || !(th > 0.001f && th < 20.0f)) return;
++	real c0 = 0.0f, c1 = 0.0f;
++	for (long i = 0; i < 3; i++) { c0 += g_4c1b38[i][0] * g_4c1b38[i][0]; c1 += g_4c1b38[i][1] * g_4c1b38[i][1]; }
++	c0 = (real)sqrt(c0); c1 = (real)sqrt(c1);               /* the distance, the game's width */
++	if (!(c0 > 0.0f) || !(c1 > 0.0f)) return;
++	real want = th / tangent * 1.27125f * c0;
++	real k = want > c1 * 1.001f ? want / c1 : 1.0f;
++	if (mode == 2 && h2n_seconds() - logged > 1.0)
++	{
++		logged = h2n_seconds();
++		h2n_log("       water: %s, view %.4f rad, reach %.4f, mesh %.4f (%.4f rad x %.4f): game's width %.3f for distance %.3f (ratio %.3f), fit %.3f -> x%.3f\n",
++			wide ? "widescreen" : "4:3", view, th, tangent, fov, ratio, c1, c0, c1 / c0, want, k);
++	}
++	if (k <= 1.0f) return;
++	for (long i = 0; i < 3; i++) g_4c1b38[i][1] *= k;
++	/* the visibility quad (world space now): 0 and 1 the near pair, 3 and 2 the far pair - each out from its pair's middle */
++	real *corner = (real *)g_4c1b08;
++	for (long i = 0; i < 3; i++)
++	{
++		real n0 = corner[i], n1 = corner[3 + i], f2 = corner[6 + i], f3 = corner[9 + i];
++		real nm = 0.5f * (n0 + n1), fm = 0.5f * (f2 + f3);
++		corner[i] = nm + (n0 - nm) * k; corner[3 + i] = nm + (n1 - nm) * k;
++		corner[6 + i] = fm + (f2 - fm) * k; corner[9 + i] = fm + (f3 - fm) * k;
++	}
++}
++
+ // @retail 0x3ca90
+ void function_3ca90(byte const *state)
+ {
+@@ -1082,7 +1153,8 @@
+ 	g_4c1b68.position.z = height - distance * offset;
+ 	real aspect = ((real)(short)g_48564e - (real)(short)g_48564a) / ((short)g_48564c - (short)g_485648);
+ 	real tangent = (real)(tan(*(real const *)(state + 0x7c) * 0.5f) * *(real const *)(state + 0x80));
+-	if (!(g_4e6948 && g_4e6948->flag && g_4e6948->index != NONE && g_4e6948->state == 3) && g_485ac2)
++	if ((!(g_4e6948 && g_4e6948->flag && g_4e6948->index != NONE && g_4e6948->state == 3) && g_485ac2)
++		|| h2n_menu_wide())                  /* h2native: the Widescreen Fix on the main menu (the mod's mm_water, retail 0x3cbdb) */
+ 		aspect *= 1.5f;
+ 	real half_angle = g_485640 * 0.5f;
+ 	if (!(half_angle < 0.7806857824325562f)) half_angle = 0.7806857824325562f;
+@@ -1128,6 +1200,7 @@
+ 		corners[i].z = g_4c1b38[2][1] * g_4c1b08[i].y + g_4c1b38[2][0] * g_4c1b08[i].x + g_4c1b38[2][2] * g_4c1b08[i].z + g_4c1b38[2][3];
+ 	}
+ 	memcpy(g_4c1b08, corners, sizeof(corners));
++	h2n_water_fit(state);      /* h2native: Spooky Ghost's water fit (above) */
+ }
+ 
+ 
+@@ -1198,7 +1271,7 @@
+     if (material == NONE) material = context->material;
+     byte const *definition = g_4e3b44[material & 0xffff].bytes;
+     long pass;
+-    function_1bf50(*(word const *)(definition + 0x3c), material, priority, &pass);
++    function_1bf50(h2n_lods() ? 5 : *(word const *)(definition + 0x3c), material, priority, &pass);   /* h2native: H2N_UNLOCK - Increased LODs (shaders) */
+     byte const *groups = record_format_groups(material);
+     dword flags = *(dword const *)(*(byte **)(groups + 4) + pass * 10 + 2);
+     if (material_override != NONE)
+@@ -1392,7 +1465,7 @@
+     return result;
+ }
+ 
+-#if 0 // Activation changes matched rendering helpers.
++#if 1 // h2native: on in the native build (0x3bd00)
+ struct s_projection_copy_3bd00
+ {
+     transform4x3f transform;
+@@ -1714,7 +1787,7 @@
+     long const *level_reference = &level;
+     short const *kind_reference = &kind;
+     (void)*kind_reference;
+-    if (group != NONE && function_1bf50(*level_reference, tag, distance, (long *)&distance))
++    if (group != NONE && function_1bf50(h2n_lods() ? 5 : *level_reference, tag, distance, (long *)&distance))   /* h2native: H2N_UNLOCK - Increased LODs (shaders) */
+         function_3b9d0(&g_4c1a48[group], tag, *(long *)&distance, and_mask, or_mask, fill, value, context, 0);
+ }
+ 
+@@ -1892,8 +1965,8 @@
+     {
+         function_4d9c0(part, mode, value, index, tag, second, fourth, record[4]);
+         function_4d640(index, mode, compound);
+-        bool filtered = TEST_FIELD_BIT((entry->unknown00 >> 9) & 1) && !(part[2] & 8);
+-        bool strip = (entry->unknown00 & 0x40) && *(long *)(entry->unknown10 + 4) && *(long *)(geometry + 8);
++        bool strip = TEST_FIELD_BIT((entry->unknown00 >> 9) & 1) && !(part[2] & 8);       // h2native: the two were named the other way round
++        bool filtered = (entry->unknown00 & 0x40) && *(long *)(entry->unknown10 + 4) && *(long *)(geometry + 8);
+         function_4daa0(filtered, strip, (s_4daa0_geometry *)geometry,
+             (s_4daa0_part *)part, *(dword **)(entry->unknown10 + 4));
+         function_4d720(index, mode);
+diff -ruN a/src/unknown_03fdf0.cpp b/src/unknown_03fdf0.cpp
+--- a/src/unknown_03fdf0.cpp	2026-11-18 22:14:35.812742908 +0000
++++ b/src/unknown_03fdf0.cpp	2026-11-18 22:20:00.775246032 +0000
+@@ -772,7 +772,8 @@
+                 parent = *(long *)(*(byte **)(g_4e0300->data + (parent & 0xffff) * 12 + 8) + 0x14);
+         }
+         function_402b0(cache_index, mode);
+-        function_4a1e0((s_view_source *)&shape, (s_view_camera *)(light + 0x84), light_index,
++        /* h2native: retail (0x40572-0x4057e) passes the light's frame in EAX (0x4a1e0 reads its +0x50..) and the shape in ECX; the draft had them the other way round */
++        function_4a1e0((s_view_source *)(light + 0x84), (s_view_camera *)&shape, light_index,
+             (s_view_flags *)definition, 1024.0f, false, 1.0f);
+         g_4ba018 = true;
+         dword flags = (short)shape.kind == 0 ? 1 : 0;
+diff -ruN a/src/unknown_12b450.cpp b/src/unknown_12b450.cpp
+--- a/src/unknown_12b450.cpp	2026-11-18 22:14:35.828742909 +0000
++++ b/src/unknown_12b450.cpp	2026-11-18 22:20:00.775372810 +0000
+@@ -44,6 +44,11 @@
+ void function_8dfc0(void);
+ void game_loop_frame_update(real arg_1);
+ void function_1554b0(real elapsed);
++extern "C" void __cdecl h2n_ip_director_before(void);     /* h2native: H2N_UNLOCK's in-between frames (layer2/interp.c) */
++extern "C" void __cdecl h2n_ip_draw_before(void);
++extern "C" void __cdecl h2n_ip_draw_after(void);
++extern "C" void __cdecl h2n_zoom_hold(void);           /* h2native: layer2/interp.c */
++extern "C" void __cdecl h2n_perf(int point);            /* h2native: layer2/timing.c */
+ void __stdcall function_16f280(real dt);
+ void function_222a70(real seconds);
+ void function_223240(void);
+@@ -132,10 +137,13 @@
+ 		if (function_68250())
+ 		{
+ 			function_146660(seconds, &elapsed, &ticks);
++			h2n_zoom_hold();               /* h2native: H2N_UNLOCK - the zoom's hold counted by the clock (Spooky Ghost v2.0) */
+ 			function_1870a0(seconds, elapsed);
+ 			game_loop_run_ticks(ticks, &elapsed);
++			h2n_perf(2);                   /* h2native: where the frame's time goes (layer2/timing.c) */
+ 			function_8dfc0();
+ 			game_loop_frame_update(elapsed);
++			h2n_ip_director_before();      /* h2native: the frame drawn between two ticks - blended before the cameras are built */
+ 			function_1554b0(seconds);
+ 			function_16f280(seconds);
+ 			function_222a70(seconds);
+@@ -146,7 +154,9 @@
+ 			function_8dfc0();
+ 			rumble_clear_all();
+ 		}
++		h2n_ip_draw_before();
+ 		function_223240();
++		h2n_ip_draw_after();       /* h2native: the game's own state back after the draw */
+ 		function_125b40();
+ 	}
+ }
+diff -ruN a/src/unknown_12b690.cpp b/src/unknown_12b690.cpp
+--- a/src/unknown_12b690.cpp	2026-11-18 22:14:35.828742909 +0000
++++ b/src/unknown_12b690.cpp	2026-11-18 22:20:00.775467475 +0000
+@@ -50,11 +50,13 @@
+ 
+ #define g_440ddc (*( s_440ddc const (*)[68])((byte const *)g_440dd8 + 4))
+ 
++extern "C" int __cdecl h2n_intro_wanted(void);   /* h2native: H2N_SKIPINTRO (layer2/main.c) */
++
+ #pragma inline_depth(0)
+ // @retail 0x12b690
+ void function_12b690(void)
+ {
+-    main_globals.unknown28 = 1;
++    main_globals.unknown28 = h2n_intro_wanted();     /* h2native: retail sets 1 (play the intro) */
+     function_12b070();
+     function_137c20();
+     while (!main_globals.unknown2a[1])
+diff -ruN a/src/unknown_1321f0.cpp b/src/unknown_1321f0.cpp
+--- a/src/unknown_1321f0.cpp	2026-11-18 22:14:35.828742909 +0000
++++ b/src/unknown_1321f0.cpp	2026-11-18 22:20:00.775561406 +0000
+@@ -839,6 +839,7 @@
+ 	}
+ }
+ 
++extern "C" int __cdecl h2n_lods(void);   /* h2native: layer2/interp.c */
+ // @retail 0x133520
+ void __stdcall function_133520(s_bit_vector_pool *arg_1)
+ {
+@@ -870,6 +871,7 @@
+ 				local_10 = local_13;
+ 		}
+ 		byte local_11 = (byte)(long)(local_10 * 255.0f);
++		if (h2n_lods()) local_11 = 255;   /* h2native: H2N_UNLOCK - Increased LODs: instances never faded or culled by distance */
+ 		if (!(arg_1->lists[3]->shorts_b[(short)local_2] & 0x800))
+ 			local_6 |= 0x40;
+ 		else
+diff -ruN a/src/unknown_139296.cpp b/src/unknown_139296.cpp
+--- a/src/unknown_139296.cpp	2026-11-18 22:14:35.828742909 +0000
++++ b/src/unknown_139296.cpp	2026-11-18 22:20:00.775740179 +0000
+@@ -1440,6 +1440,8 @@
+ 	return success;
+ }
+ 
++/* h2native: Spooky Ghost's Widescreen Fix (layer2/xd3d.cpp): each HUD element drawn 3/4 as wide about its anchor */
++extern "C" void __cdecl h2n_hud_element(int on);
+ // @retail 0x13a532
+ void function_13a532(long arg_1, long arg_2, byte const *arg_3, long arg_4)
+ {
+@@ -1462,7 +1464,9 @@
+             {
+                 real local_10[4];
+                 function_13ad48(arg_2, local_9 + 4, local_10, arg_3, item);
++                h2n_hud_element(1);      /* h2native */
+                 function_22b8e2((s_22b8e2 const *)local_9, arg_2, (color4f const *)local_10);
++                h2n_hud_element(0);      /* h2native */
+             }
+             local_8 += 0x50;
+         }
+@@ -1480,7 +1484,9 @@
+             {
+                 real local_10[4];
+                 function_13ad48(arg_2, local_9 + 4, local_10, arg_3, item);
++                h2n_hud_element(1);      /* h2native */
+                 function_22aff1(arg_2, arg_3, local_9, local_10);
++                h2n_hud_element(0);      /* h2native */
+             }
+             local_8 += 0x64;
+         }
+@@ -1498,7 +1504,9 @@
+             {
+                 real local_10[4];
+                 function_13ad48(arg_2, local_9 + 4, local_10, arg_3, item);
++                h2n_hud_element(1);      /* h2native */
+                 function_22aa16(arg_2, arg_3, local_9, local_10);
++                h2n_hud_element(0);      /* h2native */
+             }
+             local_8 += 0x54;
+         }
+diff -ruN a/src/unknown_13954b.cpp b/src/unknown_13954b.cpp
+--- a/src/unknown_13954b.cpp	2026-11-18 22:14:35.828742909 +0000
++++ b/src/unknown_13954b.cpp	2026-11-18 22:20:00.775888599 +0000
+@@ -70,6 +70,9 @@
+ #pragma inline_depth(0)
+ /* "standard" stops LTCG assuming an 8-aligned entry: it gives retail's frame
+    (0x27c) and late ebx/edi/esi saves, and keeps 0x1917eb matching */
++/* h2native: Spooky Ghost's Widescreen Fix (layer2/xd3d.cpp) */
++extern "C" void __cdecl h2n_hud_element(int on);
++extern "C" void __cdecl h2n_ui_panel(int on);     /* h2native: the Widescreen Fix for the menus (layer2/xd3d.cpp) */
+ // @retail 0x13954b standard
+ void function_13954b(void)
+ {
+@@ -104,8 +107,12 @@
+ 					motion_sensor_render(index, origin);
+ 			}
+ 			function_15ea50(index);
++			h2n_hud_element(1);      /* h2native: the centre element (crosshair, scope) - Widescreen Fix */
+ 			function_200462(index);
++			h2n_hud_element(0);      /* h2native */
++			h2n_ui_panel(1);      /* h2native: the help box, narrowed as the menus (the Widescreen Fix) */
+ 			function_1e6fe0(index);
++			h2n_ui_panel(0);      /* h2native */
+ 		}
+ 		function_159880();
+ 		function_445d0();
+diff -ruN a/src/unknown_13cf00.cpp b/src/unknown_13cf00.cpp
+--- a/src/unknown_13cf00.cpp	2026-11-18 22:14:35.828742909 +0000
++++ b/src/unknown_13cf00.cpp	2026-11-18 22:20:00.775933772 +0000
+@@ -113,6 +113,7 @@
+ #include "slot_handler.h"
+ static __forceinline long real_to_long(real value);
+ 
++extern "C" void __cdecl h2n_title_text(const short *rect);   /* h2native s10f: Spooky Ghost's chapter-title fix (layer2/xd3d.cpp) */
+ // @retail 0x13c780
+ void function_13c780(void)
+ {
+@@ -176,7 +177,9 @@
+ 						g_4e73a0.flags = 1;
+ 						function_13ec70(&local_15);
+ 						function_13ed50(&local_16);
++						h2n_title_text((short const *)local_12);   /* h2native s10f: past 16:9 the title's letters to their 16:9 width (the mod's title_text_hook) */
+ 						function_1fa50(local_12, (word const *)local_11, NULL, NULL, 0, 1.0f, 0, NULL);
++						h2n_title_text(NULL);                       /* h2native */
+ 					}
+ 				}
+ 			}
+diff -ruN a/src/unknown_157450.cpp b/src/unknown_157450.cpp
+--- a/src/unknown_157450.cpp	2026-11-18 22:14:35.832742909 +0000
++++ b/src/unknown_157450.cpp	2026-11-19 15:13:27.531849848 +0000
+@@ -4944,6 +4944,7 @@
+ PRIVATE color3f const score_text_color = { 0.4588235318660736f, 0.729411780834198f, 1.0f };
+ PRIVATE color3f const alternate_score_text_color = { 0.8078431487083435f, 0.5607843399047852f, 0.8705882430076599f };
+ 
++extern "C" void __cdecl h2n_name_text(const short *rect);   /* H2Classic s10t: the Widescreen Fix for a player's name above the head (layer3/xd3d.cpp) */
+ // @retail 0x15e530
+ void __stdcall function_15e530(c_1fa50 const *text, real alpha, point2f const *point)
+ {
+@@ -4979,7 +4980,9 @@
+     bounds.bottom = (short)y;
+     function_13edb0(font_index, NONE, 2, 0, &color, &shadow);
+     function_13ec70(&color);
++    h2n_name_text((short const *)&bounds);   /* H2Classic s10t: in widescreen the name's letters to their 4:3 width, about the point above the head */
+     function_1fa50(&bounds, (word const *)text, 0, 0, 0, 1.0f, 0, 0);
++    h2n_name_text(NULL);                      /* H2Classic */
+     text_style_clear();
+ }
+ 
+@@ -5411,6 +5414,7 @@
+ extern long g_4e64a8;
+ void function_36580(void);
+ void function_36880(s_short_rectangle const *rectangle, color4f const *color);
++extern "C" void __cdecl h2n_ui_panel(int on);     /* h2native: the Widescreen Fix for the menus (layer2/xd3d.cpp) */
+ void function_161420(long player_index, real alpha);
+ 
+ // MiniMax D (11-10): no new form, no lower score (2); retail stores the x87 power (fstp dword ptr
+@@ -5509,7 +5513,7 @@
+             if (intensity > 0.0f)
+             {
+                 real power = pow(intensity, 1.9f);
+-                function_161420(player_index, power);
++                h2n_ui_panel(1);    /* h2native: the score panel, narrowed as the menus (the Widescreen Fix) */ function_161420(player_index, power); h2n_ui_panel(0);
+             }
+         }
+     }
+diff -ruN a/src/unknown_16e290.cpp b/src/unknown_16e290.cpp
+--- a/src/unknown_16e290.cpp	2026-11-18 22:14:35.836742910 +0000
++++ b/src/unknown_16e290.cpp	2026-11-18 22:20:00.776511150 +0000
+@@ -1525,6 +1525,7 @@
+ void __stdcall function_170fd0(long user_index);
+ long function_155760(long user_index);
+ void __stdcall function_1546f0(long user_index, transform4x3f *matrix);
++extern "C" void __cdecl h2n_view_effects(long user, void *matrix, void *game);   /* h2native: layer2/interp.c */
+ bool function_a74c0(vector3f const *forward, vector3f const *up);
+ real function_1201a0(vector3f *vector, vector3f const *fallback);
+ bool function_171d00(point3f const *start, point3f const *end, real *fraction, bool narrow);
+@@ -1808,7 +1809,7 @@
+ 			case 2:
+ 				{
+ 					void (__stdcall *const adjust_view)(long, transform4x3f *) = function_1546f0;
+-					adjust_view(user_index, &adjustment);
++					h2n_view_effects(user_index, &adjustment, (void *)adjust_view);   /* h2native: H2N_UNLOCK - the view's effects blended between ticks (layer2/interp.c) */
+ 				}
+ 				break;
+ 			}
+diff -ruN a/src/unknown_173b90.cpp b/src/unknown_173b90.cpp
+--- a/src/unknown_173b90.cpp	2026-11-18 22:14:35.836742910 +0000
++++ b/src/unknown_173b90.cpp	2026-11-18 22:20:00.776738885 +0000
+@@ -50,6 +50,7 @@
+ void effect_remove_event_slot(long effect_index, long value);
+ void function_1753f0(s_particle_system_datum *particle_system);
+ bool function_174a30(s_particle_system_datum *particle_system, real dt);
++extern "C" void __cdecl h2n_ip_particle(void *system);     /* h2native: H2N_UNLOCK's particle fix (layer2/interp.c) */
+ void function_17af80(long effect_index, long particle_system_index);
+ 
+ struct s_particle_callback_output_173cb0
+@@ -300,6 +301,7 @@
+ 		iterator.cursor.datum_index = (particle_system->salt << 16) | index;
+ 		iterator.cursor.index = index;
+ 
++		if (particle_system->unknown4c == NONE) h2n_ip_particle(particle_system);   /* h2native: kept between ticks (layer2/interp.c) */
+ 		if (particle_system->unknown4c == NONE && !function_174a30(particle_system, dt))
+ 		{
+ 			if (particle_system->effect_index != NONE)
+diff -ruN a/src/unknown_200462.cpp b/src/unknown_200462.cpp
+--- a/src/unknown_200462.cpp	2026-11-18 22:14:35.852742911 +0000
++++ b/src/unknown_200462.cpp	2026-11-18 22:20:00.776916854 +0000
+@@ -42,6 +42,7 @@
+ 
+ struct s_widget_quad_2b11;
+ void function_1396c7(long arg_0, point2f *arg_1);
++extern "C" void __cdecl h2n_hud_anchor(const float *anchor);     /* h2native */
+ real function_200891(s_interface_pulse const *arg_0, bool arg_1);
+ real function_2008fc(s_interface_pulse const *arg_0, bool arg_1);
+ void function_22a664(s_widget_quad_2b11 const *arg_0, s_float_rect const *arg_1,
+@@ -262,7 +263,7 @@
+         }
+     }
+     point2f local_14;
+-    function_1396c7(4, &local_14);
++    function_1396c7(4, &local_14); h2n_hud_anchor(&local_14.x);      /* h2native: the Widescreen Fix (layer2/xd3d.cpp) */
+     local_14.x -= local_2 * 0.5f;
+     local_14.y += 50.0f;
+     for (entry_index = 0; entry_index < 9; entry_index++)
+diff -ruN a/src/unknown_223080.cpp b/src/unknown_223080.cpp
+--- a/src/unknown_223080.cpp	2026-11-18 22:14:35.856742911 +0000
++++ b/src/unknown_223080.cpp	2026-11-18 22:20:00.776980235 +0000
+@@ -135,6 +135,7 @@
+ void function_2f6b0(s_2f6b0_point const *arg_0, s_2f6b0_point const *arg_1,
+ 	s_2f6b0_point const *arg_2, short_rect *arg_3, short_rect *arg_4);
+ void function_2f800(s_2f800_view *arg_3, s_2f800_source const *arg_0, s_2f800_size const *arg_1, s_2f800_size const *arg_2);
++extern "C" void __cdecl h2n_draw_distance(void *view);   /* h2native: layer2/interp.c */
+ void function_2c490(long arg_0);
+ void function_3f450(long arg_0);
+ 
+@@ -185,6 +186,7 @@
+ 		function_2f6b0((s_2f6b0_point *)&local_3, (s_2f6b0_point *)&local_1,
+ 			(s_2f6b0_point *)&local_2, &arg_3->field_b0, &arg_3->field_b8);
+ 		function_2f800((s_2f800_view *)arg_3->field_80, (s_2f800_source *)local_4, (s_2f800_size *)&local_2, (s_2f800_size *)&local_1);
++		h2n_draw_distance((void *)arg_3->field_80);   /* h2native: H2N_UNLOCK - Spooky Ghost's Draw Distance (the view's distance scale) */
+ 		function_2c490(arg_4);
+ 		if (g_4e64a0 <= 0)
+ 			g_4e6098 = false;
+@@ -196,6 +198,7 @@
+ 		arg_3->field_b0 = g_485a8a.a;
+ 		arg_3->field_b8 = g_485a8a.b;
+ 		function_2f800((s_2f800_view *)arg_3->field_80, (s_2f800_source *)arg_6, 0, 0);
++		h2n_draw_distance((void *)arg_3->field_80);   /* h2native: H2N_UNLOCK - Spooky Ghost's Draw Distance */
+ 	}
+ 	memcpy(arg_3->field_c, arg_3->field_80, sizeof(arg_3->field_c));
+ }
+diff -ruN a/src/unknown_223240.cpp b/src/unknown_223240.cpp
+--- a/src/unknown_223240.cpp	2026-11-18 22:14:35.856742911 +0000
++++ b/src/unknown_223240.cpp	2026-11-18 22:20:00.777039997 +0000
+@@ -53,6 +53,8 @@
+ void __stdcall function_2c8a0(byte const *);
+ void function_2b5d0(long mode, long count, long players, long layout, s_223240 const *source);
+ void function_223080(long, long, long, s_223080 *, long, long, s_223081 const *);
++extern "C" const void *__cdecl h2n_ip_view(long user, const void *record);   /* h2native: layer2/interp.c */
++extern "C" void __cdecl h2n_perf(int point);   /* h2native: layer2/timing.c */
+ bool function_68290(void);
+ void main_time_wait_for_vblank(void);
+ void function_13f10(long, long);
+@@ -430,6 +432,7 @@
+ 			if (g_4686c4 != NONE)
+ 				local_5 = g_4e9c8c[local_1].field_0;
+ 		}
++		local_5 = (byte const *)h2n_ip_view(local_1, local_5);   /* h2native: H2N_UNLOCK - a scripted camera between its ticks (layer2/interp.c) */
+ 		function_223080(0, local_0, local_1, (s_223080 *)&g_47f0f8[local_0 + 1],
+ 			local_2, local_3, (s_223081 const *)local_5);
+ 		++local_0;
+@@ -446,7 +449,9 @@
+ 	else
+ 		function_2232a0();
+ 	bool local_0 = g_4e6470 <= 0 && g_4e64a0 <= 0;
++	h2n_perf(5);                  /* h2native: the game's own wait for the refresh, timed (layer2/timing.c) */
+ 	main_time_wait_for_vblank();
++	h2n_perf(6);
+ 	if (local_0)
+ 		function_13f10(0, 0);
+ }
+diff -ruN a/src/unknown_22a664.cpp b/src/unknown_22a664.cpp
+--- a/src/unknown_22a664.cpp	2026-11-18 22:14:35.856742911 +0000
++++ b/src/unknown_22a664.cpp	2026-11-18 22:20:00.777165553 +0000
+@@ -37,6 +37,8 @@
+     return 1.0f;
+ }
+ 
++extern "C" int __cdecl h2n_ui_quad(float const *corners);   /* h2native: the Widescreen Fix (layer2/xd3d.cpp) */
++extern "C" void __cdecl h2n_ui_scope(int on);
+ // @retail 0x22a664
+ void function_22a664(s_widget_quad_2b11 const *arg_0, s_float_rect const *arg_1,
+ 	long arg_2, long arg_3, long arg_4)
+@@ -78,6 +80,7 @@
+ 		function_1cf50();
+ 		function_1cc30(20);
+ 		function_1cd90();
++		int h2n_narrow = h2n_ui_quad((float const *)arg_0);   /* h2native: an emblem or a box piece in the menus (the Widescreen Fix) */
+ 		D3DDevice_Begin(D3DPT_TRIANGLEFAN);
+ 		D3DDevice_SetVertexDataColor(9, 0xffffffff);
+ 		s_22a664 const *local_6 = local_0;
+@@ -91,5 +94,6 @@
+ 		} while (--arg_2);
+ 
+ 		D3DDevice_End();
++		if (h2n_narrow) h2n_ui_scope(0);
+ 	}
+ }
+diff -ruN a/src/unknown_22aa16.cpp b/src/unknown_22aa16.cpp
+--- a/src/unknown_22aa16.cpp	2026-11-18 22:14:35.856742911 +0000
++++ b/src/unknown_22aa16.cpp	2026-11-18 22:20:00.777212548 +0000
+@@ -29,6 +29,7 @@
+ void function_1cf50(void);
+ color3f *unpack_color3f(dword, color3f *);
+ void function_1396c7(long, point2f *);
++extern "C" void __cdecl h2n_hud_anchor(const float *anchor);     /* h2native */
+ void function_22bcaf(s_widget_transform_block const *, point2f *, point2f *, point2f *);
+ void function_13e9c0(word const *, short_rectangle2d const *, short_rectangle2d *, short_rectangle2d *, real);
+ void function_13eb60(color4f const *);
+@@ -71,7 +72,7 @@
+ 			forward.y = 0.0f;
+ 			up.x = 0.0f;
+ 			up.y = 1.0f;
+-			function_1396c7(*(word const *)(arg_2 + 0x1c), &origin);
++			function_1396c7(*(word const *)(arg_2 + 0x1c), &origin); h2n_hud_anchor(&origin.x);      /* h2native: the Widescreen Fix (layer2/xd3d.cpp) */
+ 			switch (local_2)
+ 			{
+ 			case 0:
+diff -ruN a/src/unknown_22aff1.cpp b/src/unknown_22aff1.cpp
+--- a/src/unknown_22aff1.cpp	2026-11-18 22:14:35.856742911 +0000
++++ b/src/unknown_22aff1.cpp	2026-11-18 22:20:00.777266375 +0000
+@@ -25,6 +25,7 @@
+ long function_13a690(long);
+ void function_22ae21(long, s_bitmap_widget_22ae21 const *, long *, long *, long *, box2f *);
+ void function_1396c7(long, point2f *);
++extern "C" void __cdecl h2n_hud_anchor(const float *anchor);     /* h2native */
+ void function_22bcaf(s_widget_transform_block const *, point2f *, point2f *, point2f *);
+ double __stdcall function_1d6d0(real);
+ double __cdecl function_2b460(real);
+@@ -142,7 +143,7 @@
+ 		if (bitmap_index != NONE)
+ 		{
+ 			drawn = false;
+-			function_1396c7(*(word const *)(arg_2 + 0x1c), &origin);
++			function_1396c7(*(word const *)(arg_2 + 0x1c), &origin); h2n_hud_anchor(&origin.x);      /* h2native: the Widescreen Fix (layer2/xd3d.cpp) */
+ 			point2f_set(&horizontal_axis, 1.0f, 0.0f);
+ 			point2f_set(&vertical_axis, 0.0f, 1.0f);
+ 			switch (local_0)
+diff -ruN a/src/unknown_22b8e2.cpp b/src/unknown_22b8e2.cpp
+--- a/src/unknown_22b8e2.cpp	2026-11-18 22:14:35.856742911 +0000
++++ b/src/unknown_22b8e2.cpp	2026-11-18 22:20:00.777324167 +0000
+@@ -35,6 +35,7 @@
+ long function_13a690(long);
+ bool function_22acb4(long);
+ void function_1396c7(long, point2f *);
++extern "C" void __cdecl h2n_hud_anchor(const float *anchor);     /* h2native */
+ void function_2d140(long, real const *, long, long, s_filter_vector const *);
+ 
+ // @retail 0x22b8e2
+@@ -85,7 +86,7 @@
+ 		else if (local_3 == 0 && tag->sequence_count == 0 && tag->bitmap_count > 0)
+ 			local_2 = 0;
+ 	}
+-	function_1396c7(arg_0->field_1c, &local_4);
++	function_1396c7(arg_0->field_1c, &local_4); h2n_hud_anchor(&local_4.x);      /* h2native: the Widescreen Fix (layer2/xd3d.cpp) */
+ 	switch (local_0)
+ 	{
+ 	case 0: local_4.x += arg_0->field_44[0]; local_4.y += arg_0->field_44[1]; break;
+diff -ruN a/src/unknown_22e27b.cpp b/src/unknown_22e27b.cpp
+--- a/src/unknown_22e27b.cpp	2026-11-18 22:14:35.856742911 +0000
++++ b/src/unknown_22e27b.cpp	2026-11-18 22:20:00.777423318 +0000
+@@ -12,6 +12,7 @@
+ #include "globals.h"
+ struct short_rectangle2d;
+ void function_1fa50(short_rectangle2d const *bounds, word const *text, void const *clip, void const *position, long line_gap, real scale, long color, void const *shadow);
++extern "C" void __cdecl h2n_ui_text(int on);   /* h2native */
+ 
+ void unicode_string_copy(word *destination, const word *source, long maximum_count);
+ void function_22d2ee(word *string, long maximum_length);
+@@ -1899,7 +1900,11 @@
+ 		}
+ 		real scale = (last.x - first.x) * text->value20 / (real)(bounds->right - bounds->left);
+ 		if (function_13ee20(buffer, g_4e73a0.font))
++		{
++			h2n_ui_text(1);      /* h2native: the windows' text - its letters narrowed by the Widescreen Fix (layer2/xd3d.cpp) */
+ 			function_1fa50(&projected, (word const *)buffer, &projected_clip, 0, 0, scale, 0, 0);
++			h2n_ui_text(0);
++		}
+ 	}
+ 	if (g_51ec04)
+ 	{
+diff -ruN a/src/unknown_24c7c1.cpp b/src/unknown_24c7c1.cpp
+--- a/src/unknown_24c7c1.cpp	2026-11-18 22:14:35.860742911 +0000
++++ b/src/unknown_24c7c1.cpp	2026-11-18 22:20:16.591456733 +0000
+@@ -819,6 +819,19 @@
+ // The full build reads 115 once src/unknown_1ee340.cpp's constructor stores its vertices through the component accessor
+ // (this round's 0x1edd00 match) and 114 with that file as before (plain checks of both trees): the reload pair before the
+ // flag setup (`mov edi, [ebp - 0x64]` against retail's `mov ecx, [ebp - 0x40]`) follows the whole-image link, as in round 97.
++/* h2native s10g: Spooky Ghost's prompt_box_hook (v2.0.17): the HUD messages' text boxes - the pick-up / vehicle prompt,
++   the messages under it (Checkpoint... done), the status lines at the bottom middle (WELCOME!, GAME OVER) - each
++   between h2n_hud_text_box(1, its rectangle) and h2n_hud_text_box(0): past 16:9 the letters to their 16:9 width about
++   the point the game places the text from (layer2/xd3d.cpp). Retail's four calls of 0x1fa30 in 0x24cf66 (0x24d2f3,
++   0x24d4e3, 0x24d632, 0x24d6bb, the mod's sites) are the five below: this draft keeps two of the messages' calls apart. */
++extern "C" void __cdecl h2n_hud_text_box(int on, const short *rect);
++static void h2n_text_box(word const *text, short_rectangle2d *bounds)
++{
++	h2n_hud_text_box(1, (short const *)bounds);
++	function_1fa30(text, bounds);
++	h2n_hud_text_box(0, NULL);
++}
++
+ // @retail 0x24cf66
+ void function_24cf66(long local_player_index)
+ {
+@@ -918,7 +931,7 @@
+ 				if (function_13ee20(text, g_4e73a0.font))
+ 				{
+ 					function_24ce9d(text, left, top, &bounds, &text_bounds);
+-					function_1fa30(text, &bounds);
++					h2n_text_box(text, &bounds);
+ 				}
+ 			}
+ 
+@@ -978,14 +991,14 @@
+ 				{
+ 					function_24ce9d(text, left, top, &bounds, &text_bounds);
+ 					message_height = (short)(bounds.bottom - bounds.top);
+-					function_1fa30(text, &bounds);
++					h2n_text_box(text, &bounds);
+ 				}
+ 			}
+ 			else if (function_13ef30(message->text))
+ 			{
+ 				function_24ce9d(message->text, left, top, &bounds, &text_bounds);
+ 				message_height = (short)(bounds.bottom - bounds.top);
+-				function_1fa30(message->text, &bounds);
++				h2n_text_box(message->text, &bounds);
+ 			}
+ 
+ 			top = (short)((real)message_height * view->line_spacing + (real)top);
+@@ -1012,7 +1025,7 @@
+ 			field_24.alpha = function_1392a9(local_player_index) * fade;
+ 			function_13edb0(font, NONE, 2, 0, &color, &field_24);
+ 			if (function_13ef30(status_player->text_454))
+-				function_1fa30(status_player->text_454, &bounds);
++				h2n_text_box(status_player->text_454, &bounds);
+ 		}
+ 
+ 		bounds.bottom += 0x12;
+@@ -1026,7 +1039,7 @@
+ 		{
+ 			function_13edb0(font, NONE, 2, 0, &color, &field_24);
+ 			if (function_13ee20(text, g_4e73a0.font))
+-				function_1fa30(text, &bounds);
++				h2n_text_box(text, &bounds);
+ 		}
+ 	}
+ }
+diff -ruN a/src/unknown_254200.cpp b/src/unknown_254200.cpp
+--- a/src/unknown_254200.cpp	2026-11-18 22:14:35.864742911 +0000
++++ b/src/unknown_254200.cpp	2026-11-18 22:20:16.592278115 +0000
+@@ -584,6 +584,7 @@
+ // two-coordinate wrapper 263 (first difference +0x83: the texture-stage block inlines differently); every depth
+ // constant through a forceinline accessor returning it 340 (2197 bytes, same cause); the two lookup helpers plain
+ // `inline` in place of forceinline 2. The two reloads after the second texture reservation stay swapped.
++extern "C" void __cdecl h2n_hud_tracker(int on);     /* h2native: the Widescreen Fix (layer2/xd3d.cpp) */
+ // @retail 0x2548f0
+ void __stdcall function_2548f0(point2f const *arg_0, real arg_1)
+ {
+@@ -699,6 +700,7 @@
+ 			real const *point_x = &arg_0->x;
+ 			real const *point_y = &arg_0->y;
+ 			function_1cf50();
++			h2n_hud_tracker(1);      /* h2native: the Widescreen Fix (layer2/xd3d.cpp) - the tracker on the screen */
+ 			D3DDevice_Begin(D3DPT_TRIANGLEFAN);
+ 			D3DDevice_SetVertexData2s(1, 0, 0);
+ 			D3DDevice_SetVertexData4f(D3DVSDE_VERTEX, *point_x - local_7, *point_y - local_7, 16777215.f, 16777215.f);
+@@ -709,6 +711,7 @@
+ 			D3DDevice_SetVertexData2s(1, 0, 1);
+ 			D3DDevice_SetVertexData4f(D3DVSDE_VERTEX, *point_x - local_7, *point_y + local_7, 16777215.f, 16777215.f);
+ 			D3DDevice_End();
++			h2n_hud_tracker(0);      /* h2native */
+ 			#pragma inline_depth(255)
+ 		}
+ 		else if (g_51ec9a)
+diff -ruN a/src/unknown_2b116a.cpp b/src/unknown_2b116a.cpp
+--- a/src/unknown_2b116a.cpp	2026-11-18 22:14:35.872742912 +0000
++++ b/src/unknown_2b116a.cpp	2026-11-18 22:20:00.778112748 +0000
+@@ -276,6 +276,9 @@
+ }
+ 
+ void function_235f31(s_sprite_element *element, s_float_rect const *from, point2f const *split, dword color, short mode);
++extern "C" void __cdecl h2n_menu_wrap(float const *rect, float const *split);   /* h2native: the Widescreen Fix (layer2/xd3d.cpp) */
++extern "C" void __cdecl h2n_menu_model(short *left, short *right);
++extern "C" void __cdecl h2n_ui_pause(int on);
+ s_type_7ba8e9 *function_2b0b19(s_widget_view_2b0a *widget);
+ 
+ PRIVATE __forceinline long bitmap_channel_round_2b(real value)
+@@ -330,7 +333,9 @@
+         }
+         else
+         {
++            h2n_menu_wrap((float const *)&rectangle, (float const *)((byte *)widget + 0x7c));   /* h2native: the Widescreen Fix */
+             function_235f31((s_sprite_element *)bitmap, &rectangle, (point2f const *)((byte *)widget + 0x7c), color, (short)mode);
++            h2n_menu_wrap(NULL, NULL);
+         }
+     }
+     if (show_label)
+@@ -6229,8 +6234,12 @@
+         visibility_object_lists_add(extra_indices, extra_count, model_visibility_lists, object_indices, object_count, false);
+         function_2cbc0(true);
+         function_44720();
+-        function_2c560((short)(left + x), (short)(top + y), (short)(right + x),
++        short h2n_left = (short)(left + x), h2n_right = (short)(right + x);   /* h2native: the Widescreen Fix (layer2/xd3d.cpp): */
++        h2n_menu_model(&h2n_left, &h2n_right);                               /* the view narrowed about the middle, drawn */
++        h2n_ui_pause(1);                                                     /* with the main menu's widescreen projection */
++        function_2c560(h2n_left, (short)(top + y), h2n_right,
+             (short)(bottom + y), &up, angle, &forward, &position);
++        h2n_ui_pause(0);
+         if (show_label)
+         {
+             c_user_interface_text_buffer_32 text;
+diff -ruN a/src/unknown_4bcc0.cpp b/src/unknown_4bcc0.cpp
+--- a/src/unknown_4bcc0.cpp	2026-11-18 22:14:35.888742913 +0000
++++ b/src/unknown_4bcc0.cpp	2026-11-18 22:20:00.778405644 +0000
+@@ -31,6 +31,7 @@
+ short function_3d3e0(long object_index, bool cached);
+ bool function_12de70(s_geometry_block_info *info, dword flags);
+ long function_4c450(long object_index, real distance, real const *definition, real *fraction);
++extern "C" int __cdecl h2n_lods(void);   /* h2native: layer2/interp.c */
+ bool __stdcall function_bab40(long object_index, long name, real *value);
+ void function_4c0d0(long object_index, byte *output, long mode);
+ 
+@@ -88,6 +89,7 @@
+                         if (TEST_FIELD_BIT(((s_object_word_flags_view_4bcc0 const *)(object + 0x10a))->flag2)) distance *= 1.7f;
+                         real fraction;
+                         *level = (signed char)function_4c450(object_index, distance, (real const *)(level_definition + 0x28), &fraction);
++                        if (h2n_lods()) *level = 5;   /* h2native: H2N_UNLOCK - Spooky Ghost's Increased LODs (the game's cap below still applies) */
+                         long maximum = (*(dword *)(output + 0x16c) & 0x40) ? 4 : g_4ba01c;
+                         *level = (signed char)PIN(*level, 0, maximum);
+                     }
