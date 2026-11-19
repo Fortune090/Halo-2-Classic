@@ -3,12 +3,12 @@
 <img width="3429" height="958" alt="image" src="https://github.com/user-attachments/assets/a2ddd59c-7e97-41de-a40f-84eefca7fbae" />
 
 
-H2Classic runs **Halo 2 for the original Xbox** as a native Windows program. It is built from the source of
+Hale 2 Classic runs **Halo 2 for the original Xbox** as a native Windows program. It is built from the source of
 [halo2-decompiled](https://github.com/kirklandsig/halo2-decompiled), the community decompilation of the game's
 executable, together with a Windows layer that does the console's work: graphics in Direct3D9, a software audio 
 processor, controllers through XInput, and networking with Xemu.
 
-H2Classic is not an emulator. The game's code is compiled for the PC. Where the decompilation doesn't have a function
+Halo 2 Classic is not an emulator. The game's code is compiled for the PC. Where the decompilation doesn't have a function
 yet, or only has an unproven draft of it, the program runs that function from **your own copy** of the game: at start
 it reads your unmodified v1.0 `default.xbe`, puts its data and that code at the console's addresses, and runs it.
 Nothing of the game, the XBE, the console or Microsoft is in this repository or in the program.
