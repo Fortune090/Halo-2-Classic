@@ -1,8 +1,8 @@
 H2Classic change log: the notes that went out with each test build, newest first, as written for the tester.
-"s10y", "s9q" and so on name the build steps; each section says what changed, why, what was checked, and how to test it.
+"s10z", "s9q" and so on name the build steps; each section says what changed, why, what was checked, and how to test it.
 The developer's side of the same builds (files, addresses, how each thing was found) is in DEVLOG.txt.
 
-H2Classic (stage 9, build s10y) - Halo 2's own code as a Windows program (test build)
+H2Classic (stage 9, build s10z) - Halo 2's own code as a Windows program (test build)
 =====================================================================================
 
 What this is
@@ -14,6 +14,49 @@ What this is
   Nothing of the XBE, of the console or of Microsoft is in the exe or written to disk.
   Source code: https://github.com/Fortune090/Halo-2-Classic. H2Classic is free software under the GNU General Public
   License, version 3 or later (LICENSE.txt); LICENSES.txt has its notices and those of the code it uses.
+
+New in s10z (build 49): Render Scale up to x20
+  1. Render Scale goes to x20 (H2Classic Settings, and render_multiplier in h2classic\settings.ini): the game's
+     640x480 picture drawn at 12800x9600. Nothing else about it changed: x1 to x10 are what they were, and the
+     picture is brought down to the window as before (halved, four pixels into one, until one smooth step is left).
+     - Why x20 and not more: Direct3D 9's largest surface is 16384 pixels a side on today's cards; x25 would be the
+       last that fits. If a card's limit is lower, the highest scale it allows is used, as before (the log says
+       "drawn at ...").
+     - What it costs: four times the pixels of x10 in every pass, and about 490 MB of graphics memory for each of
+       the game's full-size surfaces (two or three colour surfaces, the depth buffer, and what the anti-aliasing
+       keeps) - several GB in all. On a 3440x1440 screen x10 is already 1.9 times the screen's pixels across and
+       3.3 times down; x20 is 3.7 and 6.7 times.
+     - If the card has no room: a surface that cannot be made at the chosen scale now steps Render Scale down by
+       one for the rest of that run (and again, until it fits), instead of leaving that surface out of the picture.
+       The log says so: "*** picture: the graphics card could not make the game's surfaces at Render Scale x..".
+       The setting itself is not changed. (Before, a depth buffer that could not be made for lack of memory was
+       also taken as "this card has none that can be read", which left the fog wrong for the run: not any more.)
+  2. H2Classic Settings: Render Scale steps to x20 (9600p). A stepped choice there can now hold 32 entries; it
+     held 12, so the entries above x12 would not have appeared (and a Window Size list longer than 12 was cut at 12).
+     The test launcher's list goes to 20 as well.
+
+  Checked here (under Wine, where the picture is drawn by the processor): x12 and x20 are taken ("drawn at
+     7680x5760", "drawn at 12800x9600") and the picture is right; a test build that refuses every surface above x3
+     was started at x6 and stepped down x5, x4, x3 in three frames, then drew normally; a 1.5 Slayer match on Warlock
+     at the default scale and the self test pass.
+  Not checked here: any scale above x10 on a real graphics card - its speed, its memory, and DLSS at these sizes (if
+     DLSS does not take them, it turns itself off for the run with a line in the log, as for its other failures).
+
+Testing (s10z)
+  Before you start
+    - Unzip over your H2Classic folder.
+  Test 1: x20
+    1. H2Classic Settings: Render Scale to x20 (9600p), anti-aliasing as you play. Start the game, load a level.
+       Expect: the picture as at x10, finer along edges; a lower frame rate. In h2classic_log.txt: "render scale
+       x20: drawn at 12800x9600".
+    2. With the game running, step Render Scale down to x15, x10 and back up to x20 in H2Classic Settings.
+       Expect: the picture follows each change, as it did below x10.
+    If it fails: black or missing parts of the picture, or a stop - h2classic_log.txt (it names what could not be
+       made), and the scale and anti-aliasing you used.
+  Test 2 (only if you use DLSS): the same at x12 and x20 with DLSS.
+       Expect: DLSS working, or a line in the log saying why it was turned off.
+  Send me
+    - h2classic_log.txt of a run at x20, also when all is well: it has the frame times I could not measure here.
 
 New in build 48 (H2Classic Settings only; H2Classic.exe is build 47's, s10y)
   1. The "Generate Xbox keys.bin file" window has no Windows title bar any more. It is drawn like the settings and the

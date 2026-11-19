@@ -389,6 +389,20 @@ list+0x3a4 is non-zero. In the map since s10r (build 40); build 46 on the same p
   drag above HEADER_DRAG, DWM corner and border as km_open; its parts moved down by KEYS_TOP (66). title_bar_theme and
   windows_dark removed (nothing else used them). User: no title bar there, title like the others.
 - Before-state kept in pkg/b46_internal/v15_before (map15.json, boundary15, adapt15, retail_*.S) and map15_before_s10y.py.
+## s10z (build 49, 19 Nov 2026): Render Scale to x20
+User: "is it possible to bump up the resolution scale to x20?" Yes: Direct3D 9's largest surface is 16384 a side (x25 would
+be the last); the caps loop in gx_open already lowers a scale the device cannot take.
+- gfx9.c: SCALE_LIMIT 20 (gx_open, gx_live, g_scale_most). g_scale_lower: a scaled surface that cannot be made (target
+  colour / depth, the read copies) sets it; picture_follow() then sets g_scale_most = g_scale - 1 and picture_refit()s, with a
+  "*** picture: ... Render Scale xN ... xN-1 is used until the next start" line. INTZ failing for lack of memory (8876017c /
+  8007000e) at a scale above 1 no longer sets the permanent "plain depth" flag. H2N_CDEFS=-DH2N_SCALE_TEST=n (test builds
+  here only): every scaled surface above xn is refused.
+- h2c_settings.c: SCALE_MOST 20; a choice control holds 32 entries (it held 12: Render Scale's 13th and later entries were
+  dropped and a saved x20 showed as x1 - found by starting it with render_multiplier=20; Window Size's list can be 32
+  too). ps1: 1..20. main.c: comment.
+- Tests: -DH2N_SCALE_TEST=3 with H2N_RENDER=6: x5, x4, x3 in frames 1-3, picture right. Real build: H2N_RENDER=12 and 20 with
+  H2N_GFXLAZY=1 and H2N_SECONDS=0 (a frame at x20 takes about a minute here: wait for the BMP), picture right, no failures.
+  Self test, final_match.sh pass. Not tested: a real card above x10, DLSS at these sizes.
 - Parked: native/source_fixes/parked_s10x/xpcap.c (Npcap link: adapter choice, filter, immediate mode) - written, never run.
 
 

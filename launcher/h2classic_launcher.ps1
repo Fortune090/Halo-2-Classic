@@ -15,7 +15,7 @@ $saveFile = Join-Path $saveDir 'launcher.json'
 # name, kind (check / choice / text), label, value when ticked or list of choices, group; d = ticked from the start
 # (for a text box: the value it starts with), until the box is unticked once (s10o: system link to xemu on this PC)
 $items = @(
-  @{ n='H2N_RENDER';    k='choice'; l='Render scale (x 640x480)';            v=@('1','2','3','4','5','6','7','8','9','10'); g='Picture' },
+  @{ n='H2N_RENDER';    k='choice'; l='Render scale (x 640x480)';            v=@('1','2','3','4','5','6','7','8','9','10','11','12','13','14','15','16','17','18','19','20'); g='Picture' },
   @{ n='H2N_SCALE';     k='choice'; l='Window size (x 640x480)';             v=@('1','2','3');                     g='Picture' },
   @{ n='H2N_WIDE';      k='check';  l='Widescreen (16:9)';                   v='1';      g='Picture' },
   @{ n='H2N_UNLOCK';    k='check';  l='Unlock frame rate in a game';         v='1';      g='Picture' },

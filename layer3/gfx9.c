@@ -42,7 +42,16 @@ static unsigned g_trace_frame;     /* H2N_GFXFRAME: describe every draw of this 
 static unsigned g_trace_left;      /* (key file "trace"; H2N_GFXFRAME) describe this many frames, starting with the next one */
 static int g_trace_now;            /* the frame being drawn is one of those */
 #define FRAME_TRACE (g_trace_now)
-static unsigned g_scale_most = 10; /* (s10u) the largest g_scale this device's textures allow (10 at most) */
+#define SCALE_LIMIT 20             /* (s10z) Render Scale goes to x20: 12800x9600 (Direct3D 9's largest surface is 16384 a side on today's cards) */
+static unsigned g_scale_most = SCALE_LIMIT; /* (s10u) the largest g_scale this device allows: by its largest texture, and (s10z) by what it had memory for */
+static int g_scale_lower;          /* (s10z) a surface could not be made at this scale: one lower from the next frame on (picture_follow) */
+#define SCALED_FAILED(hr) do { if (g_scale > 1) g_scale_lower = 1; (void)(hr); } while (0)
+#define NO_MEMORY(hr) ((hr) == (HRESULT)0x8876017CL || (hr) == (HRESULT)0x8007000EL)   /* D3DERR_OUTOFVIDEOMEMORY, E_OUTOFMEMORY */
+#ifdef H2N_SCALE_TEST              /* (test builds here only, never sent) as if the card had no room for surfaces above this scale */
+#define SCALE_REFUSED (g_scale > (H2N_SCALE_TEST))
+#else
+#define SCALE_REFUSED 0
+#endif
 static unsigned g_scale = 1;       /* every surface the game draws into is this many times its size in each direction (H2N_RENDER) */
 static IDirect3DSurface9 *g_half_surface[4]; static unsigned g_half_size[4];   /* the steps of halving a picture drawn larger than the window */
 static unsigned g_ssaa;            /* H2N_SSAA: the picture drawn this many times the window in each direction, then averaged down */
@@ -409,7 +418,7 @@ int gx_open(unsigned width, unsigned height)
 	g_trace = h2n_env_int("H2N_GFXTRACE", 0);
 	g_trace_frame = (unsigned)h2n_env_int("H2N_GFXFRAME", 0);
 	g_scale = (unsigned)h2n_env_int("H2N_RENDER", 1);
-	if (g_scale < 1 || g_scale > 10) g_scale = 1;   /* (s10t) up to 10: 6400x4800 */
+	if (g_scale < 1 || g_scale > SCALE_LIMIT) g_scale = 1;   /* (s10t) up to 10: 6400x4800; (s10z) up to 20: 12800x9600 */
 	g_lazy = h2n_env_int("H2N_GFXLAZY", 0); g_lazy_draw = !g_lazy;
 	g_half = h2n_env_int("H2N_GFXHALF", -50) / 100.0f;
 	g_depth_mode = h2n_env_int("H2N_GFXDEPTH", 1);
@@ -2162,7 +2171,7 @@ static IDirect3DTexture9 *depth_copy_inner(target_entry *e)
 	if (!e->texture || !copy_shaders()) return NULL;
 	if (!e->copy)
 	{
-		if (FAILED(IDirect3DDevice9_CreateTexture(d, e->real_width, e->real_height, 1, D3DUSAGE_RENDERTARGET, D3DFMT_A8R8G8B8, D3DPOOL_DEFAULT, &e->copy, NULL))) { e->copy = NULL; return NULL; }
+		if (FAILED(IDirect3DDevice9_CreateTexture(d, e->real_width, e->real_height, 1, D3DUSAGE_RENDERTARGET, D3DFMT_A8R8G8B8, D3DPOOL_DEFAULT, &e->copy, NULL))) { e->copy = NULL; SCALED_FAILED(0); return NULL; }
 		if (FAILED(IDirect3DTexture9_GetSurfaceLevel(e->copy, 0, &e->copy_surface))) { IDirect3DTexture9_Release(e->copy); e->copy = NULL; e->copy_surface = NULL; return NULL; }
 		e->stale = 1;
 	}
@@ -2255,23 +2264,24 @@ static target_entry *target_for(const gx_surface *s, int depth)
 	if (depth)
 	{
 		static int plain;
-		hr = plain ? E_FAIL : IDirect3DDevice9_CreateTexture(g_device, e->real_width, e->real_height, 1, D3DUSAGE_DEPTHSTENCIL, FORMAT_INTZ, D3DPOOL_DEFAULT, &e->texture, NULL);
+		hr = plain ? E_FAIL : SCALE_REFUSED ? (HRESULT)0x8876017CL : IDirect3DDevice9_CreateTexture(g_device, e->real_width, e->real_height, 1, D3DUSAGE_DEPTHSTENCIL, FORMAT_INTZ, D3DPOOL_DEFAULT, &e->texture, NULL);
 		if (SUCCEEDED(hr)) hr = IDirect3DTexture9_GetSurfaceLevel(e->texture, 0, &e->surface);
 		if (FAILED(hr))
 		{
 			if (e->texture) { IDirect3DTexture9_Release(e->texture); e->texture = NULL; }
-			if (!plain) { plain = 1; note("this graphics device has no depth buffer that can be read as a texture (INTZ, %08lx); what reads the depth buffer (fog) is not drawn right", (unsigned long)hr); }
-			hr = IDirect3DDevice9_CreateDepthStencilSurface(g_device, e->real_width, e->real_height, D3DFMT_D24S8, D3DMULTISAMPLE_NONE, 0, FALSE, &e->surface, NULL);
+			if (g_scale > 1 && NO_MEMORY(hr)) SCALED_FAILED(hr);            /* (s10z) no memory for one this large is not "this device has none" */
+			else if (!plain) { plain = 1; note("this graphics device has no depth buffer that can be read as a texture (INTZ, %08lx); what reads the depth buffer (fog) is not drawn right", (unsigned long)hr); }
+			hr = SCALE_REFUSED ? (HRESULT)0x8876017CL : IDirect3DDevice9_CreateDepthStencilSurface(g_device, e->real_width, e->real_height, D3DFMT_D24S8, D3DMULTISAMPLE_NONE, 0, FALSE, &e->surface, NULL);
 		}
 		e->stale = 1; e->stencil_count = 0; e->stencil_any = 1;      /* nothing is known of what a new buffer holds */
 	}
 	else
 	{
-		hr = IDirect3DDevice9_CreateTexture(g_device, e->real_width, e->real_height, 1, D3DUSAGE_RENDERTARGET, D3DFMT_A8R8G8B8, D3DPOOL_DEFAULT, &e->texture, NULL);
+		hr = SCALE_REFUSED ? (HRESULT)0x8876017CL : IDirect3DDevice9_CreateTexture(g_device, e->real_width, e->real_height, 1, D3DUSAGE_RENDERTARGET, D3DFMT_A8R8G8B8, D3DPOOL_DEFAULT, &e->texture, NULL);
 		if (SUCCEEDED(hr)) hr = IDirect3DTexture9_GetSurfaceLevel(e->texture, 0, &e->surface);
 		if (SUCCEEDED(hr)) IDirect3DDevice9_ColorFill(g_device, e->surface, NULL, 0);
 	}
-	if (FAILED(hr)) { note("a %ux%u %s surface could not be created (%08lx)", s->width, s->height, depth ? "depth" : "colour", (unsigned long)hr); memset(e, 0, sizeof(*e)); return NULL; }
+	if (FAILED(hr)) { SCALED_FAILED(hr); note("a %ux%u %s surface could not be created at %ux%u (%08lx)", s->width, s->height, depth ? "depth" : "colour", s->width * g_scale, s->height * g_scale, (unsigned long)hr); memset(e, 0, sizeof(*e)); return NULL; }
 	if (g_trace) h2n_log("       picture: new %s surface %ux%u for the game's memory %p\n", depth ? "depth" : "colour", s->width, s->height, s->memory);
 	return e;
 }
@@ -2647,7 +2657,7 @@ static void gx_draw_inner(const gx_state *s, unsigned primitive, unsigned count,
 			unsigned k;
 			if (!e->copy)
 			{
-				if (FAILED(IDirect3DDevice9_CreateTexture(g_device, e->real_width, e->real_height, 1, D3DUSAGE_RENDERTARGET, D3DFMT_A8R8G8B8, D3DPOOL_DEFAULT, &e->copy, NULL))) { e->copy = NULL; break; }
+				if (FAILED(IDirect3DDevice9_CreateTexture(g_device, e->real_width, e->real_height, 1, D3DUSAGE_RENDERTARGET, D3DFMT_A8R8G8B8, D3DPOOL_DEFAULT, &e->copy, NULL))) { e->copy = NULL; SCALED_FAILED(0); break; }
 				if (FAILED(IDirect3DTexture9_GetSurfaceLevel(e->copy, 0, &e->copy_surface))) { IDirect3DTexture9_Release(e->copy); e->copy = NULL; e->copy_surface = NULL; break; }
 			}
 			if (FAILED(IDirect3DDevice9_StretchRect(g_device, e->surface, NULL, e->copy_surface, NULL, D3DTEXF_NONE))) break;
@@ -3339,7 +3349,7 @@ void __cdecl gx_live(void)
 	if (size_text) sscanf(size_text, "%dx%d", &want_w, &want_h);
 	mode = !mode_text ? 0 : !_stricmp(mode_text, "fullscreen") ? 2 : !_stricmp(mode_text, "borderless") ? 1 : 0;
 	if (want_w < 320 || want_h < 240 || want_w > 16384 || want_h > 16384) { want_w = mode ? screen_w : 1280; want_h = mode ? screen_h : 960; }
-	if (getenv("H2N_RENDER")) { scale = (unsigned)h2n_env_int("H2N_RENDER", 1); if (scale < 1 || scale > 10) scale = 1; }
+	if (getenv("H2N_RENDER")) { scale = (unsigned)h2n_env_int("H2N_RENDER", 1); if (scale < 1 || scale > SCALE_LIMIT) scale = 1; }
 	else
 	{	/* (a settings.ini from before s10t: a percentage of the picture's height as it is now) */
 		int pct = h2n_env_int("H2N_RENDERSCALE", 100), n = (int)((g_picture_rect.bottom - g_picture_rect.top) * (pct < 25 ? 25 : pct > 400 ? 400 : pct) / 100.0 / g_height + 0.5);
@@ -3383,6 +3393,19 @@ void __cdecl gx_live(void)
 static void picture_follow(void)
 {
 	int cw, ch;
+	if (g_scale_lower)
+	{	/* (s10z) the card had no room for the game's surfaces at this Render Scale: one step lower, and no higher again
+		   in this run (each step that does not fit costs a frame) */
+		g_scale_lower = 0;
+		if (g_new_window && g_device && !g_lost && g_scale > 1)
+		{
+			unsigned was = g_scale;
+			g_scale_most = g_scale - 1;
+			picture_refit(g_scale - 1);
+			h2n_log("*** picture: the graphics card could not make the game's surfaces at Render Scale x%u (%ux%u each; not enough graphics memory): x%u is used until the next start\n",
+				was, g_width * was, g_height * was, g_scale);
+		}
+	}
 	if (!g_new_window || !g_device || g_lost || !client_size(&cw, &ch)) return;
 	if (((unsigned)cw == g_window_width && (unsigned)ch == g_window_height) || (cw == g_refused_w && ch == g_refused_h)) return;
 	if (picture_refit(g_scale) & 1)

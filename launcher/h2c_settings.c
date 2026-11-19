@@ -30,7 +30,7 @@ static HBRUSH g_field_brush;
 static int g_loading;
 static char g_aa_note_text[200];
 static RECT g_aa_note_rect;
-#define SCALE_MOST 10                                             /* (s10t) Render Scale: 1 to 10 times the game's 640x480 */
+#define SCALE_MOST 20                                             /* (s10t) Render Scale: 1 to 10 times the game's 640x480; (s10z) to 20 (12800x9600) */
 static int g_sizes[32][2], g_size_count;
 
 /* ---- the look ---- */
@@ -151,7 +151,7 @@ static void paint_end(paint_buffer *p)
 }
 
 /* ---- the controls: a choice (its value between two arrows: click, the wheel, Left / Right), a toggle, a button ---- */
-typedef struct { char items[12][48]; int count, sel, hot, primary, checked, pressed, wrap;     /* wrap: a choice that goes round (s10h) */
+typedef struct { char items[32][48]; int count, sel, hot, primary, checked, pressed, wrap;     /* wrap: a choice that goes round (s10h) */
 	int steps, pos, decimals, drag; double base, unit;       /* (s10v) a slider: positions 0..steps, its value base + pos x unit */
 	int code, waiting, skip_char; DWORD since; } ctl;       /* (s10v) a key field: the key it holds; waiting for the next key */
 static ctl *ctl_of(HWND w) { return (ctl *)GetWindowLongPtrA(w, GWLP_USERDATA); }
@@ -191,7 +191,7 @@ static LRESULT CALLBACK choice_proc(HWND w, UINT m, WPARAM wp, LPARAM lp)
 	if (handled) return r;
 	switch (m)
 	{
-	case CH_ADD: if (c && c->count < 12) { snprintf(c->items[c->count++], 48, "%s", (const char *)lp); InvalidateRect(w, NULL, FALSE); } return 0;
+	case CH_ADD: if (c && c->count < 32) {   /* (s10z) 32 entries (it was 12): Render Scale has 20, Window Size up to 32 */ snprintf(c->items[c->count++], 48, "%s", (const char *)lp); InvalidateRect(w, NULL, FALSE); } return 0;
 	case CH_CLEAR: if (c) { c->count = 0; c->sel = 0; InvalidateRect(w, NULL, FALSE); } return 0;
 	case CH_SET: if (c && (int)wp >= 0 && (int)wp < c->count) { c->sel = (int)wp; InvalidateRect(w, NULL, FALSE); } return 0;
 	case CH_GET: return c && c->count ? c->sel : -1;

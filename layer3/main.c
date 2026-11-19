@@ -758,7 +758,7 @@ static void h2n_settings_apply(void)
 		for (end = key + strlen(key); end > key && (end[-1] == ' ' || end[-1] == '\t'); ) *--end = 0;
 		while (*value == ' ' || *value == '\t') value++;
 		any = 1;
-		if (!_stricmp(key, "render_multiplier")) setting("H2N_RENDER", value);      /* (s10t) 1 to 10 times the game's 640x480 */
+		if (!_stricmp(key, "render_multiplier")) setting("H2N_RENDER", value);      /* (s10t) 1 to 10 times the game's 640x480; (s10z) to 20 */
 		else if (!_stricmp(key, "render_scale")) setting("H2N_RENDERSCALE", value);  /* (a settings.ini from before s10t: a percentage) */
 		else if (!_stricmp(key, "window_width")) snprintf(width, sizeof(width), "%s", value);
 		else if (!_stricmp(key, "window_height")) snprintf(height, sizeof(height), "%s", value);
