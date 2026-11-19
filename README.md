@@ -1,36 +1,115 @@
-# Generated tables
+# Halo 2 Classic - A Halo 2 Recompilation
 
-These are the analysis results that the published builds were made with. They hold addresses, sizes, CRCs and
-symbol names. They don't hold any bytes of the XBE: the start-up initialisers' bytes are made from your own copy (see
-[docs/BUILD.md](../docs/BUILD.md)). `docs/BUILD.md` says where each file goes. The script that writes a file is given
-in brackets.
+H2Classic runs **Halo 2 for the original Xbox (v1.0)** as a native Windows program. It is built from the source of
+[halo2-decompiled](https://github.com/kirklandsig/halo2-decompiled), the community decompilation of the game's
+executable, together with a Windows layer that does the console's work: graphics in Direct3D9, a software audio 
+processor, controllers through XInput, and networking.
 
-| File | What it holds |
+H2Classic is not an emulator. The game's code is compiled for the PC. Where the decompilation doesn't have a function
+yet, or only has an unproven draft of it, the program runs that function from **your own copy** of the game: at start
+it reads your unmodified v1.0 `default.xbe`, puts its data and that code at the console's addresses, and runs it.
+Nothing of the game, the XBE, the console or Microsoft is in this repository or in the program.
+
+This is a test project, not a finished port. Builds are made and checked one change at a time; see
+[docs/CHANGELOG.txt](docs/CHANGELOG.txt).
+
+## What you need to play
+
+- Windows 10 or 11, 64-bit.
+- Your own Halo 2 game for the original Xbox: the unmodified **v1.0** `default.xbe` (4,861,952 bytes, SHA-256
+  `03215919bb7163259257d361f4c7bf802a7ab12aa85e2689436369b5c427935d`) and its `maps` folder, or a disc image (.iso) of
+  the game. They go in the `Rom` folder next to `H2Classic.exe`. The program checks the XBE and stops if it is any
+  other version or a modified one.
+- Optional: `h2classic\keys.bin`, which makes saved games and profiles carry the same signatures as on a console, so
+  they work with an Xbox or xemu. H2Classic Settings has a button that makes it from **your own** console's BIOS and
+  MCPX boot ROM dumps (`launcher/make_keys.py` does the same). No key is included anywhere.
+- Optional, for DLSS: NVIDIA's `nvngx_dlss.dll` next to `H2Classic_DLSS.exe` (it is NVIDIA's file and isn't included).
+
+Start `H2Classic Settings.exe`, choose the settings, and press Start Game.
+
+## What it does
+
+- The game's own code, compiled for the PC from the decompilation, with exact game behaviour as the goal: physics,
+  AI, timing and saves are the console's.
+- Widescreen at 16:9, 21:9 and 32:9, with the HUD and menus placed for it; render scale and window modes.
+- **Unlock Performance**: frame rates above 30. The game still runs at its own 30 ticks a second, and the frames in
+  between are drawn at the in-between moment. It includes fixes ported from the Spooky Ghost mod (Increased LODs,
+  Draw Distance, the zoom hold) and an animation fix for the rocket launcher.
+- Anti-aliasing: SMAA, FXAA, TAA, and DLSS (DLAA) through a small 64-bit helper program.
+- Split screen with up to four controllers, controller vibration, and the keyboard as a controller.
+- The intro and other movies, the game's sound and music.
+- System link with consoles and xemu, using the XBE's own network library (experimental).
+- A main-menu EXIT item, so the game can be closed from full screen.
+
+Xbox Live is not available. Downloaded content isn't read.
+
+## Building
+
+See [docs/BUILD.md](docs/BUILD.md). In short: Linux with 32-bit Wine, the Xbox SDK the game was built with (which
+you must supply yourself), your own `default.xbe`, the halo2-decompiled source with
+[decomp_patches/h2classic_decomp.patch](decomp_patches/h2classic_decomp.patch) applied, zig and LLVM. The developer
+notes for every build are in [docs/DEVLOG.txt](docs/DEVLOG.txt).
+
+## Repository layout
+
+| Folder | What is in it |
 | --- | --- |
-| `retail_syms.S` | One absolute symbol per data symbol of the game's source that stands for retail data, at its retail address (`gen.py`) |
-| `retail_tables.template.S` | The XBE sections to load (with their CRCs) and the code pointers in the game's data to re-aim at the build's functions; `@@H2N_DELTA@@` marks where `make_retail_tables.py` puts the initialisers' writes (`gen.py`, then the clean-up in `fix_resolve.json`) |
-| `retail_code.S` | The XBE's code sections (with their CRCs), the kernel imports, which functions run as the XBE's code, and which of the XBE's library functions jump to the build's own (`gen_code.py`) |
-| `plan.json` | Which retail address each data symbol stands for (`plan.py`, then `statics2.py`, `vtables.py`, `add_globals.py`) |
-| `oracle.json`, `oracle2.json`, `funcmap.json` | Symbol and retail-address pairs read from the matched functions, and their cross-check (`oracle.py`, `oracle2.py`). The published `oracle2.json` leaves out `libnames`, which are names from the SDK's libraries |
-| `fixups.json`, `fixups2.json` | Pointers to code inside the game's data (`scan.py`, `scan2.py`). `gen.py` reads `fixups2.json` |
-| `fix_resolve.json` | The hand clean-up of those pointers: a vector deleting destructor re-aimed to the scalar one, or the entry dropped |
-| `statics_plan.json`, `statics_fields.json` | File-scope statics that are really a retail global reached by name from another file (`statics1.py`, `statics2.py`) |
-| `vtables_plan.json` | Retail's vtable for classes the plan doesn't place, found by the functions both hold (`vtables.py`) |
-| `extra_globals.json` | Data symbols that newly compiled source defines for retail data (read by `add_globals.py`) |
-| `renamed_statics.json` | Statics renamed by `rewrite.py` |
-| `unresolved.json`, `unresolved2.json`, `unresolved3.json` | The outside symbols the game's objects need. `unresolved3.json` is current (`undef3.py`) |
-| `stub_returns.json`, `stub_types.json` | What the stand-ins for the Xbox functions the layer doesn't define return (read by `mkstubs3.py`) |
-| `kernel_names.json` | The console kernel's exports by ordinal |
-| `retail_routes.json`, `retail_routes_not.json` | Unproven functions sorted by how the XBE's code takes their arguments (`retailconv.py`) |
-| `routes_called.json`, `routes_unproven.json`, `routes_pointer.json` (and the `_s9e` and `_not` variants) | Unproven drafts that run as the XBE's code instead (`unproven_routes.py`, `pointer_routes.py`) |
-| `code_immediates.json` | Numbers in the XBE's code that name a game function (`code_immediates.py`) |
-| `datacmp.json` | The source's initialised data compared with retail's (`datacmp.py`) |
-| `init_table.json` | The start-up initialiser table (`findinit.py`) |
-| `inline_missing.json`, `keep_manifest.json` | From an earlier stage, when cross-file inline functions were compiled separately (`inl.py`, `keep.py`) |
-| `layer_lib/` | Empty archives for the `/DEFAULTLIB` names the game's objects carry |
+| `layer2/` | The Windows layer: start-up and loading (`main.c`, `retail.c`), the renderer (`gfx9.c`, `xd3d.cpp`, `gfx_aa.c`), sound (`apu.c`, `apu_dsp.c`, `xdsound.cpp`), controllers (`input.c`, `xpad.cpp`), saves (`xsave.cpp`, `xsign.c`), files (`xapi.c`, `xiso.c`), the network (`xnet.c`, `xnetx.c`), the kernel's services (`xkernel.c`, `xcrypt.c`), frame timing and in-between frames (`timing.c`, `interp.c`) |
+| `decomp_patches/` | The changes H2Classic makes to the decompilation's source: the calls into the layer, marked `h2native:` |
+| `generated/` | Tables made by the analysis scripts: which retail address each data symbol and vtable stands for, which functions run from the XBE, and the code pointers in the game's data. Addresses and names only: no bytes of the XBE |
+| `scripts/` | The analysis and build scripts (Python): compiling the decompilation for the PC, rewriting the objects, generating the tables, and reading crash dumps |
+| `tools/` | The build and test scripts (`build2.sh`, `recompile.sh`, the Wine test-run scripts) and the SDK compiler wrappers |
+| `launcher/` | H2Classic Settings (`h2c_settings.c`), the test launcher (`.cmd` + `.ps1`) and `make_keys.py` |
+| `dlss/` | The 64-bit DLSS helper (`H2Classic_DLSS.exe`) and its build script |
+| `res/` | Icons and version resources |
+| `docs/` | Build instructions, the change log (each build's notes) and the developer log |
 
-## Game version 1.5
+## Credits
 
-`../generated15/` holds 1.5's `retail_syms.S` and `retail_code.S` (the same kinds of tables, for the title update's
-executable). 1.5's `retail_tables.S` and the other 1.5 tables are written by `scripts15/` from your own XBEs
-(`chain15.sh`; see [docs/BUILD.md](../docs/BUILD.md)).
+- **[halo2-decompiled](https://github.com/kirklandsig/halo2-decompiled)** by kirklandsig and its contributors: the
+  game's source, which this builds on.
+- **Spooky Ghost** (Fortune090), the Halo 2 Xbox mod. Several of the high-frame-rate fixes are ported from it.
+- [SMAA](https://github.com/iryoku/smaa) by Jorge Jimenez, Jose I. Echevarria, Belen Masia, Fernando Navarro and
+  Diego Gutierrez; [Playdead's temporal reprojection](https://github.com/playdeadgames/temporal); NVIDIA's
+  [DLSS](https://github.com/NVIDIA/DLSS). See [THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md).
+- [xemu](https://xemu.app) served as a reference for how the console's hardware behaves.
+
+## Legal
+
+H2Classic is an independent, non-commercial project. It is not affiliated with, endorsed by, sponsored by or approved
+by Microsoft, Bungie, 343 Industries or any other rights holder. Halo, Halo 2, Xbox and related names are trademarks
+of their owners and are used here only to name the software this works with.
+
+This repository does not contain, and the program does not include, any of the following:
+
+- the game: its executable, maps, textures, sound, movies or other data;
+- the Xbox SDK or any other Microsoft material;
+- console keys or BIOS images.
+
+You need your own copy of the game, from a disc you are legally entitled to use.
+
+## License
+
+H2Classic is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License
+as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version
+(GPL-3.0-or-later; see [LICENSE](LICENSE)). The program is built from halo2-decompiled's source, which is under the
+same license.
+
+### Additional permission for the Xbox Development Kit
+
+H2Classic is built with the compiler and headers of the Microsoft Xbox Development Kit and runs with the libraries in
+the user's own game executable. As an additional permission under section 7 of the GPL, the same as halo2-decompiled's:
+
+If you modify this program, or any covered work, by linking or combining it with the libraries of the Microsoft Xbox
+Development Kit (or modified versions of those libraries), containing parts covered by the terms of their licenses,
+the licensors of this program grant you additional permission to convey the resulting work.
+
+This permission covers only those libraries. The project's own code stays under the GPL.
+
+### Exceptions
+
+- `dlss/` (the separate DLSS helper program) is under the MIT license ([dlss/LICENSE](dlss/LICENSE)), because the
+  helper links NVIDIA's closed NGX library, and GPL code can't be linked with it. That library and NVIDIA's DLSS SDK
+  come under the [NVIDIA RTX SDKs license](dlss/NVIDIA_RTX_SDKs_LICENSE.txt). This software contains source code
+  provided by NVIDIA Corporation.
+- `layer2/smaa/` is SMAA's own code under its license ([layer2/smaa/LICENSE.txt](layer2/smaa/LICENSE.txt)).
