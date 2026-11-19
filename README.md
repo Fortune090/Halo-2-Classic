@@ -1,4 +1,4 @@
-# Halo 2 Classic - A Halo 2 Recompilation
+# Halo 2 Classic - An OG Halo 2 Recompilation
 
 <img width="3429" height="958" alt="image" src="https://github.com/user-attachments/assets/a2ddd59c-7e97-41de-a40f-84eefca7fbae" />
 
