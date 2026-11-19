@@ -11,7 +11,8 @@ newest first. Its section "For whoever continues this work" is the long version 
 | --- | --- |
 | The Xbox SDK the game was built with (XDK 5849: `bin/vc71` with CL 13.10.3077, `include`, `lib`). You must obtain it lawfully yourself | `/home/claude/sdk/xbox` |
 | Your own unmodified Halo 2 v1.0 `default.xbe` (4,861,952 bytes, SHA-256 `03215919bb7163259257d361f4c7bf802a7ab12aa85e2689436369b5c427935d`) | `/home/claude/xbe/default.xbe` |
-| The [halo2-decompiled](https://github.com/kirklandsig/halo2-decompiled) source at the snapshot of 18 November 2026 (its README: 10,697 of 11,326 game functions matched), with `decomp_patches/h2classic_decomp.patch` applied, and its own `orig/default.xbe` in place | `/home/claude/h2decomp_src/halo2-decompiled-main` |
+| For game version 1.5: your own `default.xbe` of the last title update (English, 4,919,296 bytes, CRC-32 `a5b0b715`) | `/home/claude/v15/default_v15.xbe` |
+| The [halo2-decompiled](https://github.com/kirklandsig/halo2-decompiled) source at the snapshot of 18 November 2026 (its README: 10,707 of 11,326 game functions matched), with `decomp_patches/h2classic_decomp.patch` applied, and its own `orig/default.xbe` in place | `/home/claude/h2decomp_src/halo2-decompiled-main` |
 | Linux with 32-bit Wine (`wine32:i386`; Wine 9 was used), python3 with `ziglang` (zig 0.17.1), `capstone`, `unicorn` and `Pillow`, and LLVM 18's `lld-link`, `llvm-nm` and `llvm-ar` | |
 | Only for the DLSS helper: NVIDIA's DLSS SDK (`include/` and `lib/Windows_x86_64/x64/nvsdk_ngx_d.lib`). `dlss/build_helper.sh` shows how to fetch just those | `/home/claude/ext/DLSS` |
 
@@ -20,12 +21,15 @@ newest first. Its section "For whoever continues this work" is the long version 
 | From this repository | To |
 | --- | --- |
 | `scripts/` | `/home/claude/scripts/` |
+| `scripts15/` (game version 1.5's part of the pipeline) | `/home/claude/v15/` |
+| `tools15/` (small tools used while working: disassembly, checks, the menu driver `nav.py`) | `/home/claude/v15tools/` |
 | `tools/xdkw/` (`CL.Exe`, `Link.Exe`, `Lib.Exe`: shell scripts that run the SDK's tools under Wine; `chmod +x`) | `/home/claude/xdkw/bin/vc71/`, with `/home/claude/xdkw/include` and `/home/claude/xdkw/lib` as symlinks into the SDK |
 | `tools/*.sh` | `/home/claude/native/` |
-| `layer2/` | `/home/claude/native/layer2/` |
+| `layer3/` (the Windows layer; `layer2/` in earlier versions of the repository is the same layer before it served both game versions - delete it) | `/home/claude/native/layer3/` |
 | `launcher/`, `dlss/`, `res/` | `/home/claude/native/launcher/`, `/home/claude/native/dlss/`, `/home/claude/native/res/` |
 | `generated/*.json` | `/home/claude/native/` |
 | `generated/retail_syms.S`, `generated/retail_code.S`, `generated/retail_tables.template.S` | `/home/claude/native/layer/` |
+| `generated15/retail_syms.S`, `generated15/retail_code.S` (1.5's; `scripts15/tables15.py` makes 1.5's `retail_tables.S`) | `/home/claude/native15/layer/` |
 | `generated/layer_lib/*.a` (empty archives for the `/DEFAULTLIB` names the game's objects carry) | `/home/claude/native/layer/lib/` |
 
 After copying, make the scripts executable again: `chmod +x /home/claude/native/*.sh /home/claude/native/dlss/build_helper.sh
@@ -39,9 +43,7 @@ small C program with `ZIG_VERBOSE_LINK=1 python3 -m ziglang cc -target x86-windo
 
 ## Wine, once per session
 
-Do this before the first compile. Otherwise the first tool run hangs on Wine's background services. On a machine
-without `/run/user/<uid>` (a container, say), create it first (`mkdir -p /run/user/0 && chmod 700 /run/user/0`):
-Wine 9's server stops with "free(): invalid pointer" without it.
+Do this before the first compile. Otherwise the first tool run hangs on Wine's background services:
 
     export WINEDEBUG=-all WINEPREFIX=/home/claude/.wine32 XDK_DIR=/home/claude/xdkw
     setsid wineserver -p </dev/null >/dev/null 2>&1 &
@@ -79,42 +81,52 @@ The game's objects are not published either. Make them from the decompilation:
 5. Put the anti-aliasing view hook into one object again (`rewrite.py` remakes it):
    `python3 scripts/scene_hook.py obj_r/unknown_023540.obj obj_r/unknown_023540.obj`.
 
-`tools/recompile.sh <build id> <object stem>...` does steps 3-5 and the link for sources that changed.
+`tools/recompile.sh <build id> <object stem>...` does steps 3-5 and the link for sources that changed (1.0-only link;
+for the program of both versions run the 1.5 steps below and `build3.sh` after steps 3-5).
 
 The tables in `generated/` (`plan.json`, `fixups2.json`, `statics_plan.json`, `vtables_plan.json`, the route lists
 and the rest) are the ones the published builds were made with. Make them again only after the decompilation itself
-has changed (new matched functions). The order, as run for build s10m (DEVLOG.txt has the details):
-
-1. The decompilation's own build and check on an UNPATCHED copy of the repository (`tools/build.py`, then
-   `tools/check.py --no-build`). Its `build/` feeds the oracle; H2Classic's hooks would make the functions they sit
-   in mismatch there.
-2. The patched repository's `build/gen/<stem>_tu.cpp` (its `tools/build.py`; the files include their source by
-   absolute path, so make them where the tree will stay), then steps 3-5 above.
-3. `oracle.py <unpatched>`, `undef3.py`, `emuinit.py`, `plan.py`, `oracle2.py <unpatched>`,
-   `statics1.py <unpatched>`, `statics2.py`, `vtables.py`, `add_globals.py`, `scan.py`, `scan2.py`,
-   `retailconv.py`, `unproven_routes.py`, `pointer_routes.py`, `code_immediates.py`, `rewrite.py`,
-   `scene_hook.py`, `gen.py`, `fix_resolve.py` (the clean-up of the code pointers whose symbol no object defines),
-   `gen_code.py`, then the link. Two inputs of that path are not published because they are names from the SDK's own libraries:
+has changed (new matched functions): DEVLOG.txt, "The full path", gives the order (`oracle.py`, `undef3.py`,
+`plan.py`, `oracle2.py`, `scan.py`, `scan2.py`, `statics1.py`, `statics2.py`, `vtables.py`, `gen.py`,
+`gen_code.py`). Two inputs of that path are not published because they are names from the SDK's own libraries:
 `libsig.json` (`scripts/libsig.py`, from your SDK's libraries) and the `libnames` part of `oracle2.json`
 (`scripts/oracle2.py`).
 
 ## Linking the program
 
-    cd /home/claude/native && ./build2.sh <build id> > out/build.log 2>&1; echo "build rc=$?"
+    cd /home/claude/native && ./build3.sh <build id> > /tmp/build.log 2>&1; echo "build rc=$?"
 
-Always check the exit code: a failed build leaves the previous exe in `out/`. The result is `out/halo2_native.exe`
-(released as `H2Classic.exe`), with `out/halo2_native.map`. The script prints both ends of the block reserved for the
+Always check the exit code: a failed build leaves the previous exe in `out3/`. The result is `out3/halo2_native.exe`
+(released as `H2Classic.exe`), with `out3/halo2_native.map`. The script prints both ends of the block reserved for the
 console's image, and they must read `0x11000` and `0x586000`.
 
-How `build2.sh` puts the program together:
+How `build3.sh` puts the program together (`build2.sh` is the earlier script for a 1.0-only program):
 
-- The `.c` files of `layer2/` are compiled with `zig cc -target x86-windows-gnu`. `xd3d.cpp`, `xdsound.cpp`,
+- The `.c` files of `layer3/` are compiled with `zig cc -target x86-windows-gnu`. `xd3d.cpp`, `xdsound.cpp`,
   `xsave.cpp`, `selftest.cpp`, `xpad.cpp` and the generated `stubs_typed.cpp` are compiled with the SDK's own CL
   against its headers, so the structures the game reads are the SDK's.
 - `scripts/mkstubs3.py` writes a stand-in for every Xbox function the layer doesn't define. Each one is written with
   the prototype from the SDK's headers, so it clears every output.
 - `lld-link` links the program at image base `0x10000`, fixed and large-address-aware, with `reserve.o` first so that
   `0x11000-0x586000`, where the game's image sits on the console, stays free.
+- One program runs both game versions. The layer is compiled once and decides the version when it starts (`h2n_v15`;
+  an address that differs is written `H2N_VA(1.0's, 1.5's)`). The game's objects are linked twice with it, against
+  1.0's symbols and tables and against 1.5's, to the same layout. `scripts/v15list.py` then writes every place where
+  the 1.5 link differs into the 1.0 exe's `.h2nv15` section, and `main.c` applies that list at start when the game
+  version is 1.5. Both versions' tables and adapters are in the exe (1.5's as `_h2n15_*`).
+
+## Game version 1.5
+
+1.5 runs the way 1.0 does: functions the title update left unchanged run as the compiled source, changed ones run as
+the 1.5 XBE's own code, the data sits at 1.5's addresses. The tables for it are made from the 1.0 workspace and your
+1.5 XBE by `scripts15/` (in `/home/claude/v15`, output in `/home/claude/native15`):
+
+    python3 emuinit15.py      # -> native15/init_delta.json (what 1.5's start-up initialisers leave in memory; not published)
+    ./chain15.sh              # map15, reach15, boundary15, conv15, adapt15, vt15, syms15, tables15, gen_code15, back15, ...
+
+After a change to one source of the game: `syms15.py`, `tables15.py` and `gen_code15.py` again, then `build3.sh`.
+DEVLOG.txt describes each step, what it found and the cases settled by hand. `python3 tools15/rawaddr.py`, run in
+`layer3/`, lists addresses in the layer that are not inside `H2N_VA` - run it after changing the layer.
 
 ## The other programs
 

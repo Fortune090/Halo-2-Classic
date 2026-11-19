@@ -147,13 +147,6 @@
 "why": ""
 },
 {
-"va": 2315036,
-"name": "?v10@c_window_channel@@UAEXXZ",
-"owner": "game",
-"status": "todo",
-"why": ""
-},
-{
 "va": 2401937,
 "name": "?function_24a691@c_list_24a64d@@UAEPBGJ_N@Z",
 "owner": "game",
@@ -199,13 +192,6 @@
 "va": 2918398,
 "name": "?v10@c_screen_45d2b8@@UAE_NPAUs_widget_event@@@Z",
 "owner": "game",
-"status": "near",
-"why": ""
-},
-{
-"va": 3246736,
-"name": "?add@lane_a_simple_contact_manager@@UAEGPBUlane_a_contact_body@@0PBXPBUlane_a_contact_point@@@Z",
-"owner": "third:havok",
 "status": "near",
 "why": ""
 },

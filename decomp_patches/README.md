@@ -1,7 +1,7 @@
 # Changes to the decompilation's source
 
 `h2classic_decomp.patch` is everything H2Classic changes in [halo2-decompiled](https://github.com/kirklandsig/halo2-decompiled):
-35 files. It applies to the main branch as it was on 18 November 2026 (its README: "matched 10697 of 11326 game
+35 files. It applies to the main branch as it was on 18 November 2026 (its README: "matched 10707 of 11326 game
 functions"):
 
     cd halo2-decompiled-main

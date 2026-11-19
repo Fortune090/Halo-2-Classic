@@ -6,7 +6,7 @@ mkdir -p $O $B
 Z="python3 -m ziglang"
 BUILD_ID="${1:-dev}"
 CF="-target x86-windows-gnu -O1 -Wall -Wno-unused-function -DH2N_BUILD=\"$BUILD_ID\""
-CSRC="main xapi crt physmem timing dump retail gfx9 gfx_aa gfx_dlss input xsign xiso interp apu apu_dsp xnet xnetx xkernel xcrypt"
+CSRC="main xapi crt physmem timing dump retail gfx9 gfx_aa gfx_dlss input xsign xiso interp apu apu_dsp xnet xnetx xkernel xcrypt content"
 CF2="-target x86-windows-gnu -O2 -Wall -Wno-unused-function -DH2N_BUILD=\"$BUILD_ID\""     # the sound runs in real time
 # H2N_ANALYSIS=1 ./build2.sh <id>: a build for analysis here only (never sent): it can write the effects processor's state to disk
 XDEF=""; [ -n "$H2N_ANALYSIS" ] && { CF2="$CF2 -DH2N_ANALYSIS"; XDEF="/DH2N_ANALYSIS"; }

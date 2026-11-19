@@ -691,6 +691,8 @@
 "??_7c_1ea960@@6B@" = 0x456088
 .globl "??_7c_205550@@6B@"
 "??_7c_205550@@6B@" = 0x456088
+.globl "??_7c_vertex_shape@@6B@"
+"??_7c_vertex_shape@@6B@" = 0x4560b8
 .globl "??_7c_shape_global_owner@@6B@"
 "??_7c_shape_global_owner@@6B@" = 0x4560f8
 .globl "??_7c_d@@6B@"
@@ -2111,6 +2113,8 @@
 "?g_47f05b@@3_NA" = 0x47f05b
 .globl "?g_47f05c@@3MA"
 "?g_47f05c@@3MA" = 0x47f05c
+.globl "?g_47f068@@3MA"
+"?g_47f068@@3MA" = 0x47f068
 .globl "?g_47f06d@@3EC"
 "?g_47f06d@@3EC" = 0x47f06d
 .globl "?g_47f06e@@3EA"

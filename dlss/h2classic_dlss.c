@@ -1,11 +1,11 @@
-/* H2Classic_DLSS.exe: NVIDIA DLSS for H2Classic.exe.
+/* DLSS Helper.exe: NVIDIA DLSS for H2Classic.exe.
  *
  * DLSS (NVIDIA's NGX) exists only for 64-bit programs; H2Classic.exe has to stay 32-bit (the XBE's code and data sit
  * at the console's addresses). So the game starts this 64-bit helper, which makes a Direct3D 11 device on the same
  * graphics card, makes the textures the two share (layer2/dlss_ipc.h), and runs DLSS when the game asks: DLAA, the
  * picture at its own size made from this frame and the ones before, with the game's sub-pixel jitter, motion and depth.
  *
- * Started by the game as: H2Classic_DLSS.exe <game pid>. Finds nvngx_dlss.dll in its own folder (the user's copy; it
+ * Started by the game as: DLSS Helper.exe <game pid>. Finds nvngx_dlss.dll in its own folder (the user's copy; it
  * is not part of this build). Writes h2classic\dlss_helper_log.txt (and NGX's own lines into it), and the main lines
  * into the game's log through the shared memory. Ends when the game asks it to or when the game is gone.
  *
@@ -346,7 +346,7 @@ static int start(void)
 	_snwprintf(dll, MAX_PATH, L"%ls\\nvngx_dlss.dll", g_dir);
 	if (GetFileAttributesW(dll) == INVALID_FILE_ATTRIBUTES)
 	{
-		fail(0, "nvngx_dlss.dll is not in the game folder (next to H2Classic.exe and H2Classic_DLSS.exe)");
+		fail(0, "nvngx_dlss.dll is not in the game folder (next to H2Classic.exe and DLSS Helper.exe)");
 		return 0;
 	}
 #ifndef H2N_DLSS_NO_NGX
@@ -411,7 +411,7 @@ int main(void)
 	_snwprintf(path, MAX_PATH, L"%ls\\h2classic\\dlss_helper_log.txt", g_dir);
 	g_log_file = CreateFileW(path, GENERIC_WRITE, FILE_SHARE_READ, NULL, CREATE_ALWAYS, FILE_ATTRIBUTE_NORMAL, NULL);
 	argv = CommandLineToArgvW(GetCommandLineW(), &argc);
-	if (!argv || argc < 2) { say(0, "H2Classic_DLSS.exe is started by H2Classic.exe (H2N_AA=dlss), not on its own"); return 1; }
+	if (!argv || argc < 2) { say(0, "DLSS Helper.exe is started by H2Classic.exe (H2N_AA=dlss), not on its own"); return 1; }
 	pid = wcstoul(argv[1], NULL, 10);
 	say(0, "h2classic_dlss for the game's process %lu", pid);
 	_snwprintf(name, 96, L"Local\\h2classic_dlss_%lu", pid);

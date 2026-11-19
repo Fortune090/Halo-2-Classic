@@ -20,20 +20,6 @@
 "status": "todo",
 "stub": true
 },
-"?add@lane_a_simple_contact_manager@@UAEGPBUlane_a_contact_body@@0PBXPBUlane_a_contact_point@@@Z": {
-"kind": "jmp",
-"retail": 3246736,
-"source": "src/unknown_318a90.cpp",
-"status": "near",
-"stub": false
-},
-"?add@lane_b_contact_constraint_prefix@@QAEJPAPAUlane_b_contact_point@@PAPAUlane_b_contact_property@@@Z": {
-"kind": "jmp",
-"retail": 3260032,
-"source": "src/unknown_31be80.cpp",
-"status": "todo",
-"stub": false
-},
 "?allocate_aligned@c_havok_fixed_memory@@UAEPAXJJJ@Z": {
 "kind": "jmp",
 "retail": 2277584,
@@ -377,13 +363,6 @@
 "status": "todo",
 "stub": false
 },
-"?function_1697c0@@YG_NJPBTpoint3f@@PBTvector3f@@JJPAUs_collision_result_1697c0@@@Z": {
-"kind": "jmp",
-"retail": 1480640,
-"source": "src/unknown_1689b0.cpp",
-"status": "near",
-"stub": false
-},
 "?function_170fd0@@YGXJ@Z": {
 "kind": "jmp",
 "retail": 1511376,
@@ -685,13 +664,6 @@
 "status": "todo",
 "stub": true
 },
-"?function_1fc4b0@@YIXPAUs_tracked_point@@PBUs_tracking_state@@PAUs_tracking_output@@@Z": {
-"kind": "jmp",
-"retail": 2081968,
-"source": "src/unknown_1fc2f0.cpp",
-"status": "todo",
-"stub": false
-},
 "?function_1fc7e0@@YGXJ@Z": {
 "kind": "jmp",
 "retail": 2082784,
@@ -871,13 +843,6 @@
 "kind": "jmp",
 "retail": 2486928,
 "source": "src/unknown_25fc30.cpp",
-"status": "todo",
-"stub": false
-},
-"?function_261510@@YGXJPBUs_2605d0_request@@@Z": {
-"kind": "jmp",
-"retail": 2495760,
-"source": "src/unknown_261280.cpp",
 "status": "todo",
 "stub": false
 },
@@ -1560,13 +1525,6 @@
 "status": "todo",
 "stub": false
 },
-"?function_d1a30@@YGJJPBTpoint3f@@PAUs_sky_surface_record@@@Z": {
-"kind": "jmp",
-"retail": 858672,
-"source": "src/unknown_0d0690.cpp",
-"status": "todo",
-"stub": false
-},
 "?function_d1e10@@YGJPBXPAUs_effect_color_query@@J_N@Z": {
 "kind": "jmp",
 "retail": 859664,
@@ -1626,13 +1584,6 @@
 "?function_dd360@@YG_NJ@Z": {
 "kind": "jmp",
 "retail": 906080,
-"source": "src/bipeds.cpp",
-"status": "todo",
-"stub": false
-},
-"?function_dd990@@YGXJ@Z": {
-"kind": "jmp",
-"retail": 907664,
 "source": "src/bipeds.cpp",
 "status": "todo",
 "stub": false
@@ -1852,13 +1803,6 @@
 "retail": 2918398,
 "source": "src/unknown_2c4e9c.cpp",
 "status": "near",
-"stub": false
-},
-"?v10@c_window_channel@@UAEXXZ": {
-"kind": "jmp",
-"retail": 2315036,
-"source": "src/unknown_234c64.cpp",
-"status": "todo",
 "stub": false
 },
 "?v19@c_variant_parameter_setting_screen@@UAEXXZ": {

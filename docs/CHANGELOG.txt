@@ -1,17 +1,1073 @@
 H2Classic change log: the notes that went out with each test build, newest first, as written for the tester.
-"s10l", "s9q" and so on name the build steps; each section says what changed, why, what was checked, and how to test it.
+"s10x", "s9q" and so on name the build steps; each section says what changed, why, what was checked, and how to test it.
 The developer's side of the same builds (files, addresses, how each thing was found) is in DEVLOG.txt.
 
-H2Classic (stage 9, build s10m) - Halo 2's own code as a Windows program (test build)
+H2Classic (stage 9, build s10x) - Halo 2's own code as a Windows program (test build)
 =====================================================================================
 
 What this is
-  H2Classic.exe is the halo2-decompiled source compiled for Windows. It takes the game's starting data and the
-  code of the functions the decompilation does not have yet (or has only as unproven drafts) from YOUR unmodified
-  v1.0 default.xbe each time it starts, and reads the maps from the Rom folder; it does not run without them.
+  H2Classic.exe is the halo2-decompiled source compiled for Windows. It runs game version 1.0 (the disc's game) or
+  game version 1.5 (the game with its last title update, which the map packs need); the Game Version choice in
+  H2Classic Settings says which. It takes the game's starting data and the code of the functions the decompilation
+  does not have yet (or has only as unproven drafts) from YOUR unmodified default.xbe each time it starts - 1.0 from
+  the disc's, 1.5 from the title update's - and reads the maps from the Roms folder; it does not run without them.
   Nothing of the XBE, of the console or of Microsoft is in the exe or written to disk.
   Source code: https://github.com/Fortune090/Halo-2-Classic. H2Classic is free software under the GNU General Public
   License, version 3 or later (LICENSE.txt); LICENSES.txt has its notices and those of the code it uses.
+
+New in s10x (build 46): system link finds the other players by itself; F11 and F12 are gone; "DLSS Helper.exe"; the source comes with the build
+  1. System link with nothing to set.
+     - What it does. H2Classic on two or more PCs on the same network: System Link > Available Games lists the
+       others' games, and joining works. No address, no port, no adapter, nothing to install (no Npcap), nothing to
+       tick: it is how a new h2classic\settings.ini and an old one both behave.
+     - Why it could not simply use Windows' network. The game's network code is the XBE's own library, and a console
+       addresses its system link packets by network-card address alone: every packet says IP 0.0.0.1 (measured here,
+       also when the library was given a router's address). Windows will not send or deliver such a packet; only a
+       packet driver can, and none is used.
+     - How it works instead. The players' programs carry each other's packets. Each program takes the first free of
+       four UDP ports (9369, 9370, 9371, 9368). A packet for everyone ("who has games?", "here is mine") is sent to
+       everyone on each network the PC is on, and to the PC itself, on those four ports. From every packet that
+       arrives the program remembers which console it came from and where its program is, and a packet for that one
+       console then goes straight there. Every three seconds each program says that it is there, so they know of each
+       other before anybody opens System Link. Each packet travels as it is, one per datagram - the format of xemu's
+       "UDP Tunnel".
+     - Windows Firewall. The first start asks whether H2Classic.exe may use the network: allow it (Private networks).
+       Without that, two PCs do not hear each other. Programs on one PC reach each other without it.
+     - What has to be the same on every PC: the Game Version (a 1.0 game and a 1.5 game do not see each other - two
+       consoles would not either), and h2classic\keys.bin - on all of them or on none (it gives the console's system
+       link key; without it H2Classic uses its own, and the two kinds do not see each other. The log says which:
+       "no certificate key").
+     - Two H2Classic programs on one PC work too (each from its own folder), with different console addresses.
+
+  2. xemu. What is possible, and what is not.
+     - With xemu's network on its default, NAT: no. I looked for a way and there is none that H2Classic can provide.
+       In NAT mode xemu is a small router in front of the console (the library named libslirp): it takes the console's
+       packets apart and sends their contents again through Windows, as a program's own connections. A system link
+       packet for everyone is a broadcast, and that router's sockets are never given the right to broadcast, so
+       Windows refuses it (read in libslirp's source: no SO_BROADCAST anywhere in its UDP code; QEMU's bug 1838228
+       reports the same from a user's side). A system link packet for one console is addressed to IP 0.0.0.1, which
+       Windows cannot send anywhere. So nothing of system link ever leaves xemu in NAT mode - there is nothing on the
+       PC or the network for H2Classic (or any other program, or a packet driver) to pick up, and nothing H2Classic
+       sends reaches the console inside. This is xemu's NAT mode itself; it is the same between two xemus.
+       Not run here: I did not start xemu in NAT mode to watch it fail; the above is from the source and from the
+       0.0.0.1 measurement.
+     - With one setting in xemu (no change to xemu itself): yes. In xemu: Settings > Network: Attached to UDP Tunnel,
+       Remote Address <the H2Classic PC's address>:9369 - or 127.0.0.1:9369 when both run on one PC - and Bind
+       Address left as it is (0.0.0.0:9368). Nothing is set in H2Classic. xemu's tunnel sends everything to that one
+       address; the H2Classic there passes it on, so every H2Classic PC on the network sees that xemu and plays with
+       it, not only the one it points at. If that H2Classic is closed, the xemu is cut off until it is back.
+       xemu needs h2classic\keys.bin on the H2Classic PCs (a console's system link key), as before.
+     - A setup that worked with build 45 (xemu's Remote Address 127.0.0.1:9369) keeps working unchanged.
+     - A real Xbox: left out, as you decided. It would need a packet driver on the PC.
+     - The test launcher keeps the old way under Network: "How players are reached" = tunnel, with the two tunnel
+       fields. New there: "This PC only", and the console address.
+
+  3. F11 and F12 do nothing now (F11 wrote two frames into the log, F12 saved a picture of the frame). The window's
+     title is "H2Classic". Both keys can be given to game actions in Keyboard + Mouse Settings. The test launcher's key
+     file still has "shot" and "trace". Older sections below that say "press F11" describe earlier builds.
+     F9 is unchanged: it only does something with a cutscene test option of the test launcher on.
+
+  4. H2Classic_DLSS.exe is now "DLSS Helper.exe" - the same file under a new name (not rebuilt); H2Classic.exe and
+     H2Classic Settings.exe look for the new name. After unzipping over an older folder, delete H2Classic_DLSS.exe.
+
+  5. The source: H2Classic_build46_source.zip, laid out like the repository (docs\BUILD.md says where each folder
+     goes and how the program is built; docs\DEVLOG.txt has the developer notes of every build since the repository's
+     last update). As before it holds no part of the game, the SDK or the console: you bring your own XBEs.
+
+  Checked here (two processors, under Wine):
+     - two H2Classic copies, no network setting at all: each logs "another H2Classic was found" within three seconds;
+       one creates a System Link game, the other's Available Games lists it ("Halo0006 - Pregame (open)"), joins, and
+       both lobbies show "2 player(s) in party";
+     - three copies: two as above and a third in the old tunnel way pointed at the first one's port 9369, as xemu's
+       UDP Tunnel would be. The third hosts; the second - which the tunnel does not point at - finds the game, joins,
+       and both lobbies show two players (the first passed 284 packets on);
+     - a 1.5 Slayer match on Warlock alone with system link on: play, pause, End Game, Game Over; the self test: 0 of
+       32 checks failed.
+  Not checked here: two real PCs and Windows Firewall, xemu itself with this build (build 36's xemu test used the
+     tunnel format that is unchanged), starting and playing a whole match between two players.
+
+Testing (s10x)
+  Before you start
+    - Unzip over your H2Classic folder, then delete H2Classic_DLSS.exe (the helper is "DLSS Helper.exe" now).
+    - Two PCs on the same network, each with H2Classic and its Roms. The same Game Version on both; keys.bin on both
+      or on neither.
+    - Start H2Classic on each once. If Windows asks whether H2Classic.exe may use the network, allow it.
+  Test 1: two PCs find each other
+    1. On PC 1: System Link, pick a profile, Create New Game.
+    2. On PC 2: System Link, pick a profile.
+       Expect: Available Games lists PC 1's game within a few seconds.
+    3. Select it.
+       Expect: both lobbies show both players.
+    4. On PC 1: Start Game. Play a few minutes, then End Game.
+       Expect: the match runs on both and ends for both.
+    If it fails: in h2classic_log.txt of each PC look for "xnet LAN: another H2Classic was found at ..." - not there
+       on either PC means the two programs do not hear each other (Windows Firewall, or two different networks such
+       as guest Wi-Fi); there on both but no game listed means the Game Version or keys.bin differs.
+  Test 2: xemu (if you want it in the game)
+    1. xemu: Settings > Network: Attached to UDP Tunnel, Remote Address <PC 1's address>:9369 (127.0.0.1:9369 if xemu
+       is on PC 1), Bind Address unchanged. keys.bin on both H2Classic PCs.
+    2. Host on PC 2 (the PC xemu does not point at); in xemu open System Link.
+       Expect: xemu lists PC 2's game and can join; PC 1 can join too.
+    If it fails: PC 1's log, the lines with "xnet LAN:" (the report line counts "passed on for a tunnel").
+  Test 3: the small things
+    1. In a game press F11 and F12.
+       Expect: nothing happens, no h2classic_frame_*.bmp appears, the window is titled "H2Classic".
+    2. Only if you use DLSS: H2Classic Settings shows the DLSS choices as before (no "is missing here" note), and
+       DLSS works in the game.
+  Send me
+    - Test 1 or 2 failing: h2classic_log.txt from every PC, and what each screen showed.
+    - Anything else that changed since build 45.
+
+New in s10w (build 45): the sun's glow keeps its shape in widescreen; the picture is always the window's own size
+  1. The sun's glow (your picture: the sun stretched at 21:9).
+     - Cause. A sky's sun is a lens flare marked "sun". Its rings go through the view like anything in the world, and
+       they were round. Its glow is drawn by a function of its own (function_46ea0), and that one works in screen
+       pixels: a square of 64 around the sun's point is marked where the sky shows, copied, blurred, and drawn
+       sixteen times, each time 5 pixels larger each way - as many pixels across as up and down. In the game's
+       widescreen the 640x480 picture is shown wider than it is drawn, so the glow came out as much wider as the
+       picture: 4/3 at 16:9 (a console set to widescreen shows it that way too), 16/9 at 21:9, 8/3 at 32:9.
+     - Fix, as part of the Widescreen Fix (the HUD is narrowed the same way): every measure across in that function
+       is divided by the widescreen factor, about the sun's point - the marked and copied square and the sixteen
+       drawn ones. The glow is then as wide on the screen as it is tall. Its height, its brightness and where it is
+       are the game's. At 4:3, or with the Widescreen Fix off, the numbers are the game's own, bit for bit.
+
+  2. The picture is the window's size (your two pictures: Window Size 3440x1440 shrunk and 2560x1080 enlarged into
+     the same window, with different edges).
+     - Cause. The picture was made at Window Size, and each finished frame was then fitted to the window by
+       Direct3D: a second resizing whenever the window was not exactly that size - a window Windows made smaller
+       because it does not fit the screen, a maximized or dragged window, and every Borderless or Full Screen
+       window whose Window Size was not the screen's.
+     - Now the picture is always made at the size the window really has, pixel for pixel. The game's drawing
+       (640x480 times Render Scale) is resized once, straight onto the pixels shown, and nothing is resized after
+       that. Two starts with different Window Sizes that end up as the same window give the same picture.
+     - Window Size is the size a WINDOWED window is given. When Windows gives the window another size, or you
+       maximize it, restore it or drag its edge, the picture is made for the new size between two frames (black
+       for an instant; the log says "the window is now ... inside").
+     - Borderless Windowed and Full Screen are the screen: the picture is the screen's size whatever Window Size
+       says, and H2Classic Settings greys Window Size out for those two modes.
+     - Screens Windows scales (Display settings > Scale at 125 %, 150 % ...): H2Classic now counts in the screen's
+       own pixels. Before, on such a screen, Windows enlarged the finished window - one more resizing, and blurred.
+       A windowed window is therefore smaller on such a screen than it was for the same Window Size: it now has
+       exactly that many of the screen's pixels. (H2N_DPI=0 in the environment puts the old way back, for
+       comparing.) At 100 % nothing changes.
+     - Render Scale, Aspect Ratio and the black around a picture whose shape is not the window's are as before.
+
+  3. NOT in this build: the vehicles' lights that sit beside the vehicle at a distance (your video on the bridge).
+     I have not found the cause yet, and I do not want to guess. What I have so far: an object's light is a lens
+     flare, placed on the screen through the same view as the world (function_480a0 / function_48b00), and nothing
+     in that path depends on the picture's shape in the code as I read it - so the shift comes from somewhere I
+     have not looked yet. One press from you would show it directly: see Test 4.
+
+  Checked here (under Wine):
+     - Window Size 3440x1440 on a 1920x1200 screen: the window Windows gave was 1924x1178 inside and the picture
+       was made 1924x1178; resized to 992x666, maximized (1920x1174) and restored: the picture followed each time,
+       saved frames have exactly the window's size, the game's 21:9 picture in the middle with black above and
+       below.
+     - From H2Classic Settings while the game ran: Borderless made the picture the screen's 1920x1200 with Window
+       Size still 3440x1440; Windowed gave the window Window Size again; another Window Size resized the window
+       and the picture with it. Window Size is grey in Borderless and Full Screen.
+     - With none of this in play: a 1.5 match with the mouse and End Game, and 1.0's self test.
+  Not checked here:
+     - THE SUN IN A PICTURE. In five matches here (Zanzibar, Headlong, Burial Mounds) the place the game put the
+       player had the sun behind the wheel, a wall or a building each time, so there is no before-and-after picture
+       from here. The change is in the numbers of the one function that draws the glow, read from the game's code;
+       the function ran with it (the sun showed once between the wheel's spokes, too small to judge its shape).
+       Your picture is the test.
+     - A screen Windows scales (Wine has none), a second monitor, and the exact size Windows 11 gives a window too
+       large for your screen.
+     - HDR, DLSS and frame rates above 60 after a change of the window's size (the device reset is the one build
+       43 already does for a new Window Size).
+
+Testing (s10w)
+  Before you start
+    - Unzip over your H2Classic folder. It replaces H2Classic.exe, H2Classic Settings.exe and README.txt; the other
+      files are build 44's.
+    - h2classic_log.txt is written anew at every start: copy it away before the next start when a test asks for it.
+  Test 1: the sun (Aspect Ratio 21:9, then 16:9)
+    1. Zanzibar, or the place of your picture: look at the sun.
+       Expect: the glow is round, with the flare's rings in line with it as before.
+    2. Aspect Ratio 16:9 in H2Classic Settings while you look at it.
+       Expect: still round.
+    If it fails: a screenshot, and h2classic_log.txt.
+  Test 2: your two pictures again
+    1. Display Mode Windowed, Window Size 3440 x 1440, Start Game; make it full screen the way you did; go to the
+       place of your pictures and save a screenshot. Quit.
+    2. Window Size 2560 x 1080, the same again.
+       Expect: the two screenshots have the same edges - neither is shrunk or enlarged. The log of each has a line
+       "Window Size asked for ...; the window Windows gave is ..." or "the window is now ... inside".
+    If it fails: both screenshots and both logs.
+  Test 3: the window while the game runs
+    1. Windowed: drag an edge of the window, maximize it, restore it.
+       Expect: black for an instant each time, then a sharp picture that fills the window (black beside or above
+       and below it where the shapes differ); the game goes on.
+    2. In H2Classic Settings: Borderless Windowed, then Full Screen.
+       Expect: the picture fills the screen, sharp; Window Size is grey in Settings.
+    3. Windowed again, and another Window Size.
+       Expect: the window takes that size.
+    If it fails: h2classic_log.txt (and h2classic_stop.bin if the game stopped), the step, a screenshot.
+  Test 4: for the vehicles' lights (nothing is fixed yet; this is for finding the cause)
+    1. Stand where your video was taken, with the lights beside their vehicles in view, not zoomed. Press F11 once,
+       wait until the game runs normally again, then quit.
+       F11 writes down every draw of two frames in h2classic_log.txt and saves the surfaces as
+       h2classic_surface_*.bmp and two h2classic_frame_*.bmp.
+    2. If you can: the same once more at Aspect Ratio 4:3, and once with Unlock Performance off - and say whether
+       the lights are in their place in each.
+  Send me
+    - Test 4's h2classic_log.txt and the two h2classic_frame_*.bmp of each run (the surfaces only if I ask)
+    - the two screenshots of Test 2 and their logs
+    - a screenshot of the sun at 21:9
+    - h2classic_stop.bin and the log of any stop
+    - Windows' Scale setting for your screen (Settings > System > Display), if a windowed window has another size
+      than you expect
+
+New in s10v (build 44): the mouse looks, and H2Classic Settings has Keyboard + Mouse Settings
+  1. The mouse.
+     - In a game, moving the mouse looks around, for the player on port 1. Both game versions.
+     - Where it goes in. The game works out a player's look in one function (function_185be0), from the right
+       stick. H2Classic adds the mouse's movement to that function's result, the way Halo 2 for Windows Vista does
+       inside the same function (read from your copy of its halo2.exe; nothing of that file is in H2Classic):
+         . zoomed in, the look slows down by the zoom's magnification, and a stunned unit turns slower, exactly as
+           with the stick;
+         . in a vehicle seat that has its own turn rates (a turret, a tank's gun) the mouse is slowed in the same
+           proportion as the stick is;
+         . the turn of what the player stands on is still added;
+         . with the stick (or the look keys) pushed at the same time, the larger of the two is the look, for
+           left / right and for up / down each;
+         . a player who looks with the mouse gets no pull on the view from the aim assist (Vista gives its keyboard
+           and mouse player none). Bullets are still drawn to a target and the reticle still turns red, as before.
+           Using a controller again brings the pull back.
+     - What is this build's own, because the console's game has no mouse: the scale. One count of the mouse turns
+       the view 0.022 degrees times Mouse Sensitivity (2.5 from the start: 0.055 degrees a count, a full turn in
+       about 21 cm of an 800 DPI mouse), with no acceleration. (Vista puts the mouse through an acceleration curve;
+       that is not copied.) The mouse is read as raw input: Windows' pointer speed and "Enhance pointer precision"
+       play no part.
+     - Look inversion. The game applies its own Look Inversion setting to the stick before that function, so the
+       mouse never passes through it: the game's setting does nothing to the mouse. The mouse has its own, Invert
+       Look (Mouse Only).
+     - The game's Look Sensitivity setting (the stick's turn rate) does not change the mouse on foot either: the
+       mouse has Mouse Sensitivity. (Vista scales its mouse by the player's look speed, which there is the mouse's
+       own setting; here that part is played by Mouse Sensitivity.)
+     - The pointer. While the game is taking the look (in a game, no menu up, the game's window the active one) the
+       pointer is hidden and kept inside the window. In the menus, when paused, and when another window is active
+       it is free. It is held only for a keyboard and mouse player - once a key, a mouse button or the wheel was the
+       last thing used; a player on a controller keeps a free pointer, as before.
+     - The mouse's buttons and wheel are keys like any other (see 2). From the start: left button = right trigger
+       (fire), right button = left trigger (grenade), middle button = click of the right stick (zoom), wheel
+       (either way) = Y (switch weapon). A mouse button counts while the pointer is over the game's picture, and the
+       click that brings the game's window to the front does not count.
+     - The menus are worked with the keys or the controller as before: the mouse does not point at menu items.
+
+  2. Keyboard + Mouse Settings: a new button in H2Classic Settings, under GAME. It opens a window of its own:
+     - Enable Keyboard + Mouse (on from the start, as the keyboard has been). Off: no key is a controller button,
+       the mouse does not look, and the pointer is left alone.
+     - MOUSE
+         Mouse Sensitivity          0.1 to 10.0, 2.5 from the start
+         Zoom Sensitivity           0.10 to 2.00, 1.00 from the start. It multiplies the mouse while zoomed in.
+                                    1.00 is the game's own rule alone (the look slows down by the magnification:
+                                    half as fast at 2x, a fifth at 5x), which is also what Vista does.
+         Invert Look (Mouse Only)
+     - KEY ASSIGNMENTS: one row for each of the controller's buttons and for each way of its two sticks, named by
+       the button and what it does in the default button layout, with two fields each. Click a field, then press
+       the new key, a mouse button or turn the wheel; click the field again for the left mouse button; a click
+       anywhere else leaves it as it was. Right-click a field (or Delete) to empty it. A key given to one field is
+       taken away from any other field that had it. Left and right Shift, Ctrl and Alt are separate keys. Not
+       accepted: the Windows keys, Print Screen, and F9, F11 and F12 (H2Classic's own).
+     - Reset to Defaults there resets that window only; the settings window's Reset to Defaults leaves the keys and
+       the mouse as they are.
+     - A running game takes every change at once.
+     - The keys of before are the defaults, so nothing changes until you change it.
+     - Saved in h2classic\settings.ini as keyboard_mouse, mouse_sensitivity, mouse_zoom_sensitivity, mouse_invert
+       and key_<button>=<key>,<key> (Windows' key numbers; 256 is the wheel, 0 no key).
+
+  3. The test launcher (h2classic_launcher.cmd) has four new options under Controller: Keyboard + mouse off, Mouse
+     sensitivity, Mouse zoom sensitivity, Mouse look inverted. It does not use settings.ini, so a game started
+     from it has the default keys. Its window now scrolls when it is taller than the screen.
+
+  Checked here (under Wine):
+     - Both versions find the two places in the game's code the mouse goes through (the log says
+       "mouse: 2 of 2 places").
+     - In a 1.5 match (real mouse movement, and counts fed in) and a 1.0 match (counts fed in): right turns right,
+       up looks up; the turn is exactly counts x 0.022 x sensitivity degrees; inverted looks the other way; zoomed
+       in at 3x the mouse's factor is a third; with a look key held as well, the larger turn was the look; the aim
+       assist's pull is switched off once the mouse was used (the switch itself; see below).
+     - The pointer is held when a key is pressed in a match, free in the pause menu, held again after it, free back
+       in the lobby.
+     - The mouse's left, right and middle buttons and the wheel (both ways) press the buttons they are given to;
+       a click outside the game's picture does not.
+     - Keyboard + Mouse Settings: a key, left Shift, a mouse button and the wheel given to fields; a key taken from
+       the field that had it; right-click empties; both sliders; both toggles; Reset to Defaults there; the
+       settings window's Reset to Defaults leaving them alone. With the game running: a new sensitivity and a newly
+       given key worked at once; Enable off stopped keys and mouse, on brought them back.
+     - With none of this used: a 1.5 match with End Game, and 1.0's self test (0 of 32 failed).
+  Not checked here:
+     - How the default sensitivity feels - that is for you to say; the number is easy to change.
+     - The pointer staying inside the window on Windows itself (this machine's desktop does not keep it in), and
+       full screen on a second monitor.
+     - A vehicle seat's slower turn, and how play feels without the aim assist's pull.
+     - Mouse 4 / Mouse 5 buttons, and keyboards with other layouts for the keys' names.
+     - The test launcher's new options and its scrolling (PowerShell does not run here).
+
+Testing (s10v)
+  Before you start
+    - Unzip over your H2Classic folder. It replaces H2Classic.exe, H2Classic Settings.exe, h2classic_launcher.ps1
+      and README.txt; the other files are build 43's.
+    - Start the game from H2Classic Settings (Start Game): the test launcher does not use the keys saved there.
+    - h2classic_log.txt is written anew at every start: copy it away before the next start when a test asks for it.
+  Test 1: the mouse in a game (Game Version 1.5; a multiplayer match or a campaign level)
+    1. In the game press W, then move the mouse.
+       Expect: the pointer is gone and the view follows the mouse - right turns right, up looks up - evenly, with
+       no speeding up on fast movements.
+    2. Left button, right button, middle button, wheel.
+       Expect: fire, grenade, zoom, switch weapon.
+    3. With a weapon that zooms, zoom in and move the mouse the same distance as before.
+       Expect: the view moves less, by the zoom's magnification.
+    4. Press Enter (the game's menu), move the mouse, then B or Enter to go back.
+       Expect: the pointer is back and free while the menu is up, and gone again in the game.
+    5. Alt+Tab to another window and back to the game.
+       Expect: the pointer is free outside; back in the game the mouse looks again after the first key.
+    6. If you have a controller connected: use it for a moment (Display Mode Windowed).
+       Expect: the pointer shows and is free; a key or a click on the game takes it again.
+    If it fails: h2classic_log.txt, the step, and what the view or the pointer did.
+  Test 2: Keyboard + Mouse Settings while the game runs
+    1. Alt+Tab to H2Classic Settings, press Keyboard + Mouse Settings.
+       Expect: a window headed KEYBOARD + MOUSE SETTINGS with Enable Keyboard + Mouse at the top, the two sliders,
+       Invert Look (Mouse Only) and the key list.
+    2. Mouse Sensitivity 5.0, back to the game. Then Zoom Sensitivity 0.50, and zoom in.
+       Expect: the view turns twice as fast; zoomed in, half as fast as before the change.
+    3. Tick Invert Look (Mouse Only).
+       Expect: mouse up looks down; the stick / look keys are unchanged. Also change Look Inversion in the game's
+       own controller settings: the mouse does not change, the stick does.
+    4. Click the second field of "A (Jump, Select)", press Left Shift.
+       Expect: the field shows Left Shift; in the game Left Shift jumps and Space no longer does.
+    5. Click an empty field, then click it again. Right-click a field.
+       Expect: Left Mouse in the first (and gone from Right Trigger's field); the second is emptied.
+    6. Untick Enable Keyboard + Mouse, go to the game; then tick it again.
+       Expect: off - keys and mouse do nothing and the pointer is free; on - they work again.
+    7. Reset to Defaults in that window.
+       Expect: 2.5, 1.00, not inverted, and the keys of before.
+    If it fails: h2classic_log.txt, h2classic\settings.ini, the step, and a screenshot of the window.
+  Test 3: a vehicle
+    1. In a turret or a tank, turn with the mouse.
+       Expect: the gun follows the mouse, slower than on foot in the measure the stick is slower there.
+    If it fails: h2classic_log.txt and which vehicle and seat.
+  Test 4: Game Version 1.0
+    1. Quit, choose Game Version 1.0, Start Game, and in a match do Test 1 steps 1 and 2.
+       Expect: the same.
+    If it fails: h2classic_log.txt, the step.
+  Send me
+    - h2classic_log.txt of a session that went through Tests 1 and 2
+    - h2classic_stop.bin and the log of any stop
+    - the Mouse Sensitivity and Zoom Sensitivity you ended up liking (they can become the defaults)
+    - a screenshot of the Keyboard + Mouse Settings window if anything in it looks cut off or misplaced
+
+New in s10u (build 43): H2Classic Settings stays open, can be opened while the game runs, and changes the display,
+performance and anti-aliasing settings in the running game
+  1. The window stays.
+     - Start Game no longer closes H2Classic Settings: it stays open behind the game.
+     - It can be opened while the game is already running (started from it or not). Started a second time, it brings
+       the window that is open forward; there is never a second one.
+     - While the game runs, the GAME part is greyed out and headed "GAME - FOR THE NEXT START" (Game Version, Skip
+       Intro Video, Skip Attract Idle Video: only a start of the game takes those), and Start Game is greyed out and
+       reads GAME RUNNING. About a quarter second after the game has ended they are back.
+     - Reset to Defaults while the game runs leaves the GAME part as it is.
+
+  2. What changes in the running game, as soon as it is chosen:
+       Display Mode, Window Size, Render Scale, Aspect Ratio
+       Unlock Performance, VSync, FPS Counter
+       Anti-Aliasing Off / FXAA / SMAA / TAA, and SMAA's Quality
+     Not while it runs: a change to DLSS or away from it. DLSS is started with the game (its own kind of graphics
+     device and its helper program), so that change waits for the next start; a note under Quality says so, and the
+     game keeps the anti-aliasing it has until then.
+
+  3. How it works.
+     The game makes a named mark in Windows when it starts (an event; no file). Settings sees the mark - that is how
+     it knows the game is running - and sets it each time it has saved h2classic\settings.ini. The game looks at it
+     once a frame, between two frames, reads the file again and does for each changed setting what a start with it
+     would have done:
+     - Display Mode: the same window gets the other frame and place.
+     - Window Size: the graphics device is reset to the new size (the window shows black for one frame).
+     - Render Scale: the surfaces the game draws into are let go and made again at the new multiple.
+     - Aspect Ratio: the game keeps "widescreen" in one byte, set once from the console's setting when it starts; its
+       view, its split-screen layout and the Widescreen Fix read that byte every frame. The byte and the 21:9 / 32:9
+       factor are given the new setting.
+     - Unlock Performance: the frame pacing's three instructions are re-aimed, or the game's own bytes put back;
+       Increased LODs' two places in the game's code are taken or given back; Draw Distance and the in-between frames
+       follow. (The rocket launcher's animation fix keeps what it already changed until the game loads that
+       animation again.)
+     - VSync: the frame clock follows the display, or runs free.
+     As before, a setting given in the environment wins over the file. A game started from the test launcher
+     (h2classic_launcher.cmd) does not use settings.ini at all: Settings shows GAME RUNNING for it, and its changes
+     are for the next start from Settings.
+
+  4. A full-screen game stays on top of every window, so Settings could never be seen over it. While Settings is the
+     window in use and the game is full screen, Settings is put on top as well; when the game is clicked (or started
+     from Settings) it covers Settings again. The game does not read the controller or keyboard while Settings is in
+     use (that was so already for any other program).
+
+  Checked here (under Wine):
+     - Start Game leaves Settings open with the GAME part and Start Game greyed out; a second start of Settings ends
+       at once and leaves one window; Settings opened after the game finds it; after the game ends everything is back.
+     - In a 1.5 match on Warlock: Render Scale x1 -> x3 -> x1; FXAA, SMAA, TAA and Off; 16:9 -> 21:9 -> 4:3 -> 16:9;
+       Unlock Performance off and on; Window Size 1280 x 720 -> 1600 x 900; Reset to Defaults (the display changed
+       at once - Borderless, another size and scale, the counter off - and Game Version and the two video settings
+       stayed). The picture was right after each, with black around it where its shape leaves room, and the log
+       names each change.
+     - On 1.5's title screen: Windowed -> Borderless -> Full Screen -> Windowed, VSync off and on, the FPS Counter,
+       SMAA's Quality, and the DLSS note.
+     - On 1.0's title screen: Unlock Performance on and off (the game was started with it off), Full Screen ->
+       Windowed, 4:3, Render Scale x2.
+     - The size, scale and shape changes on the kind of graphics device a DLSS start makes.
+     - The Settings program that is in this zip (64-bit) with the game: it finds it, a change arrives, and it sees
+       the game end.
+     - With nothing changed while running: a 1.5 match with End Game, and 1.0's self test (0 of 32 failed).
+  Not checked here:
+     - Which window is in front over a full-screen game: this machine has no desktop that stacks windows. Settings
+       reports itself on top exactly while it is in use and the game is full screen, and not otherwise.
+     - A Window Size change on a real graphics card (the reset is the one the game already does after a lost device).
+     - Frame rates above 60, HDR, DLSS itself, a second screen.
+     - SMAA's Quality and VSync changed in a match (they were changed on the title screen).
+     - A change of Window Size or Render Scale while a dialog shows the stopped game behind it: the game keeps that
+       picture from an earlier frame, and it may be black until the dialog is opened again.
+
+Testing (s10u)
+  Before you start
+    - Unzip over your H2Classic folder. It replaces H2Classic.exe, H2Classic Settings.exe and README.txt; the other
+      files are build 42's.
+    - h2classic_log.txt is written anew at every start: copy it away before the next start when a test asks for it.
+  Test 1: the window stays, and knows the game
+    1. Open H2Classic Settings, press Start Game. When the game is up, switch to Settings (Alt+Tab).
+       Expect: it is still open; the GAME part is grey and headed GAME - FOR THE NEXT START; the button reads GAME
+       RUNNING and does nothing.
+    2. Start H2Classic Settings.exe once more from the folder.
+       Expect: the window that is open comes forward; no second window.
+    3. Quit the game with EXIT.
+       Expect: the GAME part and Start Game are back within a second.
+    4. Close Settings. Start H2Classic.exe itself, then open H2Classic Settings.
+       Expect: grey as in step 1.
+    If it fails: which step, and a screenshot of the Settings window.
+  Test 2: display settings while playing (in a multiplayer match or a campaign level; Game Version 1.5)
+    1. Render Scale: step it up two, then back.
+       Expect: the picture gets sharper and softer again within a moment; the game goes on.
+    2. Display Mode Windowed. Window Size: another size, then yours again.
+       Expect: the window changes size; black for an instant; the game goes on.
+    3. Display Mode: Borderless Windowed, then Full Screen. In Full Screen switch to Settings (Alt+Tab), then click
+       the game.
+       Expect: each mode at once. Settings shows over the full-screen game while you use it, and is behind the
+       game after the click.
+    4. Aspect Ratio: 16:9, 21:9, 4:3, then yours.
+       Expect: the picture's shape and the view change at once; the HUD keeps its shape; black beside the picture
+       where it is narrower than the window.
+    If it fails: h2classic_log.txt (and h2classic_stop.bin if the game stopped), the step, and a screenshot if the
+       picture is wrong.
+  Test 3: performance settings while playing
+    1. FPS Counter on.
+       Expect: the counter appears.
+    2. Unlock Performance off, wait ten seconds, on again.
+       Expect: 30 on the counter while off; your display's rate and smooth motion again when on.
+    3. VSync off, then on.
+       Expect: the counter above your display's rate while off; at it again when on.
+    If it fails: h2classic_log.txt, the step, and what the counter showed.
+  Test 4: anti-aliasing while playing
+    1. Anti-Aliasing: Off, FXAA, SMAA (change Quality once), TAA.
+       Expect: edges change within a moment at each; the game goes on.
+    2. Choose DLSS (or, if you play with DLSS, anything else).
+       Expect: the note "DLSS starts with the game: this change is taken the next time the game starts." and no
+       change in the game until it is started again.
+    If it fails: h2classic_log.txt, the step, a screenshot.
+  Test 5: Game Version 1.0
+    1. Quit, choose Game Version 1.0, Start Game, and in a match do Test 2 step 1 and Test 3 step 2.
+       Expect: the same.
+    If it fails: h2classic_log.txt, the step.
+  Send me
+    - h2classic_log.txt of a 1.5 session that went through Tests 2 to 4
+    - h2classic_stop.bin and the log of any stop, with the setting that was changed just before
+    - screenshots of anything that looked wrong
+    - a line on each test: fine, or what went wrong
+
+New in s10t (build 42): Render Scale is a multiplier of 480 lines again, up to x10; a player's name above the head is
+no longer stretched in widescreen
+  1. Render Scale (H2Classic Settings).
+     It is a multiplier of the game's own 640x480 picture now, x1 (480p) to x10 (4800p), and no longer a percentage
+     of the Window Size. The two settings are independent: Render Scale is the size the game draws its picture at,
+     Window Size is the size it is shown at. Drawn larger than the window, the picture is scaled down to it, which
+     smooths edges; drawn smaller, it is scaled up.
+     - The game took at most 8 times 480 lines until now; it takes 10.
+     - settings.ini: render_multiplier=1 to 10 takes the place of render_scale (the percentage). The first time
+       the new Settings opens an older settings.ini, it shows the multiplier that your percentage came to in the
+       game - 100% at 1440 lines is x3; 150% is x5 (4.5, rounded up as the game did) - and from the next change on
+       the file holds render_multiplier only. A settings.ini that still has only render_scale works as before.
+     - Reset to Defaults picks the multiplier nearest to your screen's height (x3 on a 1440-line screen).
+     - The test launcher's "Render scale (x 640x480)" list goes to 10 as well.
+     Checked here: Settings with an older settings.ini (150% at 2560 x 1440) shows x5; stepping right stops at x10
+        (4800p); the file then has render_multiplier and no render_scale, and a key of my own in it is kept. The
+        game with render_multiplier=10 draws at 6400x4800 and its Press Start screen is right; with x2, 1.0's menus.
+     Not checked here: x9 and x10 on a real graphics card - this machine draws in software, 12 seconds a frame at
+        x10, so nothing past the first screen. A card that cannot make a texture that large gets the largest
+        multiplier it can, by the game itself; the log's "drawn at" line says what was used. DLSS and the other
+        anti-aliasing choices at x9 and x10 are not checked either.
+
+  2. A player's name above the head, stretched at 16:9 and wider (your report and picture).
+     Cause: the Widescreen Fix narrows the HUD's pieces, the motion tracker, the menus, the HUD's messages and the
+        chapter titles, each where the game draws it. The name above a player's head is drawn by another routine
+        (the game engine's, 0x159250: the head's place taken to a point on the screen, the name centred on that
+        point), which none of those covers. So the name came out as wide as the picture is stretched: 4/3 at 16:9,
+        16/9 at 21:9, 8/3 at 32:9.
+     Fix: that one text is narrowed by the same factor about the point above the head, as a HUD piece is about its
+        anchor: the letters have their 4:3 width at every Aspect Ratio and the name stays centred over the player.
+        4:3 is untouched. Both game versions run the same code for it.
+     Checked here (1.5, two players in split screen on Warlock; a dead player's view follows the other player and
+        shows the name): the name "Halo0001" is 57 pixels wide and 10 tall in a 480-line picture at 16:9 and at
+        21:9 alike, centred over the head. Left as it was it would be 76 and 101 wide.
+     Not checked here: 32:9; the name in 1.0; a name over a player on another machine.
+     One thing to tell me: the name now has its 4:3 width, as the HUD's pieces and the menus have. The pick-up
+        prompt and the messages under it keep their 16:9 width, as in Spooky Ghost (only past 16:9 are they brought
+        back to it). If you want those narrowed all the way too, say so.
+
+Testing (s10t)
+  Before you start
+    - Unzip over your H2Classic folder. It replaces H2Classic.exe, H2Classic Settings.exe, h2classic_launcher.ps1
+      and README.txt; the other files are build 41's.
+    - h2classic_log.txt is written anew at every start: copy it away before the next start when a test asks for it.
+  Test 1: Render Scale in Settings
+    1. Open H2Classic Settings and look at Render Scale.
+       Expect: a multiplier in place of your percentage - x3 (1440p) if you had 100% at 3440 x 1440.
+    2. Step right to the end of the list.
+       Expect: it stops at x10 (4800p).
+    3. Choose x3, Start Game, look at the main menu and a few seconds of a match, quit.
+       Expect: the picture as sharp as before at 100%, and in h2classic_log.txt a line with
+       "render scale x3: drawn at 1920x1440".
+    4. Choose x6, Start Game, play a minute, quit.
+       Expect: smoother edges, a lower frame rate, and "render scale x6: drawn at 3840x2880" in the log.
+    5. Choose x10, Start Game, play a minute, quit.
+       Expect: it runs (slower still), and "render scale x10: drawn at 6400x4800" in the log.
+    If it fails: h2classic_log.txt of that start, the multiplier and the Anti-Aliasing you had chosen, and
+       h2classic_stop.bin if the game stopped.
+  Test 2: a player's name above the head
+    1. Your usual Aspect Ratio (21:9), Game Version 1.5. A match with a second player: split screen with a second
+       controller, or System Link.
+    2. Aim at the other player until the name shows. (Or die: a few seconds later your view follows the other
+       player, with the name.)
+       Expect: the name's letters as wide as the HUD's other text - not stretched - and centred over the head.
+    3. The same at 16:9, and once in Game Version 1.0.
+       Expect: the same.
+    If it is still stretched, or the name sits beside the head: a screenshot, h2classic_log.txt, and the Aspect
+       Ratio and Game Version it was.
+  Send me
+    - h2classic_log.txt of the x10 start (Test 1, step 5)
+    - a line on Test 1: which multipliers you tried and how they ran
+    - a screenshot of a name above a head at 21:9 (Test 2)
+    - h2classic_stop.bin and the log of any stop, with what was happening
+
+New in s10s (build 41): game version 1.5 - the stop on End Game and Save and Quit, the in-between frames, and the
+likely cause of the missing letters and HUD
+  All of your reports were about 1.5, and items 1 to 3 are the same kind of mistake of mine: something in the 1.5
+  half of the exe that was still 1.0's. 1.0 runs the same compiled game at the same addresses as in build 40.
+
+  1. The stop on End Game and on Save and Quit (your report; your three stop files show the same place).
+     Cause: closing the pause menu deletes the menu's screen. In 1.5 that screen's destructor is one of the
+        functions the update changed, so 1.5's own code runs for it, reached through a small adapter. An adapter
+        has to know how many bytes of arguments its caller expects the function to take off the stack. That
+        number was read from the first "ret" instruction of the compiled function. This destructor ends in a
+        jump to another function and has no "ret" of its own, so the number came from whichever function follows
+        it (4, where it had to be 0). The stack was 4 bytes off after the call, and the next return went to
+        address 0.
+     Fix: the number now comes from the function's declaration in the source. Three more adapters had the same
+        mistake: the destructors of the Live task screen and of the player-selected screen, and one function that
+        1.5's code calls. Backing out of the pregame lobby with B stopped the same way here; it is fixed with it.
+     Checked here (1.5, Unlock Performance on): after a split screen match on Terminal, Start, End Game, End
+        Game gives Game Over, the Postgame Carnage Report and the lobby, and B from the lobby gives Choose
+        Profile. After a System Link match I hosted there, End Game gives Game Over as well (I did not wait for
+        the report). Start, Leave Game, Leave Game gives the main menu. In the campaign (the opening cutscenes,
+        then The Armory), Start, Save and Quit and its confirmation give the main menu.
+
+  2. No in-between frames in 1.5 (your report).
+     Cause: the code that draws the frames between two game ticks uses 23 fixed addresses of the game - its
+        object, player, camera, effect and particle tables among them - and all 23 were 1.0's. In 1.5 those
+        tables are elsewhere; the code's checks on what it read failed, so every frame showed the last tick as
+        it was: 30 steps a second at any frame rate.
+     Fix: each of the 23 has its 1.5 address. In 1.5 the log has the line "in-between frames: on" again.
+
+  3. Missing or wrong letters, the missing HUD, the corrupt pause menu (your report).
+     What your F11 capture shows: the texture the letters are kept in is intact, and so is the list of what is in
+        it. One entry of a font's character table is wrong - the capital L of one font points at a 2 x 20 cell at
+        an impossible position - so every L in that font is drawn from nothing: "ockout", "SE ECT", "CANCE". So it
+        is not a cache that got too full: something wrote over one entry.
+     The likely cause is item 2's mistake. One of the 23 addresses belongs to the code that keeps a held zoom
+        working at high frame rates, and that code also writes: with Unlock Performance on it read, every frame, a
+        pointer from the place where 1.0 keeps its player-control table and could write four small counters through
+        it. In 1.5 that place is inside the list of the game's background tasks - the queue of its file reader - and
+        what it holds there is the address of a buffer that a file was read into (in your three stop files: four
+        different buffers). So the counters went into data that had just come from disk - the letters of a font, a
+        texture, a piece of a map - a different piece on each start. That fits letters that differ from reload to
+        reload, a HUD that is gone on one load and a pause menu that is corrupt on another.
+     I could not make a letter go missing here, so I cannot show that this was the only cause. Test 3 decides.
+        (My text checks for build 40 ran with Unlock Performance off, which is why they passed. Every 1.5 check of
+        this build ran with it on.)
+
+  4. Found while checking; 1.5 only.
+     - 17 classes took their table of virtual functions from the wrong place in 1.5's data: the class that holds a
+       menu's text, a Havok motion class and three relatives, seven of the eleven network session states, the clan
+       and friends option screens (each had the other's), the players list and two more. A class's table is now
+       placed where 1.5's data holds the same functions slot for slot (408 tables are placed that way). I do not
+       know which of your symptoms these caused, if any.
+     - One function the update changed returns a decimal number in another register than the compiled source
+       expects; its adapter moves it now.
+     - The sound calls of the movie player were recognised by 1.0's address range; 1.5 uses its own now.
+     - I went through the whole Windows layer for any other address of 1.0 used in 1.5. None is left.
+
+  Checked here for 1.0 (Unlock Performance on): the menus, a System Link lobby, a split screen match on Ivory Tower
+     with End Game, and the self test (0 of 32 checks failed).
+  Not checked here: Resume after Save and Quit, your HDR display and frame rates above 60 (the test screen here
+     runs at 60 or less), DLSS, a real controller, two machines on System Link, the Xbox Live screens.
+
+Testing (s10s)
+  Before you start
+    - Unzip over your H2Classic folder. It replaces H2Classic.exe and README.txt; the other files are build 40's.
+    - Tests 1 to 5: Game Version 1.5 and Unlock Performance on, your other settings as they were when the faults
+      showed.
+    - h2classic_log.txt is written anew at every start: copy it away before the next start when a test asks for it.
+  Test 1: End Game and Leave Game (1.5)
+    1. Split Screen, pick a profile, Game Setup, Change Map, Lockout, Start Game.
+    2. Start, End Game, End Game.
+       Expect: Game Over, the Postgame Carnage Report, then the lobby.
+    3. Start Game again. Start, Leave Game, and confirm.
+       Expect: the main menu.
+    4. Split Screen again, pick a profile, and in the lobby press B.
+       Expect: back to Choose Profile.
+    If it fails: h2classic_log.txt and h2classic_stop.bin, and which step it was.
+  Test 2: Save and Quit (1.5)
+    1. Campaign, and get into a level (not a cutscene).
+    2. Start, Save and Quit, and confirm.
+       Expect: the main menu.
+    3. Campaign, Resume.
+       Expect: the level continues from its last checkpoint.
+    If it fails: h2classic_log.txt and h2classic_stop.bin, and which step it was.
+  Test 3: letters and HUD over several starts (1.5)
+    1. Start the game and look at: the Press Start screen, the main menu, the map list of Split Screen (Lockout's
+       name), the HUD in a match on Terminal, and the pause menu in that match.
+    2. Quit with EXIT and do step 1 again, until you have done five starts.
+       Expect: every letter in place, the HUD there and the pause menu clean, on every start.
+    If a letter is missing or wrong, the HUD is gone or the pause menu is corrupt: stay on that screen, press F11
+       once, wait two seconds, then quit. Send h2classic_log.txt, the h2classic_frame_*.bmp files and all
+       h2classic_surface_*.bmp files of that start, and tell me which start it was.
+  Test 4: in-between frames (1.5)
+    1. FPS counter on. In a match, walk sideways past something close while turning slowly.
+       Expect: as smooth as 1.0 at the same frame rate. Without the in-between frames the picture moves in 30 steps
+       a second whatever the counter says.
+    2. Quit and open h2classic_log.txt.
+       Expect: a line "in-between frames: on (H2N_UNLOCK)" after the match's map.
+    If it is not smooth: h2classic_log.txt.
+  Test 5: System Link host (1.5)
+    1. System Link, pick a profile, Create New Game, Start Game. Play a minute. Start, End Game, End Game.
+       Expect: the lobby, the countdown, the match, Game Over, the Postgame Carnage Report.
+    If it fails: h2classic_log.txt and h2classic_stop.bin, and how far it got.
+  Test 6: the map packs (1.5)
+    1. Split Screen, Game Setup, Change Map.
+       Expect: the eleven pack maps after the disc's, as in build 40.
+    If one is missing: a screenshot of the list and h2classic_log.txt.
+  Test 7: 1.0 as before
+    1. Game Version 1.0, your usual settings: a few minutes of a campaign level and of a multiplayer map, then
+       End Game.
+       Expect: build 40 exactly.
+    If it fails: h2classic_log.txt (and h2classic_stop.bin for a stop).
+  Send me
+    - h2classic_log.txt of a 1.5 start that went through Tests 1 and 4
+    - if Test 3 fails: the F11 files of that start (log, h2classic_frame_*.bmp, h2classic_surface_*.bmp)
+    - h2classic_stop.bin and the log of any stop, with what was happening and which Game Version
+    - a line each on Tests 2, 5, 6 and 7: fine, or what went wrong
+
+New in s10r (build 40): one exe for both game versions; in 1.5 the whole map list, the frame rate above 60, and the
+functions the update changed
+  1. One program (your request). H2Classic.exe runs 1.0 and 1.5. H2Classic15.exe is gone - delete yours.
+     How: the compiled source is linked twice, once against 1.0's addresses and tables and once against 1.5's, to
+        exactly the same layout (54,084 symbols at the same addresses in both). The exe is the 1.0 link, and it
+        carries a list of the 32,140 places (157,466 bytes) where the 1.5 link differs: addresses of the game's
+        data, field offsets, pointers in tables. When the game version is 1.5 that list is written over the program
+        in memory before any of the game's code has run. Both versions' tables and adapters are in the exe.
+     The version comes from game_version in h2classic\settings.ini (H2Classic Settings writes it; Start Game now
+        always starts H2Classic.exe), or from the test launcher's "Game version" list, which passes it as
+        H2N_VERSION. The second line of the log says which version is running and where that came from.
+     1.0 is the same compiled game as build 38; what changed for it is only the Windows layer's code that now
+        decides the version when it starts.
+  2. Only two pack maps in the list (your report).
+     Cause: the console's own library offers a pack to the game only if the header of its ContentMeta.xbx is marked
+        as installed (bit 0 of the word at 0x20). On a console the installer sets that mark when it signs the header
+        for that console (the XBE's XInstallContentSignatures, 0x2d2ce1; the mark is the "or" at 0x2d2e2b). Packs in
+        an installer's folder - your Roms\DLC, for the first three packs - come without it. Builds 37 to 39 copied
+        and signed them but did not set the mark, so only the pack that already had it was offered: the
+        Blastacular Pack, which is Desolation and Tombstone. (You wrote Desolation and Terminal. Terminal is in the
+        Maptacular Pack, so I think the second one was Tombstone - tell me if it really was Terminal.)
+     Fix: H2Classic sets the mark as the installer does, on its own copies in h2classic\T - the ones already there
+        included, the next time it starts. Roms\DLC is still only read.
+     Checked here with the installer's files as you have them: four packs offered, and the list shows Containment,
+        Warlock, Sanctuary, Turf, Backwash, Elongation, Gemini, Relic, Terminal, Desolation and Tombstone; a match on
+        Terminal (third pack) loads and plays.
+  3. Stuck at 60 fps in 1.5 (your report).
+     Cause: Unlock Performance changes three instructions of the game's frame pacing. One of them is recognised by
+        the address of the variable it reads, and the 1.5 build looked for 1.0's address (0x485ac0; in 1.5 it is
+        0x4922e0). Your build 39 log has the line: "frame rate: the frame pacing's 30 Hz hold or refresh read was
+        found 1 and 0 times instead of once; the vertical blank stays the console's 59.94".
+     Fix: each version's own address. In 1.5 the log now has the same single "frame rate: H2N_UNLOCK" line as 1.0.
+        The display here is 60 Hz, so the rate itself is yours to check (Test 4).
+  4. The functions that differ from 1.0 only in a number (item 5 of build 39's notes).
+     - The 1.0-to-1.5 function map now takes a function as "the same" only when it is the same instruction for
+       instruction. Before, the comparison hid small numbers, and 227 functions passed that differ in a structure's
+       size or a field's place (the menus' data for each controller, 0xc70 -> 0xc74 bytes; the network observer's
+       channel, 0x528 -> 0x550; and others). They now run as 1.5's own code: 17,389 of 18,525 functions are the
+       compiled source in 1.5, the rest 1.5's code.
+     - That put 88 more functions on the border between the two, where arguments have to be handed over the way
+       1.5's code takes them (it does not use the standard conventions). The 350 border functions are now checked
+       against the XBE's own call sites and the 1.5 function's first instructions - by hand wherever more than one
+       argument travels in a register, by a script for the rest. 22 were wrong or not settled and are corrected
+       (network observer and session functions, the simulation's entry table, a saved-game file list, the voice
+       port check among them), and 9 in the other direction, one of which takes a float in a register. No "not
+       wired up" stops are left in the tables, and 0x63e90 from build 39's notes turned out to have its 1.5
+       counterpart (0x64f10).
+     - Two more faults of the same family, found by the tests: places in 1.5's code that name one of the game's
+       functions as a plain number were only carried over for functions that are the same in 1.5 - 46 more are
+       now found in 1.5's code itself (one of them built 1.5's own five-item main menu under the six-item one, and
+       stopped the game); and a second, file-local copy of a changed function is now sent to 1.5's code too.
+     - The main menu's EXIT is kept in 1.5.
+     Checked here in 1.5: a second controller joins the Split Screen lobby with its profile and a two-player match
+        runs (Ivory Tower); System Link: Create New Game, the lobby, Start Game, the match runs (alone - no second
+        machine here, so joining was not checked); New Campaign to the opening cutscene; a match with Unlock
+        Performance, 21:9, SMAA and the FPS counter; the "title update not found" message with an empty Roms\DLC.
+     Checked here in 1.0 with the new exe: the main menu, New Campaign into the cutscene, a Split Screen match, a
+        System Link match hosted alone, the built-in self test (no failures).
+  5. The corrupt menu text in 1.5 (your F11 run). Not reproduced here, and I do not have a proven cause.
+     What your capture shows: every letter is drawn at the right place and from the right cell of the text page (the
+        256x256 texture the game writes each letter's pixels into before drawing text); what is in the cells is
+        wrong - rows of another letter left at the bottom of two cells, one cell a row off and green. So the
+        letters' pixels were already wrong in the game's own text page. Here that page is clean in every way I
+        ran 1.5: ten frames a second and sixty, one pack and four, with the stack filled with a marker.
+     What I think is most likely - a guess, not a finding: the 227 functions of item 4 wrote 1.0-sized structures
+        into 1.5's data, and the font cache's memory was hit by one of them on your PC. Build 40 takes that whole
+        class away, so the first thing to learn is whether the text is right now (Test 2).
+     If it is not: F11 now also saves the text page itself, straight from the game's memory, as
+        h2classic_surface_<frame>_<memory>.bmp (512x256: the left half is where the letters are, the right half
+        their colour), and writes every vertex of the letters' draws into the log. With those I can tell whether
+        the page is filled wrongly or damaged afterwards.
+  Not checked here, as before: HDR, DLSS, refresh rates above 60, a second machine on System Link, Xbox Live's screens.
+  The DLSS helper is build 35's (unchanged). The settings exe and the test launcher's .ps1 are new.
+
+Testing (s10r)
+  Before you start
+    - Unzip over your H2Classic folder. It replaces H2Classic.exe, H2Classic Settings.exe, h2classic_launcher.ps1
+      and README.txt.
+    - Delete H2Classic15.exe from the folder. Nothing starts it any more.
+    - Roms\DLC and the h2classic folder stay as they are.
+    - Both versions write the same h2classic_log.txt: copy it away before starting the other version.
+  Test 1: one exe, both versions
+    1. Open H2Classic Settings, set Game Version to 1.5, press Start Game.
+       Expect: the game starts; the Press Start screen shows 1.5 at the bottom right.
+    2. Quit with the main menu's EXIT. Expect: the main menu has EXIT as its sixth item, and it closes the game.
+    3. Open H2Classic Settings, set Game Version to 1.0, Start Game.
+       Expect: 1.0 as in build 38 (no 1.5 on the Press Start screen).
+    If it fails: the text of any message box, and h2classic_log.txt.
+  Test 2: the menu text (1.5)
+    1. Game Version 1.5. Look at the Press Start screen, the main menu, and Settings.
+       Expect: the text as clean as in 1.0.
+    If the text is still wrong: stay on a screen that shows it, press F11 once, wait two seconds, then quit.
+       Send h2classic_log.txt, the h2classic_frame_*.bmp files and all h2classic_surface_*.bmp files.
+  Test 3: the map list (1.5)
+    1. Split Screen, pick a profile, Game Setup, Change Map.
+       Expect: after the disc's maps - Containment, Warlock, Sanctuary, Turf, Backwash, Elongation, Gemini, Relic,
+       Terminal, Desolation, Tombstone - each with its picture and description.
+    2. Start a match on one map of each pack: Containment, Turf, Terminal, Desolation.
+       Expect: each loads and plays.
+    If it fails: a screenshot of the list (or the name of the map that did not load), and h2classic_log.txt -
+       its "downloaded content" lines say which packs the game was offered.
+  Test 4: the frame rate (1.5)
+    1. With Unlock Performance on and the FPS counter on, play a map you know the 1.0 frame rate of.
+       Expect: well above 60, as 1.0 gives on that map.
+    If it is still 60: h2classic_log.txt (its "frame rate:" lines near the top are what I need).
+  Test 5: a second player (1.5), if you have two controllers
+    1. Split Screen, pick a profile. On the second controller press Start and pick a profile.
+       Expect: the lobby says "2 player(s) in party" with both names.
+    2. Start Game. Expect: a two-player split screen match.
+    If it fails: h2classic_log.txt, and h2classic_stop.bin if the game stopped.
+  Test 6: System Link (1.5)
+    1. System Link, pick a profile, Create New Game, Start Game.
+       Expect: the lobby, the countdown, the match.
+    2. If you want to go further: join it from xemu running the game with the 1.5 update (or host there and join
+       from H2Classic). This was not checked here.
+    If it fails: h2classic_log.txt and h2classic_stop.bin, and which side hosted.
+  Test 7: the campaign (1.5)
+    1. Campaign, New Campaign, a difficulty; play a few minutes past the opening cutscene.
+       Expect: as in 1.0.
+    If it fails: h2classic_log.txt and h2classic_stop.bin, and where it was.
+  Test 8: 1.0 as before
+    1. Game Version 1.0, your usual settings; a few minutes of a campaign level and of a multiplayer map.
+       Expect: build 38 exactly.
+    If it fails: h2classic_log.txt (and h2classic_stop.bin for a stop).
+  Test 9: the test launcher
+    1. Run h2classic_launcher.cmd, pick 1.5 in "Game version", Launch.
+       Expect: 1.5 starts (the status line says "Started 1.5" and the time). Pick 1.0, Launch: 1.0 starts.
+    If it fails: what the status line says.
+  Send me
+    - h2classic_log.txt from a 1.5 run that went through Tests 2 to 4, and one from a 1.0 run
+    - if the text is still wrong in 1.5: the F11 files of Test 2 (log, h2classic_frame_*.bmp, h2classic_surface_*.bmp)
+    - h2classic_stop.bin and the log of any stop, with what was happening and which Game Version
+    - a screenshot of the map list if a pack map is missing or shows without its picture
+
+New in s10q (build 39): game version 1.5 with the map packs, and the Game Version choice
+  1. H2Classic15.exe is game version 1.5: the same compiled source, running on the code and data of the 1.5 title
+        update's own default.xbe (the copy in h2classic\T\$u that H2Classic makes from Roms\DLC) in place of the
+        disc's. Where 1.5's function is 1.0's function instruction for instruction, the compiled source runs (17,600
+        of 18,500 functions); where the update changed a function, 1.5's own code runs. The disc (Roms\Halo 2) is
+        still the Xbox's D: drive for the maps, exactly as on a console with the update installed.
+     H2Classic.exe (1.0) is build 38's file, byte for byte.
+  2. Game Version in H2Classic Settings (GAME, above the two movie switches): 1.0 or 1.5, saved in
+        h2classic\settings.ini as game_version. Start Game starts H2Classic.exe or H2Classic15.exe. The test launcher
+        (h2classic_launcher.cmd) has the same choice, "Game version", above the game folder box; all its test options
+        are still there and go to whichever version is picked.
+     If 1.5 is picked and the title update is not on H2Classic's hard disk, the game says so and what to put in
+        Roms\DLC (checked here with an empty folder).
+  3. What 1.5 does here, in the order you asked for it:
+        - the Press Start screen shows 1.5;
+        - the four packs are found and their patch_v3.lvl files are read and checked by the XBE's own code (the
+          "downloaded content" and "signature over ... bytes (content)" lines in the log) - the maps' names,
+          descriptions and pictures in the map list come from those files;
+        - Split Screen, Change Map: after the disc's maps the list has Containment, Warlock, Sanctuary, Turf,
+          Backwash, Elongation, Gemini, Relic, Terminal, Desolation and Tombstone;
+        - Terminal (triplicate.map) and Desolation (derelict.map, your "Derelict") both load from
+          h2classic\T\$c\... and a Slayer match runs on each;
+        - New Campaign reaches The Heretic's opening cutscene;
+        - a match on Terminal with Unlock Performance, 21:9, SMAA and the FPS counter on runs.
+  4. Fixed on the way to that:
+        - Leaving the campaign's difficulty screen stopped the game (1.5's 0x234d75). The screen was being destroyed
+          by another class's destructor: the scalar deleting destructors of the menu classes are byte-alike, and
+          the 1.0-to-1.5 function map had paired this one by the order of the tables, which the update's link
+          changed. The map now takes such functions from the vtables themselves (1.0's 0x2325a7 sits in three
+          vtables whose 1.5 places all hold 0x238ecb); 55 functions were re-paired that way.
+        - Fourteen functions that 1.5 changed and that the compiled source calls were still "not wired up" stops
+          (New Campaign hit the first, 0x23654b). Each now gets its arguments the way 1.5's own callers pass them,
+          read from the XBE's call sites.
+  5. Not right yet in 1.5 - please keep to one controller and no network there for this round:
+        - 227 functions differ from 1.0 only in a number, because a structure grew in the update: the menus' data for
+          each controller (0xc70 bytes in 1.0, 0xc74 in 1.5; 111 functions) and a network structure (0x528 -> 0x550;
+          60 functions) are the two big ones. They still run as 1.0's compiled source, with 1.0's numbers. Controller
+          1 is at the start of its table, which is why one player works; players 2 to 4 in the menus, and system link
+          or Xbox Live screens, are expected to go wrong or stop. Moving these to 1.5's own code is the next piece of
+          work.
+        - One function (1.0's 0x63e90, part of the network session's state) has no 1.5 counterpart found yet; if the
+          game reaches it, it stops with a message that names it.
+        - Beyond what is listed in 3, nothing has been played here.
+     1.0 and 1.5 share h2classic\ (profiles, saves, settings), as one console's hard disk does.
+  The DLSS helper is build 35's (unchanged). The settings exe is new (the Game Version choice).
+
+Testing (s10q)
+  Before you start
+    - Unzip over your H2Classic folder. It adds H2Classic15.exe and replaces H2Classic Settings.exe, the two
+      h2classic_launcher files and README.txt. H2Classic.exe is the same file as build 38's.
+    - Roms\DLC as it is now (the packs and the title update are already on H2Classic's hard disk from build 37/38).
+    - One controller (or the keyboard) for the 1.5 tests.
+  Test 1: the Game Version choice
+    1. Open H2Classic Settings. Expect: under GAME, "Game Version" showing 1.0.
+    2. Change it to 1.5 and press Start Game.
+       Expect: the game starts; the Press Start screen shows 1.5 at the bottom right.
+    3. Quit, open H2Classic Settings again. Expect: Game Version still shows 1.5.
+    If it fails: say what you saw (a message box's text if there is one), and send h2classic_log.txt.
+  Test 2: the map list (1.5)
+    1. Split Screen, pick a profile, Game Setup, Change Map.
+       Expect: after the disc's maps - Containment, Warlock, Sanctuary, Turf, Backwash, Elongation, Gemini, Relic,
+       Terminal, Desolation, Tombstone - each with its picture and description.
+    If it fails: a screenshot of the list, and h2classic_log.txt.
+  Test 3: Terminal and Desolation (1.5)
+    1. Choose Terminal, Start Game.
+       Expect: the match loads and plays (Slayer by default).
+    2. End the game, choose Desolation, Start Game.
+       Expect: the same.
+    3. If you like: the other nine pack maps the same way.
+    If it fails: h2classic_log.txt and h2classic_stop.bin, and which map.
+  Test 4: the campaign (1.5)
+    1. Campaign, New Campaign, a difficulty.
+       Expect: the opening cutscene plays, then the game plays as in 1.0. (Here it was checked as far as the
+       cutscene starting.)
+    If it fails: h2classic_log.txt and h2classic_stop.bin, and where it was.
+  Test 5: your usual settings (1.5)
+    1. With the settings you play 1.0 with (display mode, aspect ratio, Unlock Performance, your anti-aliasing),
+       play a map for a few minutes.
+       Expect: as in 1.0. DLSS and HDR were not tried here in 1.5 (they cannot be, here).
+    If it fails: h2classic_log.txt (and h2classic_stop.bin for a stop), with the settings that were on.
+  Test 6: 1.0 as before
+    1. In H2Classic Settings set Game Version to 1.0, Start Game.
+       Expect: build 38 exactly (no 1.5 on the start screen, no pack maps in the list).
+  Test 7: the test launcher
+    1. Run h2classic_launcher.cmd. Expect: a "Game version" list (1.0 / 1.5) above the game folder box.
+    2. Pick 1.5, Launch. Expect: 1.5 starts; the launcher's status line says "Started 1.5" and the time.
+    If it fails: what the status line says.
+  Send me
+    - h2classic_log.txt from a 1.5 run that went through Tests 2 and 3 (both versions write the same log file, so
+      copy it before starting the other version)
+    - h2classic_stop.bin and the log of any stop, with what was happening and which Game Version
+    - a screenshot of the map list if a pack map is missing or shows without its picture
+
+New in s10p (build 38): the crash when boosting the Ghost past enemies, the latest decompilation
+  1. The stop at 0x298d97 (your two runs on Metropolis, one with DLSS and one with SMAA, both while boosting the Ghost).
+        Not the anti-aliasing: the stop is in the enemies' code that gets them out of the way of something coming at
+        them. That step (0x298d90) is one of the functions H2Classic still runs as the XBE's own code, and it was being
+        handed its arguments in the wrong places. The XBE's own caller (0x29a5e0-0x29a617) passes two of its points in
+        registers and the other seven values on the stack; H2Classic's compiled caller put the actor's and the object's
+        numbers where the points belong, so the XBE's code read those numbers as addresses. A small adapter now hands
+        everything over the way the XBE's caller does (checked with a test that runs the adapter: every value arrives
+        where the XBE's code reads it, and the stack is left as it was).
+     All 132 functions that run as the XBE's code the same way were checked against the XBE's own code for this kind of
+        mistake. One more had it: 0x11dd80, the inverse of a bone transform, used when one animation graph takes bones
+        from another - it was given its input and its output the wrong way round. Fixed the same way. The other 130
+        take their arguments as H2Classic passes them.
+  2. The decompilation is the latest upstream (12,172 of its functions proven, 13 more than build 37's); 136 functions
+        now run as the XBE's own code (141 before).
+  3. The map packs on H2Classic's hard disk are now signed for H2Classic's console, as the console's own installer
+        signs them for that console (XInstallContentSignatures). The first start of this build writes a new 20-byte
+        signature into the copies of ContentMeta.xbx in h2classic\T ($c\... and $u); your Roms\DLC files are only read.
+        v1.0 still does not use the packs; the 1.5 build checks these signatures (below).
+  4. 1.5 is not in this build yet. Where it stands: it starts from the title update's default.xbe, shows 1.5 on the
+        start screen, goes through the profile, Xbox Live sign-in and main menu screens, and now finds the four map
+        packs and checks their files' signatures exactly as the console does (the XBE's own code doing the checking).
+        Still to do before the map list can be checked: Split Screen stops when player 1 presses A on the profile screen.
+  The settings exe and the DLSS helper are build 35's (unchanged).
+
+Testing (s10p)
+  Before you start
+    - Unzip over your H2Classic folder (it replaces H2Classic.exe and README.txt; your settings and saves stay).
+  Test 1: the Ghost boost
+    1. Start H2Classic with DLSS (or SMAA - either), load Metropolis (or your save there), take a Ghost and boost it
+       at and past enemies, as you did when it stopped.
+       Expect: no stop; the enemies dive aside as on the console.
+    If it fails: h2classic_log.txt and h2classic_stop.bin.
+  Test 2: the packs signed for this console
+    1. After the first start, open h2classic_log.txt.
+       Expect: the "map packs" lines end in "signed for H2Classic's console, as the console's installer does" for the
+       four packs and for $u.
+    2. Start H2Classic again.
+       Expect: the same lines without that ending (they are signed already).
+    If it fails: h2classic_log.txt.
+  Test 3: everything else as before
+    1. Play as you did with build 37 for a while: campaign, split screen, system link.
+       Expect: nothing changed apart from Test 1 (13 more functions are compiled source now).
+    If it fails: h2classic_log.txt and h2classic_stop.bin, and what you were doing.
+  Send me
+    - h2classic_log.txt after Tests 1 and 2
+    - h2classic_stop.bin and the log of any stop, with what was happening
+
+New in s10o (build 37): the Roms folder, the map packs on H2Classic's hard disk, system link ticked in the test launcher
+  1. Roms (it was Rom). The game goes in Roms\Halo 2 - default.xbe and the maps folder, or a disc image (.iso) of the
+        game - or straight in Roms as before; the map packs go in Roms\DLC. A Rom folder from an earlier build is still
+        found. A disc image is only taken when its default.xbe is Halo 2's, so a map pack's or an installer's image next
+        to it is passed over (checked here with both in Roms\Halo 2).
+  2. The map packs and the 1.5 title update on H2Classic's hard disk. At start H2Classic looks through Roms\DLC and
+        copies what is not installed yet into h2classic\T, which stands for the Xbox's E:\TDATA\4d530064: each pack into
+        $c\<its offer id>, the 1.5 title update into $u - the layout of your OnXboxAfterInstalled copy. Each pack is
+        recognised by its ContentMeta.xbx, so all three folder forms you sent work (the Map Pack disc's files, the "Halo
+        2 DLC" installer's folder, a console's TDATA). Disc images in Roms\DLC are listed in the log but not read yet.
+     Only title update 5 (the one that shows 1.5) goes into $u. The Map Pack disc's own update is title update 3, and
+        the default.xbe in your $u copy is a modified one (5,341,184 bytes), so the unmodified one (default.xbe.old, or
+        content\u5English in the installer's folder) is taken.
+     The copy is made once (about 560 MB); later starts say "already on H2Classic's hard disk".
+     v1.0 behaves as your "1.0 TU Skip" build does: H2Classic never runs XAPI's start-up code, which is what restarts
+        a console into the title update, and the packs are not offered to v1.0 (the TU Skip build ignores them too,
+        because of Lockout's "failed to load the map"). They are for the 1.5 build.
+  3. The test launcher: "System link with consoles / xemu" is ticked from the start, with Send to 127.0.0.1:9368 and
+        Listen on 9369 (H2Classic Settings already had these on). If you untick it, it stays unticked.
+  4. 1.5 is not in this build yet. Your 1.5 default.xbe is built with the same Xbox SDK libraries as 1.0 (5849), and
+        14,974 of its 15,793 functions are the same code as 1.0's apart from addresses. The 819 that changed are mostly
+        the network code (system link and Xbox Live messages and sessions), some gameplay, and only two tiny ones near
+        the renderer. A 1.5 H2Classic is the same kind of build as this one, aimed at the 1.5 XBE: the unchanged
+        functions as compiled source, the changed ones as the XBE's own code, and every patch H2Classic makes moved to
+        its 1.5 address. The launcher's version choice comes with it.
+  Checked here: the game started from Roms\Halo 2 and from a disc image there; Roms\DLC with your OnXboxAfterInstalled
+        copy and the "Halo 2 DLC" folder: four packs and the English 1.5 update installed, h2classic\T matching your
+        Xbox's layout; a second start copied nothing; the menus ran as before.
+  The settings exe and the DLSS helper are build 35's (unchanged).
+
+Testing (s10o)
+  Before you start
+    - Unzip over your H2Classic folder. Move your game files (or your .iso) from Rom into Roms\Halo 2.
+    - Put your DLC folders in Roms\DLC as you sent them (H2MPMP, Halo 2 DLC, OnXboxAfterInstalled): any one of them is
+      enough, more do no harm.
+  Test 1: the Roms folder
+    1. Start H2Classic.
+       Expect: the game starts as before; h2classic_log.txt's second line ends in Roms\Halo 2.
+    If it fails: h2classic_log.txt and a screenshot of the message.
+  Test 2: the map packs on the hard disk
+    1. After Test 1, open h2classic\T.
+       Expect: $c with four folders, 4d53006400000001 to 4d53006400000004, each with its maps; $u with default.xbe,
+       ContentMeta.xbx and downloader.xbe. The log's "map packs" lines list each pack as installed.
+    2. Start H2Classic again.
+       Expect: the same lines say "already on H2Classic's hard disk", and the game starts at once.
+    If it fails: h2classic_log.txt (its "map packs" lines) and a screenshot of h2classic\T.
+  Test 3: the test launcher
+    1. Open h2classic_launcher.cmd.
+       Expect: "System link with consoles / xemu" ticked, with 127.0.0.1:9368 and 9369 filled in.
+    2. Untick it, Launch, close the game, open the launcher again.
+       Expect: it stays unticked.
+    If it fails: a screenshot of the launcher.
+  Send me
+    - h2classic_log.txt from Tests 1 and 2.
+
+New in s10n (build 36): system link with xemu - joining a game xemu hosts no longer stops H2Classic
+  How this was found: your xemu build (the tenth) and H2Classic were run side by side here, on one machine, joined by
+        xemu's UDP tunnel and H2Classic's system link setting: xemu under Wine with your own BIOS, MCPX and EEPROM dumps
+        and a blank hard disk made here, both games on your v1.0 files (none of that leaves this workspace). Both ran at
+        about 5 frames a second here (software graphics).
+  What build 35 did: each listed the other's game and the two network libraries completed their key exchange, but
+        choosing xemu's game stopped H2Classic at once (in network_observer_channel_check_connect, with no observer).
+  1. The cause: the game's network setup routine (0x81780) still ran as an unproven draft of the decompilation, and
+        the draft builds the game's network streams with a small class of its own instead of the game's: the XBE gives
+        each stream its real function table (0x450db8), the draft a table with a single entry. The first time a stream
+        sent something - the reply that completes a join - the game asked the stream's second function whether it
+        could send; with the draft's table that call landed in an unrelated one-line function that does not take the
+        value the game passes, the stack slipped by 4 bytes, and the join handler went on with its observer pointer
+        zeroed. (The draft also hands on the observer's contents where the game passes the observer itself.)
+     Now that routine runs as your XBE's own code, as other unproven drafts that misbehaved do. It is the game's own
+        setup, so the streams, the two message dispatchers and the observer are set up exactly as on the console.
+  2. Profiles made in H2Classic now show on a console and in xemu. H2Classic wrote each saved game's SaveMeta.xbx
+        without the two bytes that start the console's own (the UTF-16 byte order mark), and the game's own code - the
+        one a console or xemu runs - leaves out any saved game whose file lacks them. Checked in xemu: a profile made by
+        build 35 was missing from its list; the same profile with the two bytes added was listed; one made by this
+        build is listed and loads (with your keys.bin, H2Classic signs it as the console does). Profiles made by
+        earlier builds still lack the two bytes; they work in H2Classic as before.
+  Checked here (this build, against xemu on the same machine):
+      - H2Classic joined a Slayer game on Ivory Tower that xemu hosted: both lobbies showed both players, the countdown
+        ran on both, the match ran on both (the same clock, both players on the scoreboard), xemu ended it and both
+        showed the same Game Over screen and carnage report.
+      - H2Classic hosted and xemu joined: lobby, countdown and match the same way.
+      - The final exe joined xemu's game again, and the profile it made was listed and loaded in xemu.
+  Not checked: a real Xbox, two PCs, more than two players, a whole match, how it plays at full speed.
+  Also seen: your xemu build stopped twice here with "Assertion failed: !vwd->workers_pending" (vp.c line 1750, the
+        sound thread). It waits once for its voice workers and does not check again, and under Wine that wait can end
+        early. The copy run here was changed to wait again; nothing of xemu is in this package. If you ever see that
+        stop on your PC, that is the place.
+  The settings exe and the DLSS helper are build 35's (unchanged).
+
+Testing (s10n)
+  Before you start
+    - Unzip over your H2Classic folder (your h2classic and Rom folders are not touched).
+    - h2classic\keys.bin must be there (H2Classic Settings > Generate Xbox keys.bin file): system link needs it.
+    - xemu: Settings > Network: network on, Attached to: UDP Tunnel, Bind Address 127.0.0.1:9368, Remote Address
+      127.0.0.1:9369 (both on this PC; on two PCs, give each the other PC's address, with port 9368 on both sides).
+    - xemu runs the v1.0 game with no title update, like H2Classic (both must be the same version to see each
+      other's games).
+  Test 1: H2Classic joins a game xemu hosts
+    1. Start H2Classic with h2classic_launcher.cmd: tick "System link with consoles / xemu", Send to 127.0.0.1:9368,
+       Listen on 9369.
+    2. In xemu: System Link > Create New Game. In H2Classic: System Link, pick xemu's game, A.
+       Expect: both lobbies say "2 player(s) in party".
+    3. Start the game in xemu and play for a minute.
+       Expect: both in the same match (hold Back: both players on the scoreboard), no stop.
+    If it fails: h2classic_log.txt, h2classic_stop.bin and xemu.log, and the step it happened at.
+  Test 2: xemu joins a game H2Classic hosts
+    1. Leave the party on both, then Create New Game in H2Classic and join it from xemu; start it in H2Classic.
+       Expect: the same as Test 1, with H2Classic as the party leader.
+    If it fails: the same files.
+  Test 3 (optional): a profile made in H2Classic, in xemu
+    1. Create a new profile in H2Classic, then copy its folder (h2classic\U\<twelve digits>) into xemu's hard disk
+       at E:\UDATA\4d530064\ (your xemu HDD browser can do that).
+       Expect: xemu's Halo 2 lists it and loads it.
+    If it fails: a photo of xemu's profile list, and the folder's files.
+  Send me
+    - h2classic_log.txt from each test (and h2classic_stop.bin if it stopped), and xemu.log if xemu stopped.
 
 New in s10m (build 35): rebuilt on the decompilation of 18 November, and the rocket launcher's fix applied everywhere
   1. The new decompilation
@@ -98,7 +1154,7 @@ New in s10l (build 34): controller vibration, and Increased LODs really applied
         the XBE's own code runs instead.
   Drawing every far piece and every object at full detail costs some frame time, as on the Xbox with the mod.
   Test launcher: "Increased LODs off (for comparing)" (H2N_LODS=0) and "No vibration (for comparing)" (H2N_RUMBLE=0).
-  H2Classic Settings.exe and H2Classic_DLSS.exe are build 33's, unchanged.
+  H2Classic Settings.exe and DLSS Helper.exe are build 33's, unchanged.
 
 Testing (s10l)
   Before you start
@@ -144,7 +1200,7 @@ New in s10k (build 33): the light on the ground that disappears when you get clo
         compare onto every texture, none refused, none failing this build's own check), self-test 32 of 32. I didn't
         get to one of these lights here, so how it looks is for you to see.
   For comparing: "Lights near you without their shadow map (as build 32)" in the test launcher (H2N_SHADOWMAP=0).
-  H2Classic Settings.exe and H2Classic_DLSS.exe are build 32's, unchanged.
+  H2Classic Settings.exe and DLSS Helper.exe are build 32's, unchanged.
 
 Testing (s10k)
   Before you start
@@ -225,7 +1281,7 @@ New in s10j (build 32)
   Test launcher (h2classic_launcher.cmd): two new options under "In-between frames (Unlock)":
     "Effects on your own unit stay at the tick (as before build 32)" (H2N_CARRY_MINE=0) and
     "Rocket launcher animation fix off (for comparing)" (H2N_ROCKETFIX=0).
-  H2Classic_DLSS.exe is build 29's, unchanged.
+  DLSS Helper.exe is build 29's, unchanged.
 
 Testing (s10j)
   Before you start
@@ -276,7 +1332,7 @@ New in s10i (your note: settings slow to change when clicking fast)
         here with real mouse clicks 80 ms apart: build 30 moved 3 of 6, this build 6 of 6.
   Also: settings.ini is written a quarter of a second after the last change instead of at every click. Start Game,
         Exit and closing the window write anything still waiting.
-  H2Classic.exe and H2Classic_DLSS.exe are build 29's (s10g), unchanged.
+  H2Classic.exe and DLSS Helper.exe are build 29's (s10g), unchanged.
 
 Testing (s10i)
   Before you start
@@ -299,7 +1355,7 @@ New in s10h (your notes on H2Classic Settings in build 29)
   - Choices stop at their lowest and highest values instead of going round, and the arrow on that side dims. Display
         Mode and Anti-Aliasing still go round.
   - The anti-aliasing notes fit (two lines of room).
-  H2Classic.exe and H2Classic_DLSS.exe are build 29's (s10g), unchanged.
+  H2Classic.exe and DLSS Helper.exe are build 29's (s10g), unchanged.
 
 Testing (s10h)
   Before you start
@@ -351,7 +1407,7 @@ H2Classic Settings.exe with a Halo-style look and an anti-aliasing quality choic
           its "2x/4x/8x" would be supersampling, which Render Scale already does.)
         Checked here: SMAA Low and Medium at the main menu (371 and 380 views, no shader refused); High and Ultra
         are unchanged byte for byte. The DLSS preset couldn't be run here.
-  Icons: H2Classic.exe has the H2C panel, H2Classic Settings.exe a cog, H2Classic_DLSS.exe a jagged-to-smooth
+  Icons: H2Classic.exe has the H2C panel, H2Classic Settings.exe a cog, DLSS Helper.exe a jagged-to-smooth
         mark. They're original drawings in the style of Halo 2's menus (res/make_icons.py in the kit).
   Test launcher: "SMAA preset" (low / medium / high / ultra) and "DLSS preset" (k / j) replace the old Ultra tick box.
 
@@ -390,14 +1446,14 @@ remembering its settings; the water edge at 32:9; the test launcher overridden b
             Rom\                         your game: default.xbe and maps\, or a disc image (.iso)
             H2Classic Launcher.exe
             H2Classic.exe
-            H2Classic_DLSS.exe
+            DLSS Helper.exe
             LICENSES.txt
             NVIDIA_RTX_SDKs_LICENSE.txt
             nvngx_dlss.dll               yours, for DLSS (NVIDIA's file: I can't put it in the zip)
         The zip has the two folders, empty. If Rom holds neither the files nor an image, the game stops and says which
         folder it looked in (in a message box when it was started from the launcher or Explorer). A folder or image
         named on the command line still works as before. The log's second line names the Rom folder it read from.
-        The DLSS helper is renamed H2Classic_DLSS.exe.
+        The DLSS helper is renamed DLSS Helper.exe.
         Checked here: the game files in Rom, a disc image in Rom, and an empty folder (the message).
   keys.bin from other BIOS images. The launcher's Generate button now works with every BIOS layout. BIOS 4817 and
         later are made for the MCPX 1.1 boot ROM (mcpx_1.1.bin); 3944, 4034 and the 4627s for MCPX 1.0
@@ -1227,6 +2283,10 @@ Controls (only while the game's window is the active one)
               Z or Space = A       X = B       C = X       V = Y       1 = white     2 = black
               W A S D = left stick       I J K L = right stick       Q / E = left / right trigger
               F / G = click the left / right stick
+  Mouse:      moving it looks (in a game)      left button = right trigger      right button = left trigger
+              middle button = click the right stick       wheel = Y
+  Every key and mouse button can be changed, the mouse's sensitivity set and the keyboard and mouse switched off
+  in H2Classic Settings: Keyboard + Mouse Settings (s10v, above).
   F12 saves a picture of the current frame (h2classic_frame_NNNNN.bmp).
   F9  (only with H2N_INTERP=3) writes the next 4 seconds of a cutscene into the log, frame by frame.
   F11 describes the next two frames in the log, draw by draw, and saves every surface the game drew into during

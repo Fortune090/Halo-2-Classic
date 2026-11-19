@@ -3,78 +3,369 @@ newest first (each section was the top of REBUILD.txt in that build's kit). The 
 BUILD.md maps them to this repository. The "kit" mentioned below is a private archive of the workspace that included the
 compiled game objects and other files this repository leaves out.
 
-H2Classic - rebuilding the workspace (stage 9, build s10m)
-==========================================================
-Build s10m (build 35, 18 Nov 2026): the full path run against the user's 18 Nov decomp upload (a57f8c89, README
-"matched 10697 of 11326 game functions"; Havok 1429 of 1436). The previous base was decomp_1115 (10630): 146 newly
-matched (69 game, 77 Havok; 44 since 1117c); 0x41640 and 0xc2d00 lost their match (0x41640: comments only).
-  The decomp tree is now /home/claude/h2decomp_src/halo2-decompiled-main = the 18 Nov upload + this kit's
-    source_changes/h2classic_decomp_1118.patch (35 files; applies cleanly with patch -p1, checked). The old tree is
-    kept as /home/claude/h2decomp_1115_tree. Three hunks were redone by hand (unknown_223240.cpp h2n_ip_view before
-    function_223080; unknown_24c7c1.cpp h2n_text_box above the 0x24cf66 marker; unknown_254200.cpp h2n_hud_tracker
-    above 0x2548f0), and one declaration moved: unknown_03bcb0.cpp's extern "C" h2n_lods sat between "// @retail
-    0x1bf50" and the function, and the new tools/build.py then took h2n_lods for the marked function (a bogus
-    stand-in "static "C" int volatile standin_unknown_03bcb0_result_20", unresolved at link). Rule: nothing of ours
-    between a @retail marker and its function.
-  How the full path was run (in this order; commands from /home/claude/native unless said):
-    0. Wine after an environment restart: wineserver aborts ("free(): invalid pointer") unless /run/user/0 exists:
-       mkdir -p /run/user/0 && chmod 700 /run/user/0, then the usual warm-up.
-    1. A PURE copy of the upload (/home/claude/h2decomp_1118_pure/halo2-decompiled-main, orig/default.xbe added):
-       python3 -c "import sys; sys.path.insert(0,'tools'); import build; print(build.build(jobs=2))" then
-       python3 tools/check.py --no-build (5.5 min with 2 cores). Its build/ (halo2.exe, .map, report.json) feeds the
-       oracle: with our hooks in it, the hooked matched functions would not match and their votes would be lost.
-    2. The PATCHED tree's TUs only: build.build(jobs=1) with build.run_tool replaced by a no-op for CL.Exe and
-       Link.Exe (writes build/gen/<stem>_tu.cpp, compiles nothing). The TUs #include their source by ABSOLUTE path:
-       make them where the tree will stay (the first set pointed at a folder that was then moved: 1,879 failures).
-    3. scripts/oracle.py <pure>; native_compile.py <patched> obj2 2 (3.7 min, 1879, none failed);
-       ls obj2/*.obj > objects2.rsp; undef3.py (only new names: the h2n_ hooks, defined by the layer).
-    4. emuinit.py: init_delta.json identical (checked against a copy). plan.py; oracle2.py <pure> (27,563 calls
-       consistent, 0 inconsistent; 45 data fields inconsistent with the plan, was 46); statics1.py <pure>;
-       statics2.py (11 placed, as before); vtables.py; add_globals.py (g_4b8478 corrected again).
-    5. scan.py; scan2.py (9072 accepted, 22 rejected, as before); retailconv.py; unproven_routes.py;
-       pointer_routes.py; code_immediates.py (599, as before).
-    6. rewrite.py (fresh obj_r); scene_hook.py obj_r/unknown_023540.obj (h2n_scene_13680 once); gen.py;
-       scripts/fix_resolve.py (NEW: the hand clean-up, now a script; "defined" takes in the game objects, the
-       layer's objects and the mingw libraries - __purecall comes from the UCRT, 104 slots); gen_code.py; build2.sh.
-  What changed in the tables: data symbols placed 2194 -> 2192 (8 new from matched code: the light / instance marks
-    storage, g_557c90 now an s_cache_file_table, g_47ff94, four vtables; 10 gone with upstream renames; none moved);
-    vtables_plan: array_owner_2dc1c0 / derived_2ecb70 no longer placed by vtables.py - retail 0x4123d8 / 0x412b80
-    are now placed for array_owner_2dc150 / swapped_keyed_list_2ecb80 by matched constructors (same retail classes);
-    fix-ups 9072 (2 slots name renamed symbols; 9 slots that the old record dropped now reach a defined ??_G);
-    routes 197 -> 141: routes_unproven 62 -> 31 and routes_called 102 -> 81 (all removals now matched; 8 added:
-    0x1e4e0, 0xc2d00, 0x172840, 0x1c4590, 0x215e60, 0x279410 (also hand), 0x296580, 0x29bab0), routes_pointer 86 -> 48.
-  gen_code.py: hand routes whose function is now matched are left out (printed): 0x785d0, 0x938e0, 0x1f38c0,
-    0x2e2f70. The tick pair 0x137fe0 / 0x1554b0 stays listed (retail.c only uses them with H2N_TICK=retail).
-  Audit, closure over retail's call graph (stopping at h2n_game_patches, where retail jumps to ours): which functions
-    with an h2n_ hook can be reached from code that runs as retail's. s10l: 0x4bcc0, 0x133520, 0x1237e0 (and
-    0x157ae0, but only through 0x15ca10, which is a BACK patch). Now: 0x4bcc0 (patched in retail since s10l) and
-    0x1237e0 - animation_cache_get_resource, reached from the hand-routed object creation (0xb7430 / 0xb7b40 /
-    0xb8540) and 0x4b5d0's drawing: the rocket launcher's fix (s10j) was skipped on those paths.
-  helpers.S h2n_anim_get_hook + interp.c h2n_animation_retail (with the fix on, after main_menu_six /
-    h2n_lods_retail): retail 0x1237e0 (push ebx; push esi; mov esi, eax; push edi; then mov ebx, esi - checked)
-    becomes jmp hook; the hook keeps the resource (eax), pushes the name again, calls the five bytes + jmp 0x1237e5,
-    then h2n_animation_resource(resource, [resource+4], data) and ret 4. Log: "retail's animation_cache_get_resource
-    (0x1237e0) goes through the layer too". Seen live: Ivory Tower with Starting Weapon: Rocket Launcher, "51 of 51
-    places written" (the first run that showed it).
-  What the new matches say about earlier guesses: 0x1f38c0 void(long actor_index) (the 'eax1' adapter fits);
-    0x938e0 c_class_938e0::function_938e0(address, message_type, message) ('this3_eax_edx' fits); 0x133520's old
-    draft passed function_2cbf0 its arguments in the wrong order (it ran from the XBE); 0x2234e0 (still a draft) now
-    builds the last view through function_223080(1, ...) as retail's single call site does (Draw Distance's hook sees
-    it); 0x16ebf0 / 0x186ab0 reshaped, same behaviour. 0x4d0b0 still unproven (our flag swap from retail's code kept;
-    0x4cbf0's draft passes the flags the other way, also unproven).
-  Checked: 70 s to the menu with H2N_UNLOCK=1; self-test 32/32 (run/selftest_s10m); H2N_STACK=poison 60 s; live on
-    Ivory Tower (rockets, grenades, jumps, splash damage), no stop. Not checked here: campaign AI (no level with AI
-    reachable from the test profiles), vehicles, system link.
+Builds 38 to 46 (s10p to s10x): game version 1.5, one program for both versions, and what came after
+===================================================================================================
+These are the notes as they were kept while working (newest sections last within this part). /home/claude/v15 is
+scripts15/ here, /home/claude/v15tools is tools15/, /home/claude/native/layer3 is layer3/.
+
+# H2Classic 1.5 (title update 5) - work notes (started 18 Nov 2026, after build 37 was confirmed by the user)
+Goal: a second exe that runs the 1.5 XBE (h2classic\T\$u\default.xbe = u5 English, CRC32 a5b0b715, 4,919,296 bytes,
+cert version 0x803) the way H2Classic runs 1.0: unchanged functions as compiled source (the 1.0 decomp's), changed
+ones as 1.5's own code (routed), data in place at 1.5's addresses, every layer patch at its 1.5 address. First
+milestone: "1.5" at the bottom right of the Press Start screen. Then: the launcher's version choice, XFindFirstContent
+/ content signatures so the packs (h2classic\T\$c) show up, DLC maps loading.
+Facts: same XDK 5849 libraries; .text +0xa0e0; library sections shifted by exactly +0xa0e0 (DSOUND 0x379c60->0x383d40,
+XONLINE, XNET, BINK*); fmap.py: 14,974 / 15,793 functions the same (masked), 819 changed (network mostly).
+Files: v15/fmap.py, v15/fmap.json (1.0 va -> [1.5 va or null, same|changed]), v15/default_v15.xbe (u5 English).
+Plan:
+ 1. functions15: 1.5 address of every function, changed ones too (boundaries between same neighbours).
+ 2. data map 1.0 -> 1.5 for globals (xmap.data-style votes from same functions' address fields) - the oracle for 1.5.
+ 3. pipeline retarget: scripts read H2N_NAT / H2N_XBE / H2N_CSV; workspace /home/claude/native15.
+ 4. layer: ~150 hard-coded 1.0 addresses (interp.c, xnetx.c, main.c, timing.c, helpers.S, xd3d.cpp...) -> per-version.
+ 5. build, boot, fix; launcher dropdown; content.
+Progress 18 Nov (after build 37): funcs15.py + funcs15b.py -> functions15.json: every 1.0 function's 1.5 address
+  (14,974 same; changed: 366 first-of-run by boundaries, 126 by masked prologue, 144 by 1.5 call targets / data code
+  pointers; 183 unplaced = never a call target in 1.5, i.e. reached only from changed code, likely inlined in 1.5).
+  229 changed functions are called from unchanged compiled code: those need routes with the right convention
+  (retailconv-style check on 1.5's code); the other 590 are reached only from changed (retail) code or via pointers.
+
+== Session 18 Nov, evening: the 1.5 exe builds and boots into the session manager ==
+Pipeline (all in /home/claude/v15, outputs to /home/claude/native15; run in this order after any change):
+  fmap2.py -> moved15.json (twins of functions 1.5's link moved: 218 unique)
+  datalign15.py -> slots15.json (1.0/1.5 .rdata/.data paired word by word by difflib over tokens; code pointers by masked
+     first 16 bytes) - map15.py uses its code votes to settle duplicates and table-only functions
+  map15.py -> map15.json funcs {a10: [a15, same|diff|changed|guess|None]}, data votes (xmap15_lib.fields: capstone fields
+     of same functions), diff = same-by-bytes but a field disagrees
+  reach15.py -> reach15.json (changed entries compared by reachable code; 'same' there counts as same)
+  (boundary15.json is rebuilt inline: compiled changed functions called by compiled same code; see map15 step in log)
+  conv15.py (boundary; --all for every function, slow) -> conv15.json + live15.pkl (conv_core.py = retailconv's liveness)
+  adapt15.py -> adapt15.json: plain / adapter (generic, written by gen_code15) / unresolved (trap). MANUAL{} holds
+     conventions settled by reading code (58ee0, 18f58c). Rule learnt: a register matched to an argument can be wrong
+     even when counts work out (1.0's 0x76ff0); false-positive live-ins are ignored only when no argument can move.
+  datamap15.py (map_data: vote/between/bytes/inner/unused/uncertain) ; syms15.py -> native15/layer/retail_syms.S and
+     native15/obj_r (+611 field references moved inside g_network_configuration (+0x94 at ~0x16a8) and 7 other structs;
+     2 static functions made visible)
+  emuinit15.py -> native15/init_delta.json (409 initialisers, 714 runs, 2769 bytes; table 0x46d6f4-0x46ddbc)
+  tables15.py -> native15/layer/retail_tables.S (8523 code pointers re-aimed, 412 stay 1.5's)
+  gen_code15.py -> native15/layer/retail_code.S (from native/layer/retail_code.S + the above; KEEP_OURS={0x12560});
+  back15.py -> back15.json (same functions retail code reaches on its way to Direct3D: send back to ours) ;
+  backadapt15.py -> back15_adapt.json (reverse adapters BVxxx; traps BTxxx) ; then gen_code15.py again.
+  layeraddr15.py: the layer's 1.0 addresses with 1.5 values; layer2 sources now use H2N_VA(v10, v15) (h2n.h:
+     RETAIL_CODE_END/RETAIL_END, H2N_GAME_VERSION/XBE per version; reserve.S .space 0x585000 under H2N_V15).
+  native15/build15.sh <id> -> native15/out/halo2_native15.exe (1.0's build2.sh unchanged; 1.0 rebuilt as s10o and
+     re-tested: boots, intro, main loop, 657 frames in 40 s, no stop).
+Run: native/run/work_s10o (Roms\Halo 2 = 1.0 files, h2classic\T\$u\default.xbe = 1.5) under Xvfb :77,
+  wine /home/claude/native15/out/halo2_native15.exe (it loads h2classic\T\$u\default.xbe; D: stays Roms\Halo 2).
+Where it is: loads 1.5's data/code, creates the device, physical memory, fonts, caches, saves; network session manager
+  initialise (adapter) and player_slots_initialize (plain) pass; then the main thread spins without presenting a frame:
+  1.5 0x6cb60 <-> ours 0x5e6cc0, called from 1.5 0x6edb8 -> ours 0x5cc9e6 -> 1.5 0x334d5a (look at h2classic_stop.bin
+  in work_s10o with readdump.py and the native15 exe/map).
+Known 1.5 differences found: player slot 0xc74 bytes (1.0 0xc70); c_class_6a600 offsets +4 (0xa1->0xa5);
+  g_network_configuration +0x94; function_12560 passes 0x30/0x24 to function_16a30 always (1.0: 0x20/0x18 when
+  g_485ac5 && g_485ac6, which H2N_WIDE=1 sets) - ours runs for now (it calls Direct3D itself): TODO a 1.5 variant
+  of that line in the source, compiled for the 1.5 objects only.
+Open: 33 boundary conventions unresolved (+4 odd returns), 18 send-backs unresolved (traps name them); retail D3D
+  KickOff from 1.5 0x84830/0x8a010/0x9b820 ('guess' places); XONLINE->XPP 0x413964; 16 library patches left out;
+  then the launcher's version choice (H2Classic15.exe), XFindFirstContent/content signatures for h2classic\T\$c, DLC maps.
+
+## s10p late (19 Nov) - content, XBE headers, adapters
+- xsave.cpp (1.5): XFindFirstContent/XFindNextContent/XFindClose as XAPI's findcont.obj; packs found, patch_v3.lvl read.
+- main.c xbe_headers_for_retail: 39 reads of 0x10100-0x1017f in each version's code read a copy of the XBE's headers
+  (pointers relocated); reads at a replaced library function's first instruction are skipped. xnetx.c's own 3-read
+  certificate patch removed (covered).
+- retail.c kernel_function: NtReadFile (xkernel.c, real read through the layer's ReadFile), XboxHDKey (zeros), XcSHA*,
+  XcHMAC, RtlCompareString always provided (XLoadContentSignaturesEx path runs as the XBE's XAPI code).
+- content.c sign_for_this_console: copies' ContentMeta.xbx header re-signed = XInstallContentSignatures' last step:
+  HMAC-SHA1(HMAC-SHA1(HD key zeros, title id), file[0x14:hsize]) (hsize 0x88 packs, 0x6c the title update).
+- gen_code15.py: send-back eax restore decided from the return type before the calling convention ("void *" is not
+  void): BV1d5e0 had thrown away function_1d5e0's result -> DLC preview image copied over the bitmap and the texture
+  cache entry -> main thread waited forever for residency. Fixed; 1.5 now runs the menu with all four packs.
+- gen_code.py (1.0, carried to 1.5): CUSTOM adapters for 0x298d90 (ecx=arg_7, edx=arg_8, stack arg_0..6, ret 0x1c) and
+  0x11dd80 (in edx, out ecx). User's build-37 stops at 0x298d97 (Ghost boost, Metropolis) were 0x298d90's plain route.
+  /home/claude/v15tools/routecheck10.py checks routes' needed registers/pops against declarations (130 others fine).
+- build15.sh had a comment line before the shebang: set -e was ignored and failed compiles linked stale objects. Fixed.
+- Build 38 (1.0, s10p): /home/claude/pkg/H2Classic_build38.zip; its exe+map in /home/claude/pkg/b38_internal.
+- Next for 1.5: Split Screen player-1 A crash (network_session_interface_update_player_properties, [session+0x10]),
+  then the map list (Terminal = triplicate, Derelict) and loading one; launcher version dropdown.
+
+## s10q (19 Nov) - build 39: first 1.5 exe out, launcher version choice, map fixes
+- Build 39: /home/claude/pkg/H2Classic_build39.zip (H2Classic.exe = build 38's file; H2Classic15.exe = 1.5, id s10q;
+  settings exe with Game Version (ini game_version 1.0/1.5 -> H2Classic.exe / H2Classic15.exe); test launcher ps1 with
+  "Game version" (_version in launcher.json)). 1.5 exe + map: /home/claude/pkg/b39_internal. Backup of the tables
+  before this session's map change: /home/claude/v15_backup_s15o.
+- Checked in 1.5 here: 1.5 on Press Start; 4 packs; map list (11 pack maps); Terminal + Desolation Slayer matches; New
+  Campaign -> The Heretic cutscene; a Terminal match with Unlock + 21:9 + SMAA + FPS counter.
+- 58ee0 (network_session_manager_initialize): MANUAL regs eax=5, ecx=3, edx=2, stack [0,1,4], pop 12 (Split Screen fix).
+- Game-start MANUALs in gen_code15.py (69470, 69640, 69a00, 69b50, 6a690, 6aa20, 14f040, 1662c1, 825e0, 79a10, 8a090,
+  d2f90, d30d0, b75a0): taint15 results can be WRONG (d2f90, d30d0 had a float in a register); the retail 1.0 call
+  site (the same in 1.5) is the evidence to trust. convaudit15.py = float-in-register audit of settled15.json.
+- map15.py (s10q): table votes. datalign15's word pairing follows table order, which 1.5's link changed; byte-alike
+  scalar deleting destructors got another class's twin (2325a7 -> 2389d2, really 238ecb in 3 vtables), so 2bb4bd
+  (difficulty screen dtor) ran 0x14a132 (a list's dtor): the stop at 1.5 0x234d75 after Choose Difficulty. Now: every
+  data address same code names that starts a run of code pointers pairs slot for slot with its 1.5 place; a unanimous
+  strict twin wins (>= 2 slots, or 1 slot over a non-strict twin). 55 twins changed. strict_lib.strict(a10, a15, n).
+- 14 traps settled by hand (v15tools/trapinfo.py prints the evidence): 23654b (New Campaign), 31590, 5e7f0, 61e00,
+  ce6b0, 861c0, 8e1e0, 19b72a, 1eb8a0, 24b971 in gen_code15 MANUAL; 61ac0, 8a400, b35d0, b58c0 also in adapt15 MANUAL
+  (they were dropped there for showing two "ret n"). Left: TV63e90 (no 1.5 counterpart; its caller 199e6d's twin
+  0x32b0b4 is a CRT function - a loose-mask accident).
+- BIG OPEN ITEM (not in build 39): fmap_lib.mask is too loose - any 3 bytes followed by a zero byte whose third is
+  0x01-0x6f are masked, so disp32 structure offsets 0x100-0x6fff and small immediates do not count. v15tools/strict15.py
+  finds 227 'same' functions that differ: imul 0xc70 -> 0xc74 (111, menus' per-controller data), 0x528 -> 0x550 (60,
+  network), offsets 0x1200.. +4, 0x4e00.. -> 0x5058.., 0xa68.. -> 0xad4.., a few ret n / constants (strict15.json).
+  They run as 1.0 compiled source with 1.0 numbers: players 2-4 in menus and network are expected wrong. Fix = strict
+  filter on every twin source in map15.py (fm, mv, slots, lib moves) and in tables15.same_body, rerun chain15.sh, then
+  verify the new boundary adapters (trapinfo.py; same-shape twins keep 1.0's convention). slotvotes15.py lists where
+  the tables and the map still disagree (91 weak ones left).
+- Layer: main.c load_retail_data (1.5) says the title update is missing and what to put in Roms\DLC.
+- Test runs: v15tools/nav.py (waits on the log, ends when the steps are done, retries when Direct3D 9 does not start;
+  steps: ready, <button>[/N], ?text, shot, loaded, sleep/N; --v 10|15; NAME=value env). 1-2.5 min a run instead of 5-8.
+  Terminal: nav.py --name term ready start '?\profile' sleep/2 down a/3 a/4 down down a/4 a/5 right a/3 a/3 up up up
+  up up up a/3 left a/2 '?triplicate.map' loaded shot   (5 ups = Desolation / derelict.map). Campaign: ... down a/3
+  a/4 a/3 a/3 a/3 a/2 '?.map' sleep/20 shot.
+- User asked (19 Nov): one exe for both versions. Feasible: version-neutral layer (H2N_VA -> run-time pick, ~110 uses,
+  16 #ifdef H2N_V15), both retail_code/retail_tables sets (prefixed symbols), and a start-up relocation list for the
+  compiled game code's references to retail data (link twice with identical layout, diff). Not a self-overlay or a
+  DLL (0x10000 is only free for the main exe; TLS). Offered as the next step.
+
+## s10r (19 Nov) - build 40: one exe for 1.0 and 1.5; strict map; conventions audited
+
+- STRICT MAP: map15/tables15/reach15 take a twin only when strict_lib.strict() holds (instruction for instruction; only
+  addresses may differ). Loose twins that keep the same shape are 'changed' at their place. same 17389, changed 560,
+  diff 96, guess 236, none 241. Boundary 257 (was 169). strict_lib.KEPT: two main_menu.cpp functions (2308e0, 230c2b)
+  stay ours in 1.5 (six-item menu); syms15.SIZE_PATCH writes imul 0xc70 -> 0xc74 into them and into the out-of-line
+  helper player_slot_profile_get (10 COMDAT copies).
+- CONVENTIONS: conv15 / taint15 / 'call sites' err (push ecx = room; __chkstk; taint pairs registers wrongly, e.g.
+  c_entry_table 8ae80/8aed0, show_dialog 24b6ea). Everything with more than one register argument was read by hand:
+  v15tools/trapinfo.py, rev.sh (B=-b for send-backs), final.py (what gen_code15 finally uses), entrycheck15.py (reads
+  before writes at the 1.5 entry; 4 understood suspects left), xmmcheck15.py (float argument in xmm0: 176780 only;
+  gen_code15's BV emitter takes 'xmm0' in regs). MANUAL in gen_code15.py holds 22 forward + 9 back entries of s10r;
+  backadapt15.BPOP for twins without a single "ret n". No TV/BT traps left.
+- STATIC COPIES: a file-local copy of a boundary function (unknown_29f5b0.obj's player_slot_get, index in eax) is
+  renamed by syms15.STATIC_COPY (player_slot_geT) and routed by gen_code15.STATIC_COPIES (SV adapter keeps all
+  registers). The link's duplicate-symbol error is the detector for new ones.
+- CODE IMMEDIATES: gen_code15.scan15_immediates() finds push/mov/cmp of a same function's 1.5 address in ALL of 1.5's
+  code (46 more than the carried-over list; 0x235d74 pushed main_menu_open: 1.5's five-item menu was built, and
+  ours walked off its item array - null call in c_class_1a2c81::v1).
+- CONTENT: content.c sets bit 0 of ContentMeta header word 0x20 (as XInstallContentSignatures 0x2d2ce1 / 0x2d2e2b) on
+  its own copies and signs; the user's installer-form packs 1-3 lacked it (only pack 4 was offered).
+- PACING: main.c's "rate" pattern uses H2N_VA(0x485ac0, 0x4922e0).
+- ONE EXE: native/layer3 (run-time h2n_v15, H2N_VA), native/build3.sh <id> -> native/out3/halo2_native.exe (+ v10/v15
+  exe and map). scripts/objm.py (1.0 objects with 1.5's symbol visibility/names -> native/obj_m, objects_m.rsp),
+  1.5 tables renamed _h2n15_* by sed, scripts/v15list.py (checks same layout from both maps, writes the difference
+  list into .h2nv15; 32,140 runs, 157,466 bytes, 461 KB of 1 MB). main.c: version_wanted() (H2N_VERSION, else
+  game_version in h2classic\settings.ini unless H2N_SETTINGS=off), v15_apply() in early_init (.CRT$XCB).
+  layer2 / build2.sh / build15.sh are the old two-exe path - layer3 is the current source.
+- F11: gfx9.c saves the 16-bit text pages from game memory (h2classic_surface_<frame>_<memory>.bmp, 2w x h: coverage |
+  colour) and logs every vertex of draws that read one (<= 6000 a frame).
+- nav.py: one exe (NAV_EXE or out3), H2N_VERSION from --v; NEVER put the exe's file name in a command that runs nav.py
+  (its pkill -f matches the shell). Use --dir work_s10o for both versions; `loaded` can miss a fast load - use sleep.
+- User's corrupt text in 1.5: not reproduced; cause unproven (hypothesis: the mis-sized-structure functions). Build 40
+  asks for an F11 capture if it is still there.
+- Tested (see README s10r item 4). Package: pkg/h2classic_build40, H2Classic_build40.zip; internal: pkg/b40_internal.
+
+## s10s (19 Nov, build 41): the user's build 40 report - End Game stop, no in-between frames, missing letters / HUD (1.5)
+
+- End Game / Save and Quit / backing out of the lobby stopped (null jump out of c_window_channel::remove ->
+  ??_Gc_mp_pause_game_screen -> adapter AV2320af, which returned with "ret 4"). adapt15.ours() / backadapt15 took how
+  many bytes OUR function pops from "the first ret within 4 KB" when the function has no ret before a call / jmp; a
+  destructor that ends in a jump got the next function's. Wrong: 2320af (4), 1a2e7f ??1c_online_task_screen (12),
+  2b6301 ??1c_y_menu_player_selected_screen (12), send-back 2238f4. Now decl_pop comes from the declaration
+  (declplaces.places: 0 for __cdecl, else 4 a stack argument). v15tools/declpop15.py lists the differences (only
+  658c0, on purpose).
+- No in-between frames in 1.5: layer3/interp.c had 23 addresses of 1.0 (19 #defines + FP_USERS, a director proc, two
+  0x4E9C8C, 0x23C110) outside H2N_VA; snapshot() failed its pointer checks. All are H2N_VA now. Same in xdsound.cpp
+  (BINK_CALL's range). v15tools/rawaddr.py (run in native/layer3) lists every literal that looks like an image address
+  and is not in H2N_VA: nothing left but sizes, masks and DSP opcodes. RUN IT after any layer change.
+- Missing letters / HUD / corrupt pause menu: not reproduced here. The user's F11 trace: text page and glyph ring
+  intact, ONE font cache entry ('L' of one font) drawing from a garbage cell. Likely cause: h2n_zoom_hold (every frame
+  with Unlock Performance) read a pointer at 1.0's PLAYER_CONTROL address (1.5: an unrelated pointer that changes;
+  four different values in the user's stops) and wrote 16-bit counters at +0xA0 / +0x134 / +0x1C8 / +0x25C. Fixed by
+  the interp.c change. Say "likely", the user's test decides. My earlier text tests ran without H2N_UNLOCK: test 1.5
+  WITH H2N_UNLOCK=1.
+- vt15.py (new chain step before syms15): a 1.0 vtable's 1.5 place is where 1.5's .rdata holds the twins of its
+  functions slot for slot (strict = 2 points, same shape = 1; greedy by best score; vt15.json). 408 placed, 8 nowhere,
+  17 differ from the older methods and were wrong: c_user_interface_text_buffer, Havok class_31a870 + 3 siblings, 7
+  of the 11 session state classes, clan / friends options (swapped), c_y_menu_players_list, 450cb8, 4521e8. syms15 and
+  tables15 take vt15.json first. vtcheck15.py: 483 tables, 18 with one slot the map and the table disagree on (all
+  'diff' / 'guess' twins: 1.5's own function runs there; the names in _h2n_all_functions can be off by one function).
+- aa4d0 returns its float in xmm0 (LTCG): MANUAL fret='xmm0' -> the AV adapter moves it to st(0).
+- Tests of s10s (all with H2N_UNLOCK=1): 1.5 split screen Terminal: HUD, pause, End Game -> Game Over -> Postgame
+  Carnage Report -> lobby -> B; 1.5 system link host on Terminal + End Game; 1.5 campaign cutscene; 1.0 split screen
+  Ivory Tower + End Game; 1.0 self test 0 of 32. A system link / split screen match on a disc map waits for the cache
+  copy behind single_player_shared.map (about a minute here): pick a pack map (six ups = Terminal) for short runs.
+  The pause menu does not open in a cutscene; campaign gameplay is 8 minutes in (00a, then 01a's opening).
+- nav.py: '?01a_tutorial.map' matches the background cache copy, not the level start.
+- What 1.5 has at 1.0's PLAYER_CONTROL address (0x4ED284 = 1.0's 0x4E09B4): async_globals.nodes[25].task + 4
+  (include/async.h, job_queue.h; node size 0x40, nodes from 1.0 0x4e0368) - the background file reader's queue, and
+  the word is a task's buffer pointer (page-aligned 0x81xxxxxx and heap values in the user's stops). So the stray
+  zoom-hold counters went into buffers of data read from disk. The stop files do not hold those pages.
+
+## s10t (19 Nov, build 42): Render Scale as a multiplier up to x10; names above heads in widescreen
+
+- User, after build 41: "1.5 is working as expected/like 1.0 now." (End Game, in-between frames, letters/HUD all fine.)
+- Render Scale: the user wants a x480 multiplier, to x10, not a percentage of the window ("not intuitive").
+  launcher/h2c_settings.c: SCALE_MOST 10, items "xN  (480*N p)", settings.ini key render_multiplier (1..10); render_scale
+  (the percentage) is removed from the file on the next save (ini_remove); an ini without render_multiplier starts from
+  multiplier_for() = gfx9.c's old formula (picture height x percent / 480, +0.5). layer3/main.c: render_multiplier ->
+  H2N_RENDER (render_scale -> H2N_RENDERSCALE still read for old files). gfx9.c: H2N_RENDER 1..10 (was 8); its own log
+  line "render scale xN: drawn at WxH". ps1: H2N_RENDER list to 10.
+  Settings exe test under Wine: /home/claude/launchtest5 (step.exe <control id> <vk> <times> sends keys to a control:
+  100 = Render Scale, 39 right, 37 left), 64-bit prefix /root/.wine, screenshot with `import -display :77 -window root`.
+  x10 here: 12 s a frame in software; nav.py NAV_SLOW=1 ignores "no frame presented".
+- Names above heads stretched in widescreen: function_159880 (per view: every other player, alpha from 0x159690: the
+  viewer dead, or aiming at the target, or team "shared time") -> function_159250 (head marker -> screen point) ->
+  function_15e530 (centred text, rect x +-300, 0x1fa50). Not covered by the HUD fix nor text_sq (nor by Spooky Ghost).
+  h2n_name_text(rect) / (NULL) around the 0x1fa50 call in h2decomp_src/.../src/unknown_157450.cpp; xd3d.cpp narrows by
+  1 / h2n_ws_factor() about the rectangle's middle when hud_widescreen(). Both versions run the compiled function.
+  Recompile of one source: delete native/obj2/<stem>.obj, native_compile.py (h2decomp_src tree), add_globals.py,
+  rewrite.py, scene_hook.py on obj_r/unknown_023540.obj, then v15: syms15.py, tables15.py, gen_code15.py, then build3.sh.
+  Test: v15tools/nametest.sh <label> NAME=value... (H2N_TESTPADS=2, "2:a" joins player 2 in the split screen lobby;
+  Warlock = 10 downs from Ivory Tower in the map list; player 1 looks down and throws both grenades; from "Respawn in
+  5" his view follows player 2 with the name) + namewidth.py: 57x10 px at 16:9 and 21:9 (H2N_WINDOW_SIZE=1138x480
+  H2N_DISPLAY=windowed H2N_RENDER=1 for 21:9; the old test window is always 16:9).
+  key file holds: "name*N" is N controller polls (about one a frame); "+shots" saves every frame of the hold.
+- Text still at its 16:9 width by design (text_sq, as the mod): pick-up prompt, HUD messages, chapter titles. Other
+  0x1fa50 callers not looked at for widescreen: 0x13cf00 (two calls), 0x1e6fe0, 0x2233a0.
+
+## s10u (19 Nov, build 43): H2Classic Settings stays open; settings changed while the game runs
+
+- User: "Let the launcher stay open in the background if used to launch (and be able to be opened if the game is already
+  open) and allow display/performance settings to be changed live. Gray out the game settings if the game is running".
+- The game makes a named auto-reset event "H2Classic_settings_changed" at its start (main.c h2n_live_start). Settings
+  finds the game by it (OpenEvent every 250 ms, game_watch) and sets it after every ini_save (game_signal). gfx9.c calls
+  h2n_live_poll() after each Present, before BeginScene: event set -> h2n_settings_apply() again with g_live_pass (the
+  names that were in the environment at the start are kept: g_env_kept) -> what changed, by kind:
+    LIVE_PACING  timing.c h2n_pacing_live: g_unlock_on / g_vsync_off again; main.c h2n_pacing_patch(on) (the three
+                 pacing instructions re-aimed or the saved bytes back); interp.c h2n_unlock_changed (g_lods_on,
+                 g_dd_tenths, g_rk_on again; h2n_lods_retail both ways; h2n_animation_retail once); h2n_display_rate
+                 or the console's 59.94
+    LIVE_ASPECT  xapi.c h2n_aspect_live: factor and wide read again, the game's byte 0x485ac2 / 0x4922e2 written
+    LIVE_PICTURE gfx9.c gx_live: mode / size / scale as gx_open reads them; size or scale changed -> unbind, release
+                 _targets(), read surfaces, the FPS state block; size -> Reset (ResetEx on a 9Ex device), set_defaults;
+                 the window restyled with SetWindowLong + SetWindowPos; ONE BLACK Present(NULL, NULL) at the end - the
+                 frames are presented into the picture's rectangle only and a GDI erase does not show under Wine
+    LIVE_FPS     g_fps_wanted;   LIVE_AA  gfx_aa.c aa_live (shaders and slots let go, g_tried = 0; to / from DLSS: not)
+  only the settings window path (g_new_window); H2N_SETTINGS=off: signals ignored (logged once).
+- Settings (h2c_settings.c): one instance (FindWindow "h2classic_settings"); start() no longer quits; g_running greys
+  the GAME part (parts g_game_part_first..last drawn C_OFF, title "GAME - FOR THE NEXT START"), disables Start
+  ("Game Running"); toggle and button have a disabled look now; reset() keeps game_version / skip_* while running;
+  topmost only while it is the foreground window and the game's window is topmost.
+- Testing both together: run/live_s10u (H2Classic.exe = the game, the launcher built for x86 to run in the .wine32
+  prefix; the 64-bit one works in /root/.wine, which runs the 32-bit game too), /home/claude/launchtest6/env.sh
+  (st = step.exe: key / space / cmd / state / front; press = key file lines; shot; logtail). Control ids: scale 100,
+  size 101, wide 102, mode 103, unlock 104, vsync 105, fps 106, aa 107, aaq 110, start 200, reset 201.
+  No window manager under Xvfb: z-order cannot be judged from screenshots there.
+- '?warlock.map' style waits match the map packs' listing at the top of the log: wait for "maps\\warlock" or sleep.
+
+## s10v (build 44, 19 Nov 2026): native mouse, Keyboard + Mouse Settings
+User asked: native mouse support (Vista / Cartographer / MCC have it); a "Keyboard + Mouse Settings" button in the launcher opening a
+window headed like the main one with a key assignment list, mouse-only look inversion, mouse sensitivity, a Zoom Sensitivity slider under
+it (default = what was settled on), "Enable Keyboard + Mouse" at the top; the mouse to ignore the in-game look inversion. Reference for the
+mouse's rules: Halo 2 for Windows Vista's own executable, read (disassembled) only - never run, and nothing of it is in the program.
+- Where: function_186ab0 (routed, runs as retail in both versions) calls function_185be0 (1.0 0x185be0 / 1.5 0x1889d0; edx = controller,
+  5 stack args: local player, dt, dt2, in ptr, out ptr; ret 0x14) at 0x186b16 / 0x189906. Output +0x10 yaw, +0x14 pitch (radians this
+  frame; yaw grows to the LEFT, pitch UP is positive), handed to function_187510. Inside 185be0 the aim assist is function_1a4900
+  (0x1a4900 / 0x1ad4f0) called at 0x1861a1 / 0x188f91 (eax, ebx inputs; one stack arg = out vector; ret 4; k > 0 = assist active).
+  g_51ea18 (1.5 0x52d4a8) is an ARRAY (not a pointer): 4 x 0x1c preferences (look speeds in degrees/s first), then at +0x70 4 x 0x50
+  sampled input; +0x40 / +0x44 of a record = look stick yaw / pitch with the game's look inversion already applied (unknown_217c40.cpp).
+- Layer: helpers.S h2n_look_hook (around the 185be0 call; calls h2n_look_begin / h2n_look_end, everything preserved incl. xmm0-7) and
+  h2n_assist_hook (zeroes the 3 floats while h2n_mouse_no_assist); interp.c h2n_look_retail re-aims the two E8 calls after checking them
+  (log "mouse: 2 of 2 places ..."; H2N_MOUSE=0 leaves retail alone); h2n_look_end = Vista's rule (its 0x4917bf): seat rates /120 and /60,
+  x zoom sensitivity / magnification (function_c8880 through xd3d.cpp h2n_zoom_magnification), x (1 - stun x globals[0x134]+0x7c), per
+  axis: stick at rest -> ADD the mouse (what is there is the platform's turn), else the larger magnitude; scale 0.022 deg x sensitivity
+  per count (this build's own). Vista's flag for "no aim assist blend" is function_45e447(controller) = controller == 0 (its K+M device).
+- input.c: binding table (24 entries x 2 keys; H2N_KEY_<NAME>=a,b; 256 = wheel), H2N_KBM, H2N_MOUSE_SENS / _ZOOM / _INVERT,
+  h2n_input_live; mouse buttons count only while gx_pointer_over() and after all buttons were up once since the window got focus; wheel =
+  80 ms and >= 3 readings; g_km_last (keyboard/mouse used last; a real controller clears it). gfx9.c: raw input (WM_INPUT), mouse_capture
+  each frame (hidden + ClipCursor while h2n_km_player() && h2n_mouse_wanted(): look worked out within 3 frames or 0.35 s and no menu has
+  the controller - function_148fff | function_12be90). main.c: settings.ini keys keyboard_mouse, mouse_sensitivity,
+  mouse_zoom_sensitivity, mouse_invert, key_<name> -> env, LIVE_INPUT group, env lists 80.
+- Tests: key file line "mouse <dx> <dy>" feeds counts; H2N_MOUSE_TEST=1 logs the look, facing, factors and the keys-down mask.
+  /home/claude/kmwork/xt.py (python-xlib XTEST into :77: key / move / button / warp / where) gives REAL keys and raw mouse input under
+  Wine - keep the pointer inside the game's window (warp 600 400), X focus follows the pointer there. final_match.sh = the whole check.
+  `import -window root` cannot see the game's picture (use the key file's "shot"); it does show the Settings windows.
+- Launcher (h2c_settings.c): ID_KM = 206 button under GAME (window 470x878); window class h2classic_km 924x770, header drawn by
+  paint_window(title); controls h2c_slider (SL_SET 0x407 / SL_GET 0x408) and h2c_bind (BD_SET 0x409 / BD_GET 0x40A / BD_WAITING 0x40B);
+  IDs 400 enable, 401 sens, 402 zoom, 403 invert, 404 reset, 405 close, 500 + 2 x row + slot. Reset in the main window keeps key_*/mouse_*/
+  keyboard_mouse lines. launchtest6/step2.exe (x86) and launchtest5/step2.exe (x64): step2 <class> send|post <id> <msg> <wp> <lp> ...
+- ps1: H2N_KBM, H2N_MOUSE_SENS, H2N_MOUSE_ZOOM, H2N_MOUSE_INVERT; AutoScroll when taller than the screen (untested: no PowerShell here).
+- Not done / ideas: mouse pointing in menus; Mouse 4/5 untested; per-axis sensitivity; in-game look sensitivity deliberately NOT applied
+  to the mouse on foot (Vista multiplies by the player's look speed / 120; here only a seat's rates scale it).
+
+## s10w (build 45, 19 Nov 2026): the sun's glow in widescreen; the picture is the window's size
+User (a) "sun appears stretched in the sky on 16:9+ (21:9 shown)"; (b) Window Size 3440x1440 "made full screen" (shrunk) and 2560x1080
+(enlarged) look different in the same window: "make sure the displayed resolution matches the window size".
+- (a) Sky suns: function_3eec0 hands each sky light's lens flare to function_2dba0; function_2e9e0 draws the flare's reflections through
+  function_480a0 / function_48b00 (projection: aspect-correct, round) and, for a flare with flag bit 0 at +0x28 ("sun"), saves tag and
+  position in g_4c19c4 (up to 4); function_2df00 then calls function_46ea0(tag, position) (retail 0x46ea0, an unmatched draft that is
+  compiled and runs - not routed): the GLOW. Pixel-sized and square: bounds = sun's screen point +-32; mask quad (sun mask texture at
+  g_485a80+0x34, alpha only, depth-tested at the far plane), function_46230(16 / 17, bounds) copies that screen region into two 64x64
+  targets, function_467c0(16, 17, 4) filters, then 16 additive quads each bounds +- (i*5 - 4) px. So it is as wide as the picture is
+  stretched (4/3 at 16:9 on a console too). Fix in the source (src/unknown_01cf50.cpp): x measures times h2n_sun_glow_k() (xd3d.cpp:
+  1 / h2n_ws_factor() when widefix_on() and the widescreen byte 0x485AC2 / 0x4922e2 is set, else exactly 1). This also explains Spooky
+  Ghost's open "sun glow grows as Render Scale drops": the glow is in screen pixels.
+  Recompile after the source edit: delete obj2/unknown_01cf50.obj, native_compile.py, add_globals.py, rewrite.py, scene_hook.py,
+  v15: syms15.py, tables15.py, gen_code15.py, build3.sh.
+- Tests: key file "sun" (interp.c h2n_test_face_sun, 1.0 only: scenario 0x4E0350 +8 count / +0xc skies, sky index 0x4B9EEC, sky tag
+  +0x78 count / +0x7c lights (0x34 each: +0xc heading, +0x10 elevation, +0x18 lens flare) / +0x80 heading) turns port 1's player to the
+  sun; "widefix0" / "widefix1" switch the Widescreen Fix. Spawns are random: Zanzibar's are often indoors or behind the wheel.
+  Menu order of the maps (from Ivory Tower): +2 Burial Mounds, +4 Zanzibar, +10 Warlock (1.5), -2 Ascension.
+- (b) gfx9.c: the back buffer is the window's client size (client_size, picture_fit, picture_refit, picture_follow once a frame after
+  h2n_live_poll); Present(NULL, NULL) when the two agree (the old fitted Present only for the frame in between or a refused size); black
+  bars are ColorFilled in the back buffer; gx_live = the window change + picture_refit. g_want_w/h = Window Size (windowed only).
+  main.c dpi_aware() (per-monitor v2, else SetProcessDPIAware; H2N_DPI=0 off); frame_rect() = AdjustWindowRectExForDpi when there.
+  Launcher: Window Size disabled unless Display Mode is Windowed. launchtest6/win.exe: max | restore | size w h | state.
+
+## s10x (build 46, 19 Nov 2026): system link with nothing to set (the players' programs find each other); F11/F12 removed; "DLSS Helper.exe"; source bundle
+User, in order: "get Xbox System Link working natively" -> without Npcap, no settings -> "drop xbox since it requires a separate tool
+... make xemu joining still seamless without the need of a udp tunnel" -> "no modifications to Xemu- assume that is set up with default
+NAT settings" -> "also provide source in the next release, and remove F11/F12 functions for a new retail release/update"; rename
+H2Classic_DLSS.exe to "DLSS Helper.exe".
+- FINDING (two copies here, both given router-style addresses by DHCP - the library accepted them, XNetGetTitleXnAddr = 10.99.0.x):
+  system link frames STILL carry IP 0.0.0.1 -> 0.0.0.1 (unicast, addressed only by Ethernet MAC) and 0.0.0.1 -> 255.255.255.255
+  (broadcast), UDP 3074. So it cannot go through Windows sockets to a console: Windows neither delivers a packet for 0.0.0.1 nor sends
+  one to it. A real Xbox (and xemu bridged) needs raw Ethernet frames = a packet driver (Npcap). The socket translation tried first
+  (a built-in DHCP answer) was therefore not the way and is gone. (The library's DHCP client rejects 0.x, 127.x, 224-239.x and
+  255.255.255.255 as server or offered address: 0x3d0846. Its DHCP receive handler is 0x3db0f1.)
+- xemu in NAT mode cannot do system link and nothing outside xemu can help: libslirp sends a guest UDP packet again with sendto() on
+  its own socket (udp.c udp_input -> sosendto), never sets SO_BROADCAST (so 255.255.255.255 fails; QEMU bug 1838228), and the
+  unicast goes to 0.0.0.1. Not run here. xemu's tunnel defaults: bind 0.0.0.0:9368, remote 1.2.3.4:9368 - the remote
+  must be set by the user.
+- layer3/xlan.c = the link (default; H2N_XNET_LINK=tunnel keeps open_tunnel()): one frame per UDP datagram (xemu's tunnel format);
+  h2n_lan_bind() takes the first free of ports 9369, 9370, 9371, 9368 BEFORE make_mac() (the console address hashes computer name +
+  MachineGuid + that port: two copies on one PC differ); h2n_lan_open(mac, frame_in) starts read_thread and hello_thread.
+  Broadcast / unknown console: to each adapter's directed broadcast (GetAdaptersInfo by GetProcAddress, re-read every 12 s) AND
+  127.0.0.1, on all four ports (not the own port on loopback). Learnt: source MAC -> (ip, port) from every frame (no expiry).
+  Receive: own source MAC dropped; group frames seen twice within 40 ms dropped (two paths). Hello = 60-byte frame, type 0x88b5
+  (the library drops it: retail 0x3dcd64 takes 0x0800, 0x0806, PPPoE's), "H2CLINK1" + nonce, every 3 s to everyone and at once to a
+  new endpoint; an endpoint that sent a hello is "told". An endpoint heard >= 5 s and never told is a plain tunnel (xemu's): its
+  broadcasts are passed on to every other endpoint heard in the last 60 s, and unicast frames not for us are passed on when to or
+  from such a tunnel (never between two told endpoints: no loops). Same MAC with another nonce -> one "***" line (network_mac).
+  Log: "xnet LAN: another H2Classic was found at ...", "a player was found: console ...", the 30 s report only when counts changed,
+  one hint after 45 s with nobody heard. H2N_XNET_LOCAL=1 (test launcher): nothing sent to the network.
+  xnetx.c: g_lan_port, lan_frame, report line; main.c: network_link, network_mac (network_adapter removed).
+- F11/F12: gfx9.c WM_KEYDOWN lines removed, window title "H2Classic"; key file "shot"/"trace" stay; h2c_settings.c lets F11/F12 be
+  bound (F9 still refused). F9 (h2n_trace_window_start) left.
+- "DLSS Helper.exe": strings in gfx_dlss.c, gfx_aa.c, dlss_ipc.h, gfx_dlss.h, h2c_settings.c, dlss/*; helper NOT rebuilt (file renamed
+  in the package); README and LICENSES.txt mentions replaced.
+- Tests here: lantest/hub.sh <seconds|0> "<copies>" [env] + lantest/keys.py t:copy:key ... (run/lanA, lanB, lanC; C = tunnel copy
+  pointed at 127.0.0.1:9369). Use H2N_SOUND=off H2N_GFXLAZY=1 (two processors: without them 2.5 frames/s and the menu timings break;
+  with them ~30/s). Results: A+B find each other, B lists A's lobby, joins, 2 players both sides; A+C+B: B joins C's game through A
+  (A passed on 284). Menu flow (seconds from a copy's start + 26): start, +9 a, +9 a, +10 down x3 (3 s apart), a, +9 a = Available
+  Games; host: +12 a; joiner: down, +3 a. The idle stop (20 s) ends a copy waiting in Available Games: H2N_SECONDS=0 and pkill.
+  1.5 final_match.sh (Warlock, End Game -> Game Over) and the 1.0 self test (0 of 32) pass on the final exe.
+- Source bundle: pkg/make_source46.py -> pkg/b46_source/H2Classic (repo layout; layer3/, scripts15/, tools15/, generated15/ new;
+  retail_tables.template.S made by cutting the delta and checked by putting init_delta.json back; oracle2.json without libnames;
+  libsig.json, init_delta.json, v15's default_v15.xbe / live15.pkl / json never copied); pkg/xbescan46.py looks for runs of >= 16 XBE
+  bytes in what goes out; decomp patch = diff of h2decomp_1118b_pure vs h2decomp_src (35 files). The user's repo has no scripts/.
+- Parked: native/source_fixes/parked_s10x/xpcap.c (Npcap link: adapter choice, filter, immediate mode) - written, never run.
+
 
 H2Classic - rebuilding the workspace (stage 9, build s10l)
 ==========================================================
 Build s10l (build 34): layer only (input.c, xpad.cpp, interp.c, helpers.S, main.c, timing.c, xapi.c;
 source_changes/s10k_to_s10l_layer.diff); build2.sh passes H2N_CDEFS to the .S files too; the game objects are s10j's.
 Test launcher: H2N_LODS, H2N_RUMBLE (s10k_to_s10l_build_launcher.diff). Settings exe and DLSS helper: build 33's.
-  Public source (18 Nov): https://github.com/Fortune090/Halo-2-Classic (GPL-3.0-or-later + the decomp's XDK section 7
-    permission; dlss/ MIT). Every build zip from now on carries LICENSE.txt (the GPL text), LICENSES.txt (H2Classic's
-    notice with the source address, the DLSS helper's MIT notice, then the third-party sections) and the source line in
-    README.txt's "What this is"; keep the repository in step with each build that is posted publicly.
   Vibration (the user: "Controller vibration does not work"). The game (function_124ee0, matched) calls XInputSetState
     for each open pad each input update while the header's dwStatus reads ERROR_SUCCESS, with the speeds the rumble code
     set (function_124a40: 0 with the profile's vibration off; function_222a70 per tick); 0 outside a game (g_4e6948

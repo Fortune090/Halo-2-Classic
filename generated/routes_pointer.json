@@ -60,12 +60,6 @@
 "routed": false
 },
 {
-"va": 907664,
-"status": "todo",
-"why": "",
-"routed": false
-},
-{
 "va": 910528,
 "status": "todo",
 "why": "",
@@ -228,12 +222,6 @@
 "routed": true
 },
 {
-"va": 2315036,
-"status": "todo",
-"why": "",
-"routed": true
-},
-{
 "va": 2401937,
 "status": "todo",
 "why": "",
@@ -271,12 +259,6 @@
 },
 {
 "va": 2918398,
-"status": "near",
-"why": "",
-"routed": true
-},
-{
-"va": 3246736,
 "status": "near",
 "why": "",
 "routed": true

@@ -154,13 +154,6 @@
 "why": ""
 },
 {
-"va": 858672,
-"name": "?function_d1a30@@YGJJPBTpoint3f@@PAUs_sky_surface_record@@@Z",
-"owner": "game",
-"status": "todo",
-"why": ""
-},
-{
 "va": 859664,
 "name": "?function_d1e10@@YGJPBXPAUs_effect_color_query@@J_N@Z",
 "owner": "game",
@@ -263,13 +256,6 @@
 "name": "?function_169510@@YG_NJ_NKKPBTpoint3f@@PBTvector3f@@JJPAUs_collision_result_1697c0@@@Z",
 "owner": "game",
 "status": "todo",
-"why": ""
-},
-{
-"va": 1480640,
-"name": "?function_1697c0@@YG_NJPBTpoint3f@@PBTvector3f@@JJPAUs_collision_result_1697c0@@@Z",
-"owner": "game",
-"status": "near",
 "why": ""
 },
 {
@@ -443,13 +429,6 @@
 {
 "va": 2497824,
 "name": "?function_261d20@@YGFJPAUs_261d20_entry@@JPBUs_2605d0_request@@@Z",
-"owner": "game",
-"status": "todo",
-"why": ""
-},
-{
-"va": 2495760,
-"name": "?function_261510@@YGXJPBUs_2605d0_request@@@Z",
 "owner": "game",
 "status": "todo",
 "why": ""

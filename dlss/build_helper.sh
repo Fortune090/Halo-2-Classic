@@ -1,5 +1,5 @@
 #!/bin/sh
-# H2Classic: build H2Classic_DLSS.exe, the 64-bit DLSS helper (dlss/h2classic_dlss.c).
+# H2Classic: build DLSS Helper.exe, the 64-bit DLSS helper (dlss/h2classic_dlss.c).
 # Needs NVIDIA's DLSS SDK (github.com/NVIDIA/DLSS, the NVIDIA RTX SDKs licence): its include folder and
 # lib/Windows_x86_64/x64/nvsdk_ngx_d.lib, at $DLSS_SDK (default /home/claude/ext/DLSS). To fetch only those:
 #   git clone --depth 1 --filter=blob:none --sparse https://github.com/NVIDIA/DLSS /home/claude/ext/DLSS
@@ -11,7 +11,7 @@
 set -e
 cd "$(dirname "$0")"
 SDK=${DLSS_SDK:-/home/claude/ext/DLSS}
-OUT=${1:-../out/H2Classic_DLSS.exe}
+OUT=${1:-../out/DLSS Helper.exe}
 shift 2>/dev/null || true
 Z="python3 -m ziglang"
 mkdir -p emptylibs

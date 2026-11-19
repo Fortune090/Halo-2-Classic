@@ -10,20 +10,27 @@
 #include <stdlib.h>
 #include <commdlg.h>
 
-enum { ID_SCALE = 100, ID_SIZE, ID_WIDE, ID_MODE, ID_UNLOCK, ID_VSYNC, ID_FPS, ID_AA, ID_SKIPINTRO, ID_SKIPATTRACT, ID_AAQ,
-	ID_START = 200, ID_RESET, ID_EXIT, ID_KEYS, ID_MINIMIZE, ID_CLOSE,
-	ID_KEYS_BIOS = 300, ID_KEYS_BIOS_BROWSE, ID_KEYS_MCPX, ID_KEYS_MCPX_BROWSE, ID_KEYS_GENERATE, ID_KEYS_CANCEL };
+enum { ID_SCALE = 100, ID_SIZE, ID_WIDE, ID_MODE, ID_UNLOCK, ID_VSYNC, ID_FPS, ID_AA, ID_SKIPINTRO, ID_SKIPATTRACT, ID_AAQ, ID_VERSION,
+	ID_START = 200, ID_RESET, ID_EXIT, ID_KEYS, ID_MINIMIZE, ID_CLOSE, ID_KM,
+	ID_KEYS_BIOS = 300, ID_KEYS_BIOS_BROWSE, ID_KEYS_MCPX, ID_KEYS_MCPX_BROWSE, ID_KEYS_GENERATE, ID_KEYS_CANCEL,
+	ID_KM_ENABLE = 400, ID_KM_SENS, ID_KM_ZOOM, ID_KM_INVERT, ID_KM_RESET, ID_KM_DONE, ID_KM_BIND = 500 };   /* (s10v) ID_KM_BIND + 2 x row + 0 or 1 */
 /* the controls' own messages: a choice's items and selection, a toggle's state (the test tools use them too) */
-enum { CH_ADD = WM_USER + 1, CH_SET, CH_GET, CH_CLEAR, TG_SET, TG_GET };
+enum { CH_ADD = WM_USER + 1, CH_SET, CH_GET, CH_CLEAR, TG_SET, TG_GET, SL_SET, SL_GET, BD_SET, BD_GET, BD_WAITING };   /* (s10v) a slider's position, a key field's key */
 
-static HWND g_main, g_scale, g_size, g_wide, g_mode, g_unlock, g_vsync, g_fps, g_aa, g_aaq, g_skipintro, g_skipattract;
+static HWND g_main, g_scale, g_size, g_wide, g_mode, g_unlock, g_vsync, g_fps, g_aa, g_aaq, g_skipintro, g_skipattract, g_version;
 static HWND g_keys, g_keys_bios, g_keys_mcpx;
+static HWND g_km;                             /* (s10v) the Keyboard + Mouse Settings window, while it is open */
+/* (s10u) the game running while this window is open: found by the event the game makes; the GAME part (which only a
+   start of the game takes) is greyed out, Start Game too, and each save is passed on to the game */
+static HWND g_start;
+static int g_running, g_running_dlss, g_topmost, g_game_part_first, g_game_part_last, g_game_title_part;
+static DWORD g_started_at;
 static HFONT g_font, g_title_font, g_note_font, g_note_narrow_font, g_section_font, g_button_font;
 static HBRUSH g_field_brush;
 static int g_loading;
 static char g_aa_note_text[200];
 static RECT g_aa_note_rect;
-static const int k_scales[] = { 50, 75, 100, 125, 150, 200, 250, 300, 400 };
+#define SCALE_MOST 10                                             /* (s10t) Render Scale: 1 to 10 times the game's 640x480 */
 static int g_sizes[32][2], g_size_count;
 
 /* ---- the look ---- */
@@ -73,6 +80,12 @@ static void ini_set(const char *key, const char *value)
 	for (int i = 0; i < g_line_count; i++)
 		if (!_strnicmp(g_lines[i], key, n) && g_lines[i][n] == '=') { snprintf(g_lines[i], sizeof(g_lines[0]), "%s=%s", key, value); return; }
 	if (g_line_count < 200) snprintf(g_lines[g_line_count++], sizeof(g_lines[0]), "%s=%s", key, value);
+}
+static void ini_remove(const char *key)
+{
+	size_t n = strlen(key);
+	for (int i = 0; i < g_line_count; i++)
+		if (!_strnicmp(g_lines[i], key, n) && g_lines[i][n] == '=') { memmove(g_lines[i], g_lines[i + 1], (size_t)(g_line_count - i - 1) * sizeof(g_lines[0])); g_line_count--; i--; }
 }
 static void ini_save(void)
 {
@@ -138,7 +151,9 @@ static void paint_end(paint_buffer *p)
 }
 
 /* ---- the controls: a choice (its value between two arrows: click, the wheel, Left / Right), a toggle, a button ---- */
-typedef struct { char items[12][48]; int count, sel, hot, primary, checked, pressed, wrap; } ctl;   /* wrap: a choice that goes round (s10h) */
+typedef struct { char items[12][48]; int count, sel, hot, primary, checked, pressed, wrap;     /* wrap: a choice that goes round (s10h) */
+	int steps, pos, decimals, drag; double base, unit;       /* (s10v) a slider: positions 0..steps, its value base + pos x unit */
+	int code, waiting, skip_char; DWORD since; } ctl;       /* (s10v) a key field: the key it holds; waiting for the next key */
 static ctl *ctl_of(HWND w) { return (ctl *)GetWindowLongPtrA(w, GWLP_USERDATA); }
 static void notify(HWND w, int code) { SendMessageA(GetParent(w), WM_COMMAND, MAKEWPARAM(GetDlgCtrlID(w), code), (LPARAM)w); }
 static void track_leave(HWND w) { TRACKMOUSEEVENT t; t.cbSize = sizeof(t); t.dwFlags = TME_LEAVE; t.hwndTrack = w; t.dwHoverTime = 0; TrackMouseEvent(&t); }
@@ -228,15 +243,15 @@ static LRESULT CALLBACK toggle_proc(HWND w, UINT m, WPARAM wp, LPARAM lp)
 	{
 		paint_buffer p;
 		HDC dc = paint_begin(w, &p);
-		int focus = GetFocus() == w, top = (p.r.bottom - 18) / 2;
+		int on = IsWindowEnabled(w), focus = on && GetFocus() == w, top = (p.r.bottom - 18) / 2;     /* (s10u) greyed out when disabled */
 		RECT box = { 2, top, 20, top + 18 }, t = p.r;
 		char text[128];
 		fill(dc, &p.r, C_PANEL);
-		cut_frame(dc, &box, 5, 0, C_FIELD, focus || (c && c->hot) ? C_LINE : C_LINE_DIM, 1);
-		if (c && c->checked) { RECT in = { box.left + 5, box.top + 5, box.right - 5, box.bottom - 5 }; fill(dc, &in, C_LINE); }
+		cut_frame(dc, &box, 5, 0, C_FIELD, !on ? C_OFF : focus || (c && c->hot) ? C_LINE : C_LINE_DIM, 1);
+		if (c && c->checked) { RECT in = { box.left + 5, box.top + 5, box.right - 5, box.bottom - 5 }; fill(dc, &in, on ? C_LINE : C_OFF); }
 		GetWindowTextA(w, text, sizeof(text));
 		t.left = 30;
-		text_at(dc, text, &t, g_font, focus ? C_TEXT : C_LABEL, DT_LEFT | DT_VCENTER | DT_SINGLELINE, 0);
+		text_at(dc, text, &t, g_font, !on ? C_OFF : focus ? C_TEXT : C_LABEL, DT_LEFT | DT_VCENTER | DT_SINGLELINE, 0);
 		paint_end(&p);
 		return 0;
 	}
@@ -268,16 +283,16 @@ static LRESULT CALLBACK button_proc(HWND w, UINT m, WPARAM wp, LPARAM lp)
 	{
 		paint_buffer p;
 		HDC dc = paint_begin(w, &p);
-		int focus = GetFocus() == w, hot = c && c->hot, down = c && c->pressed, primary = c && c->primary;
+		int on = IsWindowEnabled(w), focus = on && GetFocus() == w, hot = on && c && c->hot, down = on && c && c->pressed, primary = on && c && c->primary;   /* (s10u) greyed out when disabled */
 		RECT t = p.r;
 		char text[96], *s;
 		COLORREF inside = primary ? (down ? RGB(96, 168, 230) : hot ? RGB(164, 220, 255) : C_LINE) : (down ? C_FIELD : hot ? C_FIELD_HOT : C_FIELD);
 		fill(dc, &p.r, C_PANEL);
-		cut_frame(dc, &p.r, 10, 10, inside, focus && !primary ? C_TEXT : C_LINE, focus ? 2 : 1);
+		cut_frame(dc, &p.r, 10, 10, inside, !on ? C_OFF : focus && !primary ? C_TEXT : C_LINE, focus ? 2 : 1);
 		GetWindowTextA(w, text, sizeof(text));
 		for (s = text; *s; s++) if (*s >= 'a' && *s <= 'z') *s -= 32;
 		if (down) OffsetRect(&t, 1, 1);
-		text_at(dc, text, &t, g_button_font, primary ? C_BG : C_TEXT, DT_CENTER | DT_VCENTER | DT_SINGLELINE, 1);
+		text_at(dc, text, &t, g_button_font, !on ? C_OFF : primary ? C_BG : C_TEXT, DT_CENTER | DT_VCENTER | DT_SINGLELINE, 1);
 		paint_end(&p);
 		return 0;
 	}
@@ -399,11 +414,12 @@ static void paint_window(HWND w, part *parts, int count, const char *title)
 	{
 		part *q = &parts[i];
 		RECT r = { q->x, q->y, q->x + q->w, q->y + q->h };
+		int off = parts == g_parts && g_running && i >= g_game_part_first && i <= g_game_part_last;   /* (s10u) the GAME part while the game runs */
 		if (q->kind == 1)
 		{
 			RECT cap = { q->x + 14, q->y + 6, q->x + q->w - 10, q->y + 26 };
 			cut_frame(dc, &r, 14, 14, C_PANEL, C_LINE_DIM, 1);
-			text_at(dc, q->text, &cap, g_section_font, C_LINE, DT_LEFT | DT_TOP | DT_SINGLELINE, 2);
+			text_at(dc, off && i == g_game_title_part ? "GAME  -  FOR THE NEXT START" : q->text, &cap, g_section_font, off ? C_OFF : C_LINE, DT_LEFT | DT_TOP | DT_SINGLELINE, 2);
 		}
 		else if (q->kind == 3)                                         /* (s10j) a note kept on one line */
 		{
@@ -413,7 +429,7 @@ static void paint_window(HWND w, part *parts, int count, const char *title)
 			SelectObject(dc, old);
 			text_at(dc, q->text, &r, f, C_NOTE, DT_LEFT | DT_TOP | DT_SINGLELINE | DT_NOCLIP, 0);
 		}
-		else text_at(dc, q->text, &r, q->kind == 2 ? g_note_font : g_font, q->kind == 2 ? C_NOTE : C_LABEL, q->kind == 2 ? DT_LEFT | DT_TOP | DT_WORDBREAK : DT_LEFT | DT_VCENTER | DT_SINGLELINE, 0);
+		else text_at(dc, q->text, &r, q->kind == 2 ? g_note_font : g_font, off ? C_OFF : q->kind == 2 ? C_NOTE : C_LABEL, q->kind == 2 ? DT_LEFT | DT_TOP | DT_WORDBREAK : DT_LEFT | DT_VCENTER | DT_SINGLELINE, 0);
 	}
 	if (title)                                                         /* (s10j) no title bar: the window's own edge */
 	{
@@ -532,13 +548,14 @@ static void aa_note(void)
 {
 	int aa = pick(g_aa), q = pick(g_aaq);
 	const char *text = "";
-	if (aa == 1) text = "FXAA is a single pass; it has no quality levels.";
+	if (g_running && (aa == 4) != g_running_dlss) text = "DLSS starts with the game: this change is taken the next time the game starts.";   /* (s10u) */
+	else if (aa == 1) text = "FXAA is a single pass; it has no quality levels.";
 	else if (aa == 2) text = q == 0 ? "Low: the quickest. No diagonal or corner smoothing." : q == 1 ? "Medium: finds longer edges. No diagonal or corner smoothing."
 		: q == 3 ? "Ultra: the faintest and longest edges. Costs the most." : "High: the usual choice, diagonals and corners included.";
 	else if (aa == 3) text = "TAA blends frames over time; it has no quality levels.";
 	else if (aa == 4)
 	{
-		if (GetFileAttributesA("H2Classic_DLSS.exe") == INVALID_FILE_ATTRIBUTES) text = "H2Classic_DLSS.exe is missing here, so TAA is used.";
+		if (GetFileAttributesA("DLSS Helper.exe") == INVALID_FILE_ATTRIBUTES) text = "DLSS Helper.exe is missing here, so TAA is used.";
 		else if (GetFileAttributesA("nvngx_dlss.dll") == INVALID_FILE_ATTRIBUTES) text = "nvngx_dlss.dll is missing here, so TAA is used.";
 		else text = q == 2 ? "Preset J: a little less ghosting, a little more flicker. Needs an RTX card."
 			: q == 1 ? "Preset K: the best picture (transformer model). Needs an RTX card."
@@ -548,19 +565,30 @@ static void aa_note(void)
 	InvalidateRect(g_main, &g_aa_note_rect, FALSE);
 }
 
+/* (s10t) the multiplier that a percentage of the picture's height came to in the game before s10t (gfx9.c: the picture
+   keeps its shape inside the window; its height times the percentage, over 480, to the nearest whole number). It is
+   what a settings.ini without render_multiplier starts from: 100% when the file has no render_scale either. */
+static int multiplier_for(int w, int h, const char *wide, int percent)
+{
+	double aspect = !_stricmp(wide, "4:3") || !strcmp(wide, "0") ? 4.0 / 3.0 : !strcmp(wide, "21:9") ? 64.0 / 27.0 : !strcmp(wide, "32:9") ? 32.0 / 9.0 : 16.0 / 9.0;
+	double ph = w <= 0 || h <= 0 ? 480.0 : (double)w / h > aspect ? (double)h : w / aspect;
+	int n;
+	if (percent < 25) percent = 25;
+	if (percent > 400) percent = 400;
+	n = (int)(ph * percent / 100.0 / 480.0 + 0.5);
+	return n < 1 ? 1 : n > SCALE_MOST ? SCALE_MOST : n;
+}
 /* settings -> controls */
 static void show(void)
 {
 	char text[64];
-	int scale = atoi(ini_get("render_scale", "100")), w = atoi(ini_get("window_width", "0")), h = atoi(ini_get("window_height", "0"));
+	int scale = atoi(ini_get("render_multiplier", "0")), percent = atoi(ini_get("render_scale", "100")), w = atoi(ini_get("window_width", "0")), h = atoi(ini_get("window_height", "0"));
 	char wide[64], mode[64], aa[64];                            /* (s10f) each its own copy: ini_get's value is one shared buffer */
 	snprintf(wide, sizeof(wide), "%s", ini_get("widescreen", "16:9"));
 	snprintf(mode, sizeof(mode), "%s", ini_get("display_mode", "borderless"));
 	snprintf(aa, sizeof(aa), "%s", ini_get("anti_aliasing", "off"));
-	int best = 2;
+	int best;
 	g_loading = 1;
-	for (int i = 0; i < (int)(sizeof(k_scales) / sizeof(k_scales[0])); i++) if (k_scales[i] == scale) best = i;
-	choose(g_scale, best);
 	best = g_size_count - 1;                                    /* (the screen's own size when none is saved) */
 	for (int i = 0; i < g_size_count; i++) if (g_sizes[i][0] == w && g_sizes[i][1] == h) best = i;
 	if (w >= 320 && h >= 240 && (g_sizes[best][0] != w || g_sizes[best][1] != h) && g_size_count < 32)
@@ -570,8 +598,11 @@ static void show(void)
 		best = g_size_count++;
 	}
 	choose(g_size, best);
+	if (scale < 1) scale = multiplier_for(g_sizes[best][0], g_sizes[best][1], wide, percent);
+	choose(g_scale, (scale > SCALE_MOST ? SCALE_MOST : scale) - 1);
 	choose(g_wide, !_stricmp(wide, "4:3") || !strcmp(wide, "0") ? 0 : !strcmp(wide, "21:9") ? 2 : !strcmp(wide, "32:9") ? 3 : 1);
 	choose(g_mode, !_stricmp(mode, "fullscreen") ? 0 : !_stricmp(mode, "windowed") ? 2 : 1);
+	EnableWindow(g_size, pick(g_mode) == 2);        /* (s10w) Window Size is a windowed window's size: borderless and full screen are the screen's */
 	tick(g_unlock, atoi(ini_get("unlock_performance", "1")));
 	tick(g_vsync, atoi(ini_get("vsync", "1")));
 	tick(g_fps, atoi(ini_get("fps_counter", "0")));
@@ -580,7 +611,25 @@ static void show(void)
 	aa_note();
 	tick(g_skipintro, atoi(ini_get("skip_intro", "0")));
 	tick(g_skipattract, atoi(ini_get("skip_attract", "0")));
+	choose(g_version, !strcmp(ini_get("game_version", "1.0"), "1.5") ? 1 : 0);
 	g_loading = 0;
+}
+/* ---- (s10u) the game while this window is open ----
+ * H2Classic.exe makes a named event when it starts ("H2Classic_settings_changed"; it is gone when the game ends). That
+ * the event is there tells this program the game is running; setting it tells the game that settings.ini was saved. */
+static int game_running(void)
+{
+	HANDLE e = OpenEventA(SYNCHRONIZE | EVENT_MODIFY_STATE, FALSE, "H2Classic_settings_changed");
+	if (!e) return 0;
+	CloseHandle(e);
+	return 1;
+}
+static void game_signal(void)
+{
+	HANDLE e = OpenEventA(EVENT_MODIFY_STATE, FALSE, "H2Classic_settings_changed");
+	if (!e) return;
+	SetEvent(e);
+	CloseHandle(e);
 }
 /* controls -> settings, saved */
 static void save(void)
@@ -589,7 +638,8 @@ static void save(void)
 	static const char *const modes[3] = { "fullscreen", "borderless", "windowed" }, *const aas[5] = { "off", "fxaa", "smaa", "taa", "dlss" };
 	int s = pick(g_size), aa = pick(g_aa), q = pick(g_aaq);
 	if (g_loading) return;
-	snprintf(text, sizeof(text), "%d", k_scales[pick(g_scale) < 0 ? 2 : pick(g_scale)]); ini_set("render_scale", text);
+	snprintf(text, sizeof(text), "%d", pick(g_scale) < 0 ? 1 : pick(g_scale) + 1); ini_set("render_multiplier", text);
+	ini_remove("render_scale");                                 /* (the percentage of before s10t) */
 	if (s < 0) s = g_size_count - 1;
 	snprintf(text, sizeof(text), "%d", g_sizes[s][0]); ini_set("window_width", text);
 	snprintf(text, sizeof(text), "%d", g_sizes[s][1]); ini_set("window_height", text);
@@ -603,11 +653,13 @@ static void save(void)
 	if (aa == 4 && q >= 0 && q < 3) ini_set("dlss_preset", k_dlss[q]);
 	ini_set("skip_intro", ticked(g_skipintro) ? "1" : "0");
 	ini_set("skip_attract", ticked(g_skipattract) ? "1" : "0");
+	ini_set("game_version", pick(g_version) == 1 ? "1.5" : "1.0");
 	/* system link with consoles and xemu: always on (the address and port can be changed in the file) */
 	ini_set("network", "retail");
 	if (!strcmp(ini_get("network_peer", ""), "")) ini_set("network_peer", "127.0.0.1:9368");
 	if (!strcmp(ini_get("network_port", ""), "")) ini_set("network_port", "9369");
 	ini_save();
+	game_signal();                          /* (s10u) a running game reads the file again and takes what it can */
 }
 /* (s10i) a change is written a quarter of a second after the last one, not at every click (one file write for a run of
    quick clicks); Start Game, Exit and closing the window write what is still waiting */
@@ -616,16 +668,64 @@ static void save_soon(void) { g_save_waiting = 1; SetTimer(g_main, 1, 250, NULL)
 static void save_now(void) { KillTimer(g_main, 1); if (g_save_waiting) { g_save_waiting = 0; save(); } }
 static void reset(void)
 {
+	char version[16], intro[8], attract[8];
 	KillTimer(g_main, 1); g_save_waiting = 0;
-	g_line_count = 0;                    /* the defaults: show() with nothing saved, then saved */
+	snprintf(version, sizeof(version), "%s", ini_get("game_version", "1.0"));
+	snprintf(intro, sizeof(intro), "%s", ini_get("skip_intro", "0"));
+	snprintf(attract, sizeof(attract), "%s", ini_get("skip_attract", "0"));
+	{	/* the defaults: show() with nothing saved, then saved. (s10v) Keyboard + Mouse Settings has its own Reset to
+		   Defaults: its lines stay */
+		int i, kept = 0;
+		for (i = 0; i < g_line_count; i++)
+			if (!_strnicmp(g_lines[i], "key_", 4) || !_strnicmp(g_lines[i], "mouse_", 6) || !_strnicmp(g_lines[i], "keyboard_mouse=", 15))
+				{ if (kept != i) memcpy(g_lines[kept], g_lines[i], sizeof(g_lines[0])); kept++; }
+		g_line_count = kept;
+	}
+	if (g_running)
+	{	/* (s10u) while the game runs the GAME part is not this window's to change: it stays as it is */
+		ini_set("game_version", version); ini_set("skip_intro", intro); ini_set("skip_attract", attract);
+	}
 	show();
 	save();
+}
+/* (s10u) every quarter second: is the game running? When that changes, the GAME part and Start Game are greyed out or
+ * given back. A game shown full screen stays on top of every window, so this window could never be seen over it:
+ * while this window is the one in use (the foreground window) and the game's window is on top, this one is put on top
+ * as well; as soon as another window is in use - the game, when it is started from here or clicked - it is not, and
+ * the game covers it again. */
+static void game_watch(void)
+{
+	int running = game_running(), top = 0;
+	if (!running && g_started_at && GetTickCount() - g_started_at < 8000) running = 1;   /* (just started from here: not there yet) */
+	else g_started_at = 0;
+	if (running)
+	{
+		HWND game = FindWindowA("h2classic", NULL);
+		top = game && (GetWindowLongA(game, GWL_EXSTYLE) & WS_EX_TOPMOST) != 0 && (GetForegroundWindow() == g_main || (g_keys && GetForegroundWindow() == g_keys) || (g_km && GetForegroundWindow() == g_km));
+	}
+	if (top != g_topmost)
+	{
+		g_topmost = top;
+		SetWindowPos(g_main, top ? HWND_TOPMOST : HWND_NOTOPMOST, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE | SWP_NOACTIVATE);
+	}
+	if (running == g_running) return;
+	g_running = running;
+	if (running) g_running_dlss = pick(g_aa) == 4;
+	EnableWindow(g_version, !running); EnableWindow(g_skipintro, !running); EnableWindow(g_skipattract, !running);
+	EnableWindow(g_start, !running);
+	SetWindowTextA(g_start, running ? "Game Running" : "Start Game");
+	if (running && (GetFocus() == g_start || GetFocus() == g_version || GetFocus() == g_skipintro || GetFocus() == g_skipattract)) SetFocus(g_mode);
+	aa_note();
+	InvalidateRect(g_main, NULL, FALSE);
 }
 static void start(void)
 {
 	STARTUPINFOA si;
 	PROCESS_INFORMATION pi;
-	char exe[MAX_PATH] = "H2Classic.exe";
+	/* (s10r) one program runs both game versions: H2Classic.exe reads game_version from settings.ini itself (1.0 is the
+	   disc's game; 1.5 is the game with its last title update, which the map packs need) */
+	char exe[MAX_PATH];
+	snprintf(exe, sizeof(exe), "%s", "H2Classic.exe");
 	KillTimer(g_main, 1); g_save_waiting = 0;
 	save();
 	memset(&si, 0, sizeof(si)); si.cb = sizeof(si);
@@ -635,7 +735,9 @@ static void start(void)
 		return;
 	}
 	CloseHandle(pi.hThread); CloseHandle(pi.hProcess);
-	PostQuitMessage(0);
+	/* (s10u) this window stays open behind the game: what the game can take while it runs is changed from here */
+	g_started_at = GetTickCount();
+	game_watch();
 }
 
 
@@ -974,6 +1076,412 @@ static void keys_open(void)
 	SetFocus(g_keys_bios);
 }
 
+/* ---- (s10v) Keyboard + Mouse Settings: its own window, drawn as the settings window is ----
+ * Enable Keyboard + Mouse; the mouse's sensitivity, its sensitivity while zoomed and its own look inversion; and the key
+ * list: two keys (or mouse buttons, or the wheel) for each of the controller's buttons and each way of its two sticks.
+ * Saved in settings.ini as keyboard_mouse, mouse_sensitivity, mouse_zoom_sensitivity, mouse_invert and key_<name>=a,b
+ * (Windows' key numbers; 256 is the mouse wheel, 0 no key). A running game takes every one of them at once. */
+#define KM_WHEEL 256
+#define KM_BINDS 24
+static const struct { const char *key, *label; int keys[2]; } k_binds[KM_BINDS] = {
+	{ "forward", "Move Forward", { 'W', 0 } }, { "backward", "Move Backward", { 'S', 0 } }, { "strafeleft", "Move Left", { 'A', 0 } }, { "straferight", "Move Right", { 'D', 0 } },
+	{ "lookup", "Look Up", { 'I', 0 } }, { "lookdown", "Look Down", { 'K', 0 } }, { "lookleft", "Look Left", { 'J', 0 } }, { "lookright", "Look Right", { 'L', 0 } },
+	{ "lthumb", "Left Stick Click (Crouch)", { 'F', 0 } }, { "rthumb", "Right Stick Click (Zoom)", { 'G', VK_MBUTTON } },
+	{ "lt", "Left Trigger (Grenade)", { 'Q', VK_RBUTTON } }, { "rt", "Right Trigger (Fire)", { 'E', VK_LBUTTON } },
+	{ "a", "A (Jump, Select)", { 'Z', VK_SPACE } }, { "b", "B (Melee, Back)", { 'X', 0 } }, { "x", "X (Reload, Action)", { 'C', 0 } }, { "y", "Y (Switch Weapon)", { 'V', KM_WHEEL } },
+	{ "white", "White (Flashlight)", { '1', 0 } }, { "black", "Black (Switch Grenade)", { '2', 0 } },
+	{ "up", "D-Pad Up", { VK_UP, 0 } }, { "down", "D-Pad Down", { VK_DOWN, 0 } }, { "left", "D-Pad Left", { VK_LEFT, 0 } }, { "right", "D-Pad Right", { VK_RIGHT, 0 } },
+	{ "start", "Start", { VK_RETURN, 0 } }, { "back", "Back", { VK_BACK, VK_ESCAPE } } };
+#define SENS_BASE 0.1
+#define SENS_UNIT 0.1
+#define SENS_STEPS 99                         /* 0.1 to 10.0 */
+#define SENS_DEFAULT "2.5"
+#define ZOOM_BASE 0.10
+#define ZOOM_UNIT 0.05
+#define ZOOM_STEPS 38                         /* 0.10 to 2.00 */
+#define ZOOM_DEFAULT "1.00"
+static HWND g_km, g_km_enable, g_km_sens, g_km_zoom, g_km_invert, g_km_bind[KM_BINDS][2];
+static part g_mparts[40];
+static int g_mpart_count, g_km_loading, g_km_waiting;
+
+static void key_name(int code, char *out, size_t size)
+{
+	static const struct { int code; const char *name; } names[] = {
+		{ VK_LBUTTON, "Left Mouse" }, { VK_RBUTTON, "Right Mouse" }, { VK_MBUTTON, "Middle Mouse" }, { VK_XBUTTON1, "Mouse 4" }, { VK_XBUTTON2, "Mouse 5" }, { KM_WHEEL, "Mouse Wheel" },
+		{ VK_SPACE, "Space" }, { VK_RETURN, "Enter" }, { VK_BACK, "Backspace" }, { VK_ESCAPE, "Esc" }, { VK_TAB, "Tab" },
+		{ VK_UP, "Up Arrow" }, { VK_DOWN, "Down Arrow" }, { VK_LEFT, "Left Arrow" }, { VK_RIGHT, "Right Arrow" },
+		{ VK_SHIFT, "Shift" }, { VK_CONTROL, "Ctrl" }, { VK_MENU, "Alt" }, { VK_LSHIFT, "Left Shift" }, { VK_RSHIFT, "Right Shift" },
+		{ VK_LCONTROL, "Left Ctrl" }, { VK_RCONTROL, "Right Ctrl" }, { VK_LMENU, "Left Alt" }, { VK_RMENU, "Right Alt" },
+		{ VK_CAPITAL, "Caps Lock" }, { VK_INSERT, "Insert" }, { VK_DELETE, "Delete" }, { VK_HOME, "Home" }, { VK_END, "End" }, { VK_PRIOR, "Page Up" }, { VK_NEXT, "Page Down" },
+		{ VK_PAUSE, "Pause" }, { VK_SCROLL, "Scroll Lock" }, { VK_NUMLOCK, "Num Lock" }, { VK_CLEAR, "Num 5 (Clear)" }, { VK_APPS, "Menu Key" },
+		{ VK_MULTIPLY, "Num *" }, { VK_ADD, "Num +" }, { VK_SUBTRACT, "Num -" }, { VK_DECIMAL, "Num ." }, { VK_DIVIDE, "Num /" } };
+	unsigned i;
+	UINT ch;
+	if (code <= 0) { snprintf(out, size, "-"); return; }
+	for (i = 0; i < sizeof(names) / sizeof(names[0]); i++) if (names[i].code == code) { snprintf(out, size, "%s", names[i].name); return; }
+	if ((code >= '0' && code <= '9') || (code >= 'A' && code <= 'Z')) { snprintf(out, size, "%c", code); return; }
+	if (code >= VK_NUMPAD0 && code <= VK_NUMPAD9) { snprintf(out, size, "Num %d", code - VK_NUMPAD0); return; }
+	if (code >= VK_F1 && code <= VK_F24) { snprintf(out, size, "F%d", code - VK_F1 + 1); return; }
+	ch = MapVirtualKeyA((UINT)code, 2) & 0x7fff;                  /* (MAPVK_VK_TO_CHAR: the key's character on this keyboard) */
+	if (ch > 32 && ch < 127) snprintf(out, size, "%c", (int)ch);
+	else snprintf(out, size, "Key %d", code);
+}
+
+/* a slider: a value on a line - a click or a drag, the wheel, Left / Right (Page Up / Down: ten steps; Home, End) */
+#define SLIDER_LEFT 16
+#define SLIDER_VALUE 64                       /* the value's text, at the right */
+static void slider_put(HWND w, int pos, int tell)
+{
+	ctl *c = ctl_of(w);
+	if (!c) return;
+	pos = pos < 0 ? 0 : pos > c->steps ? c->steps : pos;
+	if (pos == c->pos) return;
+	c->pos = pos;
+	InvalidateRect(w, NULL, FALSE);
+	if (tell) notify(w, CBN_SELCHANGE);
+}
+static int slider_at(HWND w, int x)
+{
+	ctl *c = ctl_of(w);
+	RECT r;
+	int span;
+	GetClientRect(w, &r);
+	span = r.right - SLIDER_VALUE - SLIDER_LEFT;
+	if (!c || span < 1 || x <= SLIDER_LEFT) return 0;
+	return (int)((double)(x - SLIDER_LEFT) * c->steps / span + 0.5);
+}
+static LRESULT CALLBACK slider_proc(HWND w, UINT m, WPARAM wp, LPARAM lp)
+{
+	ctl *c = ctl_of(w);
+	int handled;
+	LRESULT r;
+	if (m == WM_MOUSEMOVE && c && c->drag) slider_put(w, slider_at(w, (short)LOWORD(lp)), 1);
+	r = common(w, m, wp, lp, &handled);
+	if (handled) return r;
+	switch (m)
+	{
+	case SL_SET: if (c) { int pos = (int)wp; c->pos = pos < 0 ? 0 : pos > c->steps ? c->steps : pos; InvalidateRect(w, NULL, FALSE); } return 0;
+	case SL_GET: return c ? c->pos : 0;
+	case WM_GETDLGCODE: return DLGC_WANTARROWS | DLGC_WANTCHARS;
+	case WM_LBUTTONDOWN: case WM_LBUTTONDBLCLK:
+		if (GetFocus() != w) SetFocus(w);
+		SetCapture(w);
+		if (c) c->drag = 1;
+		slider_put(w, slider_at(w, (short)LOWORD(lp)), 1);
+		return 0;
+	case WM_LBUTTONUP: if (c && c->drag) { c->drag = 0; ReleaseCapture(); } return 0;
+	case WM_CAPTURECHANGED: if (c) c->drag = 0; return 0;
+	case WM_MOUSEWHEEL: if (c) slider_put(w, c->pos + ((short)HIWORD(wp) > 0 ? 1 : -1), 1); return 0;
+	case WM_KEYDOWN:
+		if (!c) return 0;
+		if (wp == VK_LEFT || wp == VK_DOWN) slider_put(w, c->pos - 1, 1);
+		else if (wp == VK_RIGHT || wp == VK_UP) slider_put(w, c->pos + 1, 1);
+		else if (wp == VK_PRIOR) slider_put(w, c->pos + 10, 1);
+		else if (wp == VK_NEXT) slider_put(w, c->pos - 10, 1);
+		else if (wp == VK_HOME) slider_put(w, 0, 1);
+		else if (wp == VK_END) slider_put(w, c->steps, 1);
+		return 0;
+	case WM_PAINT:
+	{
+		paint_buffer p;
+		HDC dc = paint_begin(w, &p);
+		int on = IsWindowEnabled(w), focus = on && GetFocus() == w, mid = p.r.bottom / 2;
+		int left = SLIDER_LEFT, right = p.r.right - SLIDER_VALUE, x = c && c->steps ? left + (int)((double)(right - left) * c->pos / c->steps + 0.5) : left;
+		RECT track = { left, mid - 2, right, mid + 2 }, done = { left, mid - 2, x, mid + 2 }, thumb = { x - 4, mid - 9, x + 5, mid + 9 }, t = p.r;
+		char text[32];
+		fill(dc, &p.r, C_PANEL);
+		cut_frame(dc, &p.r, 7, 7, on && c && (c->hot || focus) ? C_FIELD_HOT : C_FIELD, focus ? C_LINE : C_LINE_DIM, 1);
+		fill(dc, &track, C_LINE_DIM); fill(dc, &done, on ? C_LINE : C_OFF); fill(dc, &thumb, on ? C_TEXT : C_OFF);
+		snprintf(text, sizeof(text), "%.*f", c ? c->decimals : 1, c ? c->base + c->pos * c->unit : 0.0);
+		t.left = right + 8; t.right -= 14;
+		text_at(dc, text, &t, g_font, on ? C_TEXT : C_OFF, DT_RIGHT | DT_VCENTER | DT_SINGLELINE, 0);
+		paint_end(&p);
+		return 0;
+	}
+	}
+	return DefWindowProcA(w, m, wp, lp);
+}
+static HWND slider(const char *label, int x, int y, int width, int id, double base, double unit, int steps, int decimals)
+{
+	HWND s = add("h2c_slider", label, WS_TABSTOP, x, y, width, 30, id);
+	ctl *c = s ? ctl_of(s) : NULL;
+	if (c) { c->base = base; c->unit = unit; c->steps = steps; c->decimals = decimals; }
+	return s;
+}
+
+/* a key: shows the key it holds. A click (or Space), and the next key, mouse button or turn of the wheel is the new one -
+ * a mouse button counts when it is pressed on the field itself; a click anywhere else leaves the key as it was. A right
+ * click (or Delete) on a field that is not waiting empties it. */
+static void bind_put(HWND w, int code)
+{
+	ctl *c = ctl_of(w);
+	if (!c) return;
+	c->code = code; c->waiting = 0;
+	InvalidateRect(w, NULL, FALSE);
+	notify(w, CBN_SELCHANGE);
+}
+static void bind_wait(HWND w)
+{
+	ctl *c = ctl_of(w);
+	if (!c || !IsWindowEnabled(w)) return;
+	c->waiting = 1; c->since = GetTickCount();
+	InvalidateRect(w, NULL, FALSE);
+}
+static LRESULT CALLBACK bind_proc(HWND w, UINT m, WPARAM wp, LPARAM lp)
+{
+	ctl *c = ctl_of(w);
+	int handled, code;
+	LRESULT r;
+	if (m == WM_KILLFOCUS && c) c->waiting = 0;
+	r = common(w, m, wp, lp, &handled);
+	if (handled) return r;
+	switch (m)
+	{
+	case BD_SET: if (c) { c->code = (int)wp; c->waiting = 0; InvalidateRect(w, NULL, FALSE); } return 0;
+	case BD_GET: return c ? c->code : 0;
+	case BD_WAITING: return c ? c->waiting : 0;
+	case WM_GETDLGCODE: return c && c->waiting ? DLGC_WANTALLKEYS : DLGC_WANTCHARS;
+	case WM_LBUTTONDOWN: case WM_LBUTTONDBLCLK:
+		if (c && c->waiting && GetFocus() == w) { if (GetTickCount() - c->since > 350) bind_put(w, VK_LBUTTON); return 0; }   /* (not the second click of a double click) */
+		SetFocus(w); bind_wait(w);
+		return 0;
+	case WM_RBUTTONDOWN: if (c && c->waiting) bind_put(w, VK_RBUTTON); else { SetFocus(w); bind_put(w, 0); } return 0;
+	case WM_MBUTTONDOWN: if (c && c->waiting) bind_put(w, VK_MBUTTON); return 0;
+	case WM_XBUTTONDOWN: if (c && c->waiting) bind_put(w, HIWORD(wp) == XBUTTON1 ? VK_XBUTTON1 : VK_XBUTTON2); return TRUE;
+	case WM_MOUSEWHEEL: if (c && c->waiting) bind_put(w, KM_WHEEL); return 0;
+	case WM_CHAR: if (c && c->skip_char) c->skip_char = 0; else if (wp == ' ' && c && !c->waiting) bind_wait(w); return 0;
+	case WM_SYSCHAR: if (c && c->waiting) return 0; break;
+	case WM_KEYUP: case WM_SYSKEYUP: if (c) c->skip_char = 0; if (m == WM_KEYUP || (c && c->waiting)) return 0; break;
+	case WM_KEYDOWN: case WM_SYSKEYDOWN:
+		if (!c) break;
+		if (!c->waiting)
+		{
+			if (m == WM_SYSKEYDOWN) break;
+			if (wp == VK_DELETE) bind_put(w, 0);
+			return 0;
+		}
+		if (lp & 0x40000000) return 0;                                /* (a key held down, repeating) */
+		code = (int)wp;
+		if (code == VK_SHIFT) { code = (int)MapVirtualKeyA((UINT)(lp >> 16) & 0xff, 3); if (code != VK_LSHIFT && code != VK_RSHIFT) code = VK_SHIFT; }   /* (MAPVK_VSC_TO_VK_EX: left or right) */
+		else if (code == VK_CONTROL) code = lp & 0x01000000 ? VK_RCONTROL : VK_LCONTROL;
+		else if (code == VK_MENU) code = lp & 0x01000000 ? VK_RMENU : VK_LMENU;
+		/* not for the game: the Windows keys, Print Screen, and the key H2Classic itself listens to (F9); (s10x) F11 and F12 are free */
+		if (code <= 0 || code > 255 || code == VK_LWIN || code == VK_RWIN || code == VK_SNAPSHOT || code == VK_F9) return 0;
+		c->skip_char = 1;
+		bind_put(w, code);
+		return 0;
+	case WM_PAINT:
+	{
+		paint_buffer p;
+		HDC dc = paint_begin(w, &p);
+		int on = IsWindowEnabled(w), focus = on && GetFocus() == w, waiting = on && c && c->waiting;
+		RECT t = p.r;
+		char text[40];
+		fill(dc, &p.r, C_PANEL);
+		cut_frame(dc, &p.r, 6, 6, waiting ? C_FIELD_HOT : on && c && c->hot ? C_FIELD_HOT : C_FIELD, waiting ? C_TEXT : focus ? C_LINE : C_LINE_DIM, 1);
+		if (waiting) snprintf(text, sizeof(text), "Press a key");
+		else key_name(c ? c->code : 0, text, sizeof(text));
+		t.left += 6; t.right -= 6;
+		{	/* a name too long for the field in the usual letters: smaller ones, then the narrow ones */
+			HFONT fonts[3] = { waiting ? g_note_font : g_font, g_note_font, g_note_narrow_font ? g_note_narrow_font : g_note_font }, f = fonts[0];
+			int k;
+			for (k = 0; k < 3; k++)
+			{
+				HFONT old = SelectObject(dc, fonts[k]);
+				SIZE size;
+				BOOL fits = GetTextExtentPoint32A(dc, text, (int)strlen(text), &size) && size.cx <= t.right - t.left;
+				SelectObject(dc, old);
+				f = fonts[k];
+				if (fits) break;
+			}
+			text_at(dc, text, &t, f, !on ? C_OFF : waiting ? C_LINE : c && c->code > 0 ? C_TEXT : C_OFF, DT_CENTER | DT_VCENTER | DT_SINGLELINE | DT_END_ELLIPSIS, 0);
+		}
+		paint_end(&p);
+		return 0;
+	}
+	}
+	return DefWindowProcA(w, m, wp, lp);
+}
+
+/* settings -> the window's controls */
+static void km_show(void)
+{
+	int i, on;
+	double v;
+	g_km_loading = 1;
+	on = atoi(ini_get("keyboard_mouse", "1")) != 0;
+	tick(g_km_enable, on);
+	v = atof(ini_get("mouse_sensitivity", SENS_DEFAULT));
+	SendMessageA(g_km_sens, SL_SET, (WPARAM)(int)((v - SENS_BASE) / SENS_UNIT + 0.5), 0);
+	v = atof(ini_get("mouse_zoom_sensitivity", ZOOM_DEFAULT));
+	SendMessageA(g_km_zoom, SL_SET, (WPARAM)(int)((v - ZOOM_BASE) / ZOOM_UNIT + 0.5), 0);
+	tick(g_km_invert, atoi(ini_get("mouse_invert", "0")));
+	for (i = 0; i < KM_BINDS; i++)
+	{
+		char key[40];
+		const char *value;
+		int a = k_binds[i].keys[0], b = k_binds[i].keys[1], ra = 0, rb = 0;
+		snprintf(key, sizeof(key), "key_%s", k_binds[i].key);
+		value = ini_get(key, "");
+		if (value[0] && sscanf(value, "%d,%d", &ra, &rb) >= 1 && ra >= 0 && ra <= KM_WHEEL && rb >= 0 && rb <= KM_WHEEL) { a = ra; b = rb; }
+		SendMessageA(g_km_bind[i][0], BD_SET, (WPARAM)a, 0);
+		SendMessageA(g_km_bind[i][1], BD_SET, (WPARAM)b, 0);
+	}
+	EnableWindow(g_km_sens, on); EnableWindow(g_km_zoom, on); EnableWindow(g_km_invert, on);
+	for (i = 0; i < KM_BINDS; i++) { EnableWindow(g_km_bind[i][0], on); EnableWindow(g_km_bind[i][1], on); }
+	g_km_loading = 0;
+}
+/* the window's controls -> settings, saved (and passed on to a running game) */
+static void km_save(void)
+{
+	char text[40], key[40];
+	int i;
+	if (g_km_loading || !g_km) return;
+	ini_set("keyboard_mouse", ticked(g_km_enable) ? "1" : "0");
+	snprintf(text, sizeof(text), "%.1f", SENS_BASE + SENS_UNIT * (int)SendMessageA(g_km_sens, SL_GET, 0, 0)); ini_set("mouse_sensitivity", text);
+	snprintf(text, sizeof(text), "%.2f", ZOOM_BASE + ZOOM_UNIT * (int)SendMessageA(g_km_zoom, SL_GET, 0, 0)); ini_set("mouse_zoom_sensitivity", text);
+	ini_set("mouse_invert", ticked(g_km_invert) ? "1" : "0");
+	for (i = 0; i < KM_BINDS; i++)
+	{
+		snprintf(key, sizeof(key), "key_%s", k_binds[i].key);
+		snprintf(text, sizeof(text), "%d,%d", (int)SendMessageA(g_km_bind[i][0], BD_GET, 0, 0), (int)SendMessageA(g_km_bind[i][1], BD_GET, 0, 0));
+		ini_set(key, text);
+	}
+	ini_save();
+	game_signal();
+}
+static void km_save_soon(void) { if (g_km && !g_km_loading) { g_km_waiting = 1; SetTimer(g_km, 3, 250, NULL); } }
+static void km_save_now(void) { if (g_km) KillTimer(g_km, 3); if (g_km_waiting) { g_km_waiting = 0; km_save(); } }
+static void km_reset(void)
+{
+	int i;
+	char key[40];
+	if (g_km) KillTimer(g_km, 3);
+	g_km_waiting = 0;
+	ini_remove("keyboard_mouse"); ini_remove("mouse_sensitivity"); ini_remove("mouse_zoom_sensitivity"); ini_remove("mouse_invert");
+	for (i = 0; i < KM_BINDS; i++) { snprintf(key, sizeof(key), "key_%s", k_binds[i].key); ini_remove(key); }
+	km_show();                              /* the defaults: shown with nothing saved, then saved */
+	km_save();
+	InvalidateRect(g_km, NULL, FALSE);
+}
+static void km_close(void)
+{
+	if (!g_km) return;
+	km_save_now();
+	EnableWindow(g_main, TRUE);
+	DestroyWindow(g_km);
+	g_km = NULL;
+	SetForegroundWindow(g_main);
+}
+/* a key was given to a field: no other field keeps the same key (the wheel too) */
+static void km_bind_changed(HWND field)
+{
+	int code = (int)SendMessageA(field, BD_GET, 0, 0), i, k;
+	if (code > 0)
+		for (i = 0; i < KM_BINDS; i++) for (k = 0; k < 2; k++)
+			if (g_km_bind[i][k] != field && (int)SendMessageA(g_km_bind[i][k], BD_GET, 0, 0) == code) SendMessageA(g_km_bind[i][k], BD_SET, 0, 0);
+	km_save_soon();
+}
+static LRESULT CALLBACK km_proc(HWND w, UINT m, WPARAM wp, LPARAM lp)
+{
+	switch (m)
+	{
+	case WM_COMMAND:
+	{
+		int id = LOWORD(wp);
+		if (id >= ID_KM_BIND && id < ID_KM_BIND + KM_BINDS * 2) { if (HIWORD(wp) == CBN_SELCHANGE) km_bind_changed((HWND)lp); return 0; }
+		switch (id)
+		{
+		case ID_KM_ENABLE:
+			if (HIWORD(wp) == BN_CLICKED)
+			{
+				int i, on = ticked(g_km_enable);
+				EnableWindow(g_km_sens, on); EnableWindow(g_km_zoom, on); EnableWindow(g_km_invert, on);
+				for (i = 0; i < KM_BINDS; i++) { EnableWindow(g_km_bind[i][0], on); EnableWindow(g_km_bind[i][1], on); }
+				km_save_soon();
+			}
+			return 0;
+		case ID_KM_INVERT: if (HIWORD(wp) == BN_CLICKED) km_save_soon(); return 0;
+		case ID_KM_SENS: case ID_KM_ZOOM: if (HIWORD(wp) == CBN_SELCHANGE) km_save_soon(); return 0;
+		case ID_KM_RESET: km_reset(); return 0;
+		case ID_KM_DONE: case ID_CLOSE: case IDOK: case IDCANCEL: km_close(); return 0;
+		}
+		break;
+	}
+	case WM_ERASEBKGND: return 1;
+	case WM_PAINT: paint_window(w, g_mparts, g_mpart_count, "KEYBOARD + MOUSE SETTINGS"); return 0;
+	case WM_TIMER: if (wp == 3) km_save_now(); return 0;
+	case WM_CLOSE: km_close(); return 0;
+	case WM_NCHITTEST:                        /* no title bar: held at the top (above the title's line), the window moves */
+	{
+		LRESULT hit = DefWindowProcA(w, m, wp, lp);
+		POINT pt;
+		pt.x = (short)LOWORD(lp); pt.y = (short)HIWORD(lp);
+		ScreenToClient(w, &pt);
+		return hit == HTCLIENT && pt.y >= 0 && pt.y < HEADER_DRAG ? HTCAPTION : hit;
+	}
+	}
+	return DefWindowProcA(w, m, wp, lp);
+}
+#define KM_WIDTH 924
+#define KM_HEIGHT 770
+static void km_open(void)
+{
+	RECT main_rect, work;
+	int x = 26, panel = KM_WIDTH - 52, y, i, left, top;
+	if (g_km) { SetForegroundWindow(g_km); return; }
+	save_now();                             /* (what the settings window still had to write) */
+	GetWindowRect(g_main, &main_rect);
+	if (!SystemParametersInfoA(SPI_GETWORKAREA, 0, &work, 0)) { work.left = work.top = 0; work.right = GetSystemMetrics(SM_CXSCREEN); work.bottom = GetSystemMetrics(SM_CYSCREEN); }
+	/* over the settings window, its middle on that window's middle, kept on the screen */
+	left = (main_rect.left + main_rect.right - KM_WIDTH) / 2; top = (main_rect.top + main_rect.bottom - KM_HEIGHT) / 2;
+	if (left + KM_WIDTH > work.right) left = work.right - KM_WIDTH;
+	if (left < work.left) left = work.left;
+	if (top + KM_HEIGHT > work.bottom) top = work.bottom - KM_HEIGHT;
+	if (top < work.top) top = work.top;
+	g_km = CreateWindowExA(0, "h2classic_km", "Keyboard + Mouse Settings", WS_POPUP | WS_SYSMENU, left, top, KM_WIDTH, KM_HEIGHT, g_main, NULL, GetModuleHandleA(NULL), NULL);
+	if (!g_km) return;
+	{
+		DWORD round = 2, border = C_LINE_DIM;
+		dwm_set(g_km, 33, &round, sizeof(round));
+		dwm_set(g_km, 34, &border, sizeof(border));
+	}
+	g_parent = g_km;
+	g_mpart_count = 0;
+	add("h2c_caption", "", 0, KM_WIDTH - 1 - 46, 1, 46, 31, ID_CLOSE);
+	y = 80;
+	g_km_enable = add("h2c_toggle", "Enable Keyboard + Mouse", WS_TABSTOP, x + 4, y, 300, 26, ID_KM_ENABLE);
+	y += 38;
+	/* MOUSE */
+	g_mparts[g_mpart_count++] = (part){ x, y, panel, 144, "MOUSE", 1 };
+	g_mparts[g_mpart_count++] = (part){ x + 16, y + 30, 190, 30, "Mouse Sensitivity", 0 };
+	g_km_sens = slider("Mouse Sensitivity", x + 212, y + 30, 420, ID_KM_SENS, SENS_BASE, SENS_UNIT, SENS_STEPS, 1);
+	g_mparts[g_mpart_count++] = (part){ x + 16, y + 66, 190, 30, "Zoom Sensitivity", 0 };
+	g_km_zoom = slider("Zoom Sensitivity", x + 212, y + 66, 420, ID_KM_ZOOM, ZOOM_BASE, ZOOM_UNIT, ZOOM_STEPS, 2);
+	g_km_invert = add("h2c_toggle", "Invert Look (Mouse Only)", WS_TABSTOP, x + 20, y + 106, 300, 26, ID_KM_INVERT);
+	g_mparts[g_mpart_count++] = (part){ x + 652, y + 30, panel - 668, 104, "Zoom Sensitivity 1.00 is the game's own rule: the look slows down by the zoom's magnification. The mouse does not use the game's Look Inversion setting.", 2 };
+	y += 156;
+	/* KEY ASSIGNMENTS */
+	g_mparts[g_mpart_count++] = (part){ x, y, panel, 30 + 12 * 30 + 8, "KEY ASSIGNMENTS", 1 };
+	for (i = 0; i < KM_BINDS; i++)
+	{
+		int lx = x + 16 + (i / 12) * 430, ly = y + 30 + (i % 12) * 30;
+		g_mparts[g_mpart_count++] = (part){ lx, ly, 194, 26, k_binds[i].label, 0 };
+		g_km_bind[i][0] = add("h2c_bind", "", WS_TABSTOP, lx + 196, ly, 104, 26, ID_KM_BIND + i * 2);
+		g_km_bind[i][1] = add("h2c_bind", "", WS_TABSTOP, lx + 306, ly, 104, 26, ID_KM_BIND + i * 2 + 1);
+	}
+	y += 30 + 12 * 30 + 8 + 10;
+	g_mparts[g_mpart_count++] = (part){ x + 2, y, panel - 4, 18, "Click a key, then press the new key, mouse button or wheel (click the field again for the left mouse button). Right-click a key to clear it.", 3 };
+	y += 30;
+	button("Reset to Defaults", x, y, 180, ID_KM_RESET, 0);
+	button("Close", x + panel - 110, y, 110, ID_KM_DONE, 1);
+	g_parent = g_main;
+	km_show();
+	EnableWindow(g_main, FALSE);
+	ShowWindow(g_km, SW_SHOW);
+	SetFocus(g_km_enable);
+}
+
 static LRESULT CALLBACK proc(HWND w, UINT m, WPARAM wp, LPARAM lp)
 {
 	switch (m)
@@ -981,14 +1489,16 @@ static LRESULT CALLBACK proc(HWND w, UINT m, WPARAM wp, LPARAM lp)
 	case WM_COMMAND:
 		switch (LOWORD(wp))
 		{
-		case ID_START: case IDOK: start(); return 0;
+		case ID_START: case IDOK: if (!g_running) start(); return 0;
 		case ID_RESET: reset(); return 0;
 		case ID_EXIT: case IDCANCEL: case ID_CLOSE: save_now(); PostQuitMessage(0); return 0;
 		case ID_MINIMIZE: ShowWindow(w, SW_MINIMIZE); return 0;
 		case ID_KEYS: keys_open(); return 0;
+		case ID_KM: km_open(); return 0;
 		case ID_AA: if (HIWORD(wp) == CBN_SELCHANGE) { aa_quality_fill(); aa_note(); save_soon(); } return 0;
 		case ID_AAQ: if (HIWORD(wp) == CBN_SELCHANGE) { aa_note(); save_soon(); } return 0;
-		case ID_SCALE: case ID_SIZE: case ID_WIDE: case ID_MODE: if (HIWORD(wp) == CBN_SELCHANGE) save_soon(); return 0;
+		case ID_MODE: if (HIWORD(wp) == CBN_SELCHANGE) { EnableWindow(g_size, pick(g_mode) == 2); save_soon(); } return 0;   /* (s10w) */
+		case ID_SCALE: case ID_SIZE: case ID_WIDE: case ID_VERSION: if (HIWORD(wp) == CBN_SELCHANGE) save_soon(); return 0;
 		case ID_UNLOCK: case ID_VSYNC: case ID_FPS: case ID_SKIPINTRO: case ID_SKIPATTRACT: if (HIWORD(wp) == BN_CLICKED) save_soon(); return 0;
 		}
 		break;
@@ -999,7 +1509,8 @@ static LRESULT CALLBACK proc(HWND w, UINT m, WPARAM wp, LPARAM lp)
 		paint_window(w, g_parts, g_part_count, "H2CLASSIC SETTINGS");
 		return 0;
 	}
-	case WM_TIMER: if (wp == 1) save_now(); return 0;
+	case WM_TIMER: if (wp == 1) save_now(); else if (wp == 2) game_watch(); return 0;
+	case WM_ACTIVATE: if (LOWORD(wp) != WA_INACTIVE) PostMessageA(w, WM_TIMER, 2, 0); break;   /* (s10u) brought forward: over a full-screen game at once */
 	case WM_CLOSE: save_now(); PostQuitMessage(0); return 0;
 	case WM_NCHITTEST:                        /* (s10j) no title bar: held at the top (above the title's line), the window moves */
 	{
@@ -1026,11 +1537,15 @@ static void register_class(HINSTANCE instance, const char *name, WNDPROC fn, HIC
 int WINAPI WinMain(HINSTANCE instance, HINSTANCE previous, LPSTR command, int show_mode)
 {
 	MSG msg;
-	RECT r = { 0, 0, 470, 798 }, work;
+	RECT r = { 0, 0, 470, 878 }, work;
 	char folder[MAX_PATH], *slash;
 	HICON icon, small_icon;
 	int y, x = 26, panel = 418;
 	(void)previous; (void)command;
+	{	/* (s10u) this window stays open while the game runs, so it may be open already: that one is shown, no second one */
+		HWND other = FindWindowA("h2classic_settings", NULL);
+		if (other) { if (IsIconic(other)) ShowWindow(other, SW_RESTORE); SetForegroundWindow(other); return 0; }
+	}
 	/* this folder: where H2Classic.exe and the h2classic folder are */
 	GetModuleFileNameA(NULL, folder, sizeof(folder));
 	if ((slash = strrchr(folder, '\\'))) { *slash = 0; SetCurrentDirectoryA(folder); }
@@ -1039,6 +1554,9 @@ int WINAPI WinMain(HINSTANCE instance, HINSTANCE previous, LPSTR command, int sh
 	if (!icon) icon = LoadIconA(NULL, (LPCSTR)IDI_APPLICATION);
 	register_class(instance, "h2classic_settings", proc, icon, small_icon, CS_DROPSHADOW);   /* (s10j) no title bar: a shadow of its own */
 	register_class(instance, "h2classic_keys", keys_proc, icon, small_icon, 0);
+	register_class(instance, "h2classic_km", km_proc, icon, small_icon, CS_DROPSHADOW);
+	register_class(instance, "h2c_slider", slider_proc, NULL, NULL, 0);
+	register_class(instance, "h2c_bind", bind_proc, NULL, NULL, 0);
 	register_class(instance, "h2c_choice", choice_proc, NULL, NULL, 0);     /* (s10i) no CS_DBLCLKS: every click steps */
 	register_class(instance, "h2c_toggle", toggle_proc, NULL, NULL, 0);
 	register_class(instance, "h2c_button", button_proc, NULL, NULL, 0);
@@ -1067,7 +1585,7 @@ int WINAPI WinMain(HINSTANCE instance, HINSTANCE previous, LPSTR command, int sh
 	make_sizes();
 	for (int i = 0; i < g_size_count; i++) { char s[32]; snprintf(s, sizeof(s), "%d x %d", g_sizes[i][0], g_sizes[i][1]); item(g_size, s); }
 	g_scale = choice("Render Scale", x + 16, y + 102, ID_SCALE, 0);
-	for (unsigned i = 0; i < sizeof(k_scales) / sizeof(k_scales[0]); i++) { char s[16]; snprintf(s, sizeof(s), "%d%%", k_scales[i]); item(g_scale, s); }
+	for (int i = 1; i <= SCALE_MOST; i++) { char s[32]; snprintf(s, sizeof(s), "x%d  (%dp)", i, 480 * i); item(g_scale, s); }
 	g_wide = choice("Aspect Ratio", x + 16, y + 138, ID_WIDE, 0);
 	item(g_wide, "4:3"); item(g_wide, "16:9"); item(g_wide, "21:9"); item(g_wide, "32:9");
 	y += 188;
@@ -1086,22 +1604,31 @@ int WINAPI WinMain(HINSTANCE instance, HINSTANCE previous, LPSTR command, int sh
 	part_add(g_aa_note_rect.left, g_aa_note_rect.top, g_aa_note_rect.right - g_aa_note_rect.left, 36, g_aa_note_text, 2);
 	y += 154;
 	/* GAME */
-	part_add(x, y, panel, 90, "GAME", 1);
-	g_skipintro = toggle("Skip Intro Video", x + 20, y + 30, ID_SKIPINTRO);
-	g_skipattract = toggle("Skip Attract Idle Video", x + 20, y + 58, ID_SKIPATTRACT);
-	y += 102;
+	g_game_part_first = g_game_title_part = g_part_count;
+	part_add(x, y, panel, 126, "GAME", 1);
+	g_version = choice("Game Version", x + 16, y + 30, ID_VERSION, 1);     /* (s10q) */
+	item(g_version, "1.0"); item(g_version, "1.5");
+	g_skipintro = toggle("Skip Intro Video", x + 20, y + 66, ID_SKIPINTRO);
+	g_skipattract = toggle("Skip Attract Idle Video", x + 20, y + 94, ID_SKIPATTRACT);
+	g_game_part_last = g_part_count - 1;
+	y += 138;
+	/* (s10v) the keyboard and the mouse: their own window */
+	button("Keyboard + Mouse Settings", x, y, 300, ID_KM, 0);
+	y += 44;
 	/* the keys */
 	button("Generate Xbox keys.bin file", x, y, 300, ID_KEYS, 0);
 	part_add(x + 2, y + 40, panel - 4, 18, "(used for Xbox save compatibility and crossplay with Xbox/xemu)", 3);   /* (s10j) one line */
 	y += 72;
-	button("Start Game", x, y, 150, ID_START, 1);
+	g_start = button("Start Game", x, y, 150, ID_START, 1);
 	button("Reset to Defaults", x + 158, y, 180, ID_RESET, 0);
 	button("Exit", x + 346, y, 72, ID_EXIT, 0);
 	ini_load();
 	show();
 	if (g_line_count == 0) save();         /* (a first start: the defaults are written, so the game starts with them too) */
+	game_watch();                          /* (s10u) opened while the game runs: the GAME part greyed out from the start */
+	SetTimer(g_main, 2, 250, NULL);
 	ShowWindow(g_main, show_mode);
 	while (GetMessageA(&msg, NULL, 0, 0) > 0)
-		if (!(g_keys && IsDialogMessageA(g_keys, &msg)) && !IsDialogMessageA(g_main, &msg)) { TranslateMessage(&msg); DispatchMessageA(&msg); }
+		if (!(g_keys && IsDialogMessageA(g_keys, &msg)) && !(g_km && IsDialogMessageA(g_km, &msg)) && !IsDialogMessageA(g_main, &msg)) { TranslateMessage(&msg); DispatchMessageA(&msg); }
 	return 0;
 }
