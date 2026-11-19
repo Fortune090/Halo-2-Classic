@@ -74,9 +74,8 @@ notes for every build are in [docs/DEVLOG.txt](docs/DEVLOG.txt).
 
 ## Credits
 
-- **[halo2-decompiled](https://github.com/kirklandsig/halo2-decompiled)** by kirklandsig and its contributors: the
-  game's source, which this builds on.
-- **Spooky Ghost** (Fortune090), the Halo 2 Xbox mod. Several of the high-frame-rate fixes are ported from it.
+- **[halo2-decompiled](https://github.com/kirklandsig/halo2-decompiled)** by kirklandsig and its contributors: the game's source, which this builds on.
+- [Spooky Ghost](https://github.com/Fortune090/Xbox-Spooky-Ghost-Menu) by Fortune090, the Halo 2 Xbox mod. Several of the high-frame-rate fixes are ported from it.
 - [SMAA](https://github.com/iryoku/smaa) by Jorge Jimenez, Jose I. Echevarria, Belen Masia, Fernando Navarro and
   Diego Gutierrez; [Playdead's temporal reprojection](https://github.com/playdeadgames/temporal); NVIDIA's
   [DLSS](https://github.com/NVIDIA/DLSS). See [THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md).
