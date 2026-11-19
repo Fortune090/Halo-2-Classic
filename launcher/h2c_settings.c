@@ -358,20 +358,6 @@ static HRESULT dwm_set(HWND w, DWORD what, const void *value, DWORD size)
 	if (!looked) { HMODULE dll = LoadLibraryA("dwmapi.dll"); looked = 1; if (dll) set = (set_fn)(void *)GetProcAddress(dll, "DwmSetWindowAttribute"); }
 	return set ? set(w, what, value, size) : E_NOTIMPL;
 }
-static int windows_dark(void)                 /* Settings > Personalization > Colors: apps in dark mode */
-{
-	HKEY key;
-	DWORD light = 1, size = sizeof(light), type = 0;
-	if (RegOpenKeyExA(HKEY_CURRENT_USER, "Software\\Microsoft\\Windows\\CurrentVersion\\Themes\\Personalize", 0, KEY_READ, &key) != ERROR_SUCCESS) return 0;
-	if (RegQueryValueExA(key, "AppsUseLightTheme", NULL, &type, (BYTE *)&light, &size) != ERROR_SUCCESS || type != REG_DWORD) light = 1;
-	RegCloseKey(key);
-	return light == 0;
-}
-static void title_bar_theme(HWND w)           /* a title bar as dark as Windows' own when Windows is dark (20: Windows 10 2004 on, 19 before) */
-{
-	BOOL dark = windows_dark();
-	if (dwm_set(w, 20, &dark, sizeof(dark)) != S_OK) dwm_set(w, 19, &dark, sizeof(dark));
-}
 
 /* ---- the window's own parts: labels, notes and section frames are drawn by the window ---- */
 typedef struct { int x, y, w, h; const char *text; int kind; } part;     /* kind 0 label, 1 section frame (h its height), 2 note, 3 a note on one line */
@@ -1020,14 +1006,14 @@ static LRESULT CALLBACK keys_proc(HWND w, UINT m, WPARAM wp, LPARAM lp)
 		case ID_KEYS_BIOS_BROWSE: browse(g_keys_bios, "Choose the BIOS image"); return 0;
 		case ID_KEYS_MCPX_BROWSE: browse(g_keys_mcpx, "Choose the MCPX boot ROM"); return 0;
 		case ID_KEYS_GENERATE: case IDOK: keys_generate(); return 0;
-		case ID_KEYS_CANCEL: case IDCANCEL: keys_close(); return 0;
+		case ID_KEYS_CANCEL: case IDCANCEL: case ID_CLOSE: keys_close(); return 0;
 		}
 		break;
 	case WM_ERASEBKGND: return 1;
 	case WM_PAINT:
 	{
 		int i;
-		paint_window(w, g_kparts, g_kpart_count, NULL);
+		paint_window(w, g_kparts, g_kpart_count, "GENERATE KEYS.BIN");
 		/* the path fields' frames */
 		{
 			HDC dc = GetDC(w);
@@ -1046,30 +1032,48 @@ static LRESULT CALLBACK keys_proc(HWND w, UINT m, WPARAM wp, LPARAM lp)
 	}
 	case WM_CTLCOLOREDIT: SetTextColor((HDC)wp, C_TEXT); SetBkColor((HDC)wp, C_FIELD); return (LRESULT)g_field_brush;
 	case WM_CLOSE: keys_close(); return 0;
+	case WM_NCHITTEST:                        /* (s10z) no title bar, as the other windows: held at the top (above the title's line), the window moves */
+	{
+		LRESULT hit = DefWindowProcA(w, m, wp, lp);
+		POINT pt;
+		pt.x = (short)LOWORD(lp); pt.y = (short)HIWORD(lp);
+		ScreenToClient(w, &pt);
+		return hit == HTCLIENT && pt.y >= 0 && pt.y < HEADER_DRAG ? HTCAPTION : hit;
+	}
 	}
 	return DefWindowProcA(w, m, wp, lp);
 }
+#define KEYS_WIDTH 540
+#define KEYS_TOP 66                           /* (s10z) what the window's own header (title, line) takes: the parts below are as they were, this much lower */
+#define KEYS_HEIGHT (262 + KEYS_TOP)
 static void keys_open(void)
 {
-	RECT r = { 0, 0, 540, 262 }, main_rect;
-	DWORD style = WS_POPUP | WS_CAPTION | WS_SYSMENU;
+	RECT main_rect;
+	int t = KEYS_TOP;
 	if (g_keys) { SetForegroundWindow(g_keys); return; }
-	AdjustWindowRect(&r, style, FALSE);
 	GetWindowRect(g_main, &main_rect);
-	g_keys = CreateWindowExA(WS_EX_DLGMODALFRAME, "h2classic_keys", "Generate Xbox keys.bin file", style,
-		main_rect.left + 20, main_rect.top + 80, r.right - r.left, r.bottom - r.top, g_main, NULL, GetModuleHandleA(NULL), NULL);
-	if (g_keys) title_bar_theme(g_keys);      /* (s10j) its title bar light or dark as Windows' own */
+	/* (s10z) drawn like the settings and the Keyboard + Mouse windows: no title bar of Windows', the title and the close
+	   button the program's own */
+	g_keys = CreateWindowExA(0, "h2classic_keys", "Generate Xbox keys.bin file", WS_POPUP | WS_SYSMENU,
+		main_rect.left + 20, main_rect.top + 80, KEYS_WIDTH, KEYS_HEIGHT, g_main, NULL, GetModuleHandleA(NULL), NULL);
+	if (!g_keys) return;
+	{
+		DWORD round = 2, border = C_LINE_DIM;
+		dwm_set(g_keys, 33, &round, sizeof(round));
+		dwm_set(g_keys, 34, &border, sizeof(border));
+	}
 	g_parent = g_keys;
 	g_kpart_count = 0;
-	g_kparts[g_kpart_count++] = (part){ 14, 14, 512, 182, "YOUR CONSOLE'S FILES", 1 };
-	g_kparts[g_kpart_count++] = (part){ 32, 44, 300, 22, "BIOS (Flash ROM)", 0 };
-	g_kparts[g_kpart_count++] = (part){ 32, 112, 300, 22, "MCPX Boot ROM", 0 };
-	g_keys_bios = add("EDIT", "", ES_AUTOHSCROLL | WS_TABSTOP, 38, 74, 362, 22, ID_KEYS_BIOS);
-	button("Browse...", 414, 68, 96, ID_KEYS_BIOS_BROWSE, 0);
-	g_keys_mcpx = add("EDIT", "", ES_AUTOHSCROLL | WS_TABSTOP, 38, 142, 362, 22, ID_KEYS_MCPX);
-	button("Browse...", 414, 136, 96, ID_KEYS_MCPX_BROWSE, 0);
-	button("Generate", 300, 212, 110, ID_KEYS_GENERATE, 1);
-	button("Cancel", 416, 212, 110, ID_KEYS_CANCEL, 0);
+	add("h2c_caption", "", 0, KEYS_WIDTH - 1 - 46, 1, 46, 31, ID_CLOSE);
+	g_kparts[g_kpart_count++] = (part){ 14, t + 14, 512, 182, "YOUR CONSOLE'S FILES", 1 };
+	g_kparts[g_kpart_count++] = (part){ 32, t + 44, 300, 22, "BIOS (Flash ROM)", 0 };
+	g_kparts[g_kpart_count++] = (part){ 32, t + 112, 300, 22, "MCPX Boot ROM", 0 };
+	g_keys_bios = add("EDIT", "", ES_AUTOHSCROLL | WS_TABSTOP, 38, t + 74, 362, 22, ID_KEYS_BIOS);
+	button("Browse...", 414, t + 68, 96, ID_KEYS_BIOS_BROWSE, 0);
+	g_keys_mcpx = add("EDIT", "", ES_AUTOHSCROLL | WS_TABSTOP, 38, t + 142, 362, 22, ID_KEYS_MCPX);
+	button("Browse...", 414, t + 136, 96, ID_KEYS_MCPX_BROWSE, 0);
+	button("Generate", 300, t + 212, 110, ID_KEYS_GENERATE, 1);
+	button("Cancel", 416, t + 212, 110, ID_KEYS_CANCEL, 0);
 	g_parent = g_main;
 	EnableWindow(g_main, FALSE);
 	ShowWindow(g_keys, SW_SHOW);

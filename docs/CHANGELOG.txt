@@ -15,6 +15,31 @@ What this is
   Source code: https://github.com/Fortune090/Halo-2-Classic. H2Classic is free software under the GNU General Public
   License, version 3 or later (LICENSE.txt); LICENSES.txt has its notices and those of the code it uses.
 
+New in build 48 (H2Classic Settings only; H2Classic.exe is build 47's, s10y)
+  1. The "Generate Xbox keys.bin file" window has no Windows title bar any more. It is drawn like the settings and the
+     Keyboard + Mouse windows: its own title, GENERATE KEYS.BIN, with the line under it, a close button at the top
+     right, and it is moved by holding it at the top. Its fields and buttons are where they were, below the title.
+     Cancel, Esc and the close button close it. (The small "Generate keys.bin" messages that follow - "keys.bin was
+     made", "Replace it?" - are Windows' own message boxes, as before.)
+  2. The note under the button reads "(used for Xbox save compatibility and crossplay with xemu)" (from build 47).
+  Checked here (under Wine): the window opens without a title bar with the title as above, and closes by the close
+     button and by Cancel/Esc; the settings window works after it. Not checked here: how the title looks in
+     Windows' own font, and making a keys.bin through the new window (that part of the code is unchanged).
+
+Testing (build 48)
+  Before you start
+    - Unzip over your H2Classic folder (or replace just H2Classic Settings.exe).
+  Test 1: the window
+    1. Open H2Classic Settings, click GENERATE XBOX KEYS.BIN FILE.
+       Expect: no Windows title bar; GENERATE KEYS.BIN at the top with the line under it, as in the settings window.
+    2. Hold the window at its top and move it; close it with the X; open it again and close it with CANCEL.
+       Expect: it moves, and both close it.
+    3. Open it once more, pick your BIOS and MCPX files, GENERATE.
+       Expect: as before - "keys.bin is already there and holds the same key", or the question to replace it.
+    If it fails: a screenshot of the window.
+  Send me
+    - A screenshot if the title is cut off or sits wrongly.
+
 New in s10y (build 47): game version 1.5 - the stop when going into or backing out of a profile's settings
   1. What happened (your two stop files and log, build 46, game version 1.5): leaving Edit Profile - backing out of
      it, or going from it into Appearance - stopped the program with "exception c0000005 at 00235afb".

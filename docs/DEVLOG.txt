@@ -384,6 +384,10 @@ list+0x3a4 is non-zero. In the map since s10r (build 40); build 46 on the same p
   1.5's Choose Profile opens on "Create New Profile": press down first); final_match.sh; a system link lobby; self test.
 - Settings exe (rebuilt): the keys.bin note is "(used for Xbox save compatibility and crossplay with xemu)" (user: remove "Xbox/").
   xnetx.c's log line still says "system link with consoles and xemu" (exe not rebuilt for it).
+- Build 48 (Settings exe only; H2Classic.exe stays s10y): the keys.bin window is WS_POPUP | WS_SYSMENU like the other two (no
+  WS_CAPTION / WS_EX_DLGMODALFRAME), paint_window title "GENERATE KEYS.BIN", h2c_caption close button (ID_CLOSE), WM_NCHITTEST
+  drag above HEADER_DRAG, DWM corner and border as km_open; its parts moved down by KEYS_TOP (66). title_bar_theme and
+  windows_dark removed (nothing else used them). User: no title bar there, title like the others.
 - Before-state kept in pkg/b46_internal/v15_before (map15.json, boundary15, adapt15, retail_*.S) and map15_before_s10y.py.
 - Parked: native/source_fixes/parked_s10x/xpcap.c (Npcap link: adapter choice, filter, immediate mode) - written, never run.
 
