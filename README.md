@@ -62,7 +62,7 @@ notes for every build are in [docs/DEVLOG.txt](docs/DEVLOG.txt).
 
 | Folder | What is in it |
 | --- | --- |
-| `layer2/` | The Windows layer: start-up and loading (`main.c`, `retail.c`), the renderer (`gfx9.c`, `xd3d.cpp`, `gfx_aa.c`), sound (`apu.c`, `apu_dsp.c`, `xdsound.cpp`), controllers (`input.c`, `xpad.cpp`), saves (`xsave.cpp`, `xsign.c`), files (`xapi.c`, `xiso.c`), the network (`xnet.c`, `xnetx.c`), the kernel's services (`xkernel.c`, `xcrypt.c`), frame timing and in-between frames (`timing.c`, `interp.c`) |
+| `layer3/` | The Windows layer: start-up and loading (`main.c`, `retail.c`), the renderer (`gfx9.c`, `xd3d.cpp`, `gfx_aa.c`), sound (`apu.c`, `apu_dsp.c`, `xdsound.cpp`), controllers (`input.c`, `xpad.cpp`), saves (`xsave.cpp`, `xsign.c`), files (`xapi.c`, `xiso.c`), the network (`xnet.c`, `xnetx.c`), the kernel's services (`xkernel.c`, `xcrypt.c`), frame timing and in-between frames (`timing.c`, `interp.c`) |
 | `decomp_patches/` | The changes H2Classic makes to the decompilation's source: the calls into the layer, marked `h2native:` |
 | `generated/` | Tables made by the analysis scripts: which retail address each data symbol and vtable stands for, which functions run from the XBE, and the code pointers in the game's data. Addresses and names only: no bytes of the XBE |
 | `scripts/` | The analysis and build scripts (Python): compiling the decompilation for the PC, rewriting the objects, generating the tables, and reading crash dumps |
