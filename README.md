@@ -38,6 +38,7 @@ Start `H2Classic Settings.exe`, choose the settings, and press Start Game.
 - The game's own code, compiled for the PC from the decompilation, with exact game behaviour as the goal: physics,
   AI, timing and saves are the console's.
 - Widescreen at 16:9, 21:9 and 32:9, with the HUD and menus placed for it; render scale and window modes.
+- Full keyboard + mouse support.
 - **Unlock Performance**: frame rates above 30. The game still runs at its own 30 ticks a second, and the frames in
   between are drawn at the in-between moment. It includes fixes ported from the Spooky Ghost mod (Increased LODs,
   Draw Distance, the zoom hold) and an animation fix for the rocket launcher.
