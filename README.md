@@ -16,7 +16,7 @@ Nothing of the game, the XBE, the console or Microsoft is in this repository or 
 This is a test project, not a finished port. Builds are made and checked one change at a time; see
 [docs/CHANGELOG.txt](docs/CHANGELOG.txt).
 
-## What you need to play
+# What you need to play
 
 - Windows 10 or 11, 64-bit.
 - Your own Halo 2 game for the original Xbox: the unmodified **v1.0** `default.xbe` (4,861,952 bytes, SHA-256
@@ -29,11 +29,11 @@ This is a test project, not a finished port. Builds are made and checked one cha
   MCPX boot ROM dumps (`launcher/make_keys.py` does the same). No key is included anywhere.
 - Optional, for DLSS: NVIDIA's `nvngx_dlss.dll` next to `H2Classic_DLSS.exe` (it is NVIDIA's file and isn't included).
 
-Start `H2Classic Settings.exe`, choose the settings, and press Start Game.  
+Start `H2Classic Settings.exe`, choose your desired settings, and press Start Game.  
   
-<img width="475" height="882" alt="image" src="https://github.com/user-attachments/assets/d7c51ca5-b03d-4454-bc5c-60e439adc426" />
+<img width="472" height="881" alt="image" src="https://github.com/user-attachments/assets/6a38def6-eea0-4f86-8034-4836ef5f3401" />
   
-## Features
+# Features
   
 <img width="3435" height="962" alt="image" src="https://github.com/user-attachments/assets/2f97a141-1a3d-471d-8b13-d0a10127f50a" />
   
@@ -79,7 +79,7 @@ notes for every build are in [docs/DEVLOG.txt](docs/DEVLOG.txt).
 
 
 
-## Credits
+# Credits
 
 - **[halo2-decompiled](https://github.com/kirklandsig/halo2-decompiled)** by kirklandsig and its contributors: the core of this whole game's source, which this project builds on. Wouldn't be   anywhere without this so major kudos to all contributors.
 - [Spooky Ghost](https://github.com/Fortune090/Xbox-Spooky-Ghost-Menu) by myself/Fortune090, the Halo 2 Xbox mod. Several of the high-frame-rate fixes are ported from it.
@@ -88,7 +88,7 @@ notes for every build are in [docs/DEVLOG.txt](docs/DEVLOG.txt).
   [DLSS](https://github.com/NVIDIA/DLSS). See [THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md).
 - [xemu](https://xemu.app) served as a reference for how the console's hardware behaves.
 
-## Legal
+# Legal
 
 H2Classic is an independent, non-commercial project. It is not affiliated with, endorsed by, sponsored by or approved
 by Microsoft, Bungie, 343 Industries or any other rights holder. Halo, Halo 2, Xbox and related names are trademarks
@@ -102,7 +102,7 @@ This repository does not contain, and the program does not include, any of the f
 
 You need your own copy of the game, from a disc you are legally entitled to use.
 
-## License
+# License
 
 H2Classic is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License
 as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version
