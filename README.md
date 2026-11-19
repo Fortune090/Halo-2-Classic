@@ -22,8 +22,8 @@ This is a test project, not a finished port. Builds are made and checked one cha
 - Your own Halo 2 game for the original Xbox: the unmodified **v1.0** `default.xbe` (4,861,952 bytes, SHA-256
   `03215919bb7163259257d361f4c7bf802a7ab12aa85e2689436369b5c427935d`) and its `maps` folder, or a disc image (.iso) of
   the game to place in the `Roms\Halo 2` folder. The program checks the XBE and stops if it is any other version or a modified one.
-- Your own copy of the Halo 2 Multiplayer Map Pack to place in the `Roms\DLC` folder. (Yes, _that_ version of it works too) .iso or
-  extracted game files work.
+- Your own copy of the Halo 2 Multiplayer Map Pack to place in the `Roms\DLC` folder (the "Halo 2 DLC" version works too). Either .iso or
+  extracted game files work here as well.
 - Optional: Generate `h2classic\keys.bin`, which makes saved games and profiles carry the same signatures as on a console, so
   they work with an Xbox or xemu. H2Classic Settings has a button that makes it from **your own** console's BIOS and
   MCPX boot ROM dumps (`launcher/make_keys.py` does the same). No key is included anywhere.
