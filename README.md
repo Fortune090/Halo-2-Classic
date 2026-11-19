@@ -46,7 +46,7 @@ Start `H2Classic Settings.exe`, choose your desired settings, and press Start Ga
 - Anti-aliasing: SMAA, FXAA, TAA, and DLSS (DLAA) through a small 64-bit helper program.
 - Split screen with up to four controllers, controller vibration, and full keyboard + mouse support with mappable keys.
 - Software sound engine recreated to produce audio 1:1 to Xbox's original.
-- System link with consoles and xemu, using the XBE's own network library (UDP tunnel in Xemu required. Network > Attached to > UDP Tunnel. Set Remote <IP>:9369 and Bind <IP>:9368. Enable).
+- System link with consoles and xemu, using the XBE's own network library (UDP tunnel in xemu required. Network > Attached to > UDP Tunnel. Set Remote <IP>:9369 and Bind <IP>:9368. Enable).
 - EXIT added to the main menu, so the game can be closed from full screen.
 
 Xbox Live/Insignia is not available.
