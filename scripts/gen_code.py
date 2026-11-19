@@ -76,6 +76,15 @@ ROUTE[0x938e0]='this3_eax_edx'
 # handling). The source declares it fastcall (observer in ecx, channel index in edx); retail takes the index in ebx and the
 # observer on the stack (ret 4; [esp+0x14] read at 0x76ffc after four pushes). Kind fast2_ebx = 6 (retail.c keeps ebx).
 ROUTE[0x76ff0]='fast2_ebx'
+# s10n: the network's memory setup 0x81780 (status todo; found joining a game xemu hosts, over H2N_XNET=retail). The draft
+# builds the unreliable streams and the two dispatchers with one-slot vtables of its own (c_unreliable_stream_storage and
+# the c_dispatcher_*_storage classes of unknown_081780.cpp) where retail stores 0x450db8, 0x450d60 and 0x450cb8 (at 0x81a25,
+# 0x81c48 and 0x81c6b), and it hands network_observer_recreate_connections the contents of g_5291a0 where retail passes its
+# address (0x81f66). Sending on a stream (function_095580) then called slot 1 of the one-slot table - the next class's v0,
+# which pops nothing - so the stack slipped 4 bytes there, its epilogue gave back the wrong ebx, esi and edi, and the
+# connect handler 0x785d0 went on with the observer register zeroed (network_observer_channel_check_connect(NULL, 0)).
+# Retail takes the stage on the stack and pops it (ret 4, through its tail jump to 0x78900), as the source declares.
+ROUTE[0x81780]='jmp'
 import os
 if os.path.exists(NAT+'/routes_called.json'):      # stage 9: unproven drafts with a proven (matched) caller, see called_routes.py
     for e in json.load(open(NAT+'/routes_called.json')): ROUTE.setdefault(e['va'],'jmp')
@@ -126,6 +135,32 @@ CUSTOM={0x26c590:"""  pushl %esi
   call *RA26c590
   popl %esi
   ret $24"""}
+# s10p: 0x298d90 (a draft, 1732 bytes, in routes_called.json since s9e and routed as 'jmp' until now): an actor's
+#   avoidance of an obstacle in its way. Retail takes arg_7 in ecx and arg_8 in edx, arg_0 ... arg_6 on the stack, and
+#   pops 0x1c (read off its one retail caller, 0x29a5e0-0x29a617, and its first instructions, which add [ecx] and [edx]
+#   as two point2f). Ours: fastcall (arg_0 ecx, arg_1 edx; arg_2 ... arg_8 on the stack, 28 bytes). The plain jump
+#   handed retail the two datum indices as the two points: the user's two stops at 0x298d97 on Metropolis, when an
+#   actor had to get out of the way of the Ghost the player was boosting (build 37, with DLSS and again with SMAA).
+CUSTOM[0x298d90]="""  pushl 20(%esp)
+  pushl 20(%esp)
+  pushl 20(%esp)
+  pushl 20(%esp)
+  pushl 20(%esp)
+  pushl %edx
+  pushl %ecx
+  movl 52(%esp), %ecx
+  movl 56(%esp), %edx
+  call *RA298d90
+  ret $28"""
+ROUTE.pop(0x298d90, None)
+# s10p: 0x11dd80 (a draft, 429 bytes, in routes_called.json since s9e): the inverse of a node transform, for an
+#   animation graph's inheritance (its one caller, function_27a100, is ours). The source declares (in, out) fastcall:
+#   in in ecx, out in edx. Retail's function reads in from edx and writes out through ecx (its first instructions copy
+#   [edx] to [ecx]; its one retail caller, 0x27a1cc, puts the result buffer in ecx). The plain jump made retail read the
+#   result buffer and write over the input. Swapped here; nothing on the stack, retail pops nothing.
+CUSTOM[0x11dd80]="""  xchgl %ecx, %edx
+  jmp *RA11dd80"""
+ROUTE.pop(0x11dd80, None)
 # s9f: the routes this build adds to s9e's carry 0x100 in their kind, so that H2N_NEWROUTES=off can leave them out (an A/B
 # test on the user's PC): the 29 + 6 the corrected classifier admits, the squad member's actor (0x1e0850) and the
 # pathfinding trace through its adapter (0x26c590)
