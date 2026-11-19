@@ -1,15 +1,18 @@
 # Halo 2 Classic - A Halo 2 Recompilation
 
-H2Classic runs **Halo 2 for the original Xbox (v1.0)** as a native Windows program. It is built from the source of
+<img width="3429" height="958" alt="image" src="https://github.com/user-attachments/assets/a2ddd59c-7e97-41de-a40f-84eefca7fbae" />
+
+
+H2Classic runs **Halo 2 for the original Xbox** as a native Windows program. It is built from the source of
 [halo2-decompiled](https://github.com/kirklandsig/halo2-decompiled), the community decompilation of the game's
 executable, together with a Windows layer that does the console's work: graphics in Direct3D9, a software audio 
-processor, controllers through XInput, and networking.
+processor, controllers through XInput, and networking with Xemu.
 
 H2Classic is not an emulator. The game's code is compiled for the PC. Where the decompilation doesn't have a function
 yet, or only has an unproven draft of it, the program runs that function from **your own copy** of the game: at start
 it reads your unmodified v1.0 `default.xbe`, puts its data and that code at the console's addresses, and runs it.
 Nothing of the game, the XBE, the console or Microsoft is in this repository or in the program.
-
+  
 This is a test project, not a finished port. Builds are made and checked one change at a time; see
 [docs/CHANGELOG.txt](docs/CHANGELOG.txt).
 
@@ -18,9 +21,10 @@ This is a test project, not a finished port. Builds are made and checked one cha
 - Windows 10 or 11, 64-bit.
 - Your own Halo 2 game for the original Xbox: the unmodified **v1.0** `default.xbe` (4,861,952 bytes, SHA-256
   `03215919bb7163259257d361f4c7bf802a7ab12aa85e2689436369b5c427935d`) and its `maps` folder, or a disc image (.iso) of
-  the game. They go in the `Rom` folder next to `H2Classic.exe`. The program checks the XBE and stops if it is any
-  other version or a modified one.
-- Optional: `h2classic\keys.bin`, which makes saved games and profiles carry the same signatures as on a console, so
+  the game to place in the `Roms\Halo 2` folder. The program checks the XBE and stops if it is any other version or a modified one.
+- Your own copy of the Halo 2 Multiplayer Map Pack to place in the `Roms\DLC` folder. (Yes, _that_ version of it works too) .iso or
+  extracted game files work.
+- Optional: Generate `h2classic\keys.bin`, which makes saved games and profiles carry the same signatures as on a console, so
   they work with an Xbox or xemu. H2Classic Settings has a button that makes it from **your own** console's BIOS and
   MCPX boot ROM dumps (`launcher/make_keys.py` does the same). No key is included anywhere.
 - Optional, for DLSS: NVIDIA's `nvngx_dlss.dll` next to `H2Classic_DLSS.exe` (it is NVIDIA's file and isn't included).
@@ -28,20 +32,23 @@ This is a test project, not a finished port. Builds are made and checked one cha
 Start `H2Classic Settings.exe`, choose the settings, and press Start Game.
 
 ## What it does
-
+  
+<img width="3435" height="962" alt="image" src="https://github.com/user-attachments/assets/2f97a141-1a3d-471d-8b13-d0a10127f50a" />
+  
 - The game's own code, compiled for the PC from the decompilation, with exact game behaviour as the goal: physics,
   AI, timing and saves are the console's.
 - Widescreen at 16:9, 21:9 and 32:9, with the HUD and menus placed for it; render scale and window modes.
 - **Unlock Performance**: frame rates above 30. The game still runs at its own 30 ticks a second, and the frames in
   between are drawn at the in-between moment. It includes fixes ported from the Spooky Ghost mod (Increased LODs,
   Draw Distance, the zoom hold) and an animation fix for the rocket launcher.
+- **Support for BOTH v1.0 and v1.5** via a selection in the Settings launcher.
 - Anti-aliasing: SMAA, FXAA, TAA, and DLSS (DLAA) through a small 64-bit helper program.
-- Split screen with up to four controllers, controller vibration, and the keyboard as a controller.
-- The intro and other movies, the game's sound and music.
-- System link with consoles and xemu, using the XBE's own network library (experimental).
-- A main-menu EXIT item, so the game can be closed from full screen.
+- Split screen with up to four controllers, controller vibration, and full keyboard + mouse support with mappable keys.
+- Software sound engine recreated to produce audio 1:1 to Xbox's original.
+- System link with consoles and xemu, using the XBE's own network library (UDP tunnel in Xemu required).
+- EXIT added to the main menu, so the game can be closed from full screen.
 
-Xbox Live is not available. Downloaded content isn't read.
+Xbox Live/Insignia is not available.
 
 ## Building
 
