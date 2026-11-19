@@ -1,8 +1,8 @@
 H2Classic change log: the notes that went out with each test build, newest first, as written for the tester.
-"s10x", "s9q" and so on name the build steps; each section says what changed, why, what was checked, and how to test it.
+"s10y", "s9q" and so on name the build steps; each section says what changed, why, what was checked, and how to test it.
 The developer's side of the same builds (files, addresses, how each thing was found) is in DEVLOG.txt.
 
-H2Classic (stage 9, build s10x) - Halo 2's own code as a Windows program (test build)
+H2Classic (stage 9, build s10y) - Halo 2's own code as a Windows program (test build)
 =====================================================================================
 
 What this is
@@ -14,6 +14,61 @@ What this is
   Nothing of the XBE, of the console or of Microsoft is in the exe or written to disk.
   Source code: https://github.com/Fortune090/Halo-2-Classic. H2Classic is free software under the GNU General Public
   License, version 3 or later (LICENSE.txt); LICENSES.txt has its notices and those of the code it uses.
+
+New in s10y (build 47): game version 1.5 - the stop when going into or backing out of a profile's settings
+  1. What happened (your two stop files and log, build 46, game version 1.5): leaving Edit Profile - backing out of
+     it, or going from it into Appearance - stopped the program with "exception c0000005 at 00235afb".
+     - Cause. In 1.5, functions the title update left unchanged run as the compiled source and changed ones run as
+       the 1.5 XBE's own code. Which 1.5 function belongs to which 1.0 function comes from a table made by comparing
+       the two XBEs. The menus' lists and screens have destructors that are alike byte for byte, or alike but for one
+       structure offset, and the comparison had paired two of them wrongly: the destructor of the Edit Profile menu's
+       list (1.0's 0x2376c8: its item handler sits 0x388 bytes into the list) was taken for 1.5's 0x237ef9 "with one
+       number changed" - but that is another list's destructor (handler at 0x398; it is 1.0's 0x231443). So when the
+       Edit Profile screen was closed, the wrong destructor ran on its list and unlinked what lay 16 bytes further on.
+       Your stop files show exactly that: the "link" it used is the address of the list's own item routine, and the
+       program stopped writing into that routine's code. Whether it stopped depended on one word of memory behind
+       the list being non-zero, which is why it came and went. The real 1.5 destructor is at 0x2c146a and is the 1.0
+       one instruction for instruction.
+     - Since when: the table has had this pairing since 1.5 came in (build 40). It is not from build 46's changes.
+     - Fix, in the table's rule (scripts15\map15.py), not for this one case: one 1.5 function is the twin of one 1.0
+       function. Where several 1.0 functions had the same 1.5 place, each is now put where the unchanged functions
+       that call it say it is, if that place is the function instruction for instruction and everything it calls
+       then agrees with the table. 37 pairings moved; 29 functions that were marked "not the same" because of them
+       agree now.
+     - What that changes in the program: of the 256 functions that compiled code reaches in 1.5's own copy, this was
+       the only one sent to another function's twin (checked for all 256). It and eight more now run as the compiled
+       source, like the other 17,400 unchanged functions - the eight had only been sent to 1.5's copy because they
+       call or name one of the wrongly paired ones: a pause menu and two Xbox Live player-list screen routines, and
+       five of the physics set-up routines that run when a map loads. Five tables of 1.5 (virtual function tables)
+       that had been paired with the wrong 1.0 table are right now; every slot of each agrees.
+       Game version 1.0 is untouched: only 1.5's route list differs (nine entries fewer).
+  2. H2Classic Settings: the note under "Generate Xbox keys.bin file" now reads "(used for Xbox save compatibility
+     and crossplay with xemu)" - "Xbox/" is out, since system link with a console is not offered. Nothing else in
+     that program changed. DLSS Helper.exe is build 46's file.
+
+  Checked here (under Wine, game version 1.5): Settings > Player Profiles > Edit, into Appearance and back, out to
+     the profile list and in again - the Edit Profile screen closed several times in two runs: no stop. A Slayer match on
+     Warlock (map load, play, pause menu, End Game, Game Over); a System Link lobby created and left; the self test
+     (0 of 32 failed).
+     Build 46 did not stop here on the same path (one run): here the word behind the list was evidently zero. What
+     the fix rests on is your two stop files and the two XBEs' code, as above - not on a stop reproduced here.
+  Not checked here: Xbox Live's player-list screens (they need Live), a long 1.5 session.
+
+Testing (s10y)
+  Before you start
+    - Unzip over your H2Classic folder. Game Version 1.5 in H2Classic Settings.
+  Test 1: the profile settings
+    1. Settings > Player Profiles, pick your profile, Edit.
+    2. Go into Controls and back; into Appearance, change something, and back; then back out to the main menu.
+    3. Do steps 1 and 2 three more times, and once from the Choose Profile list where a mode asks for a profile.
+       Expect: no stop anywhere.
+    If it fails: h2classic_stop.bin and h2classic_log.txt from that run.
+  Test 2: a 1.5 match (map loading runs five routines differently than before)
+    1. Play a few minutes on a map of your choice with vehicles or loose objects (crates, cones), then End Game.
+       Expect: everything behaves as in build 46 - objects fall, roll and collide as before.
+    If it fails: say what looked different and where; stop file and log if it stopped.
+  Send me
+    - Any stop: h2classic_stop.bin and h2classic_log.txt. Otherwise just whether Test 1 and Test 2 passed.
 
 New in s10x (build 46): system link finds the other players by itself; F11 and F12 are gone; "DLSS Helper.exe"; the source comes with the build
   1. System link with nothing to set.

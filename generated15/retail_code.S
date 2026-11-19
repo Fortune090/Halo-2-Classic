@@ -550,32 +550,23 @@ _h2n_routes:
   .long "?function_225880@@YIXJ@Z", AV225880, LC1000399, 0x100
   .long "?function_225910@@YIXJ@Z", AV225910, LC1000400, 0x100
   .long "??0c_user_interface_text_buffer@@QAE@XZ", AV22f532, LC1000401, 0x100
-  .long "??0c_y_menu_players_screen@@QAE@JJG@Z", AV231865, LC1000402, 0x100
-  .long "??1c_mp_pause_game_screen@@UAE@XZ", AV2320af, LC1000403, 0x100
-  .long "?function_2359ce@@YIXPAVc_window_channel_459a34@@@Z", AV2359ce, LC1000404, 0x100
-  .long "?function_23654b@@YGXPAX00@Z", AV23654b, LC1000405, 0x100
-  .long "??1c_variant_editing_options_list@@UAE@XZ", AV2376c8, LC1000406, 0x100
-  .long "?finish_profile_create@@YI_NPAVc_virtual_keyboard_screen@@@Z", AV238537, LC1000407, 0x100
-  .long "?finish_profile_create_3@@YI_NPAVc_virtual_keyboard_screen@@@Z", AV2386c5, LC1000408, 0x100
-  .long "?function_23f360@@YIJJJ@Z", AV23f360, LC1000409, 0x100
-  .long "?function_23f3e0@@YIXPAUs_score_display@@J_N@Z", AV23f3e0, LC1000410, 0x100
-  .long "?function_23f760@@YGJJJD_N@Z", AV23f760, LC1000411, 0x100
-  .long "?task_succeeded@s_player_slot_profile@@QAEXXZ", AV24b971, LC1000412, 0x100
-  .long "?session_lobby_screen_enter@@YIXPAVc_session_lobby_screen@@@Z", AV24fbea, LC1000413, 0x100
-  .long "?function_250cda@c_session_lobby_screen@@QAEXJ_N@Z", AV250cda, LC1000414, 0x100
-  .long "?function_251284@@YIXJ@Z", AV251284, LC1000415, 0x100
-  .long "?show_player@@YIXPAVc_matchmaking_list@@PAVc_class_1a2c81@@J@Z", AV2517e2, LC1000416, 0x100
-  .long "?function_2a0960@@YIJF@Z", AV2a0960, LC1000417, 0x100
-  .long "?fill@c_playlist_saved_game_file_list@@QAEXXZ", AV2b1ff4, LC1000418, 0x100
-  .long "?function_2b2181@@YIXPAVc_playlist_saved_game_file_list@@JJ@Z", AV2b2181, LC1000419, 0x100
-  .long "??1c_y_menu_player_selected_screen@@UAE@XZ", AV2b6301, LC1000420, 0x100
-  .long "?territories_update_players@@YIXXZ", AV2bfc40, LC1000421, 0x100
-  .long "??0c_custom_game_maps_list@@QAE@G@Z", AV2c9928, LC1000422, 0x100
-  .long "?function_2e7d10@@YAXPAUs_1c3a40@@@Z", AV2e7d10, LC1000423, 0x100
-  .long "?function_2f0e00@@YAXPAUs_1c3a40@@@Z", AV2f0e00, LC1000424, 0x100
-  .long "?function_2f2800@@YAXPAUs_1c3a40@@@Z", AV2f2800, LC1000425, 0x100
-  .long "?function_2fb9d0@@YAXPAUs_1c3a40@@@Z", AV2fb9d0, LC1000426, 0x100
-  .long "?function_311940@@YAPAVpart_311940@@HPBX0MPBUmatrix_311940@@0@Z", 0x31b9e0, LC1000427, 0x100
+  .long "?function_2359ce@@YIXPAVc_window_channel_459a34@@@Z", AV2359ce, LC1000402, 0x100
+  .long "?function_23654b@@YGXPAX00@Z", AV23654b, LC1000403, 0x100
+  .long "?finish_profile_create@@YI_NPAVc_virtual_keyboard_screen@@@Z", AV238537, LC1000404, 0x100
+  .long "?finish_profile_create_3@@YI_NPAVc_virtual_keyboard_screen@@@Z", AV2386c5, LC1000405, 0x100
+  .long "?function_23f360@@YIJJJ@Z", AV23f360, LC1000406, 0x100
+  .long "?function_23f3e0@@YIXPAUs_score_display@@J_N@Z", AV23f3e0, LC1000407, 0x100
+  .long "?function_23f760@@YGJJJD_N@Z", AV23f760, LC1000408, 0x100
+  .long "?task_succeeded@s_player_slot_profile@@QAEXXZ", AV24b971, LC1000409, 0x100
+  .long "?session_lobby_screen_enter@@YIXPAVc_session_lobby_screen@@@Z", AV24fbea, LC1000410, 0x100
+  .long "?function_250cda@c_session_lobby_screen@@QAEXJ_N@Z", AV250cda, LC1000411, 0x100
+  .long "?function_251284@@YIXJ@Z", AV251284, LC1000412, 0x100
+  .long "?show_player@@YIXPAVc_matchmaking_list@@PAVc_class_1a2c81@@J@Z", AV2517e2, LC1000413, 0x100
+  .long "?function_2a0960@@YIJF@Z", AV2a0960, LC1000414, 0x100
+  .long "?fill@c_playlist_saved_game_file_list@@QAEXXZ", AV2b1ff4, LC1000415, 0x100
+  .long "?function_2b2181@@YIXPAVc_playlist_saved_game_file_list@@JJ@Z", AV2b2181, LC1000416, 0x100
+  .long "?territories_update_players@@YIXXZ", AV2bfc40, LC1000417, 0x100
+  .long "??0c_custom_game_maps_list@@QAE@G@Z", AV2c9928, LC1000418, 0x100
   .long 0,0,0,0
 RA11dd80: .long 0x120740
 RA26c590: .long 0x2762a0
@@ -841,8 +832,8 @@ _h2n_library_patches:
   .long 0x003b57ad, "_XOnlineStatWriteGetResult@16", LC574
   .long 0x003b57b8, "_XOnlineStorageCreateServerPath@32", LC575
   .long 0x003b57e2, "_XOnlineStorageDownload@28", LC576
-  .long 0x003b57e2, "_XOnlineStorageDownloadToMemory@32", LC577
-  .long 0x003b57e2, "_XOnlineStorageDownloadToMemoryGetResults@24", LC578
+  .long 0x003b57f1, "_XOnlineStorageDownloadToMemory@32", LC577
+  .long 0x003b5800, "_XOnlineStorageDownloadToMemoryGetResults@24", LC578
   .long 0x003b7250, "_XOnlineStorageUploadByServerPath@36", LC579
   .long 0x003b727d, "_XOnlineStorageUploadFromMemory@40", LC580
   .long 0x003b8249, "_XOnlineArbitrationCreateRoundID@4", LC581
@@ -904,107 +895,107 @@ _h2n_library_patches:
   .long 0,0,0
 .globl _h2n_game_patches
 _h2n_game_patches:
-  .long 0x1d5c0, BV1d5e0, LC1000428
-  .long 0x3daf0, BV3db00, LC1000429
-  .long 0x53640, BV53610, LC1000430
-  .long 0x557c0, BV6ced0, LC1000431
-  .long 0x5a530, BV59890, LC1000432
-  .long 0x64e00, BV63d80, LC1000433
-  .long 0x69ba0, BV687b0, LC1000434
-  .long 0x6b0f0, BV69c80, LC1000435
-  .long 0x6dc20, BV6c560, LC1000436
-  .long 0x6dd80, BV6c6c0, LC1000437
-  .long 0x6de10, BV6c750, LC1000438
-  .long 0x76bb0, BV72e40, LC1000439
-  .long 0x76e80, BV73100, LC1000440
-  .long 0x84790, BV80d70, LC1000441
-  .long 0x896f0, BV859d0, LC1000442
-  .long 0x9b380, BVb3cf0, LC1000443
-  .long 0x9b770, BVb3de0, LC1000444
-  .long 0xb44c0, BVaa260, LC1000445
-  .long 0xb95d0, BVb75a0, LC1000446
-  .long 0xba630, BVb8600, LC1000447
-  .long 0xba8c0, BVb8890, LC1000448
-  .long 0xbaf10, BVb8ee0, LC1000449
-  .long 0xbbac0, BVb9a90, LC1000450
-  .long 0xbc5c0, BVba590, LC1000451
-  .long 0xbe200, BVbc1d0, LC1000452
-  .long 0xbf050, BVbd020, LC1000453
-  .long 0xc06c0, BVbe690, LC1000454
-  .long 0xc68b0, BVc4880, LC1000455
-  .long 0xcc590, BVca0b0, LC1000456
-  .long 0xcf080, BVccba0, LC1000457
-  .long 0xcf200, BVccd20, LC1000458
-  .long 0xcf5a0, BVcd0c0, LC1000459
-  .long 0xd2db0, BVd0870, LC1000460
-  .long 0xd54d0, BVd2f90, LC1000461
-  .long 0xd5610, BVd30d0, LC1000462
-  .long 0xd77f0, BVd52b0, LC1000463
-  .long 0xd7aa0, BVd5560, LC1000464
-  .long 0xd7b80, BVd5640, LC1000465
-  .long 0xd9110, BVd6bc0, LC1000466
-  .long 0xd91d0, BVd6c80, LC1000467
-  .long 0xdfee0, BVdd990, LC1000468
-  .long 0xe0b70, BVde620, LC1000469
-  .long 0xf0d50, BVee7f0, LC1000470
-  .long 0xfa8c0, BV10b360, LC1000471
-  .long 0xfc8d0, BV10d4e0, LC1000472
-  .long 0xff100, BVfa100, LC1000473
-  .long 0x104d30, BVffc60, LC1000474
-  .long 0x105010, BVfff40, LC1000475
-  .long 0x106d50, BV101c80, LC1000476
-  .long 0x10e4b0, BV109400, LC1000477
-  .long 0x1179c0, BV1152e0, LC1000478
-  .long 0x125260, BV122870, LC1000479
-  .long 0x126a70, BV123f60, LC1000480
-  .long 0x126bc0, BV1240b0, LC1000481
-  .long 0x12ff10, BV12d400, LC1000482
-  .long 0x13aac0, BV137fe0, LC1000483
-  .long 0x1496f0, BV146bf0, LC1000484
-  .long 0x14af00, BV1483c3, LC1000485
-  .long 0x14b7e5, BV148ca8, LC1000486
-  .long 0x14ebe0, BV14c090, LC1000487
-  .long 0x1547c0, BV151c90, LC1000488
-  .long 0x1549d0, BV151ea0, LC1000489
-  .long 0x154ef0, BV1523c0, LC1000490
-  .long 0x15a470, BV1579f0, LC1000491
-  .long 0x15a560, BV157ae0, LC1000492
-  .long 0x15ab10, BV158090, LC1000493
-  .long 0x15f5e0, BV15cba0, LC1000494
-  .long 0x166770, BV163890, LC1000495
-  .long 0x169c46, BV166d75, LC1000496
-  .long 0x16b16a, BV1682bf, LC1000497
-  .long 0x16b1f5, BV16834a, LC1000498
-  .long 0x179610, BV176780, LC1000499
-  .long 0x181500, BV17e670, LC1000500
-  .long 0x191fb0, BV18f1c0, LC1000501
-  .long 0x1927bb, BV18f9be, LC1000502
-  .long 0x1934f2, BV1906da, LC1000503
-  .long 0x194205, BV199a03, LC1000504
-  .long 0x194259, BV199a57, LC1000505
-  .long 0x19489d, BV19a0af, LC1000506
-  .long 0x195d21, BV19b527, LC1000507
-  .long 0x195da9, BV19b5af, LC1000508
-  .long 0x1a28a0, BV1a3728, LC1000509
-  .long 0x1a2c69, BV1a3af1, LC1000510
-  .long 0x1a43f0, BV213fe0, LC1000511
-  .long 0x1a52f0, BV214ed0, LC1000512
-  .long 0x1ac994, BV1a2d8a, LC1000513
-  .long 0x1cd620, BV1c4a80, LC1000514
-  .long 0x1e8750, BV1e04a0, LC1000515
-  .long 0x1fff30, BV1f7c70, LC1000516
-  .long 0x200420, BV1f8160, LC1000517
-  .long 0x20aea0, BV202be0, LC1000518
-  .long 0x22a304, BV2238f4, LC1000519
-  .long 0x236466, BV22f9bf, LC1000520
-  .long 0x23651e, BV22fa7d, LC1000521
-  .long 0x254997, BV24b664, LC1000522
-  .long 0x254a1d, BV24b6ea, LC1000523
-  .long 0x25d7b0, BV24f880, LC1000524
-  .long 0x2977c0, BV28dab0, LC1000525
-  .long 0x297f10, BV28e200, LC1000526
-  .long 0x29a9e0, BV290cd0, LC1000527
-  .long 0x2d1f75, BV2c80c6, LC1000528
+  .long 0x1d5c0, BV1d5e0, LC1000419
+  .long 0x3daf0, BV3db00, LC1000420
+  .long 0x53640, BV53610, LC1000421
+  .long 0x557c0, BV6ced0, LC1000422
+  .long 0x5a530, BV59890, LC1000423
+  .long 0x64e00, BV63d80, LC1000424
+  .long 0x69ba0, BV687b0, LC1000425
+  .long 0x6b0f0, BV69c80, LC1000426
+  .long 0x6dc20, BV6c560, LC1000427
+  .long 0x6dd80, BV6c6c0, LC1000428
+  .long 0x6de10, BV6c750, LC1000429
+  .long 0x76bb0, BV72e40, LC1000430
+  .long 0x76e80, BV73100, LC1000431
+  .long 0x84790, BV80d70, LC1000432
+  .long 0x896f0, BV859d0, LC1000433
+  .long 0x9b380, BVb3cf0, LC1000434
+  .long 0x9b770, BVb3de0, LC1000435
+  .long 0xb44c0, BVaa260, LC1000436
+  .long 0xb95d0, BVb75a0, LC1000437
+  .long 0xba630, BVb8600, LC1000438
+  .long 0xba8c0, BVb8890, LC1000439
+  .long 0xbaf10, BVb8ee0, LC1000440
+  .long 0xbbac0, BVb9a90, LC1000441
+  .long 0xbc5c0, BVba590, LC1000442
+  .long 0xbe200, BVbc1d0, LC1000443
+  .long 0xbf050, BVbd020, LC1000444
+  .long 0xc06c0, BVbe690, LC1000445
+  .long 0xc68b0, BVc4880, LC1000446
+  .long 0xcc590, BVca0b0, LC1000447
+  .long 0xcf080, BVccba0, LC1000448
+  .long 0xcf200, BVccd20, LC1000449
+  .long 0xcf5a0, BVcd0c0, LC1000450
+  .long 0xd2db0, BVd0870, LC1000451
+  .long 0xd54d0, BVd2f90, LC1000452
+  .long 0xd5610, BVd30d0, LC1000453
+  .long 0xd77f0, BVd52b0, LC1000454
+  .long 0xd7aa0, BVd5560, LC1000455
+  .long 0xd7b80, BVd5640, LC1000456
+  .long 0xd9110, BVd6bc0, LC1000457
+  .long 0xd91d0, BVd6c80, LC1000458
+  .long 0xdfee0, BVdd990, LC1000459
+  .long 0xe0b70, BVde620, LC1000460
+  .long 0xf0d50, BVee7f0, LC1000461
+  .long 0xfa8c0, BV10b360, LC1000462
+  .long 0xfc8d0, BV10d4e0, LC1000463
+  .long 0xff100, BVfa100, LC1000464
+  .long 0x104d30, BVffc60, LC1000465
+  .long 0x105010, BVfff40, LC1000466
+  .long 0x106d50, BV101c80, LC1000467
+  .long 0x10e4b0, BV109400, LC1000468
+  .long 0x1179c0, BV1152e0, LC1000469
+  .long 0x125260, BV122870, LC1000470
+  .long 0x126a70, BV123f60, LC1000471
+  .long 0x126bc0, BV1240b0, LC1000472
+  .long 0x12ff10, BV12d400, LC1000473
+  .long 0x13aac0, BV137fe0, LC1000474
+  .long 0x1496f0, BV146bf0, LC1000475
+  .long 0x14af00, BV1483c3, LC1000476
+  .long 0x14b7e5, BV148ca8, LC1000477
+  .long 0x14ebe0, BV14c090, LC1000478
+  .long 0x1547c0, BV151c90, LC1000479
+  .long 0x1549d0, BV151ea0, LC1000480
+  .long 0x154ef0, BV1523c0, LC1000481
+  .long 0x15a470, BV1579f0, LC1000482
+  .long 0x15a560, BV157ae0, LC1000483
+  .long 0x15ab10, BV158090, LC1000484
+  .long 0x15f5e0, BV15cba0, LC1000485
+  .long 0x166770, BV163890, LC1000486
+  .long 0x169c46, BV166d75, LC1000487
+  .long 0x16b16a, BV1682bf, LC1000488
+  .long 0x16b1f5, BV16834a, LC1000489
+  .long 0x179610, BV176780, LC1000490
+  .long 0x181500, BV17e670, LC1000491
+  .long 0x191fb0, BV18f1c0, LC1000492
+  .long 0x1927bb, BV18f9be, LC1000493
+  .long 0x1934f2, BV1906da, LC1000494
+  .long 0x194205, BV199a03, LC1000495
+  .long 0x194259, BV199a57, LC1000496
+  .long 0x19489d, BV19a0af, LC1000497
+  .long 0x195d21, BV19b527, LC1000498
+  .long 0x195da9, BV19b5af, LC1000499
+  .long 0x1a28a0, BV1a3728, LC1000500
+  .long 0x1a2c69, BV1a3af1, LC1000501
+  .long 0x1a43f0, BV213fe0, LC1000502
+  .long 0x1a52f0, BV214ed0, LC1000503
+  .long 0x1ac994, BV1a2d8a, LC1000504
+  .long 0x1cd620, BV1c4a80, LC1000505
+  .long 0x1e8750, BV1e04a0, LC1000506
+  .long 0x1fff30, BV1f7c70, LC1000507
+  .long 0x200420, BV1f8160, LC1000508
+  .long 0x20aea0, BV202be0, LC1000509
+  .long 0x22a304, BV2238f4, LC1000510
+  .long 0x236466, BV22f9bf, LC1000511
+  .long 0x23651e, BV22fa7d, LC1000512
+  .long 0x254997, BV24b664, LC1000513
+  .long 0x254a1d, BV24b6ea, LC1000514
+  .long 0x25d7b0, BV24f880, LC1000515
+  .long 0x2977c0, BV28dab0, LC1000516
+  .long 0x297f10, BV28e200, LC1000517
+  .long 0x29a9e0, BV290cd0, LC1000518
+  .long 0x2d1f75, BV2c80c6, LC1000519
   .long 0,0,0
 .globl _h2n_pointer_retail
 _h2n_pointer_retail:
@@ -1093,6 +1084,7 @@ _h2n_code_immediates:
   .long 0x2379e5, 0x149fca, "??1c_class_14750b@@UAE@XZ"
   .long 0x2c1610, 0x149fca, "??1c_class_14750b@@UAE@XZ"
   .long 0x239d16, 0x149fca, "??1c_class_14750b@@UAE@XZ"
+  .long 0x2c1482, 0x149fca, "??1c_class_14750b@@UAE@XZ"
   .long 0x25422f, 0x149fca, "??1c_class_14750b@@UAE@XZ"
   .long 0x2577c5, 0x149fca, "??1c_class_14750b@@UAE@XZ"
   .long 0x258f1b, 0x149fca, "??1c_class_14750b@@UAE@XZ"
@@ -1258,6 +1250,7 @@ _h2n_code_immediates:
   .long 0x2bc6f2, 0x253ebe, "??0c_class_14750b@@QAE@XZ"
   .long 0x2bcb03, 0x253ebe, "??0c_class_14750b@@QAE@XZ"
   .long 0x2bd6d6, 0x253ebe, "??0c_class_14750b@@QAE@XZ"
+  .long 0x2bdc9b, 0x253ebe, "??0c_class_14750b@@QAE@XZ"
   .long 0x2be5f0, 0x253ebe, "??0c_class_14750b@@QAE@XZ"
   .long 0x2be886, 0x253ebe, "??0c_class_14750b@@QAE@XZ"
   .long 0x2bea07, 0x253ebe, "??0c_class_14750b@@QAE@XZ"
@@ -1568,13 +1561,18 @@ _h2n_code_immediates:
   .long 0x2fbae7, 0x2fae60, "?function_2f0e70@@YAPAVtriangle_terms_2f0e70@@PBUdescription_2ed170@@PAPBUtriangle_2f0e70@@PAPAUdispatcher_2ed170@@J@Z"
   .long 0x3052d8, 0x2fae60, "?function_2f0e70@@YAPAVtriangle_terms_2f0e70@@PBUdescription_2ed170@@PAPBUtriangle_2f0e70@@PAPAUdispatcher_2ed170@@J@Z"
   .long 0x304b4f, 0x3037b0, "?function_2f9790@@YAXPBX00PAX1@Z"
+  .long 0x305a4f, 0x3037b0, "?function_2f9790@@YAXPBX00PAX1@Z"
   .long 0x304b3f, 0x304bd0, "?function_2fab70@@YAXPBX00PAX@Z"
+  .long 0x305a3f, 0x304bd0, "?function_2fab70@@YAXPBX00PAX@Z"
   .long 0x304b47, 0x304c50, "?function_2fabf0@@YAXPBUbody_2ea940@@0PBUinput_2ea940@@PAX@Z"
+  .long 0x305a47, 0x304c50, "?function_2fabf0@@YAXPBUbody_2ea940@@0PBUinput_2ea940@@PAX@Z"
   .long 0x2e4f9f, 0x3088c0, "?function_2fe830@@YAXPBX00PAX1@Z"
   .long 0x2f8edc, 0x3088c0, "?function_2fe830@@YAXPBX00PAX1@Z"
   .long 0x2f994c, 0x3088c0, "?function_2fe830@@YAXPBX00PAX1@Z"
   .long 0x2f9e6c, 0x3088c0, "?function_2fe830@@YAXPBX00PAX1@Z"
+  .long 0x2fae4f, 0x3088c0, "?function_2fe830@@YAXPBX00PAX1@Z"
   .long 0x2fbaff, 0x3088c0, "?function_2fe830@@YAXPBX00PAX1@Z"
+  .long 0x2fc8af, 0x3088c0, "?function_2fe830@@YAXPBX00PAX1@Z"
   .long 0x2fe2ec, 0x3088c0, "?function_2fe830@@YAXPBX00PAX1@Z"
   .long 0x301aef, 0x3088c0, "?function_2fe830@@YAXPBX00PAX1@Z"
   .long 0x30297f, 0x3088c0, "?function_2fe830@@YAXPBX00PAX1@Z"
@@ -1583,7 +1581,6 @@ _h2n_code_immediates:
   .long 0x2fd091, 0x176a10, "?function_31bc70@@YIPAXPAX@Z"
   .long 0x2fea9d, 0x176a10, "?function_31bc70@@YIPAXPAX@Z"
   .long 0x10324c, 0xc1630, "?function_bf600@@YGXJMPBUs_animation_frame_event@@@Z"
-  .long 0x2c1482, 0x149fca, "??1c_class_14750b@@UAE@XZ"
   .long 0x235d74, 0x149feb, "?main_menu_open@@YGPAVc_class_1473c9@@PAUs_screen_parameters@@@Z"
   .long 0x14bf98, 0x14a09b, "?mp_pause_game_open@@YGPAVc_class_1473c9@@PAUs_screen_parameters@@@Z"
   .long 0x123dd1, 0x1aa500, "?function_1a08f0@@YGJPATs_async_task@@@Z"
@@ -1600,7 +1597,6 @@ _h2n_code_immediates:
   .long 0x195767, 0x23d337, "?dialog_callback_sign_out_to_main_menu@@YG_NJ@Z"
   .long 0x55bd9, 0x23d348, "?pause_game_quit_confirmed@@YG_NJ@Z"
   .long 0x23ef3f, 0x23e0b1, "?function_237713@@YGPAVc_class_1473c9@@PAUs_screen_parameters@@@Z"
-  .long 0x2bdc9b, 0x253ebe, "??0c_class_14750b@@QAE@XZ"
   .long 0x2d3812, 0x253ebe, "??0c_class_14750b@@QAE@XZ"
   .long 0x19349c, 0x2547dc, "?function_24b4a9@@YGPAVc_class_1473c9@@PAUs_screen_parameters@@@Z"
   .long 0x2537d6, 0x2547dc, "?function_24b4a9@@YGPAVc_class_1473c9@@PAUs_screen_parameters@@@Z"
@@ -1623,11 +1619,6 @@ _h2n_code_immediates:
   .long 0x25733d, 0x2c5666, "?function_2bbacb@@YGPAVc_class_1473c9@@PAUs_screen_parameters@@@Z"
   .long 0x37e134, 0x2e15c0, "??1lane_a_registration_array@@QAE@XZ"
   .long 0x37e264, 0x2e15c0, "??1lane_a_registration_array@@QAE@XZ"
-  .long 0x305a4f, 0x3037b0, "?function_2f9790@@YAXPBX00PAX1@Z"
-  .long 0x305a3f, 0x304bd0, "?function_2fab70@@YAXPBX00PAX@Z"
-  .long 0x305a47, 0x304c50, "?function_2fabf0@@YAXPBUbody_2ea940@@0PBUinput_2ea940@@PAX@Z"
-  .long 0x2fae4f, 0x3088c0, "?function_2fe830@@YAXPBX00PAX1@Z"
-  .long 0x2fc8af, 0x3088c0, "?function_2fe830@@YAXPBX00PAX1@Z"
   .long 0,0,0
 .globl _h2n_all_functions
 _h2n_all_functions:
@@ -6139,7 +6130,7 @@ _h2n_all_functions:
   .long 0x14a09b, "?mp_pause_game_open@@YGPAVc_class_1473c9@@PAUs_screen_parameters@@@Z"
   .long 0x14a0d9, "??0c_mp_pause_game_screen@@QAE@JJG@Z"
   .long 0x14a10e, "?get_load_proc@c_mp_pause_game_screen@@UAEP6GPAVc_class_1473c9@@PAUs_screen_parameters@@@ZXZ"
-  .long 0x149fca, "??1c_mp_pause_game_list_item@@UAE@XZ"
+  .long 0x238911, "??1c_mp_pause_game_list_item@@UAE@XZ"
   .long 0x14a17d, "??0c_window_manager@@QAE@XZ"
   .long 0x14a1ff, "?function_1476c7@@YIXXZ"
   .long 0x14a380, "?function_14783f@@YIXXZ"
@@ -9824,7 +9815,7 @@ _h2n_all_functions:
   .long 0x2390ae, "??_Gc_class_14750b@@UAEPAXI@Z"
   .long 0x238916, "?v10@c_pause_game_list_item@@UAE_NPAUs_widget_event@@@Z"
   .long 0x238942, "??0c_pause_game_list@@QAE@G@Z"
-  .long 0x238f77, "??1c_mp_pause_game_list@@UAE@XZ"
+  .long 0x14a132, "??1c_mp_pause_game_list@@UAE@XZ"
   .long 0x2389f0, "?v20@c_pause_game_list@@UAEXPAVc_class_1a2c81@@J@Z"
   .long 0x238a67, "?handle_item@c_pause_game_list@@QAEXPAPAUs_controller_reference@@PAJ@Z"
   .long 0x238ac2, "??0c_pause_game_screen@@QAE@JJG@Z"
@@ -10096,8 +10087,8 @@ _h2n_all_functions:
   .long 0x23e023, "?function_23764f@@YGPAVc_class_1473c9@@PAUs_screen_parameters@@@Z"
   .long 0x23e061, "??0c_variant_editing_screen@@QAE@JJG@Z"
   .long 0x23e096, "?get_load_proc@c_variant_editing_screen@@UAEP6GPAVc_class_1473c9@@PAUs_screen_parameters@@@ZXZ"
-  .long 0x237ef9, "??1c_variant_editing_options_list@@UAE@XZ"
-  .long 0x237f2f, "??1c_variant_editing_screen@@UAE@XZ"
+  .long 0x2c146a, "??1c_variant_editing_options_list@@UAE@XZ"
+  .long 0x23e09c, "??1c_variant_editing_screen@@UAE@XZ"
   .long 0x23e0b1, "?function_237713@@YGPAVc_class_1473c9@@PAUs_screen_parameters@@@Z"
   .long 0x23e0f6, "??0c_profile_edit_menu_screen@@QAE@JJG@Z"
   .long 0x23e12f, "?get_load_proc@c_profile_edit_menu_screen@@UAEP6GPAVc_class_1473c9@@PAUs_screen_parameters@@@ZXZ"
@@ -12227,7 +12218,7 @@ _h2n_all_functions:
   .long 0x2bdbcd, "?handle_item@c_y_menu_recent_players_list@@QAEXPAPAUs_controller_reference@@PAJ@Z"
   .long 0x2bcad2, "?get_item_data@c_y_menu_friends_list@@UAEPAXXZ"
   .long 0x2bdc75, "?function_2b3efc@@YIJPAUs_screen_view_2b3e@@@Z"
-  .long 0x2bcaf6, "??0c_y_menu_players_list@@QAE@G@Z"
+  .long 0x2bdc8e, "??0c_y_menu_players_list@@QAE@G@Z"
   .long 0x2bdcf1, "?v1@c_y_menu_players_list@@UAEXXZ"
   .long 0x2bcb8d, "?v3@c_y_menu_players_list@@UAEXXZ"
   .long 0x2bdd43, "?v20@c_y_menu_players_list@@UAEXPAVc_class_1a2c81@@J@Z"
@@ -13271,7 +13262,7 @@ _h2n_all_functions:
   .long 0x2f1ab0, "?update_filter@lane_b_symmetric_bv_agent@@UAEXPBUbody_2ea940@@PBX1@Z"
   .long 0x2f0a50, "??_Glane_b_flip_body_pair_collector@@UAEPAXI@Z"
   .long 0x2f0a20, "??_Glane_b_flip_point_collector@@UAEPAXI@Z"
-  .long 0x2f0a80, "?function_2e7ab0@@YAXPBUbody_2ea940@@0PBUlane_b_linear_cast_input@@PAVlane_b_cd_point_collector@@2@Z"
+  .long 0x2f1ad0, "?function_2e7ab0@@YAXPBUbody_2ea940@@0PBUlane_b_linear_cast_input@@PAVlane_b_cd_point_collector@@2@Z"
   .long 0x2f1bd0, "?linear_cast@lane_b_symmetric_bv_agent@@UAEXPBUbody_2ea940@@PBX1PAX2@Z"
   .long 0x2f1cc0, "?function_2e7ca0@@YAPAVlane_b_bv_agent@@PBUbody_2ea940@@0PBQAUlane_a_dispatch@@PAX@Z"
   .long 0x2f1d30, "?function_2e7d10@@YAXPAUs_1c3a40@@@Z"
@@ -13438,8 +13429,8 @@ _h2n_all_functions:
   .long 0x2f9e40, "?function_2efe20@@YAXPAUs_1c3a40@@@Z"
   .long 0x2f9e80, "?function_2efe60@sphere_contact_2efe60@@QAEXPBUbody_2efe60@@0PBUinput_2efe60@@PAUresults_2efe60@@@Z"
   .long 0x2fbb10, "?function_2f0070@class_2f0070@@QAEXXZ"
-  .long 0x2fbb40, "?function_2f00a0@@YAPAVindexed_2f00a0@@JJJJ@Z"
-  .long 0x2fbb70, "?function_2f00d0@@YAPAVindexed_2f00d0@@JJJJ@Z"
+  .long 0x2fa090, "?function_2f00a0@@YAPAVindexed_2f00a0@@JJJJ@Z"
+  .long 0x2fa0c0, "?function_2f00d0@@YAPAVindexed_2f00d0@@JJJJ@Z"
   .long 0x2fa0f0, "?function_2f0100@class_2f0100@@QAEXPBX00PAX@Z"
   .long 0x2fa440, "?function_2f0450@class_2f0450@@QAEXPBX00PAX@Z"
   .long 0x2fa6f0, "?function_2f0700@@YAXPBX00PAX@Z"
@@ -13475,10 +13466,10 @@ _h2n_all_functions:
   .long 0x2fc3e0, "?function_2f23c0@@YAXPBUbody_2f23c0@@0PBXPAVcollector_2f23c0@@@Z"
   .long 0x2fc520, "?function_2f2500@agent_2f2500@@QAEXPBUbody_2f23c0@@0PBXPAVcollector_2f23c0@@@Z"
   .long 0x2fc570, "?function_2f2520@agent_2f2500@@QAEXPBUbody_2f23c0@@0PBXJ@Z"
-  .long 0x2f5220, "?function_2f2580@@YAXPBUbody_2f23c0@@0PBXJ@Z"
+  .long 0x2fc5d0, "?function_2f2580@@YAXPBUbody_2f23c0@@0PBXJ@Z"
   .long 0x2fc630, "?function_2f25e0@class_2f1ea0@@QAEXPBX00PAX@Z"
-  .long 0x2f52e0, "?function_2f2640@@YAXPBX00PAX@Z"
-  .long 0x2f5340, "?function_2f26a0@@YAXPBX00PAX1@Z"
+  .long 0x2fc690, "?function_2f2640@@YAXPBX00PAX@Z"
+  .long 0x2fc6f0, "?function_2f26a0@@YAXPBX00PAX1@Z"
   .long 0x2fc7f0, "?function_2f27a0@class_2f1b80@@QAEXPBX00PAUhit_collector_2f88a0@@@Z"
   .long 0x2fc850, "?function_2f2800@@YAXPAUs_1c3a40@@@Z"
   .long 0x2fe300, "?function_2f2870@class_2f2870@@QAEXXZ"
@@ -13564,9 +13555,9 @@ _h2n_all_functions:
   .long 0x304c10, "?function_2fabb0@class_2ea830@@QAEXPBX00PAX@Z"
   .long 0x304c50, "?function_2fabf0@@YAXPBUbody_2ea940@@0PBUinput_2ea940@@PAX@Z"
   .long 0x3038f0, "?function_2fac30@bounded_2e9530@@QAEXPAPAUtyped_2e9210@@PBUdescription_2e9210@@PBUcontext_2e9210@@@Z"
-  .long 0x303930, "?function_2fac70@@YAXPBX00PAX@Z"
-  .long 0x3039b0, "?function_2facf0@@YAXPBUbody_2ea940@@0PBUinput_2ea940@@J@Z"
-  .long 0x303a30, "?function_2fad70@@YAXPBX00PAX1@Z"
+  .long 0x304c90, "?function_2fac70@@YAXPBX00PAX@Z"
+  .long 0x304d10, "?function_2facf0@@YAXPBUbody_2ea940@@0PBUinput_2ea940@@J@Z"
+  .long 0x304d90, "?function_2fad70@@YAXPBX00PAX1@Z"
   .long 0x304f00, "??0stack_array_2faeb0@@QAE@J@Z"
   .long 0x304fa0, "??1stack_array_2faeb0@@QAE@XZ"
   .long 0x305040, "?function_2faff0@class_2eab70@@QAEXPBX00PAX@Z"
@@ -13575,7 +13566,7 @@ _h2n_all_functions:
   .long 0x3051d0, "?function_2fb150@class_2fb150@@QAEXPBX00PAX@Z"
   .long 0x305810, "?function_2fb790@class_2ea530@@QAEXPBX00PAX1@Z"
   .long 0x305960, "?function_2fb910@class_2fb150@@QAEXPBX00PAUhit_collector_2f88a0@@@Z"
-  .long 0x303c10, "?function_2fb970@@YAPAVbounded_2fb970@@JJJJ@Z"
+  .long 0x3059c0, "?function_2fb970@@YAPAVbounded_2fb970@@JJJJ@Z"
   .long 0x305a20, "?function_2fb9d0@@YAXPAUs_1c3a40@@@Z"
   .long 0x306040, "?function_2fba40@@YAPAVc_2dfbf0@@ABUpair_filter_settings_2dfb30@@@Z"
   .long 0x3060a0, "?function_2fbaa0@@YAXPBVclass_2df840@@PAUs_2df840@@@Z"
@@ -14065,7 +14056,7 @@ _h2n_all_functions:
   .long 0x31ef30, "?valid@lane_a_prismatic@@UBE?AUbool_result_2da7f0@@XZ"
   .long 0x31f020, "??0lane_a_prismatic@@QAE@PBUc_component_joint_snapshot_5@@@Z"
   .long 0x31d700, "??_Elane_a_prismatic@@W7AEPAXI@Z"
-  .long 0x31d910, "?import_description@lane_a_prismatic@@QAEXPBUc_component_joint_snapshot_5@@@Z"
+  .long 0x31f0c0, "?import_description@lane_a_prismatic@@QAEXPBUc_component_joint_snapshot_5@@@Z"
   .long 0x31f0e0, "?build@lane_a_prismatic@@UAEXPBUlane_a_solver_input@@PAUlane_a_solver_output@@@Z"
   .long 0x31f3a0, "?lane_a_scale_masses@@YAXPAXPAUlane_a_mass_restore@@@Z"
   .long 0x31f410, "?lane_a_restore_masses@@YAXPAXPAUlane_a_mass_restore@@@Z"
@@ -14211,7 +14202,7 @@ _h2n_all_functions:
   .long 0x324910, "?set_source@class_31a750@@QAEXPAVclass_31a750_source@@@Z"
   .long 0x324950, "?snapshot_into@body_31a7f0@@QBEXPAV1@@Z"
   .long 0x31dd70, "?function_31a860@class_31a860@@QAEJXZ"
-  .long 0x31b9c0, "??0class_31a870@@QAE@PBX0@Z"
+  .long 0x3249c0, "??0class_31a870@@QAE@PBX0@Z"
   .long 0x3249e0, "?function_31a8c0@motion_31a8c0@@QAEPBUsolver_result_31a8c0@@PBMMPBU2@@Z"
   .long 0x324bc0, "?set@class_31aaa0@@QAEXM@Z"
   .long 0x323420, "?function_31aac0@class_31aac0@@QAEJXZ"
@@ -15366,133 +15357,124 @@ LC1000398: .asciz "?function_225730@@YIXXZ"
 LC1000399: .asciz "?function_225880@@YIXJ@Z"
 LC1000400: .asciz "?function_225910@@YIXJ@Z"
 LC1000401: .asciz "??0c_user_interface_text_buffer@@QAE@XZ"
-LC1000402: .asciz "??0c_y_menu_players_screen@@QAE@JJG@Z"
-LC1000403: .asciz "??1c_mp_pause_game_screen@@UAE@XZ"
-LC1000404: .asciz "?function_2359ce@@YIXPAVc_window_channel_459a34@@@Z"
-LC1000405: .asciz "?function_23654b@@YGXPAX00@Z"
-LC1000406: .asciz "??1c_variant_editing_options_list@@UAE@XZ"
-LC1000407: .asciz "?finish_profile_create@@YI_NPAVc_virtual_keyboard_screen@@@Z"
-LC1000408: .asciz "?finish_profile_create_3@@YI_NPAVc_virtual_keyboard_screen@@@Z"
-LC1000409: .asciz "?function_23f360@@YIJJJ@Z"
-LC1000410: .asciz "?function_23f3e0@@YIXPAUs_score_display@@J_N@Z"
-LC1000411: .asciz "?function_23f760@@YGJJJD_N@Z"
-LC1000412: .asciz "?task_succeeded@s_player_slot_profile@@QAEXXZ"
-LC1000413: .asciz "?session_lobby_screen_enter@@YIXPAVc_session_lobby_screen@@@Z"
-LC1000414: .asciz "?function_250cda@c_session_lobby_screen@@QAEXJ_N@Z"
-LC1000415: .asciz "?function_251284@@YIXJ@Z"
-LC1000416: .asciz "?show_player@@YIXPAVc_matchmaking_list@@PAVc_class_1a2c81@@J@Z"
-LC1000417: .asciz "?function_2a0960@@YIJF@Z"
-LC1000418: .asciz "?fill@c_playlist_saved_game_file_list@@QAEXXZ"
-LC1000419: .asciz "?function_2b2181@@YIXPAVc_playlist_saved_game_file_list@@JJ@Z"
-LC1000420: .asciz "??1c_y_menu_player_selected_screen@@UAE@XZ"
-LC1000421: .asciz "?territories_update_players@@YIXXZ"
-LC1000422: .asciz "??0c_custom_game_maps_list@@QAE@G@Z"
-LC1000423: .asciz "?function_2e7d10@@YAXPAUs_1c3a40@@@Z"
-LC1000424: .asciz "?function_2f0e00@@YAXPAUs_1c3a40@@@Z"
-LC1000425: .asciz "?function_2f2800@@YAXPAUs_1c3a40@@@Z"
-LC1000426: .asciz "?function_2fb9d0@@YAXPAUs_1c3a40@@@Z"
-LC1000427: .asciz "?function_311940@@YAPAVpart_311940@@HPBX0MPBUmatrix_311940@@0@Z"
-LC1000428: .asciz "?function_1d5e0@@YIPAXPAUs_bitmap_view@@JPAJ@Z"
-LC1000429: .asciz "?function_3db00@@YIPAUs_lighting_record@@JM@Z"
-LC1000430: .asciz "?function_53610@@YIXXZ"
-LC1000431: .asciz "?online_get_logon_users@@YIXPAU_XONLINE_USER@@@Z"
-LC1000432: .asciz "?network_session_manager_host_session@@YG_NJPBUXNKID@@PBUXNKEY@@@Z"
-LC1000433: .asciz "?network_session_interface_update@@YIXXZ"
-LC1000434: .asciz "?function_687b0@@YIXXZ"
-LC1000435: .asciz "?function_69c80@@YIXPAVc_class_6a600@@@Z"
-LC1000436: .asciz "?function_6c560@@YI_NPAUs_type_9df9da@@J@Z"
-LC1000437: .asciz "?online_get_logon_users_status@@YIJXZ"
-LC1000438: .asciz "?online_task_get_change_logon_status@@YIJPAUs_type_9df9da@@@Z"
-LC1000439: .asciz "?function_72e40@@YIXPAVc_helper_a@@@Z"
-LC1000440: .asciz "?function_73100@@YIXPAVc_helper_a@@@Z"
-LC1000441: .asciz "?function_80d70@@YIXPAUs_cache_property_record@@J@Z"
-LC1000442: .asciz "?update_baseline@c_simulation_view@@QAEXXZ"
-LC1000443: .asciz "?online_result_text_length@@YIKPBD@Z"
-LC1000444: .asciz "?function_b3de0@@YIXXZ"
-LC1000445: .asciz "?function_aa260@@YIXJJPBTvector3f@@JPBTpoint3f@@000@Z"
-LC1000446: .asciz "?function_b75a0@@YIXJPBTpoint3f@@PBTvector3f@@1PBUs_location@@_N@Z"
-LC1000447: .asciz "?function_b8600@@YGXJJ@Z"
-LC1000448: .asciz "?function_b8890@@YGXJ@Z"
-LC1000449: .asciz "?function_b8ee0@@YGXJJJJ@Z"
-LC1000450: .asciz "?function_b9a90@@YIXJ@Z"
-LC1000451: .asciz "?function_ba590@@YGXJK@Z"
-LC1000452: .asciz "?function_bc1d0@@YG_NJPBTpoint3f@@J@Z"
-LC1000453: .asciz "?function_bd020@@YGXJ@Z"
-LC1000454: .asciz "?function_be690@@YIXJ@Z"
-LC1000455: .asciz "?function_c4880@@YGXJ@Z"
-LC1000456: .asciz "?function_ca0b0@@YGXJPBUs_damage_report@@@Z"
-LC1000457: .asciz "?function_ccba0@@YG_NJJ@Z"
-LC1000458: .asciz "?function_ccd20@@YIXJ@Z"
-LC1000459: .asciz "?function_cd0c0@@YG_NJJF@Z"
-LC1000460: .asciz "?function_d0870@@YGXJJJ@Z"
-LC1000461: .asciz "?function_d2f90@@YIJJFJMMPAUcolor3f@@@Z"
-LC1000462: .asciz "?function_d30d0@@YI_NJJMMPAUcolor3f@@@Z"
-LC1000463: .asciz "?function_d52b0@@YIXJ@Z"
-LC1000464: .asciz "?function_d5560@@YIX_N@Z"
-LC1000465: .asciz "?function_d5640@@YIXXZ"
-LC1000466: .asciz "?function_d6bc0@@YGXJ@Z"
-LC1000467: .asciz "?function_d6c80@@YGJPAUs_type_1e6529@@J@Z"
-LC1000468: .asciz "?function_dd990@@YGXJ@Z"
-LC1000469: .asciz "?function_de620@@YGXJPBTvector3f@@@Z"
-LC1000470: .asciz "?function_ee7f0@@YIXJJ@Z"
-LC1000471: .asciz "?function_10b360@@YIXJ@Z"
-LC1000472: .asciz "?function_10d4e0@@YIXJ@Z"
-LC1000473: .asciz "?function_fa100@@YIXJ@Z"
-LC1000474: .asciz "?function_ffc60@@YG_NJJJJPAF@Z"
-LC1000475: .asciz "?function_fff40@@YGXJ_N0@Z"
-LC1000476: .asciz "?function_101c80@@YIXJJ@Z"
-LC1000477: .asciz "?object_list_erase@@YGXJ@Z"
-LC1000478: .asciz "?function_1152e0@@YG_NJ@Z"
-LC1000479: .asciz "?cache_header_verify@@YI_NPBUs_cache_header@@@Z"
-LC1000480: .asciz "?function_123f60@@YIXK@Z"
-LC1000481: .asciz "?function_1240b0@@YIXJ@Z"
-LC1000482: .asciz "?function_12d400@@YIJJJJJJ@Z"
-LC1000483: .asciz "?game_loop_tick@@YIXXZ"
-LC1000484: .asciz "?function_146bf0@@YIXXZ"
-LC1000485: .asciz "?function_1483c3@@YGXJ@Z"
-LC1000486: .asciz "?function_148ca8@@YIXJF@Z"
-LC1000487: .asciz "?function_14c090@@YGXJ_NPBUs_player_creation_record@@@Z"
-LC1000488: .asciz "?function_151c90@@YI_NJPAUs_target_candidate@@@Z"
-LC1000489: .asciz "?function_151ea0@@YIXJJ@Z"
-LC1000490: .asciz "?function_1523c0@@YIXXZ"
-LC1000491: .asciz "?function_1579f0@@YIXXZ"
-LC1000492: .asciz "?function_157ae0@@YIXXZ"
-LC1000493: .asciz "?function_158090@@YIXJF@Z"
-LC1000494: .asciz "?function_15cba0@@YIXJ@Z"
-LC1000495: .asciz "?function_163890@@YG_NPBDJ@Z"
-LC1000496: .asciz "?function_166d75@@YGXJ@Z"
-LC1000497: .asciz "?function_1682bf@@YIXJJJ@Z"
-LC1000498: .asciz "?first_person_weapon_set_object@@YIXJJJ@Z"
-LC1000499: .asciz "?function_176780@@YIJJPBUs_effect_owner@@JMMPBTpoint3f@@PBTvector3f@@@Z"
-LC1000500: .asciz "?function_17e670@@YIXPAUs_effect_source@@PBTpoint3f@@JPBTvector3f@@MJJJ@Z"
-LC1000501: .asciz "?function_18f1c0@@YGXJ@Z"
-LC1000502: .asciz "?function_18f9be@@YIXXZ"
-LC1000503: .asciz "?function_1906da@@YI_NJ@Z"
-LC1000504: .asciz "?function_199a03@@YIXJ@Z"
-LC1000505: .asciz "?function_199a57@@YIXXZ"
-LC1000506: .asciz "?function_19a0af@@YIXJ@Z"
-LC1000507: .asciz "?dialog_ok_show@@YIXJJJFP6G_NJ@ZP6G_NPAVc_class_1473c9@@J@Z@Z"
-LC1000508: .asciz "?dialog_choice_show@@YIXJJJFP6G_NJ@Z0P6G_NPAVc_class_1473c9@@J@Z@Z"
-LC1000509: .asciz "?friends_list_update@@YIXXZ"
-LC1000510: .asciz "?clan_members_update@@YIXXZ"
-LC1000511: .asciz "?cache_copy_buffer_resize@@YIXJ@Z"
-LC1000512: .asciz "?cache_file_get_maximum_size@@YIJJ@Z"
-LC1000513: .asciz "?online_task_screen_end@@YIXPAVc_online_task_screen@@_N@Z"
-LC1000514: .asciz "?function_1c4a80@@YIXJ_N0@Z"
-LC1000515: .asciz "?function_1e04a0@@YIXJJJJF@Z"
-LC1000516: .asciz "?function_1f7c70@@YG_NJF_NPATvector3f@@PAF1@Z"
-LC1000517: .asciz "?function_1f8160@@YI_NJPBCPBTpoint3f@@_N@Z"
-LC1000518: .asciz "?function_202be0@@YIXJJ@Z"
-LC1000519: .asciz "?function_2238f4@@YIXJKKK@Z"
-LC1000520: .asciz "?function_22f9bf@@YIPAVc_text_widget_45a5e0@@PAVc_class_1473c9@@JPAUs_text_block@@@Z"
-LC1000521: .asciz "?function_22fa7d@@YIPAVc_widget_45ad18@@PAVc_class_1473c9@@JPAUs_widget_block_18@@@Z"
-LC1000522: .asciz "?sign_in@s_player_slot_profile@@QAEXP6GXJ_N@Z@Z"
-LC1000523: .asciz "?show_dialog@s_player_slot_profile@@QAEXP6GXJ_N@ZJ@Z"
-LC1000524: .asciz "?loop_allocator_zfree@@YGXPAX0@Z"
-LC1000525: .asciz "?function_28dab0@@YGJJPBUs_28dab2@@@Z"
-LC1000526: .asciz "?swarm_delete@@YGXJ@Z"
-LC1000527: .asciz "?function_290cd0@@YIFFJJPAF0@Z"
-LC1000528: .asciz "?select_current_value@c_variant_parameter_setting_list@@QAEXXZ"
+LC1000402: .asciz "?function_2359ce@@YIXPAVc_window_channel_459a34@@@Z"
+LC1000403: .asciz "?function_23654b@@YGXPAX00@Z"
+LC1000404: .asciz "?finish_profile_create@@YI_NPAVc_virtual_keyboard_screen@@@Z"
+LC1000405: .asciz "?finish_profile_create_3@@YI_NPAVc_virtual_keyboard_screen@@@Z"
+LC1000406: .asciz "?function_23f360@@YIJJJ@Z"
+LC1000407: .asciz "?function_23f3e0@@YIXPAUs_score_display@@J_N@Z"
+LC1000408: .asciz "?function_23f760@@YGJJJD_N@Z"
+LC1000409: .asciz "?task_succeeded@s_player_slot_profile@@QAEXXZ"
+LC1000410: .asciz "?session_lobby_screen_enter@@YIXPAVc_session_lobby_screen@@@Z"
+LC1000411: .asciz "?function_250cda@c_session_lobby_screen@@QAEXJ_N@Z"
+LC1000412: .asciz "?function_251284@@YIXJ@Z"
+LC1000413: .asciz "?show_player@@YIXPAVc_matchmaking_list@@PAVc_class_1a2c81@@J@Z"
+LC1000414: .asciz "?function_2a0960@@YIJF@Z"
+LC1000415: .asciz "?fill@c_playlist_saved_game_file_list@@QAEXXZ"
+LC1000416: .asciz "?function_2b2181@@YIXPAVc_playlist_saved_game_file_list@@JJ@Z"
+LC1000417: .asciz "?territories_update_players@@YIXXZ"
+LC1000418: .asciz "??0c_custom_game_maps_list@@QAE@G@Z"
+LC1000419: .asciz "?function_1d5e0@@YIPAXPAUs_bitmap_view@@JPAJ@Z"
+LC1000420: .asciz "?function_3db00@@YIPAUs_lighting_record@@JM@Z"
+LC1000421: .asciz "?function_53610@@YIXXZ"
+LC1000422: .asciz "?online_get_logon_users@@YIXPAU_XONLINE_USER@@@Z"
+LC1000423: .asciz "?network_session_manager_host_session@@YG_NJPBUXNKID@@PBUXNKEY@@@Z"
+LC1000424: .asciz "?network_session_interface_update@@YIXXZ"
+LC1000425: .asciz "?function_687b0@@YIXXZ"
+LC1000426: .asciz "?function_69c80@@YIXPAVc_class_6a600@@@Z"
+LC1000427: .asciz "?function_6c560@@YI_NPAUs_type_9df9da@@J@Z"
+LC1000428: .asciz "?online_get_logon_users_status@@YIJXZ"
+LC1000429: .asciz "?online_task_get_change_logon_status@@YIJPAUs_type_9df9da@@@Z"
+LC1000430: .asciz "?function_72e40@@YIXPAVc_helper_a@@@Z"
+LC1000431: .asciz "?function_73100@@YIXPAVc_helper_a@@@Z"
+LC1000432: .asciz "?function_80d70@@YIXPAUs_cache_property_record@@J@Z"
+LC1000433: .asciz "?update_baseline@c_simulation_view@@QAEXXZ"
+LC1000434: .asciz "?online_result_text_length@@YIKPBD@Z"
+LC1000435: .asciz "?function_b3de0@@YIXXZ"
+LC1000436: .asciz "?function_aa260@@YIXJJPBTvector3f@@JPBTpoint3f@@000@Z"
+LC1000437: .asciz "?function_b75a0@@YIXJPBTpoint3f@@PBTvector3f@@1PBUs_location@@_N@Z"
+LC1000438: .asciz "?function_b8600@@YGXJJ@Z"
+LC1000439: .asciz "?function_b8890@@YGXJ@Z"
+LC1000440: .asciz "?function_b8ee0@@YGXJJJJ@Z"
+LC1000441: .asciz "?function_b9a90@@YIXJ@Z"
+LC1000442: .asciz "?function_ba590@@YGXJK@Z"
+LC1000443: .asciz "?function_bc1d0@@YG_NJPBTpoint3f@@J@Z"
+LC1000444: .asciz "?function_bd020@@YGXJ@Z"
+LC1000445: .asciz "?function_be690@@YIXJ@Z"
+LC1000446: .asciz "?function_c4880@@YGXJ@Z"
+LC1000447: .asciz "?function_ca0b0@@YGXJPBUs_damage_report@@@Z"
+LC1000448: .asciz "?function_ccba0@@YG_NJJ@Z"
+LC1000449: .asciz "?function_ccd20@@YIXJ@Z"
+LC1000450: .asciz "?function_cd0c0@@YG_NJJF@Z"
+LC1000451: .asciz "?function_d0870@@YGXJJJ@Z"
+LC1000452: .asciz "?function_d2f90@@YIJJFJMMPAUcolor3f@@@Z"
+LC1000453: .asciz "?function_d30d0@@YI_NJJMMPAUcolor3f@@@Z"
+LC1000454: .asciz "?function_d52b0@@YIXJ@Z"
+LC1000455: .asciz "?function_d5560@@YIX_N@Z"
+LC1000456: .asciz "?function_d5640@@YIXXZ"
+LC1000457: .asciz "?function_d6bc0@@YGXJ@Z"
+LC1000458: .asciz "?function_d6c80@@YGJPAUs_type_1e6529@@J@Z"
+LC1000459: .asciz "?function_dd990@@YGXJ@Z"
+LC1000460: .asciz "?function_de620@@YGXJPBTvector3f@@@Z"
+LC1000461: .asciz "?function_ee7f0@@YIXJJ@Z"
+LC1000462: .asciz "?function_10b360@@YIXJ@Z"
+LC1000463: .asciz "?function_10d4e0@@YIXJ@Z"
+LC1000464: .asciz "?function_fa100@@YIXJ@Z"
+LC1000465: .asciz "?function_ffc60@@YG_NJJJJPAF@Z"
+LC1000466: .asciz "?function_fff40@@YGXJ_N0@Z"
+LC1000467: .asciz "?function_101c80@@YIXJJ@Z"
+LC1000468: .asciz "?object_list_erase@@YGXJ@Z"
+LC1000469: .asciz "?function_1152e0@@YG_NJ@Z"
+LC1000470: .asciz "?cache_header_verify@@YI_NPBUs_cache_header@@@Z"
+LC1000471: .asciz "?function_123f60@@YIXK@Z"
+LC1000472: .asciz "?function_1240b0@@YIXJ@Z"
+LC1000473: .asciz "?function_12d400@@YIJJJJJJ@Z"
+LC1000474: .asciz "?game_loop_tick@@YIXXZ"
+LC1000475: .asciz "?function_146bf0@@YIXXZ"
+LC1000476: .asciz "?function_1483c3@@YGXJ@Z"
+LC1000477: .asciz "?function_148ca8@@YIXJF@Z"
+LC1000478: .asciz "?function_14c090@@YGXJ_NPBUs_player_creation_record@@@Z"
+LC1000479: .asciz "?function_151c90@@YI_NJPAUs_target_candidate@@@Z"
+LC1000480: .asciz "?function_151ea0@@YIXJJ@Z"
+LC1000481: .asciz "?function_1523c0@@YIXXZ"
+LC1000482: .asciz "?function_1579f0@@YIXXZ"
+LC1000483: .asciz "?function_157ae0@@YIXXZ"
+LC1000484: .asciz "?function_158090@@YIXJF@Z"
+LC1000485: .asciz "?function_15cba0@@YIXJ@Z"
+LC1000486: .asciz "?function_163890@@YG_NPBDJ@Z"
+LC1000487: .asciz "?function_166d75@@YGXJ@Z"
+LC1000488: .asciz "?function_1682bf@@YIXJJJ@Z"
+LC1000489: .asciz "?first_person_weapon_set_object@@YIXJJJ@Z"
+LC1000490: .asciz "?function_176780@@YIJJPBUs_effect_owner@@JMMPBTpoint3f@@PBTvector3f@@@Z"
+LC1000491: .asciz "?function_17e670@@YIXPAUs_effect_source@@PBTpoint3f@@JPBTvector3f@@MJJJ@Z"
+LC1000492: .asciz "?function_18f1c0@@YGXJ@Z"
+LC1000493: .asciz "?function_18f9be@@YIXXZ"
+LC1000494: .asciz "?function_1906da@@YI_NJ@Z"
+LC1000495: .asciz "?function_199a03@@YIXJ@Z"
+LC1000496: .asciz "?function_199a57@@YIXXZ"
+LC1000497: .asciz "?function_19a0af@@YIXJ@Z"
+LC1000498: .asciz "?dialog_ok_show@@YIXJJJFP6G_NJ@ZP6G_NPAVc_class_1473c9@@J@Z@Z"
+LC1000499: .asciz "?dialog_choice_show@@YIXJJJFP6G_NJ@Z0P6G_NPAVc_class_1473c9@@J@Z@Z"
+LC1000500: .asciz "?friends_list_update@@YIXXZ"
+LC1000501: .asciz "?clan_members_update@@YIXXZ"
+LC1000502: .asciz "?cache_copy_buffer_resize@@YIXJ@Z"
+LC1000503: .asciz "?cache_file_get_maximum_size@@YIJJ@Z"
+LC1000504: .asciz "?online_task_screen_end@@YIXPAVc_online_task_screen@@_N@Z"
+LC1000505: .asciz "?function_1c4a80@@YIXJ_N0@Z"
+LC1000506: .asciz "?function_1e04a0@@YIXJJJJF@Z"
+LC1000507: .asciz "?function_1f7c70@@YG_NJF_NPATvector3f@@PAF1@Z"
+LC1000508: .asciz "?function_1f8160@@YI_NJPBCPBTpoint3f@@_N@Z"
+LC1000509: .asciz "?function_202be0@@YIXJJ@Z"
+LC1000510: .asciz "?function_2238f4@@YIXJKKK@Z"
+LC1000511: .asciz "?function_22f9bf@@YIPAVc_text_widget_45a5e0@@PAVc_class_1473c9@@JPAUs_text_block@@@Z"
+LC1000512: .asciz "?function_22fa7d@@YIPAVc_widget_45ad18@@PAVc_class_1473c9@@JPAUs_widget_block_18@@@Z"
+LC1000513: .asciz "?sign_in@s_player_slot_profile@@QAEXP6GXJ_N@Z@Z"
+LC1000514: .asciz "?show_dialog@s_player_slot_profile@@QAEXP6GXJ_N@ZJ@Z"
+LC1000515: .asciz "?loop_allocator_zfree@@YGXPAX0@Z"
+LC1000516: .asciz "?function_28dab0@@YGJJPBUs_28dab2@@@Z"
+LC1000517: .asciz "?swarm_delete@@YGXJ@Z"
+LC1000518: .asciz "?function_290cd0@@YIFFJJPAF0@Z"
+LC1000519: .asciz "?select_current_value@c_variant_parameter_setting_list@@QAEXXZ"
 .data
 RV31590: .long 0x31570
 RV536b0: .long 0x536e0
@@ -15718,11 +15700,8 @@ RV225730: .long 0x22c130
 RV225880: .long 0x22c280
 RV225910: .long 0x22c310
 RV22f532: .long 0x235fd9
-RV231865: .long 0x238318
-RV2320af: .long 0x14a168
 RV2359ce: .long 0x23c3b3
 RV23654b: .long 0x23cf30
-RV2376c8: .long 0x237ef9
 RV238537: .long 0x23eed5
 RV2386c5: .long 0x23f063
 RV23f360: .long 0x248650
@@ -15736,13 +15715,8 @@ RV2517e2: .long 0x257af0
 RV2a0960: .long 0x2aa670
 RV2b1ff4: .long 0x2bbd00
 RV2b2181: .long 0x2bbe83
-RV2b6301: .long 0x2bffff
 RV2bfc40: .long 0x2c9a00
 RV2c9928: .long 0x2d37ff
-RV2e7d10: .long 0x2f1d30
-RV2f0e00: .long 0x2fadf0
-RV2f2800: .long 0x2fc850
-RV2fb9d0: .long 0x305a20
 AE31590: .long 0
 AE536b0: .long 0
 AE53e30: .long 0
@@ -15967,11 +15941,8 @@ AE225730: .long 0
 AE225880: .long 0
 AE225910: .long 0
 AE22f532: .long 0
-AE231865: .long 0
-AE2320af: .long 0
 AE2359ce: .long 0
 AE23654b: .long 0
-AE2376c8: .long 0
 AE238537: .long 0
 AE2386c5: .long 0
 AE23f360: .long 0
@@ -15985,13 +15956,8 @@ AE2517e2: .long 0
 AE2a0960: .long 0
 AE2b1ff4: .long 0
 AE2b2181: .long 0
-AE2b6301: .long 0
 AE2bfc40: .long 0
 AE2c9928: .long 0
-AE2e7d10: .long 0
-AE2f0e00: .long 0
-AE2f2800: .long 0
-AE2fb9d0: .long 0
 BE1d5e0: .long 0
 BE3db00: .long 0
 BE53610: .long 0
@@ -20499,47 +20465,6 @@ AV22f532:
   popl %ebx
   popl %ebp
   ret
-AV231865:
-  pushl %ebp
-  pushl %ebx
-  pushl %esi
-  pushl %edi
-  pushl %ecx
-  pushl %edx
-  pushl 36(%esp)
-  pushl 36(%esp)
-  pushl 36(%esp)
-  movl 16(%esp), %esi
-  movl %esp, AE231865
-  addl $12, AE231865
-  call *RV231865
-  cmpl AE231865, %esp
-  jne AB231865
-  addl $8, %esp
-  popl %edi
-  popl %esi
-  popl %ebx
-  popl %ebp
-  ret $12
-AV2320af:
-  pushl %ebp
-  pushl %ebx
-  pushl %esi
-  pushl %edi
-  pushl %ecx
-  pushl %edx
-  movl 4(%esp), %eax
-  movl %esp, AE2320af
-  addl $0, AE2320af
-  call *RV2320af
-  cmpl AE2320af, %esp
-  jne AB2320af
-  addl $8, %esp
-  popl %edi
-  popl %esi
-  popl %ebx
-  popl %ebp
-  ret
 AV2359ce:
   pushl %ebp
   pushl %ebx
@@ -20580,25 +20505,6 @@ AV23654b:
   popl %ebx
   popl %ebp
   ret $12
-AV2376c8:
-  pushl %ebp
-  pushl %ebx
-  pushl %esi
-  pushl %edi
-  pushl %ecx
-  pushl %edx
-  movl 4(%esp), %eax
-  movl %esp, AE2376c8
-  addl $0, AE2376c8
-  call *RV2376c8
-  cmpl AE2376c8, %esp
-  jne AB2376c8
-  addl $8, %esp
-  popl %edi
-  popl %esi
-  popl %ebx
-  popl %ebp
-  ret
 AV238537:
   pushl %ebp
   pushl %ebx
@@ -20858,25 +20764,6 @@ AV2b2181:
   popl %ebx
   popl %ebp
   ret $4
-AV2b6301:
-  pushl %ebp
-  pushl %ebx
-  pushl %esi
-  pushl %edi
-  pushl %ecx
-  pushl %edx
-  movl 4(%esp), %ecx
-  movl %esp, AE2b6301
-  addl $0, AE2b6301
-  call *RV2b6301
-  cmpl AE2b6301, %esp
-  jne AB2b6301
-  addl $8, %esp
-  popl %edi
-  popl %esi
-  popl %ebx
-  popl %ebp
-  ret
 AV2bfc40:
   pushl %ebp
   pushl %ebx
@@ -20915,86 +20802,6 @@ AV2c9928:
   popl %ebx
   popl %ebp
   ret $4
-AV2e7d10:
-  pushl %ebp
-  pushl %ebx
-  pushl %esi
-  pushl %edi
-  pushl %ecx
-  pushl %edx
-  pushl 28(%esp)
-  movl %esp, AE2e7d10
-  addl $0, AE2e7d10
-  call *RV2e7d10
-  cmpl AE2e7d10, %esp
-  jne AB2e7d10
-  addl $4, %esp
-  addl $8, %esp
-  popl %edi
-  popl %esi
-  popl %ebx
-  popl %ebp
-  ret
-AV2f0e00:
-  pushl %ebp
-  pushl %ebx
-  pushl %esi
-  pushl %edi
-  pushl %ecx
-  pushl %edx
-  pushl 28(%esp)
-  movl %esp, AE2f0e00
-  addl $0, AE2f0e00
-  call *RV2f0e00
-  cmpl AE2f0e00, %esp
-  jne AB2f0e00
-  addl $4, %esp
-  addl $8, %esp
-  popl %edi
-  popl %esi
-  popl %ebx
-  popl %ebp
-  ret
-AV2f2800:
-  pushl %ebp
-  pushl %ebx
-  pushl %esi
-  pushl %edi
-  pushl %ecx
-  pushl %edx
-  pushl 28(%esp)
-  movl %esp, AE2f2800
-  addl $0, AE2f2800
-  call *RV2f2800
-  cmpl AE2f2800, %esp
-  jne AB2f2800
-  addl $4, %esp
-  addl $8, %esp
-  popl %edi
-  popl %esi
-  popl %ebx
-  popl %ebp
-  ret
-AV2fb9d0:
-  pushl %ebp
-  pushl %ebx
-  pushl %esi
-  pushl %edi
-  pushl %ecx
-  pushl %edx
-  pushl 28(%esp)
-  movl %esp, AE2fb9d0
-  addl $0, AE2fb9d0
-  call *RV2fb9d0
-  cmpl AE2fb9d0, %esp
-  jne AB2fb9d0
-  addl $4, %esp
-  addl $8, %esp
-  popl %edi
-  popl %esi
-  popl %ebx
-  popl %ebp
-  ret
 SV18f576:
   pushl %ebp
   pushl %ebx
@@ -24687,18 +24494,6 @@ AB22f532:
   pushl $0x22f532
   call _h2n_v15_bad_pop
   int3
-AB231865:
-  pushl %esp
-  pushl $0
-  pushl $0x231865
-  call _h2n_v15_bad_pop
-  int3
-AB2320af:
-  pushl %esp
-  pushl $0
-  pushl $0x2320af
-  call _h2n_v15_bad_pop
-  int3
 AB2359ce:
   pushl %esp
   pushl $0
@@ -24709,12 +24504,6 @@ AB23654b:
   pushl %esp
   pushl $0
   pushl $0x23654b
-  call _h2n_v15_bad_pop
-  int3
-AB2376c8:
-  pushl %esp
-  pushl $0
-  pushl $0x2376c8
   call _h2n_v15_bad_pop
   int3
 AB238537:
@@ -24795,12 +24584,6 @@ AB2b2181:
   pushl $0x2b2181
   call _h2n_v15_bad_pop
   int3
-AB2b6301:
-  pushl %esp
-  pushl $0
-  pushl $0x2b6301
-  call _h2n_v15_bad_pop
-  int3
 AB2bfc40:
   pushl %esp
   pushl $0
@@ -24811,30 +24594,6 @@ AB2c9928:
   pushl %esp
   pushl $0
   pushl $0x2c9928
-  call _h2n_v15_bad_pop
-  int3
-AB2e7d10:
-  pushl %esp
-  pushl $0
-  pushl $0x2e7d10
-  call _h2n_v15_bad_pop
-  int3
-AB2f0e00:
-  pushl %esp
-  pushl $0
-  pushl $0x2f0e00
-  call _h2n_v15_bad_pop
-  int3
-AB2f2800:
-  pushl %esp
-  pushl $0
-  pushl $0x2f2800
-  call _h2n_v15_bad_pop
-  int3
-AB2fb9d0:
-  pushl %esp
-  pushl $0
-  pushl $0x2fb9d0
   call _h2n_v15_bad_pop
   int3
 BB1d5e0:

@@ -1617,7 +1617,7 @@ int WINAPI WinMain(HINSTANCE instance, HINSTANCE previous, LPSTR command, int sh
 	y += 44;
 	/* the keys */
 	button("Generate Xbox keys.bin file", x, y, 300, ID_KEYS, 0);
-	part_add(x + 2, y + 40, panel - 4, 18, "(used for Xbox save compatibility and crossplay with Xbox/xemu)", 3);   /* (s10j) one line */
+	part_add(x + 2, y + 40, panel - 4, 18, "(used for Xbox save compatibility and crossplay with xemu)", 3);   /* (s10j) one line; (s10y) "Xbox/" out: system link with a console is not offered */
 	y += 72;
 	g_start = button("Start Game", x, y, 150, ID_START, 1);
 	button("Reset to Defaults", x + 158, y, 180, ID_RESET, 0);

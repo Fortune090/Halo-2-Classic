@@ -358,6 +358,33 @@ H2Classic_DLSS.exe to "DLSS Helper.exe".
   retail_tables.template.S made by cutting the delta and checked by putting init_delta.json back; oracle2.json without libnames;
   libsig.json, init_delta.json, v15's default_v15.xbe / live15.pkl / json never copied); pkg/xbescan46.py looks for runs of >= 16 XBE
   bytes in what goes out; decomp patch = diff of h2decomp_1118b_pure vs h2decomp_src (35 files). The user's repo has no scripts/.
+## s10y (build 47, 19 Nov 2026): 1.5 - the stop when the Edit Profile screen closes (a wrong twin in map15)
+User's two stop files + log (build 46, 1.5): c0000005 at 1.5 0x235afb writing [edx+4], edx = address of our
+c_player_profile_edit_list::handle_item; chain ~c_variant_editing_screen (folded: the profile edit screen's too) -> adapter
+AV2376c8 -> 1.5 0x237ef9 -> 0x235aaf -> 0x235aef (list unlink). 1.0 0x2376c8 = ~c_variant_editing_options_list: handler at
++0x388; 1.5 0x237ef9 unlinks at +0x398 = 1.0 0x231443's twin (another list). The real twin is 1.5 0x2c146a (strict); the
+screen destructor 0x2376fe's twin is 0x23e09c, not 0x237f2f (0x231479's). In the stop file the handler really is at +0x388
+(vtable 0x465a60, node, this, then the method pointer at +0x39c that was taken for a link). Stops only when the word at
+list+0x3a4 is non-zero. In the map since s10r (build 40); build 46 on the same path did not stop here.
+- How it came about: fmap.json (loose mask) gave both 0x231443 and 0x2376c8 -> 0x237ef9 and both 0x231479 and 0x2376fe ->
+  0x237f2f; map15's strict filter then called 0x2376c8 "the same function with another number" (changed, place known).
+- map15.py (s10y block before the final collect): (1) a 1.5 place held by several 1.0 twins: a holder whose same callers all
+  name another place that is strict for it moves there; (2) a loose twin whose place is another function's twin goes to its
+  callers' strict place and is simply 'same'; (3) a move is undone if the moved function then disagrees with the map in a
+  function it calls or names (0x231479 / 0x231393 went back: two byte-identical places, one caller's word each).
+  Result: 37 moved; same 17389 -> 17434, changed 560 -> 545, diff 96 -> 67; 8 data addresses changed, 5 of them vtables
+  (0x45b510, 0x412cf4, 0x412d14, 0x412fd0, 0x415230): every slot agrees at the new place (old: 21/23, 10/16, 5/8, 2/8,
+  11/24), 3 are EH tables of 10-byte handler stubs. Still 91 places with several 1.0 functions (identical tiny bodies).
+- Downstream (chain15.sh): boundary 256 -> 247; adapt15 loses 231865 (c_y_menu_players_screen ctor), 2320af
+  (~c_mp_pause_game_screen), 2376c8, 2b6301 (~c_y_menu_player_selected_screen), 2e7d10, 2f0e00, 2f2800, 2fb9d0 (Havok set-up
+  called by 0x1c3a40), 311940 - all now 'same' (compiled). retail_syms.S, retail_tables.S, back15 unchanged; only
+  native15/layer/retail_code.S differs (9 routes fewer). Check used: for every boundary function, is its 1.5 place also
+  another 1.0 function's? Only 2376c8 was.
+- Tests: 1.5 Settings > Player Profiles > Edit > Appearance > back > out, repeated (lantest/hub.sh 0 "A" ... H2N_VERSION=1.5;
+  1.5's Choose Profile opens on "Create New Profile": press down first); final_match.sh; a system link lobby; self test.
+- Settings exe (rebuilt): the keys.bin note is "(used for Xbox save compatibility and crossplay with xemu)" (user: remove "Xbox/").
+  xnetx.c's log line still says "system link with consoles and xemu" (exe not rebuilt for it).
+- Before-state kept in pkg/b46_internal/v15_before (map15.json, boundary15, adapt15, retail_*.S) and map15_before_s10y.py.
 - Parked: native/source_fixes/parked_s10x/xpcap.c (Npcap link: adapter choice, filter, immediate mode) - written, never run.
 
 

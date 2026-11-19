@@ -109,6 +109,60 @@ for a10, c in _tv.items():
     if n >= 2 or a10 not in twin or not strict(a10, twin[a10], size[a10]):
         tabn.append('%x: %s -> %x (%d)' % (a10, ('%x' % twin[a10]) if a10 in twin else None, t, n)); twin[a10] = t; dup.pop(a10, None)
 print('twins the tables name (in place of another, or new):', len(tabn)); print('  ' + '\n  '.join(tabn))
+# (s10y) One 1.5 function is the twin of one 1.0 function. By bytes alone the destructors of the menus' lists and screens
+# are alike (some to the last number, some but for one structure offset), and fmap.py gave several of them the same 1.5
+# place: 1.0's 0x2376fe (the variant editing / profile screens' destructor) and 0x231479 both had 1.5's 0x237f2f, and
+# 0x2376c8 (their list's destructor, handler at +0x388) was then taken for 0x237ef9 "with another number in it" - which
+# is 0x231443's twin, the destructor of a list with its handler at +0x398. Called on the smaller list it unlinked
+# whatever lay 16 bytes past it (the user's stops when leaving a profile's settings in 1.5, build 46). So, where
+# several 1.0 functions hold one 1.5 place: one whose same callers all call another place, which is that function
+# instruction for instruction, is there instead; and a twin "with another number in it" whose place is another
+# function's exact twin is not at that place - it is where its same callers call, if that is the function instruction
+# for instruction (then it is simply the same function).
+_fixed = []
+for _round in range(4):
+    _n = len(_fixed)
+    _cv = collect(twin)[0]
+    _cl = collections.defaultdict(list)
+    for _a, _t in twin.items(): _cl[_t].append(_a)
+    for _t, _l in list(_cl.items()):
+        if len(_l) < 2: continue
+        for _a in _l:
+            _c = _cv.get(_a)
+            if not _c or _t in _c: continue
+            _top, _k = _c.most_common(1)[0]
+            if _k == sum(_c.values()) and strict(_a, _top, size[_a]):
+                _fixed.append('%x: %x (also %s) -> %x (%d same callers)' % (_a, _t, ', '.join('%x' % x for x in _l if x != _a), _top, _k)); twin[_a] = _top
+    _cv = collect(twin)[0]
+    _cl = collections.defaultdict(list)
+    for _a, _t in twin.items(): _cl[_t].append(_a)
+    for _a, _t in sorted(_loose.items()):
+        if _a in twin or not _cl.get(_t): continue
+        _c = _cv.get(_a) or {}
+        _sv = sorted(((_k, _u) for _u, _k in _c.items() if strict(_a, _u, size[_a])), reverse=True)
+        if _sv and (len(_sv) == 1 or _sv[0][0] > _sv[1][0]):
+            _fixed.append('%x: not %x with another number (that is %s) -> %x, the same function (%d of %d same callers)' % (_a, _t, ', '.join('%x' % x for x in _cl[_t]), _sv[0][1], _sv[0][0], sum(_c.values())))
+            twin[_a] = _sv[0][1]; del _loose[_a]
+    if len(_fixed) == _n: break
+# ... and a move stands only if the moved function then agrees with the map in every function it calls or names (two
+# places with the very same bytes cannot be told apart by one caller's word: 1.0's 0x231479 / 0x231393 stay as they were)
+_moved_from = {}
+for _line in _fixed:
+    _a = int(_line.split(':')[0], 16); _moved_from.setdefault(_a, None)
+_orig = {int(k, 16): int(t, 16) for k, (t, kind) in fm.items() if kind == 'same'}
+for _round in range(6):
+    _back = []
+    for _a in list(_moved_from):
+        if _a not in twin: continue
+        for _off, _kind, _v10, _v15 in fields(_a, twin[_a], size[_a]):
+            if _v10 in starts10 and _v10 in twin and twin[_v10] != _v15: _back.append(_a); break
+    if not _back: break
+    for _a in _back:
+        _fixed.append('%x: back to where it was (at %x it would call %s other than the map says)' % (_a, twin[_a], 'a function'))
+        del _moved_from[_a]
+        if _a in _orig and strict(_a, _orig[_a], size[_a]): twin[_a] = _orig[_a]
+        else: del twin[_a]; _loose[_a] = _loose_all.get(_a, _orig.get(_a))
+print('twins moved off a 1.5 place another 1.0 function holds:', len(_moved_from)); print('  ' + '\n  '.join(_fixed))
 calls, data, per = collect(twin)
 # the function map: a twin by bytes, unless every same caller agrees on another place that also has the same bytes
 func = {}
