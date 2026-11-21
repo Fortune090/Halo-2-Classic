@@ -119,7 +119,7 @@ def run_once():
                 shots += 1; time.sleep(0.3)
             else:
                 open('keys.txt', 'a').write(name + '\n')
-                shown = name.split('*')[0].split('+')[0]             # ("forward*40": held for 40 readings; "2:a": port 2)
+                shown = name.split('*')[0].replace('+shots', '')         # ("forward*40": held for 40 readings; "2:a": port 2; "back+up": held together)
                 if len(shown) > 2 and shown[1] == ':': shown = shown[2:]
                 pos = wait_for('"%s" from the key file' % shown, pos, 30, proc); time.sleep(float(n or 1.5))
             s2 = stopped(log_text())
