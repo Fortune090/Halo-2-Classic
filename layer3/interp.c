@@ -34,6 +34,7 @@ extern int h2n_v15;                     /* main.c: 0 = game version 1.0 (the dis
 #include "h2n.h"
 
 int h2n_unlock_wanted(void);
+void sg_tick_before(void); void sg_draw_before(void); void sg_fp_before(void); void sg_fp_after(void);   /* sg/spooky.c: the Spooky Ghost Menu's work at these places */
 int h2n_env_int(const char *name, int otherwise);
 double h2n_seconds(void);
 void *h2n_calloc(unsigned size);
@@ -487,7 +488,9 @@ static void fp_render_only_ticked(DWORD obj, DWORD m, DWORD n, const DWORD *pv, 
 		for (q = 0; q < 13; q++) F32(nd + 4 * q) = A[q] + (B[q] - A[q]) * a;
 	}
 }
-void __cdecl h2n_fp_before(void)             /* before the first-person setup (0x3d2c0): the legs turned to the view */
+static void fp_before_layer(void);
+void __cdecl h2n_fp_before(void) { fp_before_layer(); sg_fp_before(); }   /* (sg1) then the Spooky Ghost Menu's (its tp_fp_hook: after the legs' turn) */
+static void fp_before_layer(void)            /* before the first-person setup (0x3d2c0): the legs turned to the view */
 {
 	int u = (int)U32(VIEW_USER), ei;
 	DWORD parent, unit, obj, n, noff, m, k;
@@ -574,7 +577,9 @@ void __cdecl h2n_fp_before(void)             /* before the first-person setup (0
 		if (nlines++ < 4000) h2n_log("       legs nodes at %.3f:%s\n", g_alpha, line);
 	}
 }
-void __cdecl h2n_fp_after(void)              /* after the first-person setup: the nodes back as they were */
+static void fp_after_layer(void);
+void __cdecl h2n_fp_after(void) { fp_after_layer(); sg_fp_after(); }      /* (sg1) then the Spooky Ghost Menu's */
+static void fp_after_layer(void)             /* after the first-person setup: the nodes back as they were */
 {
 	DWORD k;
 	if (!g_fp_n) return;
@@ -1996,6 +2001,7 @@ void __cdecl h2n_animation_resource(long resource, long size, void *data)
 }
 void __cdecl h2n_ip_tick_before(void)
 {
+	sg_tick_before();                             /* (sg1) the Spooky Ghost Menu's per-tick work (its ip_tick_before without the snapshot, which is below) */
 	aim_log();                                    /* (H2N_AIMLOG=1 only: where the shots go) */
 	LONGLONG t0 = ip_clock();
 	h2n_perf_tick();
@@ -2025,6 +2031,7 @@ void __cdecl h2n_ip_draw_before(void)
 {
 	static double logged;
 	LONGLONG t0;
+	sg_draw_before();                             /* (sg1) the Spooky Ghost Menu's work before a frame is drawn */
 	h2n_perf(4);                                  /* (s9q: the draw starts) */
 	t0 = ip_clock();
 	g_ptc_hold = (unsigned char)ip_on();

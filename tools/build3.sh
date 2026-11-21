@@ -21,9 +21,17 @@ for c in $CSRC; do
   case $c in apu|apu_dsp) $Z cc $CF2 -c $L/$c.c -o $B/$c.o ;;
   *) $Z cc $CF -c $L/$c.c -o $B/$c.o ;; esac
 done
+# (sg1) the Spooky Ghost Menu (layer3/sg): the mod's own C file compiled as the console build compiles it (no SSE: its float
+# to integer steps are the x87's), its calls into the game, its hooks
+SGF="-target x86-windows-gnu -march=i686 -mno-sse -mno-mmx -O2 -Wall -Wno-unused -Wno-pointer-sign -Wno-tautological-compare -Wno-pointer-bool-conversion"
+[ -n "$SG_CDEFS" ] && SGF="$SGF $SG_CDEFS"      # test builds here only (-DSG_LOG=1: the mod's own log lines in h2classic_log.txt); never sent
+$Z cc $SGF -c $L/sg/spooky.c -o $B/sg_spooky.o
+$Z cc $SGF -c $L/sg/sg_game.c -o $B/sg_game.o
+$Z cc -target x86-windows-gnu -O1 -Wall -c $L/sg/sg_hooks.c -o $B/sg_hooks.o
+$Z cc -target x86-windows-gnu -c $L/sg/sg_retail.S -o $B/sg_retail.o
 # the Xbox-facing files are compiled by the Xbox SDK's compiler against its headers
 export H2N_NOLAUNCHER=1 WINEDEBUG=-all WINEPREFIX=/home/claude/.wine32
-XSRC="xd3d xdsound xsave selftest xpad"
+XSRC="xd3d xdsound xsave selftest xpad xboot"
 for c in $XSRC; do
   (cd $L && INCLUDE='Z:\home\claude\sdk\xbox\include' /home/claude/xdkw/bin/vc71/CL.Exe /nologo /c /O2 /Zl /W3 $XDEF $c.cpp /Fo$c.obj > $B/$c.cl.log 2>&1) || { cat $B/$c.cl.log; exit 1; }
   grep -E "error|warning C4(0|1|7)" $B/$c.cl.log | head -20 || true
@@ -44,6 +52,7 @@ $Z cc -target x86-windows-gnu -c $B/retail_code15.S -o $B/retail_code15.o
 python3 /home/claude/scripts/objm.py $N/obj_r $N15/obj_r $N/obj_m $N/objects_r.rsp $N/objects_m.rsp
 LAYER_OBJS=""; for c in $CSRC helpers64 helpers nettramp retail_tables retail_code retail_tables15 retail_code15 v15list; do LAYER_OBJS="$LAYER_OBJS $B/$c.o"; done
 for c in $XSRC; do LAYER_OBJS="$LAYER_OBJS $B/$c.obj"; done
+LAYER_OBJS="$LAYER_OBJS $B/sg_spooky.o $B/sg_game.o $B/sg_hooks.o $B/sg_retail.o"
 # stand-ins for whatever Xbox calls the layer does not define yet
 llvm-nm $LAYER_OBJS 2>/dev/null | awk 'NF==3 && $2 ~ /^[TDBR]$/ {print $3}' | sort -u > $B/defined.txt
 # (written with the SDK's own prototypes where its headers declare them, so that OUT parameters can be cleared; a

@@ -54,6 +54,7 @@ typedef struct gx_state
 	float fog_start, fog_end, fog_density;
 	unsigned offset_on;              /* the polygon offset of the fill mode in use is switched on */
 	float offset_slope, offset_units;/* depth += slope * (the steepest change of depth from one pixel to the next) + units, in the depth buffer's units */
+	unsigned logic_op;               /* (sg2) the console's logic operation (0: none). Only SET (0x150f: every colour bit set - white, no blending) is acted on */
 	unsigned viewport_x, viewport_y, viewport_width, viewport_height;
 	float viewport_min_z, viewport_max_z;
 	float depth_max;      /* the largest value of the depth buffer in use: what the game's vertex programs scale their depth to */

@@ -272,6 +272,7 @@ static const gx_state *current_state()
 	s->shadow_func = r[D3DRS_SHADOWFUNC];                 /* (s10k) a light's shadow map: the compare of a stage that reads a depth buffer */
 	s->offset_on = r[r[D3DRS_FILLMODE] == D3DFILL_POINT ? D3DRS_POINTOFFSETENABLE : r[D3DRS_FILLMODE] == D3DFILL_WIREFRAME ? D3DRS_WIREFRAMEOFFSETENABLE : D3DRS_SOLIDOFFSETENABLE];
 	memcpy(&s->offset_slope, &r[D3DRS_POLYGONOFFSETZSLOPESCALE], 4); memcpy(&s->offset_units, &r[D3DRS_POLYGONOFFSETZOFFSET], 4);
+	s->logic_op = r[D3DRS_LOGICOP];
 	s->stencil = r[D3DRS_STENCILENABLE]; s->stencil_func = r[D3DRS_STENCILFUNC]; s->stencil_ref = r[D3DRS_STENCILREF]; s->stencil_mask = r[D3DRS_STENCILMASK];
 	s->stencil_write_mask = r[D3DRS_STENCILWRITEMASK]; s->stencil_fail = r[D3DRS_STENCILFAIL]; s->stencil_zfail = r[D3DRS_STENCILZFAIL]; s->stencil_pass = r[D3DRS_STENCILPASS];
 	s->cull = r[D3DRS_CULLMODE]; s->front_face = r[D3DRS_FRONTFACE]; s->fill = r[D3DRS_FILLMODE]; s->shade = r[D3DRS_SHADEMODE];

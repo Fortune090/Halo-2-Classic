@@ -112,7 +112,16 @@ static void live_presses(h2n_pad *pad, int *lx, int *ly, int *rx, int *ry, unsig
 		if (!strcmp(line, "sun")) { extern void __cdecl h2n_test_face_sun(void); h2n_test_face_sun(); h2n_log("       controller: \"sun\" from the key file at frame %u\n", h2n_frames()); return; }   /* (testing only) */
 		if (!strcmp(line, "widefix0") || !strcmp(line, "widefix1")) { extern void __cdecl h2n_test_widefix(int on); h2n_test_widefix(line[7] == '1'); h2n_log("       controller: \"%s\" from the key file at frame %u\n", line, h2n_frames()); return; }   /* (testing only) */
 		if (!strcmp(line, "tracewindow")) { extern void __cdecl h2n_trace_window_start(void); h2n_trace_window_start(); return; }   /* as F9 */
-		for (i = 0; i < sizeof(g_names) / sizeof(g_names[0]); i++) if (!strcmp(line, g_names[i].name)) { g_live_button = g_names[i].button; g_live_analog = g_names[i].analog; }
+		{	/* (sg1, tests) "back+up": several names held together - each one's button; one of them may be an analog button */
+			char part[16]; const char *q = line;
+			while (*q)
+			{
+				unsigned n = 0;
+				while (*q && *q != '+' && n < 15) part[n++] = *q++;
+				part[n] = 0; if (*q == '+') q++;
+				for (i = 0; i < sizeof(g_names) / sizeof(g_names[0]); i++) if (!strcmp(part, g_names[i].name)) { g_live_button |= g_names[i].button; if (g_names[i].analog >= 0) g_live_analog = g_names[i].analog; }
+			}
+		}
 		for (i = 0; i < 8; i++) if (!strcmp(line, sticks[i])) g_live_stick = (int)i;
 		if (!g_live_button && g_live_analog < 0 && g_live_stick < 0) { h2n_log("       controller: \"%s\" in the key file is not a name this build knows\n", line); return; }
 		h2n_log("       controller: \"%s\" from the key file at frame %u\n", line, h2n_frames());

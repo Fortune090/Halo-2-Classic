@@ -155,6 +155,7 @@ void __cdecl h2n_stub_hit(unsigned index)
 void __cdecl h2n_lods_retail(void);
 void __cdecl h2n_animation_retail(void);
 void __cdecl h2n_look_retail(void);
+void sg_init(void);                      /* sg/sg_hooks.c */
 void h2n_load_retail_code(const BYTE *xbe, size_t size);
 int h2n_retail_code_loaded(void);
 static DWORD crc32_of(const unsigned char *p, size_t n);
@@ -405,6 +406,7 @@ static void load_retail_data(const char *xbe_path)
 	h2n_lods_retail();                      /* (s10l) Increased LODs in retail's code: the instances' fade, the objects' level of detail */
 	h2n_animation_retail();                 /* (s10m) the rocket launcher's animation fix in retail's code as well */
 	h2n_look_retail();                      /* (s10v) the mouse: retail's look and aim assist calls go through the layer */
+	sg_init();                              /* (sg1) the Spooky Ghost Menu: on or off (H2N_SPOOKY), its call sites in the XBE's own code */
 	h2n_title_keys(xbe, (size_t)size);      /* the keys saved files are signed with come from the certificate in the XBE */
 	if (h2n_env_int("H2N_SKIPATTRACT", 0) && h2n_retail_code_loaded() && *(BYTE *)H2N_VA(0x223a21, 0x22a431) == 0x55)
 	{	/* s9w: no attract movie when the menu stands idle: retail's attract_mode_play_movie (0x223a21, called by 0x1479c3 when
@@ -788,6 +790,7 @@ static void h2n_settings_apply(void)
 		else if (!_stricmp(key, "network")) setting("H2N_XNET", value);
 		else if (!_stricmp(key, "network_peer")) setting("H2N_XNET_PEER", value);
 		else if (!_stricmp(key, "network_port")) setting("H2N_XNET_PORT", value);
+		else if (!_stricmp(key, "spooky_ghost")) setting("H2N_SPOOKY", value);          /* (sg1) the Spooky Ghost Menu: 1 on, 0 off (the default) */
 		else if (!_stricmp(key, "network_link")) setting("H2N_XNET_LINK", value);       /* (s10x) lan (the default: players are found by themselves), tunnel (network_peer, network_port) */
 		else if (!_stricmp(key, "network_mac")) setting("H2N_XNET_MAC", value);         /* the console address, aa:bb:cc:dd:ee:ff (otherwise made from this PC) */
 	}

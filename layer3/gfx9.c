@@ -1249,6 +1249,7 @@ typedef struct pixel_key
 	unsigned char shadow[4];                                      /* (s10k) a stage that reads a depth buffer: its compare (1 never .. 8 always), + 0x10: 16-bit depth */
 	unsigned combiners;
 	unsigned depth;                                               /* 0: the depth is not written; 1: it is w; 2: it is z; plus 4: with the polygon offset */
+	unsigned logic;                                               /* (sg2) 1: the console's logic operation SET - the colour written is white whatever the combiners made */
 } pixel_key;
 typedef struct pixel_shader { pixel_key key; unsigned hash, told; IDirect3DPixelShader9 *shader; struct pixel_shader *next; } pixel_shader;
 static pixel_shader *g_pixel_shaders[256];
@@ -1593,6 +1594,10 @@ static pixel_shader *pixel_shader_for(const pixel_key *k)
 			ins(&c, OP_MOV, 2, DST(RT_COLOROUT, 0, M_ALL) | SATURATE, TEMP(PR_SUM));
 		}
 	}
+	/* (sg2) the console's logic operation SET (D3DRS_LOGICOP 0x150f): every bit of the colour written is set, so the pixel
+	   is white whatever was computed. Direct3D 9 has no logic operations; the shader's last word on the colour is 1.
+	   (The Spooky Ghost Menu's Wireframe draws its lines this way, as the console build does.) */
+	if (k->logic) ins(&c, OP_MOV, 2, DST(RT_COLOROUT, 0, M_ALL), SRC(RT_CONST, PC_NUMBERS, YYYY));
 	if (k->depth & 3)
 	{
 		unsigned d = DST(RT_TEMP, PR_DEPTH, M_X), self = SRC(RT_TEMP, PR_DEPTH, XXXX);
@@ -2385,7 +2390,7 @@ static void apply_state(const gx_state *s)
 	ss_rs(D3DRS_ALPHATESTENABLE, s->alpha_test != 0);
 	ss_rs(D3DRS_ALPHAFUNC, compare(s->alpha_func));
 	ss_rs(D3DRS_ALPHAREF, s->alpha_ref & 255);
-	ss_rs(D3DRS_ALPHABLENDENABLE, s->blend != 0);
+	ss_rs(D3DRS_ALPHABLENDENABLE, s->blend != 0 && s->logic_op != 0x150f);     /* (sg2: with a logic operation the console does not blend) */
 	ss_rs(D3DRS_SRCBLEND, blend_factor(s->blend_source));
 	ss_rs(D3DRS_DESTBLEND, blend_factor(s->blend_destination));
 	ss_rs(D3DRS_BLENDOP, blend_operation(s->blend_op));
@@ -2583,6 +2588,105 @@ void __fastcall h2n_scene_13680(int enabled)
 	gx_scene_end();
 }
 
+/* ---- (sg2) wireframe as outlines ----
+ * The console draws wireframe by outlining every triangle it is given. The game's meshes are triangle strips, joined
+ * into one strip by triangles with no area (two corners the same, or three in a line), and its flat faces are two or
+ * more triangles. So the console's wireframe has lines that are not edges of anything - the joins, running from the end
+ * of one strip to the start of the next, often right across the model or back towards the camera (the user's example:
+ * the lines off the SMG's sights) - and a diagonal across every flat face.
+ * Here a wireframe draw is turned into the lines of its real edges:
+ *  - corners are told apart by position (a mesh repeats a corner where its texture or shading splits), so an edge two
+ *    triangles share is one edge however its corners are numbered, and is drawn once;
+ *  - a triangle with two corners at the same place, or with no area, is left out: that is every join;
+ *  - an edge between exactly two triangles that lie in one plane, on opposite sides of it, is left out: the diagonal
+ *    of a flat face. Every other edge is drawn - a mesh's border, a fold, and an edge more than two triangles meet at.
+ * "In one plane": their normals within about two degrees of each other, measured in the mesh's own (packed)
+ * coordinates. H2N_WIREFRAME=triangles gives the console's every-triangle wireframe back. */
+typedef struct { unsigned a, b, va, vb, count, draw; float n[3], d[3]; } wire_edge;
+static wire_edge *g_wire_edges; static unsigned *g_wire_slots, *g_wire_points, *g_wire_same; static unsigned short *g_wire_lines;
+static unsigned g_wire_edge_room, g_wire_slot_room, g_wire_point_room, g_wire_same_room, g_wire_line_room;
+static int g_wire_outlines = -1;
+static unsigned wire_outline(D3DPRIMITIVETYPE type, unsigned primitives, const unsigned short *index, const float *position, unsigned step, unsigned vertices)
+{
+	unsigned i, t, slots, points, edges = 0, lines = 0;
+	if (g_wire_outlines < 0) { const char *w = getenv("H2N_WIREFRAME"); g_wire_outlines = !(w && !_stricmp(w, "triangles")); }
+	if (!g_wire_outlines || !primitives || primitives > 400000 || !vertices || vertices > 65536) return ~0u;
+	for (points = 16; points < vertices * 2; points *= 2) ;
+	for (slots = 16; slots < primitives * 6; slots *= 2) ;
+	if (points > g_wire_point_room) { g_wire_point_room = points; g_wire_points = realloc(g_wire_points, points * sizeof(unsigned)); }
+	if (slots > g_wire_slot_room) { g_wire_slot_room = slots; g_wire_slots = realloc(g_wire_slots, slots * sizeof(unsigned)); }
+	if (vertices > g_wire_same_room) { g_wire_same_room = vertices + 1024; g_wire_same = realloc(g_wire_same, g_wire_same_room * sizeof(unsigned)); }
+	if (primitives * 3 > g_wire_edge_room) { g_wire_edge_room = primitives * 3 + 1024; g_wire_edges = realloc(g_wire_edges, g_wire_edge_room * sizeof(wire_edge)); }
+	if (!g_wire_points || !g_wire_slots || !g_wire_same || !g_wire_edges) return ~0u;
+	memset(g_wire_points, 0, points * sizeof(unsigned)); memset(g_wire_slots, 0, slots * sizeof(unsigned));
+	/* corners at the same place are one corner */
+	for (i = 0; i < vertices; i++)
+	{
+		const unsigned *w = (const unsigned *)(position + (size_t)i * step);
+		unsigned h = ((w[0] * 2654435761u) ^ (w[1] * 2246822519u) ^ (w[2] * 3266489917u)) & (points - 1);
+		for (;;)
+		{
+			unsigned other = g_wire_points[h];
+			if (!other) { g_wire_points[h] = i + 1; g_wire_same[i] = i; break; }
+			if (!memcmp(position + (size_t)(other - 1) * step, w, 12)) { g_wire_same[i] = other - 1; break; }
+			h = (h + 1) & (points - 1);
+		}
+	}
+	for (t = 0; t < primitives; t++)
+	{
+		unsigned v[3], c[3], k;
+		double p[3][3], e1[3], e2[3], n[3], length;
+		if (type == D3DPT_TRIANGLELIST) { v[0] = t * 3; v[1] = t * 3 + 1; v[2] = t * 3 + 2; }
+		else if (type == D3DPT_TRIANGLESTRIP) { v[0] = t; v[1] = t + 1; v[2] = t + 2; }
+		else { v[0] = 0; v[1] = t + 1; v[2] = t + 2; }
+		for (k = 0; k < 3; k++) { if (index) v[k] = index[v[k]]; if (v[k] >= vertices) return ~0u; c[k] = g_wire_same[v[k]]; }
+		if (c[0] == c[1] || c[1] == c[2] || c[0] == c[2]) continue;                       /* a join of two strips: no triangle */
+		for (k = 0; k < 3; k++) { const float *q = position + (size_t)c[k] * step; p[k][0] = q[0]; p[k][1] = q[1]; p[k][2] = q[2]; }
+		for (k = 0; k < 3; k++) { e1[k] = p[1][k] - p[0][k]; e2[k] = p[2][k] - p[0][k]; }
+		n[0] = e1[1] * e2[2] - e1[2] * e2[1]; n[1] = e1[2] * e2[0] - e1[0] * e2[2]; n[2] = e1[0] * e2[1] - e1[1] * e2[0];
+		length = n[0] * n[0] + n[1] * n[1] + n[2] * n[2];
+		if (!(length > 0.0)) continue;                                                    /* three corners in a line: no area */
+		length = 1.0 / __builtin_sqrt(length);
+		for (k = 0; k < 3; k++) n[k] *= length;
+		for (k = 0; k < 3; k++)
+		{
+			unsigned a = c[k], b = c[(k + 1) % 3], third = (k + 2) % 3, h, j;
+			double along[3], out[3], squared = 0.0, dot = 0.0;
+			wire_edge *e;
+			/* the way from the edge to the triangle's third corner, square to the edge: which side of it the triangle is on */
+			for (j = 0; j < 3; j++) { along[j] = p[(k + 1) % 3][j] - p[k][j]; squared += along[j] * along[j]; }
+			for (j = 0; j < 3; j++) dot += (p[third][j] - p[k][j]) * along[j];
+			for (j = 0; j < 3; j++) out[j] = (p[third][j] - p[k][j]) - along[j] * (squared > 0.0 ? dot / squared : 0.0);
+			if (a > b) { unsigned swap = a; a = b; b = swap; }
+			h = ((a * 2654435761u) ^ (b * 2246822519u)) & (slots - 1);
+			for (;;)
+			{
+				unsigned other = g_wire_slots[h];
+				if (!other)
+				{
+					e = &g_wire_edges[edges]; g_wire_slots[h] = ++edges;
+					e->a = a; e->b = b; e->va = v[k]; e->vb = v[(k + 1) % 3]; e->count = 1; e->draw = 0;
+					for (j = 0; j < 3; j++) { e->n[j] = (float)n[j]; e->d[j] = (float)out[j]; }
+					break;
+				}
+				e = &g_wire_edges[other - 1];
+				if (e->a == a && e->b == b)
+				{
+					double same = e->n[0] * n[0] + e->n[1] * n[1] + e->n[2] * n[2], sides = e->d[0] * out[0] + e->d[1] * out[1] + e->d[2] * out[2];
+					if (++e->count > 2 || (same < 0.9994 && same > -0.9994) || !(sides < 0.0)) e->draw = 1;   /* a third triangle; a fold; two on the same side */
+					break;
+				}
+				h = (h + 1) & (slots - 1);
+			}
+		}
+	}
+	if (edges * 2 > g_wire_line_room) { g_wire_line_room = edges * 2 + 4096; g_wire_lines = realloc(g_wire_lines, g_wire_line_room * sizeof(unsigned short)); }
+	if (!g_wire_lines) return ~0u;
+	for (i = 0; i < edges; i++)
+		if (g_wire_edges[i].count == 1 || g_wire_edges[i].draw) { g_wire_lines[lines++] = (unsigned short)g_wire_edges[i].va; g_wire_lines[lines++] = (unsigned short)g_wire_edges[i].vb; }
+	return lines;
+}
+
 static void gx_draw_inner(const gx_state *s, unsigned primitive, unsigned count, const unsigned short *indices, unsigned first);
 void gx_draw(const gx_state *s, unsigned primitive, unsigned count, const unsigned short *indices, unsigned first)
 {
@@ -2698,6 +2802,8 @@ static void gx_draw_inner(const gx_state *s, unsigned primitive, unsigned count,
 	if (s->z_enable == 1) { static int told; if (!told) { told = 1; note("something is drawn with the plain z buffer; everything so far used the w buffer"); } }
 	if (s->depth_clip & ~0x10u) { static unsigned seen[6] = { ~0u, ~0u, ~0u, ~0u, ~0u, ~0u }; if (note_once(seen, 6, s->depth_clip)) note("depth clip control %#x: only its clamp bit (0x10) is acted on", s->depth_clip); }
 	key.depth = g_depth_mode && depth_tested ? (w_buffer ? 1u : 2u) | (s->offset_on ? 4u : 0u) : 0;
+	key.logic = s->logic_op == 0x150f;
+	if (s->logic_op && s->logic_op != 0x150f) { static unsigned seen[4] = { ~0u, ~0u, ~0u, ~0u }; if (note_once(seen, 4, s->logic_op)) note("logic operation %#x: only SET (0x150f) is acted on", s->logic_op); }
 	ps = pixel_shader_for(&key);
 	ct_mark(CT_SHADERS);
 	if (!ps->shader) { g_draws_skipped++; return; }
@@ -2872,8 +2978,39 @@ static void gx_draw_inner(const gx_state *s, unsigned primitive, unsigned count,
 
 	if (FRAME_TRACE) read_before = read_target(0);
 	ct_mark(CT_STATE);
-	if (use_indices) hr = IDirect3DDevice9_DrawIndexedPrimitiveUP(g_device, type, 0, vertices, primitives, g_indices, D3DFMT_INDEX16, g_vertices, vs->stride);
-	else hr = IDirect3DDevice9_DrawPrimitiveUP(g_device, type, primitives, g_vertices, vs->stride);
+	{
+		/* (sg2) wireframe: the real edges as lines (wire_outline) */
+		const unsigned short *draw_indices = use_indices ? g_indices : NULL;
+		unsigned outline = ~0u;
+		if (s->fill == 0x1b01 && (type == D3DPT_TRIANGLELIST || type == D3DPT_TRIANGLESTRIP || type == D3DPT_TRIANGLEFAN) && (vs->inputs & 1))
+			outline = wire_outline(type, primitives, draw_indices, g_vertices + vs->slot[0] / 4, vs->stride / 4, vertices);
+		if (outline != ~0u) { type = D3DPT_LINELIST; primitives = outline / 2; draw_indices = g_wire_lines; }
+#define ISSUE() (!primitives ? D3D_OK : draw_indices ? IDirect3DDevice9_DrawIndexedPrimitiveUP(g_device, type, 0, vertices, primitives, draw_indices, D3DFMT_INDEX16, g_vertices, vs->stride) \
+		: IDirect3DDevice9_DrawPrimitiveUP(g_device, type, primitives, g_vertices, vs->stride))
+		hr = ISSUE();
+		/* (sg2) wireframe: a line is one pixel of the console's 640x480 picture wide. Direct3D 9 draws lines one pixel of
+		   OUR picture wide, which at Render Scale x2 and up is a fraction of that (at x4 a quarter: hard to see). So the
+		   same lines are drawn again moved one of our pixels at a time, to the right and down, until a line covers a
+		   console pixel each way (the scale; 8 at most). Only the offset the vertex shader ends with changes; it is put
+		   back after. At x1 nothing more is drawn. */
+		if (SUCCEEDED(hr) && primitives && s->fill == 0x1b01 && g_scale > 1 && type != D3DPT_POINTLIST && s->viewport_width && s->viewport_height)
+		{
+			unsigned wide = g_scale > 8 ? 8 : (unsigned)g_scale, k, axis;
+			float x0 = helper[1][0], y0 = helper[1][1];
+			float px = 2.0f / ((float)s->viewport_width * (float)g_scale), py = 2.0f / ((float)s->viewport_height * (float)g_scale);
+			for (axis = 0; axis < 2; axis++)
+				for (k = 1; k < wide; k++)
+				{
+					helper[1][0] = x0 + (axis == 0 ? px * (float)k : 0.0f);
+					helper[1][1] = y0 - (axis == 1 ? py * (float)k : 0.0f);
+					ss_constants(0, VC_OFFSET, &helper[1][0], 1);
+					ISSUE();
+				}
+			helper[1][0] = x0; helper[1][1] = y0;
+			ss_constants(0, VC_OFFSET, &helper[1][0], 1);
+		}
+#undef ISSUE
+	}
 	ct_mark(CT_DRAWCALL);
 	if (FAILED(hr)) { static int told; if (!told) { told = 1; note("a draw call was refused by Direct3D 9 (%08lx)", (unsigned long)hr); } g_draws_skipped++; }
 	if (g_depth_target)
