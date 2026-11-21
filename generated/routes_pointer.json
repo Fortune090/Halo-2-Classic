@@ -1,17 +1,5 @@
 [
 {
-"va": 425696,
-"status": "todo",
-"why": "",
-"routed": true
-},
-{
-"va": 471904,
-"status": "todo",
-"why": "",
-"routed": true
-},
-{
 "va": 483264,
 "status": "todo",
 "why": "",
@@ -24,12 +12,6 @@
 "routed": true
 },
 {
-"va": 621952,
-"status": "todo",
-"why": "",
-"routed": true
-},
-{
 "va": 671216,
 "status": "todo",
 "why": "",
@@ -37,12 +19,6 @@
 },
 {
 "va": 678496,
-"status": "todo",
-"why": "",
-"routed": true
-},
-{
-"va": 803856,
 "status": "todo",
 "why": "",
 "routed": true
@@ -61,12 +37,6 @@
 },
 {
 "va": 910528,
-"status": "todo",
-"why": "",
-"routed": false
-},
-{
-"va": 950192,
 "status": "todo",
 "why": "",
 "routed": false
@@ -102,22 +72,10 @@
 "routed": false
 },
 {
-"va": 1046000,
-"status": "todo",
-"why": "",
-"routed": false
-},
-{
 "va": 1075088,
 "status": "todo",
 "why": "",
 "routed": false
-},
-{
-"va": 1076592,
-"status": "near",
-"why": "",
-"routed": true
 },
 {
 "va": 1094864,
@@ -138,25 +96,7 @@
 "routed": false
 },
 {
-"va": 1201104,
-"status": "todo",
-"why": "",
-"routed": false
-},
-{
-"va": 1205440,
-"status": "todo",
-"why": "",
-"routed": false
-},
-{
 "va": 1581808,
-"status": "todo",
-"why": "",
-"routed": true
-},
-{
-"va": 1742688,
 "status": "todo",
 "why": "",
 "routed": true
@@ -174,18 +114,6 @@
 "routed": true
 },
 {
-"va": 1762944,
-"status": "todo",
-"why": "",
-"routed": true
-},
-{
-"va": 1801792,
-"status": "todo",
-"why": "",
-"routed": true
-},
-{
 "va": 1810576,
 "status": "todo",
 "why": "",
@@ -193,18 +121,6 @@
 },
 {
 "va": 1812672,
-"status": "todo",
-"why": "",
-"routed": true
-},
-{
-"va": 2023248,
-"status": "todo",
-"why": "",
-"routed": true
-},
-{
-"va": 2130032,
 "status": "todo",
 "why": "",
 "routed": true
@@ -228,19 +144,7 @@
 "routed": true
 },
 {
-"va": 2430205,
-"status": "todo",
-"why": "",
-"routed": true
-},
-{
 "va": 2434388,
-"status": "todo",
-"why": "",
-"routed": true
-},
-{
-"va": 2451472,
 "status": "todo",
 "why": "",
 "routed": true
@@ -248,18 +152,6 @@
 {
 "va": 2486928,
 "status": "todo",
-"why": "",
-"routed": true
-},
-{
-"va": 2916999,
-"status": "todo",
-"why": "",
-"routed": true
-},
-{
-"va": 2918398,
-"status": "near",
 "why": "",
 "routed": true
 },

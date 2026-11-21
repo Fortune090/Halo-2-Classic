@@ -10,14 +10,14 @@
 #include <stdlib.h>
 #include <commdlg.h>
 
-enum { ID_SCALE = 100, ID_SIZE, ID_WIDE, ID_MODE, ID_UNLOCK, ID_VSYNC, ID_FPS, ID_AA, ID_SKIPINTRO, ID_SKIPATTRACT, ID_AAQ, ID_VERSION,
+enum { ID_SCALE = 100, ID_SIZE, ID_WIDE, ID_MODE, ID_UNLOCK, ID_VSYNC, ID_FPS, ID_AA, ID_SKIPINTRO, ID_SKIPATTRACT, ID_AAQ, ID_VERSION, ID_SPOOKY,
 	ID_START = 200, ID_RESET, ID_EXIT, ID_KEYS, ID_MINIMIZE, ID_CLOSE, ID_KM,
 	ID_KEYS_BIOS = 300, ID_KEYS_BIOS_BROWSE, ID_KEYS_MCPX, ID_KEYS_MCPX_BROWSE, ID_KEYS_GENERATE, ID_KEYS_CANCEL,
 	ID_KM_ENABLE = 400, ID_KM_SENS, ID_KM_ZOOM, ID_KM_INVERT, ID_KM_RESET, ID_KM_DONE, ID_KM_BIND = 500 };   /* (s10v) ID_KM_BIND + 2 x row + 0 or 1 */
 /* the controls' own messages: a choice's items and selection, a toggle's state (the test tools use them too) */
 enum { CH_ADD = WM_USER + 1, CH_SET, CH_GET, CH_CLEAR, TG_SET, TG_GET, SL_SET, SL_GET, BD_SET, BD_GET, BD_WAITING };   /* (s10v) a slider's position, a key field's key */
 
-static HWND g_main, g_scale, g_size, g_wide, g_mode, g_unlock, g_vsync, g_fps, g_aa, g_aaq, g_skipintro, g_skipattract, g_version;
+static HWND g_main, g_scale, g_size, g_wide, g_mode, g_unlock, g_vsync, g_fps, g_aa, g_aaq, g_skipintro, g_skipattract, g_version, g_spooky;
 static HWND g_keys, g_keys_bios, g_keys_mcpx;
 static HWND g_km;                             /* (s10v) the Keyboard + Mouse Settings window, while it is open */
 /* (s10u) the game running while this window is open: found by the event the game makes; the GAME part (which only a
@@ -597,6 +597,7 @@ static void show(void)
 	aa_note();
 	tick(g_skipintro, atoi(ini_get("skip_intro", "0")));
 	tick(g_skipattract, atoi(ini_get("skip_attract", "0")));
+	tick(g_spooky, atoi(ini_get("spooky_ghost", "0")));          /* (sg1) the Spooky Ghost Menu: off unless ticked */
 	choose(g_version, !strcmp(ini_get("game_version", "1.0"), "1.5") ? 1 : 0);
 	g_loading = 0;
 }
@@ -639,6 +640,7 @@ static void save(void)
 	if (aa == 4 && q >= 0 && q < 3) ini_set("dlss_preset", k_dlss[q]);
 	ini_set("skip_intro", ticked(g_skipintro) ? "1" : "0");
 	ini_set("skip_attract", ticked(g_skipattract) ? "1" : "0");
+	ini_set("spooky_ghost", ticked(g_spooky) ? "1" : "0");
 	ini_set("game_version", pick(g_version) == 1 ? "1.5" : "1.0");
 	/* system link with consoles and xemu: always on (the address and port can be changed in the file) */
 	ini_set("network", "retail");
@@ -654,11 +656,12 @@ static void save_soon(void) { g_save_waiting = 1; SetTimer(g_main, 1, 250, NULL)
 static void save_now(void) { KillTimer(g_main, 1); if (g_save_waiting) { g_save_waiting = 0; save(); } }
 static void reset(void)
 {
-	char version[16], intro[8], attract[8];
+	char version[16], intro[8], attract[8], spooky[8];
 	KillTimer(g_main, 1); g_save_waiting = 0;
 	snprintf(version, sizeof(version), "%s", ini_get("game_version", "1.0"));
 	snprintf(intro, sizeof(intro), "%s", ini_get("skip_intro", "0"));
 	snprintf(attract, sizeof(attract), "%s", ini_get("skip_attract", "0"));
+	snprintf(spooky, sizeof(spooky), "%s", ini_get("spooky_ghost", "0"));
 	{	/* the defaults: show() with nothing saved, then saved. (s10v) Keyboard + Mouse Settings has its own Reset to
 		   Defaults: its lines stay */
 		int i, kept = 0;
@@ -669,7 +672,7 @@ static void reset(void)
 	}
 	if (g_running)
 	{	/* (s10u) while the game runs the GAME part is not this window's to change: it stays as it is */
-		ini_set("game_version", version); ini_set("skip_intro", intro); ini_set("skip_attract", attract);
+		ini_set("game_version", version); ini_set("skip_intro", intro); ini_set("skip_attract", attract); ini_set("spooky_ghost", spooky);
 	}
 	show();
 	save();
@@ -697,10 +700,10 @@ static void game_watch(void)
 	if (running == g_running) return;
 	g_running = running;
 	if (running) g_running_dlss = pick(g_aa) == 4;
-	EnableWindow(g_version, !running); EnableWindow(g_skipintro, !running); EnableWindow(g_skipattract, !running);
+	EnableWindow(g_version, !running); EnableWindow(g_skipintro, !running); EnableWindow(g_skipattract, !running); EnableWindow(g_spooky, !running);
 	EnableWindow(g_start, !running);
 	SetWindowTextA(g_start, running ? "Game Running" : "Start Game");
-	if (running && (GetFocus() == g_start || GetFocus() == g_version || GetFocus() == g_skipintro || GetFocus() == g_skipattract)) SetFocus(g_mode);
+	if (running && (GetFocus() == g_start || GetFocus() == g_version || GetFocus() == g_skipintro || GetFocus() == g_skipattract || GetFocus() == g_spooky)) SetFocus(g_mode);
 	aa_note();
 	InvalidateRect(g_main, NULL, FALSE);
 }
@@ -1503,7 +1506,7 @@ static LRESULT CALLBACK proc(HWND w, UINT m, WPARAM wp, LPARAM lp)
 		case ID_AAQ: if (HIWORD(wp) == CBN_SELCHANGE) { aa_note(); save_soon(); } return 0;
 		case ID_MODE: if (HIWORD(wp) == CBN_SELCHANGE) { EnableWindow(g_size, pick(g_mode) == 2); save_soon(); } return 0;   /* (s10w) */
 		case ID_SCALE: case ID_SIZE: case ID_WIDE: case ID_VERSION: if (HIWORD(wp) == CBN_SELCHANGE) save_soon(); return 0;
-		case ID_UNLOCK: case ID_VSYNC: case ID_FPS: case ID_SKIPINTRO: case ID_SKIPATTRACT: if (HIWORD(wp) == BN_CLICKED) save_soon(); return 0;
+		case ID_UNLOCK: case ID_VSYNC: case ID_FPS: case ID_SKIPINTRO: case ID_SKIPATTRACT: case ID_SPOOKY: if (HIWORD(wp) == BN_CLICKED) save_soon(); return 0;
 		}
 		break;
 	case WM_ERASEBKGND: return 1;
@@ -1541,7 +1544,7 @@ static void register_class(HINSTANCE instance, const char *name, WNDPROC fn, HIC
 int WINAPI WinMain(HINSTANCE instance, HINSTANCE previous, LPSTR command, int show_mode)
 {
 	MSG msg;
-	RECT r = { 0, 0, 470, 878 }, work;
+	RECT r = { 0, 0, 470, 906 }, work;
 	char folder[MAX_PATH], *slash;
 	HICON icon, small_icon;
 	int y, x = 26, panel = 418;
@@ -1609,13 +1612,14 @@ int WINAPI WinMain(HINSTANCE instance, HINSTANCE previous, LPSTR command, int sh
 	y += 154;
 	/* GAME */
 	g_game_part_first = g_game_title_part = g_part_count;
-	part_add(x, y, panel, 126, "GAME", 1);
+	part_add(x, y, panel, 154, "GAME", 1);
 	g_version = choice("Game Version", x + 16, y + 30, ID_VERSION, 1);     /* (s10q) */
 	item(g_version, "1.0"); item(g_version, "1.5");
 	g_skipintro = toggle("Skip Intro Video", x + 20, y + 66, ID_SKIPINTRO);
 	g_skipattract = toggle("Skip Attract Idle Video", x + 20, y + 94, ID_SKIPATTRACT);
+	g_spooky = toggle("Spooky Ghost Menu", x + 20, y + 122, ID_SPOOKY);      /* (sg1) the practice menu built into the game (spooky_ghost in settings.ini; read when the game starts) */
 	g_game_part_last = g_part_count - 1;
-	y += 138;
+	y += 166;
 	/* (s10v) the keyboard and the mouse: their own window */
 	button("Keyboard + Mouse Settings", x, y, 300, ID_KM, 0);
 	y += 44;

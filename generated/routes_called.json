@@ -1,12 +1,5 @@
 [
 {
-"va": 1870256,
-"name": "?function_1c89b0@@YGFJFPAUs_ai_capsule_view@@@Z",
-"owner": "game",
-"status": "todo",
-"why": ""
-},
-{
 "va": 1139184,
 "name": "?function_1161f0@@YGXPAUs_chain_record@@PAUs_chain_definition@@M@Z",
 "owner": "game",
@@ -21,20 +14,6 @@
 "why": ""
 },
 {
-"va": 440656,
-"name": "?online_tasks_dispose_all@@YIXXZ",
-"owner": "game",
-"status": "todo",
-"why": ""
-},
-{
-"va": 439456,
-"name": "?function_6b4a0@@YIXXZ",
-"owner": "game",
-"status": "todo",
-"why": ""
-},
-{
 "va": 1629328,
 "name": "?function_18dc90@@YGXPAUs_portal_path_bsp@@JPBTpoint3f@@MPAJ2222@Z",
 "owner": "game",
@@ -44,20 +23,6 @@
 {
 "va": 841648,
 "name": "?function_cd7b0@@YG_NJJPA_N@Z",
-"owner": "game",
-"status": "todo",
-"why": ""
-},
-{
-"va": 809200,
-"name": "?function_c58f0@@YG_NJ@Z",
-"owner": "game",
-"status": "todo",
-"why": ""
-},
-{
-"va": 811200,
-"name": "?function_c60c0@@YG_NJ@Z",
 "owner": "game",
 "status": "todo",
 "why": ""
@@ -79,13 +44,6 @@
 {
 "va": 2712960,
 "name": "?function_296580@@YIXJ@Z",
-"owner": "game",
-"status": "todo",
-"why": ""
-},
-{
-"va": 413040,
-"name": "?function_64d70@@YG_NPAUs_session_browser_summary@@@Z",
 "owner": "game",
 "status": "todo",
 "why": ""
@@ -128,13 +86,6 @@
 {
 "va": 778816,
 "name": "?function_be240@@YGXJKPBUcolor3f@@@Z",
-"owner": "game",
-"status": "todo",
-"why": ""
-},
-{
-"va": 780512,
-"name": "?function_be8e0@@YG_NJ@Z",
 "owner": "game",
 "status": "todo",
 "why": ""
@@ -189,13 +140,6 @@
 "why": ""
 },
 {
-"va": 1218016,
-"name": "?function_1295e0@@YG_NF@Z",
-"owner": "game",
-"status": "todo",
-"why": ""
-},
-{
 "va": 1213136,
 "name": "?function_1282d0@@YIXXZ",
 "owner": "game",
@@ -205,13 +149,6 @@
 {
 "va": 2203904,
 "name": "?looping_sound_update_locations@@YIXXZ",
-"owner": "game",
-"status": "todo",
-"why": ""
-},
-{
-"va": 1227472,
-"name": "?function_12bad0@@YI_NXZ",
 "owner": "game",
 "status": "todo",
 "why": ""
@@ -231,13 +168,6 @@
 "why": ""
 },
 {
-"va": 1436448,
-"name": "?function_15eb20@@YI_NJ@Z",
-"owner": "game",
-"status": "todo",
-"why": ""
-},
-{
 "va": 1427184,
 "name": "?function_15c6f0@@YIXXZ",
 "owner": "game",
@@ -247,13 +177,6 @@
 {
 "va": 1444064,
 "name": "?function_1608e0@@YGXJPAUs_score_panel_1608e0@@M@Z",
-"owner": "game",
-"status": "todo",
-"why": ""
-},
-{
-"va": 1479952,
-"name": "?function_169510@@YG_NJ_NKKPBTpoint3f@@PBTvector3f@@JJPAUs_collision_result_1697c0@@@Z",
 "owner": "game",
 "status": "todo",
 "why": ""
@@ -270,27 +193,6 @@
 "name": "?function_170fd0@@YGXJ@Z",
 "owner": "game",
 "status": "todo",
-"why": ""
-},
-{
-"va": 1600176,
-"name": "?function_186ab0@@YGXJMMPAUs_player_action@@@Z",
-"owner": "game",
-"status": "todo",
-"why": ""
-},
-{
-"va": 1605312,
-"name": "?function_187ec0@@YI_NXZ",
-"owner": "game",
-"status": "todo",
-"why": ""
-},
-{
-"va": 1624608,
-"name": "?function_18ca20@@YGXJJPBUs_sound_permutation@@M@Z",
-"owner": "game",
-"status": "near",
 "why": ""
 },
 {
@@ -312,13 +214,6 @@
 "name": "?function_1a83e0@@YG_NJPAFPAMPAUpoint2f@@PA_N@Z",
 "owner": "game",
 "status": "todo",
-"why": ""
-},
-{
-"va": 1854544,
-"name": "?function_1c4c50@@YG_NJJPBTpoint3f@@PBTvector3f@@1PAJPAT2@3@Z",
-"owner": "game",
-"status": "near",
 "why": ""
 },
 {
@@ -358,7 +253,7 @@
 },
 {
 "va": 1972736,
-"name": "?function_1e1a00@@YGXJJ@Z",
+"name": "?function_1e1a00@@YGXJ_N@Z",
 "owner": "game",
 "status": "todo",
 "why": ""
@@ -378,27 +273,6 @@
 "why": ""
 },
 {
-"va": 2134176,
-"name": "?function_2090a0@@YIXXZ",
-"owner": "game",
-"status": "todo",
-"why": ""
-},
-{
-"va": 2185472,
-"name": "?function_215900@@YGXJJPAGPAJ_N@Z",
-"owner": "game",
-"status": "todo",
-"why": ""
-},
-{
-"va": 2186848,
-"name": "?function_215e60@@YGXJ@Z",
-"owner": "game",
-"status": "near",
-"why": ""
-},
-{
 "va": 2194496,
 "name": "?function_217c40@@YIXXZ",
 "owner": "game",
@@ -415,20 +289,6 @@
 {
 "va": 2331566,
 "name": "?function_2393ae@@YGXJJ@Z",
-"owner": "game",
-"status": "todo",
-"why": ""
-},
-{
-"va": 2337488,
-"name": "?function_23aad0@@YGXJJJ@Z",
-"owner": "game",
-"status": "todo",
-"why": ""
-},
-{
-"va": 2497824,
-"name": "?function_261d20@@YGFJPAUs_261d20_entry@@JPBUs_2605d0_request@@@Z",
 "owner": "game",
 "status": "todo",
 "why": ""
@@ -469,13 +329,6 @@
 "why": ""
 },
 {
-"va": 2693600,
-"name": "?function_2919e0@@YGXPAUs_ai_scene@@PAUs_ai_scene_assignment@@PAFFFFJJJ@Z",
-"owner": "game",
-"status": "todo",
-"why": ""
-},
-{
 "va": 2723216,
 "name": "?function_298d90@@YIXJJPBUs_298c30@@PBUpoint2f@@11M11@Z",
 "owner": "game",
@@ -497,23 +350,9 @@
 "why": ""
 },
 {
-"va": 2830036,
-"name": "?function_2b2ed4@@YGXPAVc_y_menu_list@@_N1PAVc_class_1a2c81@@PAUs_friend@@@Z",
-"owner": "game",
-"status": "todo",
-"why": ""
-},
-{
 "va": 2891872,
 "name": "?function_2c2060@@YGXPAUs_type_f17a25@@FPBUs_path_step_view@@PAFPAU2@PA_N@Z",
 "owner": "game",
-"status": "todo",
-"why": ""
-},
-{
-"va": 3204896,
-"name": "?function_30e720@c_311100@@QAEXXZ",
-"owner": "third:havok",
 "status": "todo",
 "why": ""
 },

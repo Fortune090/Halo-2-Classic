@@ -2267,6 +2267,7 @@
 "unicode_strings.obj",
 "unknown_054fe0.obj",
 "unknown_059ad0.obj",
+"unknown_064d70.obj",
 "unknown_06b590.obj",
 "unknown_07f720.obj",
 "unknown_0805e0.obj",
@@ -3546,6 +3547,9 @@
 "_MmFreeContiguousMemory@4": [
 "unknown_01cf50.obj"
 ],
+"_h2n_sun_glow_k": [
+"unknown_01cf50.obj"
+],
 "_D3DResource_IsBusy@4": [
 "unknown_01dcc0.obj",
 "unknown_12c0d0.obj",
@@ -3946,6 +3950,9 @@
 ],
 "_sprintf": [
 "unknown_153750.obj"
+],
+"_h2n_name_text": [
+"unknown_157450.obj"
 ],
 "__CIasin": [
 "unknown_163110.obj",

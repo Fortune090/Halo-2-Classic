@@ -1,6 +1,6 @@
 diff -ruN a/include/user_interface_lists.h b/include/user_interface_lists.h
---- a/include/user_interface_lists.h	2026-11-18 22:14:35.796742907 +0000
-+++ b/include/user_interface_lists.h	2026-11-18 22:20:00.771388203 +0000
+--- a/include/user_interface_lists.h	2026-11-21 02:28:03.209241605 +0000
++++ b/include/user_interface_lists.h	2026-11-21 02:29:08.163636820 +0000
 @@ -509,7 +509,7 @@
  
  	void handle_item(s_controller_reference **controller, long *item);
@@ -11,8 +11,8 @@ diff -ruN a/include/user_interface_lists.h b/include/user_interface_lists.h
  };
  
 diff -ruN a/src/animation_cache.cpp b/src/animation_cache.cpp
---- a/src/animation_cache.cpp	2026-11-18 22:14:35.797597582 +0000
-+++ b/src/animation_cache.cpp	2026-11-18 22:20:00.771559251 +0000
+--- a/src/animation_cache.cpp	2026-11-21 02:28:03.724430025 +0000
++++ b/src/animation_cache.cpp	2026-11-21 02:29:08.163823064 +0000
 @@ -189,6 +189,8 @@
  	}
  }
@@ -37,8 +37,8 @@ diff -ruN a/src/animation_cache.cpp b/src/animation_cache.cpp
  
  /* creates the load and request arrays and the physical memory, once */
 diff -ruN a/src/game_loop.cpp b/src/game_loop.cpp
---- a/src/game_loop.cpp	2026-11-18 22:14:35.800742908 +0000
-+++ b/src/game_loop.cpp	2026-11-18 22:20:00.771697684 +0000
+--- a/src/game_loop.cpp	2026-11-21 02:28:03.725154057 +0000
++++ b/src/game_loop.cpp	2026-11-21 02:29:08.163947506 +0000
 @@ -71,6 +71,7 @@
  
  /* runs up to tick_count ticks; when an event stops them early, takes the
@@ -55,9 +55,29 @@ diff -ruN a/src/game_loop.cpp b/src/game_loop.cpp
  		game_loop_tick();
  		ticks_run++;
  	}
+diff -ruN a/src/loading.cpp b/src/loading.cpp
+--- a/src/loading.cpp	2026-11-21 02:28:03.725926352 +0000
++++ b/src/loading.cpp	2026-11-21 04:57:35.280411010 +0000
+@@ -258,6 +258,8 @@
+ 	return result;
+ }
+ 
++extern "C" void __cdecl h2n_boot_screen_done(void);   /* h2native (layer3/xboot.cpp) */
++
+ // @retail 0x163890
+ bool __stdcall function_163890(char const *map_name, long mode)
+ {
+@@ -346,6 +348,7 @@
+ 			}
+ 			while (location == _map_location_copying || location == _map_location_queued || location == _map_location_none);
+ 
++			h2n_boot_screen_done();    /* h2native: the first wait's level loading screen ends (layer3/xboot.cpp) */
+ 			g_51ebc8 = GetTickCount();
+ 			function_124950();
+ 			g_4e9188.unknown03 = 1;
 diff -ruN a/src/main_menu.cpp b/src/main_menu.cpp
---- a/src/main_menu.cpp	2026-11-18 22:14:35.800742908 +0000
-+++ b/src/main_menu.cpp	2026-11-18 22:20:00.771794257 +0000
+--- a/src/main_menu.cpp	2026-11-21 02:28:03.725949170 +0000
++++ b/src/main_menu.cpp	2026-11-21 02:29:08.164052156 +0000
 @@ -119,7 +119,7 @@
  	c_class_1474e8(user_flags),
  	handler(this, (list_item_method)&c_main_menu_list::handle_item)
@@ -111,8 +131,8 @@ diff -ruN a/src/main_menu.cpp b/src/main_menu.cpp
  	g_main_menu_campaign_chosen = false;
  }
 diff -ruN a/src/stubs/lane_k.cpp b/src/stubs/lane_k.cpp
---- a/src/stubs/lane_k.cpp	2026-11-18 22:14:35.807786343 +0000
-+++ b/src/stubs/lane_k.cpp	2026-11-18 22:20:00.771878590 +0000
+--- a/src/stubs/lane_k.cpp	2026-11-21 02:28:03.727566447 +0000
++++ b/src/stubs/lane_k.cpp	2026-11-21 02:29:08.164130441 +0000
 @@ -4,5 +4,4 @@
  #include "unknown_0259d0.h"
  
@@ -121,8 +141,8 @@ diff -ruN a/src/stubs/lane_k.cpp b/src/stubs/lane_k.cpp
 -void function_2b5d0(long arg_0, long arg_1, long arg_2, long arg_3, s_223240 const *arg_4) { }
 +// @stub 0x2b5d0 // h2native: on in the native build: the draft in unknown_023540.cpp
 diff -ruN a/src/stubs/lane_w.cpp b/src/stubs/lane_w.cpp
---- a/src/stubs/lane_w.cpp	2026-11-18 22:14:35.807786343 +0000
-+++ b/src/stubs/lane_w.cpp	2026-11-18 22:20:00.771944930 +0000
+--- a/src/stubs/lane_w.cpp	2026-11-21 02:28:03.727998599 +0000
++++ b/src/stubs/lane_w.cpp	2026-11-21 02:29:08.164188834 +0000
 @@ -33,8 +33,7 @@
  struct transform4x3f;
  
@@ -150,8 +170,8 @@ diff -ruN a/src/stubs/lane_w.cpp b/src/stubs/lane_w.cpp
 -bool function_289e0() { return false; }
 +// @stub 0x289e0 // h2native: on in the native build: the draft in unknown_0350e0.cpp
 diff -ruN a/src/unknown_013450.cpp b/src/unknown_013450.cpp
---- a/src/unknown_013450.cpp	2026-11-18 22:14:35.808742908 +0000
-+++ b/src/unknown_013450.cpp	2026-11-18 22:20:00.772004737 +0000
+--- a/src/unknown_013450.cpp	2026-11-21 02:28:03.728621078 +0000
++++ b/src/unknown_013450.cpp	2026-11-21 02:29:08.164255236 +0000
 @@ -28,7 +28,7 @@
  void function_14bc0(short index, short element, bool use_depth);
  void function_14ac0(void);
@@ -162,8 +182,8 @@ diff -ruN a/src/unknown_013450.cpp b/src/unknown_013450.cpp
  real g_4b893c;
  
 diff -ruN a/src/unknown_01cf50.cpp b/src/unknown_01cf50.cpp
---- a/src/unknown_01cf50.cpp	2026-11-18 22:14:35.808742908 +0000
-+++ b/src/unknown_01cf50.cpp	2026-11-19 17:36:28.064019569 +0000
+--- a/src/unknown_01cf50.cpp	2026-11-21 02:28:03.728693095 +0000
++++ b/src/unknown_01cf50.cpp	2026-11-21 02:29:08.164914001 +0000
 @@ -762,9 +762,17 @@
  	}
  }
@@ -211,7 +231,7 @@ diff -ruN a/src/unknown_01cf50.cpp b/src/unknown_01cf50.cpp
  }
  
  void __stdcall function_423c0(void *payload);
-@@ -7981,6 +7994,14 @@
+@@ -7991,6 +8004,14 @@
  // MiniMax D (11-16), NOT kept: the four bounds as (real)(double)(screen[0] - 32.0f) etc. scored 558 (main 576),
  // but a float taken to double and straight back changes no value and only steers code generation; the source form
  // that computes them in double, a double constant ((real)(screen[0] - 32.0)), measures 586. Body back to main.
@@ -226,7 +246,7 @@ diff -ruN a/src/unknown_01cf50.cpp b/src/unknown_01cf50.cpp
  // @retail 0x46ea0
  void function_46ea0(long tag, point3f const *position)
  {
-@@ -8005,9 +8026,10 @@
+@@ -8015,9 +8036,10 @@
      screen[0] = (real)floor(screen[0] + 0.5f);
      real center_y = (real)floor(screen[1] + 0.5f);
      real bounds[4];
@@ -239,7 +259,7 @@ diff -ruN a/src/unknown_01cf50.cpp b/src/unknown_01cf50.cpp
      bounds[3] = center_y + 32.0f;
      if (!((real)(short)g_48564e > bounds[0] && (real)(short)g_48564c > bounds[2] &&
          bounds[1] > (real)(short)g_48564a && bounds[3] > (real)(short)g_485648)) return;
-@@ -8122,13 +8144,13 @@
+@@ -8132,13 +8154,13 @@
          ++i;
          D3DDevice_SetVertexData4f(9, 0.0f, 0.0f, 0.0f, strength / i);
          D3DDevice_SetVertexData2s(3, 0, 0);
@@ -257,7 +277,7 @@ diff -ruN a/src/unknown_01cf50.cpp b/src/unknown_01cf50.cpp
          D3DDevice::End();
      } while (i < 16);
  }
-@@ -9495,7 +9517,12 @@
+@@ -9505,7 +9527,12 @@
      function_1ccb0(36);
      function_1c710(g_51f0f0);
      function_1cf50();
@@ -272,8 +292,8 @@ diff -ruN a/src/unknown_01cf50.cpp b/src/unknown_01cf50.cpp
  }
  
 diff -ruN a/src/unknown_023540.cpp b/src/unknown_023540.cpp
---- a/src/unknown_023540.cpp	2026-11-18 22:14:35.808742908 +0000
-+++ b/src/unknown_023540.cpp	2026-11-18 22:20:00.773750939 +0000
+--- a/src/unknown_023540.cpp	2026-11-21 02:28:03.729262670 +0000
++++ b/src/unknown_023540.cpp	2026-11-21 02:29:08.165801030 +0000
 @@ -215,7 +215,7 @@
  struct s_matrix_workspace { long size; byte data[0x27000]; };
  extern s_matrix_workspace g_487b18;
@@ -283,7 +303,7 @@ diff -ruN a/src/unknown_023540.cpp b/src/unknown_023540.cpp
  struct s_223240;
  struct s_frame_parameters_12a50
  {
-@@ -4582,6 +4582,8 @@
+@@ -4845,6 +4845,8 @@
  void function_15680(short mode);
  void function_1beb0();
  void function_3d2c0();
@@ -292,7 +312,7 @@ diff -ruN a/src/unknown_023540.cpp b/src/unknown_023540.cpp
  void function_3ea60();
  void function_c15a0();
  void function_156040();
-@@ -4591,6 +4593,7 @@
+@@ -4854,6 +4856,7 @@
  void function_40890();
  void function_1917eb();
  class c_render_window;
@@ -300,7 +320,7 @@ diff -ruN a/src/unknown_023540.cpp b/src/unknown_023540.cpp
  void function_147af1(long first, long second, c_render_window *window);
  struct s_2f800_view;
  void function_2fd90(s_2f800_view const *view, box2f const *clip, byte *out);
-@@ -4619,7 +4622,9 @@
+@@ -4882,7 +4885,9 @@
      *(byte *)&g_4ba010 = 0; /* address-taken in retail: see above */
      memcpy(&g_4b9da0, view, 0x74);
      function_2fd90((s_2f800_view const *)&g_4b9da0, (box2f const *)sky_color, (byte *)&g_4b9e14);
@@ -310,7 +330,7 @@ diff -ruN a/src/unknown_023540.cpp b/src/unknown_023540.cpp
      function_3ea60();
      function_c15a0();
      s_frame_view_2c560 frame;
-@@ -4659,6 +4664,8 @@
+@@ -4922,6 +4927,8 @@
      function_15680(0);
      if (g_4b9ed8 != NONE) function_1917eb();
      function_40890();
@@ -320,9 +340,9 @@ diff -ruN a/src/unknown_023540.cpp b/src/unknown_023540.cpp
      function_13c20();
  }
 diff -ruN a/src/unknown_02b400.cpp b/src/unknown_02b400.cpp
---- a/src/unknown_02b400.cpp	2026-11-18 22:14:35.812742908 +0000
-+++ b/src/unknown_02b400.cpp	2026-11-18 22:20:00.774097557 +0000
-@@ -171,6 +171,8 @@
+--- a/src/unknown_02b400.cpp	2026-11-21 02:28:03.729375023 +0000
++++ b/src/unknown_02b400.cpp	2026-11-21 02:29:08.166985677 +0000
+@@ -177,6 +177,8 @@
  
  byte function_016a90();
  
@@ -331,7 +351,7 @@ diff -ruN a/src/unknown_02b400.cpp b/src/unknown_02b400.cpp
  // @retail 0x2fb70
  void function_2fb70(s_2f800_view const *view, box2f const *clip, s_projection_scalars *out)
  {
-@@ -195,11 +197,18 @@
+@@ -201,11 +203,18 @@
      output.offset_y = offset_y;
      real tangent = (real)tan((double)(view->angle * 0.5f));
      real aspect = output.width / output.height;
@@ -354,8 +374,8 @@ diff -ruN a/src/unknown_02b400.cpp b/src/unknown_02b400.cpp
      else if (g_510c50 && ((byte *)g_510c50)[5])
      {
 diff -ruN a/src/unknown_02c560.cpp b/src/unknown_02c560.cpp
---- a/src/unknown_02c560.cpp	2026-11-18 22:14:35.812742908 +0000
-+++ b/src/unknown_02c560.cpp	2026-11-18 22:20:00.774205231 +0000
+--- a/src/unknown_02c560.cpp	2026-11-21 02:28:03.729426661 +0000
++++ b/src/unknown_02c560.cpp	2026-11-21 02:29:08.167605183 +0000
 @@ -53,12 +53,15 @@
  void function_13cd0(void);
  void function_13c780(void);
@@ -382,7 +402,7 @@ diff -ruN a/src/unknown_02c560.cpp b/src/unknown_02c560.cpp
      function_13c20();
  }
  
-@@ -185,7 +190,9 @@
+@@ -188,7 +193,9 @@
      function_132d0(&g_4850d0[saved_index]);
      if (g_4e9194) function_156040();
      *(long *)g_54d598.unknown00 = NONE;
@@ -392,7 +412,7 @@ diff -ruN a/src/unknown_02c560.cpp b/src/unknown_02c560.cpp
      if (g_4e9bb8)
      {
          long location = map_location_get(g_4e9bb8);
-@@ -237,7 +244,7 @@
+@@ -240,7 +247,7 @@
      g_4ba010 = true;
      memcpy(&g_camera_storage, frame.view, sizeof(g_camera_storage));
      function_2fd90((s_2f800_view const *)&g_camera_storage, (box2f const *)clip, (byte *)&g_projection_storage);
@@ -402,9 +422,9 @@ diff -ruN a/src/unknown_02c560.cpp b/src/unknown_02c560.cpp
      g_4850d0[saved_index] = frame;
      function_132d0(&g_4850d0[saved_index]);
 diff -ruN a/src/unknown_0350e0.cpp b/src/unknown_0350e0.cpp
---- a/src/unknown_0350e0.cpp	2026-11-18 22:14:35.812742908 +0000
-+++ b/src/unknown_0350e0.cpp	2026-11-18 22:20:00.774496230 +0000
-@@ -5364,7 +5364,8 @@
+--- a/src/unknown_0350e0.cpp	2026-11-21 02:28:03.729508385 +0000
++++ b/src/unknown_0350e0.cpp	2026-11-21 02:29:08.168287854 +0000
+@@ -5889,7 +5889,8 @@
          g_485a30 = g_485a34 = g_485a38 = g_485a3c = 1.0f;
          g_485a40 = 0.0f;
      }
@@ -414,7 +434,7 @@ diff -ruN a/src/unknown_0350e0.cpp b/src/unknown_0350e0.cpp
          &g_485a2c, (vector4f *)g_485a0c, (vector4f *)(g_485a0c + 4));
      s_bounds3d bounds;
      if (resource)
-@@ -6729,7 +6730,7 @@
+@@ -7350,7 +7351,7 @@
  
  void function_14ac0();
  
@@ -423,7 +443,7 @@ diff -ruN a/src/unknown_0350e0.cpp b/src/unknown_0350e0.cpp
  // Retail 0x289e0
  bool function_289e0()
  {
-@@ -6778,7 +6779,7 @@
+@@ -7399,7 +7400,7 @@
          fade = fade < 0.0f ? 0.0f : fade > 1.0f ? 1.0f : fade;
          real rectangle[4] = {0.0f, 640.0f, 0.0f, 480.0f};
          real sliding[4] = {(1.0f - progress) * 640.0f, (1.0f - progress) * 640.0f + 640.0f, 0.0f, 480.0f};
@@ -433,9 +453,9 @@ diff -ruN a/src/unknown_0350e0.cpp b/src/unknown_0350e0.cpp
          center = 1.0f - center * center;
          *(real *)(g_4b99b0 + 0x30) = 1.0f - center * center * 0.6600000262260437f;
 diff -ruN a/src/unknown_03bcb0.cpp b/src/unknown_03bcb0.cpp
---- a/src/unknown_03bcb0.cpp	2026-11-18 22:14:35.812742908 +0000
-+++ b/src/unknown_03bcb0.cpp	2026-11-18 22:20:00.775052180 +0000
-@@ -638,6 +638,7 @@
+--- a/src/unknown_03bcb0.cpp	2026-11-21 02:28:03.729643936 +0000
++++ b/src/unknown_03bcb0.cpp	2026-11-21 02:29:08.169182964 +0000
+@@ -689,6 +689,7 @@
  extern bool g_4ba019;
  extern real g_485b28[7];
  
@@ -443,7 +463,7 @@ diff -ruN a/src/unknown_03bcb0.cpp b/src/unknown_03bcb0.cpp
  // @retail 0x1bf50
  bool function_1bf50(long level, long tag, real distance, long *out)
  {
-@@ -811,7 +812,7 @@
+@@ -862,7 +863,7 @@
  {
      byte *definition = g_4e3b44[tag & 0xffff].bytes;
      long pass;
@@ -452,7 +472,7 @@ diff -ruN a/src/unknown_03bcb0.cpp b/src/unknown_03bcb0.cpp
      byte *groups = record_format_groups(tag);
      dword flags = *(dword *)(*(byte **)(groups + 4) + pass * 10 + 2);
      if (flags & 0x10006e)
-@@ -1064,6 +1065,76 @@
+@@ -1115,6 +1116,76 @@
  // frame is 0x4c, ours 0x60.
  // Tried: store order z,x,y,scale (291 -> 291), volatile tangent (-6), volatile tangent+view_tangent (-6), writing only
  // g_4c1b08[3].y and keeping the other corners in locals (same code).
@@ -529,7 +549,7 @@ diff -ruN a/src/unknown_03bcb0.cpp b/src/unknown_03bcb0.cpp
  // @retail 0x3ca90
  void function_3ca90(byte const *state)
  {
-@@ -1082,7 +1153,8 @@
+@@ -1133,7 +1204,8 @@
  	g_4c1b68.position.z = height - distance * offset;
  	real aspect = ((real)(short)g_48564e - (real)(short)g_48564a) / ((short)g_48564c - (short)g_485648);
  	real tangent = (real)(tan(*(real const *)(state + 0x7c) * 0.5f) * *(real const *)(state + 0x80));
@@ -539,7 +559,7 @@ diff -ruN a/src/unknown_03bcb0.cpp b/src/unknown_03bcb0.cpp
  		aspect *= 1.5f;
  	real half_angle = g_485640 * 0.5f;
  	if (!(half_angle < 0.7806857824325562f)) half_angle = 0.7806857824325562f;
-@@ -1128,6 +1200,7 @@
+@@ -1179,6 +1251,7 @@
  		corners[i].z = g_4c1b38[2][1] * g_4c1b08[i].y + g_4c1b38[2][0] * g_4c1b08[i].x + g_4c1b38[2][2] * g_4c1b08[i].z + g_4c1b38[2][3];
  	}
  	memcpy(g_4c1b08, corners, sizeof(corners));
@@ -547,7 +567,7 @@ diff -ruN a/src/unknown_03bcb0.cpp b/src/unknown_03bcb0.cpp
  }
  
  
-@@ -1198,7 +1271,7 @@
+@@ -1249,7 +1322,7 @@
      if (material == NONE) material = context->material;
      byte const *definition = g_4e3b44[material & 0xffff].bytes;
      long pass;
@@ -556,7 +576,7 @@ diff -ruN a/src/unknown_03bcb0.cpp b/src/unknown_03bcb0.cpp
      byte const *groups = record_format_groups(material);
      dword flags = *(dword const *)(*(byte **)(groups + 4) + pass * 10 + 2);
      if (material_override != NONE)
-@@ -1392,7 +1465,7 @@
+@@ -1443,7 +1516,7 @@
      return result;
  }
  
@@ -565,7 +585,7 @@ diff -ruN a/src/unknown_03bcb0.cpp b/src/unknown_03bcb0.cpp
  struct s_projection_copy_3bd00
  {
      transform4x3f transform;
-@@ -1714,7 +1787,7 @@
+@@ -1765,7 +1838,7 @@
      long const *level_reference = &level;
      short const *kind_reference = &kind;
      (void)*kind_reference;
@@ -574,7 +594,7 @@ diff -ruN a/src/unknown_03bcb0.cpp b/src/unknown_03bcb0.cpp
          function_3b9d0(&g_4c1a48[group], tag, *(long *)&distance, and_mask, or_mask, fill, value, context, 0);
  }
  
-@@ -1892,8 +1965,8 @@
+@@ -1943,8 +2016,8 @@
      {
          function_4d9c0(part, mode, value, index, tag, second, fourth, record[4]);
          function_4d640(index, mode, compound);
@@ -586,9 +606,9 @@ diff -ruN a/src/unknown_03bcb0.cpp b/src/unknown_03bcb0.cpp
              (s_4daa0_part *)part, *(dword **)(entry->unknown10 + 4));
          function_4d720(index, mode);
 diff -ruN a/src/unknown_03fdf0.cpp b/src/unknown_03fdf0.cpp
---- a/src/unknown_03fdf0.cpp	2026-11-18 22:14:35.812742908 +0000
-+++ b/src/unknown_03fdf0.cpp	2026-11-18 22:20:00.775246032 +0000
-@@ -772,7 +772,8 @@
+--- a/src/unknown_03fdf0.cpp	2026-11-21 02:28:03.729762185 +0000
++++ b/src/unknown_03fdf0.cpp	2026-11-21 02:29:08.169492204 +0000
+@@ -847,7 +847,8 @@
                  parent = *(long *)(*(byte **)(g_4e0300->data + (parent & 0xffff) * 12 + 8) + 0x14);
          }
          function_402b0(cache_index, mode);
@@ -599,8 +619,8 @@ diff -ruN a/src/unknown_03fdf0.cpp b/src/unknown_03fdf0.cpp
          g_4ba018 = true;
          dword flags = (short)shape.kind == 0 ? 1 : 0;
 diff -ruN a/src/unknown_12b450.cpp b/src/unknown_12b450.cpp
---- a/src/unknown_12b450.cpp	2026-11-18 22:14:35.828742909 +0000
-+++ b/src/unknown_12b450.cpp	2026-11-18 22:20:00.775372810 +0000
+--- a/src/unknown_12b450.cpp	2026-11-21 02:28:03.734685637 +0000
++++ b/src/unknown_12b450.cpp	2026-11-21 02:29:08.169948364 +0000
 @@ -44,6 +44,11 @@
  void function_8dfc0(void);
  void game_loop_frame_update(real arg_1);
@@ -638,8 +658,8 @@ diff -ruN a/src/unknown_12b450.cpp b/src/unknown_12b450.cpp
  	}
  }
 diff -ruN a/src/unknown_12b690.cpp b/src/unknown_12b690.cpp
---- a/src/unknown_12b690.cpp	2026-11-18 22:14:35.828742909 +0000
-+++ b/src/unknown_12b690.cpp	2026-11-18 22:20:00.775467475 +0000
+--- a/src/unknown_12b690.cpp	2026-11-21 02:28:03.734696591 +0000
++++ b/src/unknown_12b690.cpp	2026-11-21 02:29:08.170028405 +0000
 @@ -50,11 +50,13 @@
  
  #define g_440ddc (*( s_440ddc const (*)[68])((byte const *)g_440dd8 + 4))
@@ -655,10 +675,25 @@ diff -ruN a/src/unknown_12b690.cpp b/src/unknown_12b690.cpp
      function_12b070();
      function_137c20();
      while (!main_globals.unknown2a[1])
+diff -ruN a/src/unknown_12b6f0.cpp b/src/unknown_12b6f0.cpp
+--- a/src/unknown_12b6f0.cpp	2026-11-21 02:28:03.734707525 +0000
++++ b/src/unknown_12b6f0.cpp	2026-11-21 04:57:35.279930466 +0000
+@@ -16,8 +16,11 @@
+ void function_2ca00(point3f const *position, t_aux_view_callback callback, void *context);
+ void __stdcall function_2233a0(real const *arg_0);
+ 
++extern "C" int __cdecl h2n_boot_screen(float progress);   /* h2native: the first map's wait as the level loading screen (layer3/xboot.cpp) */
++
+ static __forceinline void draw_progress_frame(point3f const *color, real progress)
+ {
++    if (h2n_boot_screen(progress)) return;    /* h2native: drawn by function_289e0, the level loading screen */
+     function_2ca00(color, (t_aux_view_callback)function_2233a0, &progress);
+ }
+ 
 diff -ruN a/src/unknown_1321f0.cpp b/src/unknown_1321f0.cpp
---- a/src/unknown_1321f0.cpp	2026-11-18 22:14:35.828742909 +0000
-+++ b/src/unknown_1321f0.cpp	2026-11-18 22:20:00.775561406 +0000
-@@ -839,6 +839,7 @@
+--- a/src/unknown_1321f0.cpp	2026-11-21 02:28:03.735287007 +0000
++++ b/src/unknown_1321f0.cpp	2026-11-21 02:29:08.170128629 +0000
+@@ -928,6 +928,7 @@
  	}
  }
  
@@ -666,7 +701,7 @@ diff -ruN a/src/unknown_1321f0.cpp b/src/unknown_1321f0.cpp
  // @retail 0x133520
  void __stdcall function_133520(s_bit_vector_pool *arg_1)
  {
-@@ -870,6 +871,7 @@
+@@ -959,6 +960,7 @@
  				local_10 = local_13;
  		}
  		byte local_11 = (byte)(long)(local_10 * 255.0f);
@@ -675,9 +710,9 @@ diff -ruN a/src/unknown_1321f0.cpp b/src/unknown_1321f0.cpp
  			local_6 |= 0x40;
  		else
 diff -ruN a/src/unknown_139296.cpp b/src/unknown_139296.cpp
---- a/src/unknown_139296.cpp	2026-11-18 22:14:35.828742909 +0000
-+++ b/src/unknown_139296.cpp	2026-11-18 22:20:00.775740179 +0000
-@@ -1440,6 +1440,8 @@
+--- a/src/unknown_139296.cpp	2026-11-21 02:28:03.735598215 +0000
++++ b/src/unknown_139296.cpp	2026-11-21 02:29:08.170726923 +0000
+@@ -1471,6 +1471,8 @@
  	return success;
  }
  
@@ -686,7 +721,7 @@ diff -ruN a/src/unknown_139296.cpp b/src/unknown_139296.cpp
  // @retail 0x13a532
  void function_13a532(long arg_1, long arg_2, byte const *arg_3, long arg_4)
  {
-@@ -1462,7 +1464,9 @@
+@@ -1493,7 +1495,9 @@
              {
                  real local_10[4];
                  function_13ad48(arg_2, local_9 + 4, local_10, arg_3, item);
@@ -696,7 +731,7 @@ diff -ruN a/src/unknown_139296.cpp b/src/unknown_139296.cpp
              }
              local_8 += 0x50;
          }
-@@ -1480,7 +1484,9 @@
+@@ -1511,7 +1515,9 @@
              {
                  real local_10[4];
                  function_13ad48(arg_2, local_9 + 4, local_10, arg_3, item);
@@ -706,7 +741,7 @@ diff -ruN a/src/unknown_139296.cpp b/src/unknown_139296.cpp
              }
              local_8 += 0x64;
          }
-@@ -1498,7 +1504,9 @@
+@@ -1529,7 +1535,9 @@
              {
                  real local_10[4];
                  function_13ad48(arg_2, local_9 + 4, local_10, arg_3, item);
@@ -717,8 +752,8 @@ diff -ruN a/src/unknown_139296.cpp b/src/unknown_139296.cpp
              local_8 += 0x54;
          }
 diff -ruN a/src/unknown_13954b.cpp b/src/unknown_13954b.cpp
---- a/src/unknown_13954b.cpp	2026-11-18 22:14:35.828742909 +0000
-+++ b/src/unknown_13954b.cpp	2026-11-18 22:20:00.775888599 +0000
+--- a/src/unknown_13954b.cpp	2026-11-21 02:28:03.735631146 +0000
++++ b/src/unknown_13954b.cpp	2026-11-21 02:29:08.170969961 +0000
 @@ -70,6 +70,9 @@
  #pragma inline_depth(0)
  /* "standard" stops LTCG assuming an 8-aligned entry: it gives retail's frame
@@ -743,8 +778,8 @@ diff -ruN a/src/unknown_13954b.cpp b/src/unknown_13954b.cpp
  		function_159880();
  		function_445d0();
 diff -ruN a/src/unknown_13cf00.cpp b/src/unknown_13cf00.cpp
---- a/src/unknown_13cf00.cpp	2026-11-18 22:14:35.828742909 +0000
-+++ b/src/unknown_13cf00.cpp	2026-11-18 22:20:00.775933772 +0000
+--- a/src/unknown_13cf00.cpp	2026-11-21 02:28:03.735725675 +0000
++++ b/src/unknown_13cf00.cpp	2026-11-21 02:29:08.171056462 +0000
 @@ -113,6 +113,7 @@
  #include "slot_handler.h"
  static __forceinline long real_to_long(real value);
@@ -764,9 +799,9 @@ diff -ruN a/src/unknown_13cf00.cpp b/src/unknown_13cf00.cpp
  				}
  			}
 diff -ruN a/src/unknown_157450.cpp b/src/unknown_157450.cpp
---- a/src/unknown_157450.cpp	2026-11-18 22:14:35.832742909 +0000
-+++ b/src/unknown_157450.cpp	2026-11-19 15:13:27.531849848 +0000
-@@ -4944,6 +4944,7 @@
+--- a/src/unknown_157450.cpp	2026-11-21 02:28:03.736648440 +0000
++++ b/src/unknown_157450.cpp	2026-11-21 02:29:08.171303805 +0000
+@@ -4965,6 +4965,7 @@
  PRIVATE color3f const score_text_color = { 0.4588235318660736f, 0.729411780834198f, 1.0f };
  PRIVATE color3f const alternate_score_text_color = { 0.8078431487083435f, 0.5607843399047852f, 0.8705882430076599f };
  
@@ -774,7 +809,7 @@ diff -ruN a/src/unknown_157450.cpp b/src/unknown_157450.cpp
  // @retail 0x15e530
  void __stdcall function_15e530(c_1fa50 const *text, real alpha, point2f const *point)
  {
-@@ -4979,7 +4980,9 @@
+@@ -5000,7 +5001,9 @@
      bounds.bottom = (short)y;
      function_13edb0(font_index, NONE, 2, 0, &color, &shadow);
      function_13ec70(&color);
@@ -784,7 +819,7 @@ diff -ruN a/src/unknown_157450.cpp b/src/unknown_157450.cpp
      text_style_clear();
  }
  
-@@ -5411,6 +5414,7 @@
+@@ -5432,6 +5435,7 @@
  extern long g_4e64a8;
  void function_36580(void);
  void function_36880(s_short_rectangle const *rectangle, color4f const *color);
@@ -792,7 +827,7 @@ diff -ruN a/src/unknown_157450.cpp b/src/unknown_157450.cpp
  void function_161420(long player_index, real alpha);
  
  // MiniMax D (11-10): no new form, no lower score (2); retail stores the x87 power (fstp dword ptr
-@@ -5509,7 +5513,7 @@
+@@ -5530,7 +5534,7 @@
              if (intensity > 0.0f)
              {
                  real power = pow(intensity, 1.9f);
@@ -802,8 +837,8 @@ diff -ruN a/src/unknown_157450.cpp b/src/unknown_157450.cpp
          }
      }
 diff -ruN a/src/unknown_16e290.cpp b/src/unknown_16e290.cpp
---- a/src/unknown_16e290.cpp	2026-11-18 22:14:35.836742910 +0000
-+++ b/src/unknown_16e290.cpp	2026-11-18 22:20:00.776511150 +0000
+--- a/src/unknown_16e290.cpp	2026-11-21 02:28:03.737241778 +0000
++++ b/src/unknown_16e290.cpp	2026-11-21 02:29:08.172057514 +0000
 @@ -1525,6 +1525,7 @@
  void __stdcall function_170fd0(long user_index);
  long function_155760(long user_index);
@@ -822,8 +857,8 @@ diff -ruN a/src/unknown_16e290.cpp b/src/unknown_16e290.cpp
  				break;
  			}
 diff -ruN a/src/unknown_173b90.cpp b/src/unknown_173b90.cpp
---- a/src/unknown_173b90.cpp	2026-11-18 22:14:35.836742910 +0000
-+++ b/src/unknown_173b90.cpp	2026-11-18 22:20:00.776738885 +0000
+--- a/src/unknown_173b90.cpp	2026-11-21 02:28:03.737339664 +0000
++++ b/src/unknown_173b90.cpp	2026-11-21 02:29:08.172306248 +0000
 @@ -50,6 +50,7 @@
  void effect_remove_event_slot(long effect_index, long value);
  void function_1753f0(s_particle_system_datum *particle_system);
@@ -841,8 +876,8 @@ diff -ruN a/src/unknown_173b90.cpp b/src/unknown_173b90.cpp
  		{
  			if (particle_system->effect_index != NONE)
 diff -ruN a/src/unknown_200462.cpp b/src/unknown_200462.cpp
---- a/src/unknown_200462.cpp	2026-11-18 22:14:35.852742911 +0000
-+++ b/src/unknown_200462.cpp	2026-11-18 22:20:00.776916854 +0000
+--- a/src/unknown_200462.cpp	2026-11-21 02:28:03.742910098 +0000
++++ b/src/unknown_200462.cpp	2026-11-21 02:29:08.172530251 +0000
 @@ -42,6 +42,7 @@
  
  struct s_widget_quad_2b11;
@@ -851,7 +886,7 @@ diff -ruN a/src/unknown_200462.cpp b/src/unknown_200462.cpp
  real function_200891(s_interface_pulse const *arg_0, bool arg_1);
  real function_2008fc(s_interface_pulse const *arg_0, bool arg_1);
  void function_22a664(s_widget_quad_2b11 const *arg_0, s_float_rect const *arg_1,
-@@ -262,7 +263,7 @@
+@@ -323,7 +324,7 @@
          }
      }
      point2f local_14;
@@ -861,8 +896,8 @@ diff -ruN a/src/unknown_200462.cpp b/src/unknown_200462.cpp
      local_14.y += 50.0f;
      for (entry_index = 0; entry_index < 9; entry_index++)
 diff -ruN a/src/unknown_223080.cpp b/src/unknown_223080.cpp
---- a/src/unknown_223080.cpp	2026-11-18 22:14:35.856742911 +0000
-+++ b/src/unknown_223080.cpp	2026-11-18 22:20:00.776980235 +0000
+--- a/src/unknown_223080.cpp	2026-11-21 02:28:03.744424030 +0000
++++ b/src/unknown_223080.cpp	2026-11-21 02:29:08.172975508 +0000
 @@ -135,6 +135,7 @@
  void function_2f6b0(s_2f6b0_point const *arg_0, s_2f6b0_point const *arg_1,
  	s_2f6b0_point const *arg_2, short_rect *arg_3, short_rect *arg_4);
@@ -888,8 +923,8 @@ diff -ruN a/src/unknown_223080.cpp b/src/unknown_223080.cpp
  	memcpy(arg_3->field_c, arg_3->field_80, sizeof(arg_3->field_c));
  }
 diff -ruN a/src/unknown_223240.cpp b/src/unknown_223240.cpp
---- a/src/unknown_223240.cpp	2026-11-18 22:14:35.856742911 +0000
-+++ b/src/unknown_223240.cpp	2026-11-18 22:20:00.777039997 +0000
+--- a/src/unknown_223240.cpp	2026-11-21 02:28:03.744438507 +0000
++++ b/src/unknown_223240.cpp	2026-11-21 02:29:08.173082056 +0000
 @@ -53,6 +53,8 @@
  void __stdcall function_2c8a0(byte const *);
  void function_2b5d0(long mode, long count, long players, long layout, s_223240 const *source);
@@ -899,7 +934,7 @@ diff -ruN a/src/unknown_223240.cpp b/src/unknown_223240.cpp
  bool function_68290(void);
  void main_time_wait_for_vblank(void);
  void function_13f10(long, long);
-@@ -430,6 +432,7 @@
+@@ -513,6 +515,7 @@
  			if (g_4686c4 != NONE)
  				local_5 = g_4e9c8c[local_1].field_0;
  		}
@@ -907,7 +942,7 @@ diff -ruN a/src/unknown_223240.cpp b/src/unknown_223240.cpp
  		function_223080(0, local_0, local_1, (s_223080 *)&g_47f0f8[local_0 + 1],
  			local_2, local_3, (s_223081 const *)local_5);
  		++local_0;
-@@ -446,7 +449,9 @@
+@@ -529,7 +532,9 @@
  	else
  		function_2232a0();
  	bool local_0 = g_4e6470 <= 0 && g_4e64a0 <= 0;
@@ -918,8 +953,8 @@ diff -ruN a/src/unknown_223240.cpp b/src/unknown_223240.cpp
  		function_13f10(0, 0);
  }
 diff -ruN a/src/unknown_22a664.cpp b/src/unknown_22a664.cpp
---- a/src/unknown_22a664.cpp	2026-11-18 22:14:35.856742911 +0000
-+++ b/src/unknown_22a664.cpp	2026-11-18 22:20:00.777165553 +0000
+--- a/src/unknown_22a664.cpp	2026-11-21 02:28:03.744732233 +0000
++++ b/src/unknown_22a664.cpp	2026-11-21 02:29:08.173603274 +0000
 @@ -37,6 +37,8 @@
      return 1.0f;
  }
@@ -945,8 +980,8 @@ diff -ruN a/src/unknown_22a664.cpp b/src/unknown_22a664.cpp
  	}
  }
 diff -ruN a/src/unknown_22aa16.cpp b/src/unknown_22aa16.cpp
---- a/src/unknown_22aa16.cpp	2026-11-18 22:14:35.856742911 +0000
-+++ b/src/unknown_22aa16.cpp	2026-11-18 22:20:00.777212548 +0000
+--- a/src/unknown_22aa16.cpp	2026-11-21 02:28:03.744746004 +0000
++++ b/src/unknown_22aa16.cpp	2026-11-21 02:29:08.173706933 +0000
 @@ -29,6 +29,7 @@
  void function_1cf50(void);
  color3f *unpack_color3f(dword, color3f *);
@@ -965,8 +1000,8 @@ diff -ruN a/src/unknown_22aa16.cpp b/src/unknown_22aa16.cpp
  			{
  			case 0:
 diff -ruN a/src/unknown_22aff1.cpp b/src/unknown_22aff1.cpp
---- a/src/unknown_22aff1.cpp	2026-11-18 22:14:35.856742911 +0000
-+++ b/src/unknown_22aff1.cpp	2026-11-18 22:20:00.777266375 +0000
+--- a/src/unknown_22aff1.cpp	2026-11-21 02:28:03.745077919 +0000
++++ b/src/unknown_22aff1.cpp	2026-11-21 02:29:08.174207166 +0000
 @@ -25,6 +25,7 @@
  long function_13a690(long);
  void function_22ae21(long, s_bitmap_widget_22ae21 const *, long *, long *, long *, box2f *);
@@ -985,8 +1020,8 @@ diff -ruN a/src/unknown_22aff1.cpp b/src/unknown_22aff1.cpp
  			point2f_set(&vertical_axis, 0.0f, 1.0f);
  			switch (local_0)
 diff -ruN a/src/unknown_22b8e2.cpp b/src/unknown_22b8e2.cpp
---- a/src/unknown_22b8e2.cpp	2026-11-18 22:14:35.856742911 +0000
-+++ b/src/unknown_22b8e2.cpp	2026-11-18 22:20:00.777324167 +0000
+--- a/src/unknown_22b8e2.cpp	2026-11-21 02:28:03.745106821 +0000
++++ b/src/unknown_22b8e2.cpp	2026-11-21 02:29:08.174459731 +0000
 @@ -35,6 +35,7 @@
  long function_13a690(long);
  bool function_22acb4(long);
@@ -1005,8 +1040,8 @@ diff -ruN a/src/unknown_22b8e2.cpp b/src/unknown_22b8e2.cpp
  	{
  	case 0: local_4.x += arg_0->field_44[0]; local_4.y += arg_0->field_44[1]; break;
 diff -ruN a/src/unknown_22e27b.cpp b/src/unknown_22e27b.cpp
---- a/src/unknown_22e27b.cpp	2026-11-18 22:14:35.856742911 +0000
-+++ b/src/unknown_22e27b.cpp	2026-11-18 22:20:00.777423318 +0000
+--- a/src/unknown_22e27b.cpp	2026-11-21 02:28:03.745170231 +0000
++++ b/src/unknown_22e27b.cpp	2026-11-21 02:29:08.174780996 +0000
 @@ -12,6 +12,7 @@
  #include "globals.h"
  struct short_rectangle2d;
@@ -1015,7 +1050,7 @@ diff -ruN a/src/unknown_22e27b.cpp b/src/unknown_22e27b.cpp
  
  void unicode_string_copy(word *destination, const word *source, long maximum_count);
  void function_22d2ee(word *string, long maximum_length);
-@@ -1899,7 +1900,11 @@
+@@ -1980,7 +1981,11 @@
  		}
  		real scale = (last.x - first.x) * text->value20 / (real)(bounds->right - bounds->left);
  		if (function_13ee20(buffer, g_4e73a0.font))
@@ -1028,12 +1063,12 @@ diff -ruN a/src/unknown_22e27b.cpp b/src/unknown_22e27b.cpp
  	if (g_51ec04)
  	{
 diff -ruN a/src/unknown_24c7c1.cpp b/src/unknown_24c7c1.cpp
---- a/src/unknown_24c7c1.cpp	2026-11-18 22:14:35.860742911 +0000
-+++ b/src/unknown_24c7c1.cpp	2026-11-18 22:20:16.591456733 +0000
-@@ -819,6 +819,19 @@
- // The full build reads 115 once src/unknown_1ee340.cpp's constructor stores its vertices through the component accessor
- // (this round's 0x1edd00 match) and 114 with that file as before (plain checks of both trees): the reload pair before the
- // flag setup (`mov edi, [ebp - 0x64]` against retail's `mov ecx, [ebp - 0x40]`) follows the whole-image link, as in round 97.
+--- a/src/unknown_24c7c1.cpp	2026-11-21 02:28:03.746637953 +0000
++++ b/src/unknown_24c7c1.cpp	2026-11-21 02:29:17.544723211 +0000
+@@ -908,6 +908,19 @@
+ // masked is the argument order at the three 0x24ce9d and four 0x1fa30 calls); that lead without the nested selection
+ // 109 (re-measure). The frame homes are still the open part: retail allocates split flag, origin, then the scripted,
+ // tutorial and timer bytes, where this build puts the scripted byte between the split flag and the origin.
 +/* h2native s10g: Spooky Ghost's prompt_box_hook (v2.0.17): the HUD messages' text boxes - the pick-up / vehicle prompt,
 +   the messages under it (Checkpoint... done), the status lines at the bottom middle (WELCOME!, GAME OVER) - each
 +   between h2n_hud_text_box(1, its rectangle) and h2n_hud_text_box(0): past 16:9 the letters to their 16:9 width about
@@ -1050,7 +1085,7 @@ diff -ruN a/src/unknown_24c7c1.cpp b/src/unknown_24c7c1.cpp
  // @retail 0x24cf66
  void function_24cf66(long local_player_index)
  {
-@@ -918,7 +931,7 @@
+@@ -1007,7 +1020,7 @@
  				if (function_13ee20(text, g_4e73a0.font))
  				{
  					function_24ce9d(text, left, top, &bounds, &text_bounds);
@@ -1059,7 +1094,7 @@ diff -ruN a/src/unknown_24c7c1.cpp b/src/unknown_24c7c1.cpp
  				}
  			}
  
-@@ -978,14 +991,14 @@
+@@ -1067,14 +1080,14 @@
  				{
  					function_24ce9d(text, left, top, &bounds, &text_bounds);
  					message_height = (short)(bounds.bottom - bounds.top);
@@ -1076,7 +1111,7 @@ diff -ruN a/src/unknown_24c7c1.cpp b/src/unknown_24c7c1.cpp
  			}
  
  			top = (short)((real)message_height * view->line_spacing + (real)top);
-@@ -1012,7 +1025,7 @@
+@@ -1101,7 +1114,7 @@
  			field_24.alpha = function_1392a9(local_player_index) * fade;
  			function_13edb0(font, NONE, 2, 0, &color, &field_24);
  			if (function_13ef30(status_player->text_454))
@@ -1085,7 +1120,7 @@ diff -ruN a/src/unknown_24c7c1.cpp b/src/unknown_24c7c1.cpp
  		}
  
  		bounds.bottom += 0x12;
-@@ -1026,7 +1039,7 @@
+@@ -1115,7 +1128,7 @@
  		{
  			function_13edb0(font, NONE, 2, 0, &color, &field_24);
  			if (function_13ee20(text, g_4e73a0.font))
@@ -1095,17 +1130,17 @@ diff -ruN a/src/unknown_24c7c1.cpp b/src/unknown_24c7c1.cpp
  	}
  }
 diff -ruN a/src/unknown_254200.cpp b/src/unknown_254200.cpp
---- a/src/unknown_254200.cpp	2026-11-18 22:14:35.864742911 +0000
-+++ b/src/unknown_254200.cpp	2026-11-18 22:20:16.592278115 +0000
-@@ -584,6 +584,7 @@
- // two-coordinate wrapper 263 (first difference +0x83: the texture-stage block inlines differently); every depth
- // constant through a forceinline accessor returning it 340 (2197 bytes, same cause); the two lookup helpers plain
- // `inline` in place of forceinline 2. The two reloads after the second texture reservation stay swapped.
+--- a/src/unknown_254200.cpp	2026-11-21 02:28:03.747033784 +0000
++++ b/src/unknown_254200.cpp	2026-11-21 02:29:17.545036889 +0000
+@@ -718,6 +718,7 @@
+ // code); defaulted to 42 and overridden in an `if` 94 (2258 B); the closing `else if (g_51ec9a)` as a plain `else` 22
+ // (retail re-reads the flag); the alpha product scale first 2 (same code); the offset quad reading arg_0's fields
+ // directly instead of the two coordinate pointers 18. All restored.
 +extern "C" void __cdecl h2n_hud_tracker(int on);     /* h2native: the Widescreen Fix (layer2/xd3d.cpp) */
  // @retail 0x2548f0
  void __stdcall function_2548f0(point2f const *arg_0, real arg_1)
  {
-@@ -699,6 +700,7 @@
+@@ -831,6 +832,7 @@
  			real const *point_x = &arg_0->x;
  			real const *point_y = &arg_0->y;
  			function_1cf50();
@@ -1113,7 +1148,7 @@ diff -ruN a/src/unknown_254200.cpp b/src/unknown_254200.cpp
  			D3DDevice_Begin(D3DPT_TRIANGLEFAN);
  			D3DDevice_SetVertexData2s(1, 0, 0);
  			D3DDevice_SetVertexData4f(D3DVSDE_VERTEX, *point_x - local_7, *point_y - local_7, 16777215.f, 16777215.f);
-@@ -709,6 +711,7 @@
+@@ -841,6 +843,7 @@
  			D3DDevice_SetVertexData2s(1, 0, 1);
  			D3DDevice_SetVertexData4f(D3DVSDE_VERTEX, *point_x - local_7, *point_y + local_7, 16777215.f, 16777215.f);
  			D3DDevice_End();
@@ -1122,8 +1157,8 @@ diff -ruN a/src/unknown_254200.cpp b/src/unknown_254200.cpp
  		}
  		else if (g_51ec9a)
 diff -ruN a/src/unknown_2b116a.cpp b/src/unknown_2b116a.cpp
---- a/src/unknown_2b116a.cpp	2026-11-18 22:14:35.872742912 +0000
-+++ b/src/unknown_2b116a.cpp	2026-11-18 22:20:00.778112748 +0000
+--- a/src/unknown_2b116a.cpp	2026-11-21 02:28:03.749634159 +0000
++++ b/src/unknown_2b116a.cpp	2026-11-21 02:29:08.177048284 +0000
 @@ -276,6 +276,9 @@
  }
  
@@ -1144,7 +1179,7 @@ diff -ruN a/src/unknown_2b116a.cpp b/src/unknown_2b116a.cpp
          }
      }
      if (show_label)
-@@ -6229,8 +6234,12 @@
+@@ -6324,8 +6329,12 @@
          visibility_object_lists_add(extra_indices, extra_count, model_visibility_lists, object_indices, object_count, false);
          function_2cbc0(true);
          function_44720();
@@ -1159,8 +1194,8 @@ diff -ruN a/src/unknown_2b116a.cpp b/src/unknown_2b116a.cpp
          {
              c_user_interface_text_buffer_32 text;
 diff -ruN a/src/unknown_4bcc0.cpp b/src/unknown_4bcc0.cpp
---- a/src/unknown_4bcc0.cpp	2026-11-18 22:14:35.888742913 +0000
-+++ b/src/unknown_4bcc0.cpp	2026-11-18 22:20:00.778405644 +0000
+--- a/src/unknown_4bcc0.cpp	2026-11-21 02:28:03.759865102 +0000
++++ b/src/unknown_4bcc0.cpp	2026-11-21 02:29:08.177468714 +0000
 @@ -31,6 +31,7 @@
  short function_3d3e0(long object_index, bool cached);
  bool function_12de70(s_geometry_block_info *info, dword flags);

@@ -190,504 +190,480 @@ _h2n_routes:
   .long "?function_0497a0@@YIXPAUs_view_source@@PAUs_view_result@@PAUs_view_camera@@PAUs_view_flags@@PBTvector3f@@4MPAJPAUvector4f@@6@Z", 0x497a0, LC176, 4
   .long "?function_4b5d0@@YIX_NJJMMPAUs_133f70@@PBTpoint3f@@0@Z", 0x4b5d0, LC177, 256
   .long "?function_55e10@@YGJPAUs_voice_channel@@PAEJ_N@Z", 0x55e10, LC178, 0
-  .long "?function_64d70@@YG_NPAUs_session_browser_summary@@@Z", 0x64d70, LC179, 0
-  .long "?function_67ee0@@YIXXZ", 0x67ee0, LC180, 0
-  .long "?function_6b4a0@@YIXXZ", 0x6b4a0, LC181, 256
-  .long "?online_tasks_dispose_all@@YIXXZ", 0x6b950, LC182, 256
-  .long "?function_6d4c0@@YGXPAX@Z", 0x6d4c0, LC183, 0
-  .long "?v7@c_helper_b@@UAE_NXZ", 0x73360, LC184, 0
-  .long "?function_074aa0@@YIXXZ", 0x74aa0, LC185, 256
-  .long "?connection_v05@s_network_observer@@UAE_NJ_N00PA_N1PAJ2JPAE@Z", 0x75fc0, LC186, 256
-  .long "?network_observer_update_connection@@YIXRAUs_network_observer@@J@Z", 0x76ff0, LC187, 262
-  .long "?function_81780@@YGXJ@Z", 0x81780, LC188, 256
-  .long "?function_83610@@YGXPAUs_simulation_world_owner@@PAJPAUs_simulation_player_update@@@Z", 0x83610, LC189, 0
-  .long "?bungienet_user_voice_apply@@YG_NPAUs_bungienet_user_request@@@Z", 0x8c5f0, LC190, 0
-  .long "?function_97d80@c_aggregate_450cf4@@UAEJPAKPAUs_request@@@Z", 0x97d80, LC191, 0
-  .long "?v27@c_device_type@@UAEJJJJJ@Z", 0xa3df0, LC192, 0
-  .long "?v22@c_object_type_definition@@UAE_NPAUs_entity@@JPAUs_entity_info@@JJJ@Z", 0xa5a60, LC193, 0
-  .long "?function_a9f70@@YGJJJPBTpoint3f@@@Z", 0xa9f70, LC194, 0
-  .long "?function_b7430@@YG_NJPBTpoint3f@@PBTvector3f@@1PBUs_location@@_N333@Z", 0xb7430, LC195, 0
-  .long "?function_b7b40@@YGJPAX@Z", 0xb7b40, LC196, 0
-  .long "?function_b8540@@YGXJ@Z", 0xb8540, LC197, 0
-  .long "?function_bd090@@YGXJ@Z", 0xbd090, LC198, 0
-  .long "?function_bd610@@YGPBUtransform4x3f@@JPBEPBU1@@Z", 0xbd610, LC199, 0
-  .long "?function_be240@@YGXJKPBUcolor3f@@@Z", 0xbe240, LC200, 0
-  .long "?function_be8e0@@YG_NJ@Z", 0xbe8e0, LC201, 0
-  .long "?function_c1d90@@YGXPBUs_light_frame_ab@@PBUs_light_shape_ab@@PAUs_light_projection_ab@@PAF@Z", 0xc1d90, LC202, 0
-  .long "?function_c2d00@@YGXJ@Z", 0xc2d00, LC203, 256
-  .long "?function_c4410@@YG_NJPBXPA_N@Z", 0xc4410, LC204, 256
-  .long "?function_c58f0@@YG_NJ@Z", 0xc58f0, LC205, 0
-  .long "?function_c60c0@@YG_NJ@Z", 0xc60c0, LC206, 0
-  .long "?function_cd7b0@@YG_NJJPA_N@Z", 0xcd7b0, LC207, 0
-  .long "?function_d1e10@@YGJPBXPAUs_effect_color_query@@J_N@Z", 0xd1e10, LC208, 256
-  .long "?function_d4e60@@YIXF@Z", 0xd4e60, LC209, 1
-  .long "?function_f0760@@YGXJP6GXJPAUs_graph_tag@@PAVc_animation_channel@@MMMPAX@Z2@Z", 0xf0760, LC210, 0
-  .long "?function_f6d10@@YG_NJJPAMPA_N@Z", 0xf6d10, LC211, 0
-  .long "?function_104150@@YGXJF@Z", 0x104150, LC212, 256
-  .long "?device_export_function@@YG_NJJPAMPA_N@Z", 0x106d70, LC213, 0
-  .long "?function_110ab0@@YG_NJ@Z", 0x110ab0, LC214, 0
-  .long "?function_112070@@YGXJPBKJPAUreal_quaternion_transform@@@Z", 0x112070, LC215, 256
-  .long "?function_113980@@YGXJJ_NMPAUs_animation_state@@PAUs_graph_pair_iterator@@JPAUtransform4x3f@@@Z", 0x113980, LC216, 0
-  .long "?function_1161f0@@YGXPAUs_chain_record@@PAUs_chain_definition@@M@Z", 0x1161f0, LC217, 0
-  .long "?function_127010@@YIJF@Z", 0x127010, LC218, 0
-  .long "?function_1282d0@@YIXXZ", 0x1282d0, LC219, 256
-  .long "?function_1295e0@@YG_NF@Z", 0x1295e0, LC220, 256
-  .long "?function_12bad0@@YI_NXZ", 0x12bad0, LC221, 0
-  .long "?game_loop_tick@@YIXXZ", 0x137fe0, LC222, 256
-  .long "?function_14df40@@YG_NPAJ@Z", 0x14df40, LC223, 0
-  .long "?function_1554b0@@YIXM@Z", 0x1554b0, LC224, 256
-  .long "?function_158140@@YIXXZ", 0x158140, LC225, 0
-  .long "?function_15c6f0@@YIXXZ", 0x15c6f0, LC226, 0
-  .long "?function_15eb20@@YI_NJ@Z", 0x15eb20, LC227, 0
-  .long "?function_1608e0@@YGXJPAUs_score_panel_1608e0@@M@Z", 0x1608e0, LC228, 0
-  .long "?function_169510@@YG_NJ_NKKPBTpoint3f@@PBTvector3f@@JJPAUs_collision_result_1697c0@@@Z", 0x169510, LC229, 0
-  .long "?function_170fd0@@YGXJ@Z", 0x170fd0, LC230, 256
-  .long "?function_172840@@YG_NJPAUs_pool@@PAUs_short_list_table@@PAUs_ring_buffer@@PAUs_polygon_cache_173520@@@Z", 0x172840, LC231, 256
-  .long "?collect@c_query_batch_collector@@UAEXPBUs_batch_contact@@@Z", 0x1822f0, LC232, 0
-  .long "?function_186ab0@@YGXJMMPAUs_player_action@@@Z", 0x186ab0, LC233, 0
-  .long "?function_187ec0@@YI_NXZ", 0x187ec0, LC234, 0
-  .long "?function_18ca20@@YGXJJPBUs_sound_permutation@@M@Z", 0x18ca20, LC235, 0
-  .long "?function_18dc90@@YGXPAUs_portal_path_bsp@@JPBTpoint3f@@MPAJ2222@Z", 0x18dc90, LC236, 0
-  .long "?function_195ed0@@YIXXZ", 0x195ed0, LC237, 0
-  .long "?function_19e1c0@@YIJPAUs_event@@JPBGPAGJ@Z", 0x19e1c0, LC238, 0
-  .long "?function_1a83e0@@YG_NJPAFPAMPAUpoint2f@@PA_N@Z", 0x1a83e0, LC239, 0
-  .long "?function_1a9760@@YGXJPAUs_slot@@@Z", 0x1a9760, LC240, 0
-  .long "?function_1aa0d0@@YG_NJPAUs_slot@@@Z", 0x1aa0d0, LC241, 0
-  .long "?function_1aab50@@YG_NJPAUs_slot@@@Z", 0x1aab50, LC242, 0
-  .long "?function_1ae680@@YGFJPAUs_slot@@@Z", 0x1ae680, LC243, 256
-  .long "?function_1b7e40@@YGFJ@Z", 0x1b7e40, LC244, 0
-  .long "?function_1ba090@@YGJJPAUs_slot@@@Z", 0x1ba090, LC245, 0
-  .long "?function_1ba8c0@@YGXJPAUs_slot@@PAUs_slot_target_list@@@Z", 0x1ba8c0, LC246, 0
-  .long "?function_1c4590@@YGXJ@Z", 0x1c4590, LC247, 256
-  .long "?function_1c4c50@@YG_NJJPBTpoint3f@@PBTvector3f@@1PAJPAT2@3@Z", 0x1c4c50, LC248, 0
-  .long "?function_1c89b0@@YGFJFPAUs_ai_capsule_view@@@Z", 0x1c89b0, LC249, 256
-  .long "?function_1c9830@@YGXFF_N0@Z", 0x1c9830, LC250, 0
-  .long "?function_1d24a0@@YGXPAUs_havok_component@@M@Z", 0x1d24a0, LC251, 0
-  .long "?function_1d3920@@YGXPAEPAKM@Z", 0x1d3920, LC252, 0
-  .long "?function_1d77d0@@YGXPAUs_havok_component@@PAUs_physics_model_owner@@@Z", 0x1d77d0, LC253, 0
-  .long "?function_1d87b0@@YGXPAUs_havok_component_rigid_body@@JPAUs_havok_component@@@Z", 0x1d87b0, LC254, 0
-  .long "?function_1e0850@@YGJJJPBUs_203780@@_N@Z", 0x1e0850, LC255, 256
-  .long "?function_1e1a00@@YGXJJ@Z", 0x1e1a00, LC256, 0
-  .long "?function_1e9fa0@@YGXPAXJJGE@Z", 0x1e9fa0, LC257, 256
-  .long "?ray_test@c_vertex_shape@@UAEXPA_NPBUs_shape_ray@@PAUs_shape_ray_result@@@Z", 0x1edf50, LC258, 0
-  .long "?function_1f6090@@YGXJPBTvector3f@@PAT1@PAF1PA_N3@Z", 0x1f6090, LC259, 0
-  .long "?function_1fbac0@@YGXJJ_NJPAUs_1fbac0_event@@@Z", 0x1fbac0, LC260, 0
-  .long "?function_1fc7e0@@YGXJ@Z", 0x1fc7e0, LC261, 0
-  .long "?function_202a00@@YGXJJ@Z", 0x202a00, LC262, 256
-  .long "?function_208070@@YGXFJ_N@Z", 0x208070, LC263, 0
-  .long "?function_2090a0@@YIXXZ", 0x2090a0, LC264, 0
-  .long "?function_215900@@YGXJJPAGPAJ_N@Z", 0x215900, LC265, 0
-  .long "?function_215e60@@YGXJ@Z", 0x215e60, LC266, 256
-  .long "?function_217c40@@YIXXZ", 0x217c40, LC267, 0
-  .long "?looping_sound_update_locations@@YIXXZ", 0x21a100, LC268, 256
-  .long "?allocate_aligned@c_havok_fixed_memory@@UAEPAXJJJ@Z", 0x22c0d0, LC269, 0
-  .long "?function_22fc08@@YGXPAVc_class_1473c9@@@Z", 0x22fc08, LC270, 256
-  .long "?function_2393ae@@YGXJJ@Z", 0x2393ae, LC271, 256
-  .long "?function_23aad0@@YGXJJJ@Z", 0x23aad0, LC272, 256
-  .long "?function_24a691@c_list_24a64d@@UAEPBGJ_N@Z", 0x24a691, LC273, 0
-  .long "?v3@c_matchmaking_list@@UAEXXZ", 0x2514fd, LC274, 0
-  .long "?v3@c_4way_signin_screen@@UAEXXZ", 0x252554, LC275, 0
-  .long "?function_256810@@YGFJPAUs_slot@@@Z", 0x256810, LC276, 256
-  .long "?function_25f290@@YGXJPAUs_type_967e20@@FPAUs_type_b36ac5@@@Z", 0x25f290, LC277, 0
-  .long "?function_261d20@@YGFJPAUs_261d20_entry@@JPBUs_2605d0_request@@@Z", 0x261d20, LC278, 256
-  .long "?function_2732e0@@YI_NJ@Z", 0x2732e0, LC279, 256
-  .long "?function_276380@@YI_NJ@Z", 0x276380, LC280, 256
-  .long "?function_2769d0@@YIXJ@Z", 0x2769d0, LC281, 0
-  .long "?function_279410@@YA_NPBUs_component_contact_pair@@PAVhkEntity@@1MMM@Z", 0x279410, LC282, 0
-  .long "?function_27dff0@@YIXXZ", 0x27dff0, LC283, 0
-  .long "?function_281b60@@YIXXZ", 0x281b60, LC284, 0
-  .long "?function_2902b0@@YGXJJJJMMPBUtransform4x3f@@F@Z", 0x2902b0, LC285, 0
-  .long "?function_2919e0@@YGXPAUs_ai_scene@@PAUs_ai_scene_assignment@@PAFFFFJJJ@Z", 0x2919e0, LC286, 0
-  .long "?function_296580@@YIXJ@Z", 0x296580, LC287, 256
-  .long "?function_29bab0@@YGXJJPBTvector3f@@PAT1@PAF1PA_N3F@Z", 0x29bab0, LC288, 256
-  .long "?function_29e0f0@@YG_NPBTpoint3f@@JUs_reference@@PAUs_29de21@@PAUs_29e0f9@@@Z", 0x29e0f0, LC289, 256
-  .long "?function_2b2ed4@@YGXPAVc_y_menu_list@@_N1PAVc_class_1a2c81@@PAUs_friend@@@Z", 0x2b2ed4, LC290, 256
-  .long "?function_2c2060@@YGXPAUs_type_f17a25@@FPBUs_path_step_view@@PAFPAU2@PA_N@Z", 0x2c2060, LC291, 0
-  .long "?v19@c_variant_parameter_setting_screen@@UAEXXZ", 0x2c8287, LC292, 256
-  .long "?v10@c_screen_45d2b8@@UAE_NPAUs_widget_event@@@Z", 0x2c87fe, LC293, 0
-  .long "?function_2ce7b0@@YGKKPBEK@Z", 0x2ce7b0, LC294, 0
-  .long "?function_2ce9e0@@YGJPAUs_block_state@@PAUs_inflate_stream@@J@Z", 0x2ce9e0, LC295, 0
-  .long "?function_30e720@c_311100@@QAEXXZ", 0x30e720, LC296, 0
-  .long "??0c_library_329d20@@QAE@XZ", 0x329d20, LC297, 0
-  .long "??0c_library_32a850@@QAE@PAX0JJJJ00JJJJJ@Z", 0x32a850, LC298, 0
-  .long "?function_3e0450@@YGXPAX0@Z", 0x3e0450, LC299, 512
-  .long "?function_3e0af0@@YGPAXPBDK@Z", 0x3e0af0, LC300, 512
-  .long "?function_3e2330@@YGHPAX@Z", 0x3e2330, LC301, 512
-  .long "?function_3e2630@@YGHPAXKPAKK@Z", 0x3e2630, LC302, 512
-  .long "?function_3e2680@@YGHPAXKPAKPAJK@Z", 0x3e2680, LC303, 512
-  .long "?BinkSetMemory@@YGHP6GPAXK@ZP6GXPAX@Z@Z", 0x3e2820, LC304, 512
-  .long "?function_3e2830@@YGHPAX0JJJJK@Z", 0x3e2830, LC305, 512
-  .long "?function_3e2870@@YGHPAX@Z", 0x3e2870, LC306, 512
-  .long "?function_3e2e50@@YGXPAX@Z", 0x3e2e50, LC307, 512
-  .long "?function_3e2ff0@@YGXPAX@Z", 0x3e2ff0, LC308, 512
-  .long "?function_3e3c90@@YGPAXPAX@Z", 0x3e3c90, LC309, 512
-  .long "?function_11dd80@@YIXPBUreal_quaternion_transform@@PAU1@@Z", AD11dd80, LC310, 0x100
-  .long "?function_26c590@@YI_NPBUs_pathfinding_data@@PBTpoint3f@@JJPBTvector3f@@MPBUs_path_location@@PAUs_path_trace_result@@@Z", AD26c590, LC311, 0x100
-  .long "?function_298d90@@YIXJJPBUs_298c30@@PBUpoint2f@@11M11@Z", AD298d90, LC312, 0x100
+  .long "?function_6b4a0@@YIXXZ", 0x6b4a0, LC179, 256
+  .long "?online_tasks_dispose_all@@YIXXZ", 0x6b950, LC180, 256
+  .long "?function_6d4c0@@YGXPAX@Z", 0x6d4c0, LC181, 0
+  .long "?function_074aa0@@YIXXZ", 0x74aa0, LC182, 256
+  .long "?connection_v05@s_network_observer@@UAE_NJ_N00PA_N1PAJ2JPAE@Z", 0x75fc0, LC183, 256
+  .long "?network_observer_update_connection@@YIXPAUs_network_observer@@J@Z", 0x76ff0, LC184, 262
+  .long "?function_81780@@YGXJ@Z", 0x81780, LC185, 256
+  .long "?function_83610@@YGXPAUs_simulation_world_owner@@PAJPAUs_simulation_player_update@@@Z", 0x83610, LC186, 0
+  .long "?bungienet_user_voice_apply@@YG_NPAUs_bungienet_user_request@@@Z", 0x8c5f0, LC187, 0
+  .long "?v27@c_device_type@@UAEJJJJJ@Z", 0xa3df0, LC188, 0
+  .long "?v22@c_object_type_definition@@UAE_NPAUs_entity@@JPAUs_entity_info@@JJJ@Z", 0xa5a60, LC189, 0
+  .long "?function_a9f70@@YGJJJPBTpoint3f@@@Z", 0xa9f70, LC190, 0
+  .long "?function_b7430@@YG_NJPBTpoint3f@@PBTvector3f@@1PBUs_location@@_N333@Z", 0xb7430, LC191, 0
+  .long "?function_b7b40@@YGJPAX@Z", 0xb7b40, LC192, 0
+  .long "?function_b8540@@YGXJ@Z", 0xb8540, LC193, 0
+  .long "?function_bd090@@YGXJ@Z", 0xbd090, LC194, 0
+  .long "?function_bd610@@YGPBUtransform4x3f@@JPBEPBU1@@Z", 0xbd610, LC195, 0
+  .long "?function_be240@@YGXJKPBUcolor3f@@@Z", 0xbe240, LC196, 0
+  .long "?function_c1d90@@YGXPBUs_light_frame_ab@@PBUs_light_shape_ab@@PAUs_light_projection_ab@@PAF@Z", 0xc1d90, LC197, 0
+  .long "?function_c2d00@@YGXJ@Z", 0xc2d00, LC198, 256
+  .long "?function_c4410@@YG_NJPBXPA_N@Z", 0xc4410, LC199, 256
+  .long "?function_c58f0@@YG_NJ@Z", 0xc58f0, LC200, 0
+  .long "?function_c60c0@@YG_NJ@Z", 0xc60c0, LC201, 0
+  .long "?function_cd7b0@@YG_NJJPA_N@Z", 0xcd7b0, LC202, 0
+  .long "?function_d1e10@@YGJPBXPAUs_effect_color_query@@J_N@Z", 0xd1e10, LC203, 256
+  .long "?function_d4e60@@YIXF@Z", 0xd4e60, LC204, 1
+  .long "?function_f0760@@YGXJP6GXJPAUs_graph_tag@@PAVc_animation_channel@@MMMPAX@Z2@Z", 0xf0760, LC205, 0
+  .long "?function_f6d10@@YG_NJJPAMPA_N@Z", 0xf6d10, LC206, 0
+  .long "?function_104150@@YGXJF@Z", 0x104150, LC207, 256
+  .long "?function_110ab0@@YG_NJ@Z", 0x110ab0, LC208, 0
+  .long "?function_112070@@YGXJPBKJPAUreal_quaternion_transform@@@Z", 0x112070, LC209, 256
+  .long "?function_113980@@YGXJJ_NMPAUs_animation_state@@PAUs_graph_pair_iterator@@JPAUtransform4x3f@@@Z", 0x113980, LC210, 0
+  .long "?function_1161f0@@YGXPAUs_chain_record@@PAUs_chain_definition@@M@Z", 0x1161f0, LC211, 0
+  .long "?function_127010@@YIJF@Z", 0x127010, LC212, 0
+  .long "?function_1282d0@@YIXXZ", 0x1282d0, LC213, 256
+  .long "?game_loop_tick@@YIXXZ", 0x137fe0, LC214, 256
+  .long "?function_14df40@@YG_NPAJ@Z", 0x14df40, LC215, 0
+  .long "?function_1554b0@@YIXM@Z", 0x1554b0, LC216, 256
+  .long "?function_158140@@YIXXZ", 0x158140, LC217, 0
+  .long "?function_15c6f0@@YIXXZ", 0x15c6f0, LC218, 0
+  .long "?function_1608e0@@YGXJPAUs_score_panel_1608e0@@M@Z", 0x1608e0, LC219, 0
+  .long "?function_170fd0@@YGXJ@Z", 0x170fd0, LC220, 256
+  .long "?function_172840@@YG_NJPAUs_pool@@PAUs_short_list_table@@PAUs_ring_buffer@@PAUs_polygon_cache_173520@@@Z", 0x172840, LC221, 256
+  .long "?collect@c_query_batch_collector@@UAEXPBUs_batch_contact@@@Z", 0x1822f0, LC222, 0
+  .long "?function_186ab0@@YGXJMMPAUs_player_action@@@Z", 0x186ab0, LC223, 0
+  .long "?function_18ca20@@YGXJJPBUs_sound_permutation@@M@Z", 0x18ca20, LC224, 0
+  .long "?function_18dc90@@YGXPAUs_portal_path_bsp@@JPBTpoint3f@@MPAJ2222@Z", 0x18dc90, LC225, 0
+  .long "?function_195ed0@@YIXXZ", 0x195ed0, LC226, 0
+  .long "?function_19e1c0@@YIJPAUs_event@@JPBGPAGJ@Z", 0x19e1c0, LC227, 0
+  .long "?function_1a83e0@@YG_NJPAFPAMPAUpoint2f@@PA_N@Z", 0x1a83e0, LC228, 0
+  .long "?function_1aa0d0@@YG_NJPAUs_slot@@@Z", 0x1aa0d0, LC229, 0
+  .long "?function_1aab50@@YG_NJPAUs_slot@@@Z", 0x1aab50, LC230, 0
+  .long "?function_1ae680@@YGFJPAUs_slot@@@Z", 0x1ae680, LC231, 256
+  .long "?function_1b7e40@@YGFJ@Z", 0x1b7e40, LC232, 0
+  .long "?function_1ba090@@YGJJPAUs_slot@@@Z", 0x1ba090, LC233, 0
+  .long "?function_1ba8c0@@YGXJPAUs_slot@@PAUs_slot_target_list@@@Z", 0x1ba8c0, LC234, 0
+  .long "?function_1c4590@@YGXJ@Z", 0x1c4590, LC235, 256
+  .long "?function_1c89b0@@YGFJFPAUs_ai_capsule_view@@@Z", 0x1c89b0, LC236, 256
+  .long "?function_1c9830@@YGXFF_N0@Z", 0x1c9830, LC237, 0
+  .long "?function_1d24a0@@YGXPAUs_havok_component@@M@Z", 0x1d24a0, LC238, 0
+  .long "?function_1d3920@@YGXPAEPAKM@Z", 0x1d3920, LC239, 0
+  .long "?function_1d77d0@@YGXPAUs_havok_component@@PAUs_physics_model_owner@@@Z", 0x1d77d0, LC240, 0
+  .long "?function_1d87b0@@YGXPAUs_havok_component_rigid_body@@JPAUs_havok_component@@@Z", 0x1d87b0, LC241, 0
+  .long "?function_1e0850@@YGJJJPBUs_203780@@_N@Z", 0x1e0850, LC242, 256
+  .long "?function_1e1a00@@YGXJ_N@Z", 0x1e1a00, LC243, 0
+  .long "?function_1e9fa0@@YGXPAXJJGE@Z", 0x1e9fa0, LC244, 256
+  .long "?function_1f6090@@YGXJPBTvector3f@@PAT1@PAF1PA_N3@Z", 0x1f6090, LC245, 0
+  .long "?function_1fbac0@@YGXJJ_NJPAUs_1fbac0_event@@@Z", 0x1fbac0, LC246, 0
+  .long "?function_1fc7e0@@YGXJ@Z", 0x1fc7e0, LC247, 0
+  .long "?function_202a00@@YGXJJ@Z", 0x202a00, LC248, 256
+  .long "?function_215e60@@YGXJ@Z", 0x215e60, LC249, 256
+  .long "?function_217c40@@YIXXZ", 0x217c40, LC250, 0
+  .long "?looping_sound_update_locations@@YIXXZ", 0x21a100, LC251, 256
+  .long "?allocate_aligned@c_havok_fixed_memory@@UAEPAXJJJ@Z", 0x22c0d0, LC252, 0
+  .long "?function_22fc08@@YGXPAVc_class_1473c9@@@Z", 0x22fc08, LC253, 256
+  .long "?function_2393ae@@YGXJJ@Z", 0x2393ae, LC254, 256
+  .long "?function_24a691@c_list_24a64d@@UAEPBGJ_N@Z", 0x24a691, LC255, 0
+  .long "?v3@c_matchmaking_list@@UAEXXZ", 0x2514fd, LC256, 0
+  .long "?v3@c_4way_signin_screen@@UAEXXZ", 0x252554, LC257, 0
+  .long "?function_25f290@@YGXJPAUs_type_967e20@@FPAUs_type_b36ac5@@@Z", 0x25f290, LC258, 0
+  .long "?function_261d20@@YGFJPAUs_261d20_entry@@JPBUs_2605d0_request@@@Z", 0x261d20, LC259, 256
+  .long "?function_2732e0@@YI_NJ@Z", 0x2732e0, LC260, 256
+  .long "?function_276380@@YI_NJ@Z", 0x276380, LC261, 256
+  .long "?function_2769d0@@YIXJ@Z", 0x2769d0, LC262, 0
+  .long "?function_279410@@YA_NPBUs_component_contact_pair@@PAVhkEntity@@1MMM@Z", 0x279410, LC263, 0
+  .long "?function_27dff0@@YIXXZ", 0x27dff0, LC264, 0
+  .long "?function_281b60@@YIXXZ", 0x281b60, LC265, 0
+  .long "?function_2902b0@@YGXJJJJMMPBUtransform4x3f@@F@Z", 0x2902b0, LC266, 0
+  .long "?function_2919e0@@YGXPAUs_ai_scene@@PAUs_ai_scene_assignment@@PAFFFFJJJ@Z", 0x2919e0, LC267, 0
+  .long "?function_296580@@YIXJ@Z", 0x296580, LC268, 256
+  .long "?function_29bab0@@YGXJJPBTvector3f@@PAT1@PAF1PA_N3F@Z", 0x29bab0, LC269, 256
+  .long "?function_29e0f0@@YG_NPBTpoint3f@@JUs_reference@@PAUs_29de21@@PAUs_29e0f9@@@Z", 0x29e0f0, LC270, 256
+  .long "?function_2b2ed4@@YGXPAVc_y_menu_list@@_N1PAVc_class_1a2c81@@PAUs_friend@@@Z", 0x2b2ed4, LC271, 256
+  .long "?function_2c2060@@YGXPAUs_type_f17a25@@FPBUs_path_step_view@@PAFPAU2@PA_N@Z", 0x2c2060, LC272, 0
+  .long "?v19@c_variant_parameter_setting_screen@@UAEXXZ", 0x2c8287, LC273, 256
+  .long "?v10@c_screen_45d2b8@@UAE_NPAUs_widget_event@@@Z", 0x2c87fe, LC274, 0
+  .long "?function_2ce7b0@@YGKKPBEK@Z", 0x2ce7b0, LC275, 0
+  .long "?function_2ce9e0@@YGJPAUs_block_state@@PAUs_inflate_stream@@J@Z", 0x2ce9e0, LC276, 0
+  .long "??0c_library_329d20@@QAE@XZ", 0x329d20, LC277, 0
+  .long "??0c_library_32a850@@QAE@PAX0JJJJ00JJJJJ@Z", 0x32a850, LC278, 0
+  .long "?function_3e0450@@YGXPAX0@Z", 0x3e0450, LC279, 512
+  .long "?function_3e0af0@@YGPAXPBDK@Z", 0x3e0af0, LC280, 512
+  .long "?function_3e2330@@YGHPAX@Z", 0x3e2330, LC281, 512
+  .long "?function_3e2630@@YGHPAXKPAKK@Z", 0x3e2630, LC282, 512
+  .long "?function_3e2680@@YGHPAXKPAKPAJK@Z", 0x3e2680, LC283, 512
+  .long "?BinkSetMemory@@YGHP6GPAXK@ZP6GXPAX@Z@Z", 0x3e2820, LC284, 512
+  .long "?function_3e2830@@YGHPAX0JJJJK@Z", 0x3e2830, LC285, 512
+  .long "?function_3e2870@@YGHPAX@Z", 0x3e2870, LC286, 512
+  .long "?function_3e2e50@@YGXPAX@Z", 0x3e2e50, LC287, 512
+  .long "?function_3e2ff0@@YGXPAX@Z", 0x3e2ff0, LC288, 512
+  .long "?function_3e3c90@@YGPAXPAX@Z", 0x3e3c90, LC289, 512
+  .long "?function_11dd80@@YIXPBUreal_quaternion_transform@@PAU1@@Z", AD11dd80, LC290, 0x100
+  .long "?function_26c590@@YI_NPBUs_pathfinding_data@@PBTpoint3f@@JJPBTvector3f@@MPBUs_path_location@@PAUs_path_trace_result@@@Z", AD26c590, LC291, 0x100
+  .long "?function_298d90@@YIXJJPBUs_298c30@@PBUpoint2f@@11M11@Z", AD298d90, LC292, 0x100
   .long 0,0,0,0
 RA11dd80: .long 0x11dd80
 RA26c590: .long 0x26c590
 RA298d90: .long 0x298d90
 .globl _h2n_library_patches
 _h2n_library_patches:
-  .long 0x002d07f2, "_XLaunchNewImageA@8", LC313
-  .long 0x002d0915, "_XGetLaunchInfo@8", LC314
-  .long 0x002d09c0, "_XMemAllocDefault@8", LC315
-  .long 0x002d0a60, "_XMemFreeDefault@8", LC316
-  .long 0x002d156a, "_XPhysicalAlloc@16", LC317
-  .long 0x002d15da, "_XPhysicalProtect@12", LC318
-  .long 0x002d15ea, "_MmFreeContiguousMemory@4", LC319
-  .long 0x002d1d3e, "_GetLastError@0", LC320
-  .long 0x002d1d66, "_SetLastError@4", LC321
-  .long 0x002d1f3a, "_CloseHandle@4", LC322
-  .long 0x002d1fb6, "_SetThreadPriority@8", LC323
-  .long 0x002d2084, "_SwitchToThread@0", LC324
-  .long 0x002d21c6, "_CreateThread@24", LC325
-  .long 0x002d2234, "_GetCurrentThreadId@0", LC326
-  .long 0x002d2241, "_ReadFile@20", LC327
-  .long 0x002d232e, "_WriteFile@20", LC328
-  .long 0x002d2404, "_SetEndOfFile@4", LC329
-  .long 0x002d2488, "_SetFilePointer@16", LC330
-  .long 0x002d26b0, "_FlushFileBuffers@4", LC331
-  .long 0x002d2715, "_GetFileSize@8", LC332
-  .long 0x002d2750, "_CreateFileA@28", LC333
-  .long 0x002d57d3, "_XLoadSectionA@4", LC334
-  .long 0x002d57ee, "_XFreeSectionA@4", LC335
-  .long 0x002d5838, "_GetDiskFreeSpaceExA@16", LC336
-  .long 0x002d5d0a, "_XMountSecondaryUtilityDrive@0", LC337
-  .long 0x002d5f65, "_XGetDiskClusterSizeA@4", LC338
-  .long 0x002d61eb, "_CreateSemaphoreA@16", LC339
-  .long 0x002d6246, "_ReleaseSemaphore@12", LC340
-  .long 0x002d626c, "_CreateMutexA@12", LC341
-  .long 0x002d62c4, "_ReleaseMutex@4", LC342
-  .long 0x002d63fa, "_WaitForSingleObject@8", LC343
-  .long 0x002d6426, "_Sleep@4", LC344
-  .long 0x002d6765, "_XCalculateSignatureBegin@4", LC345
-  .long 0x002d6779, "_XCalculateSignatureUpdate@12", LC346
-  .long 0x002d67c7, "_XCalculateSignatureEnd@8", LC347
-  .long 0x002d69f8, "_SetFileAttributesA@8", LC348
-  .long 0x002d6a9e, "_GetFileAttributesA@4", LC349
-  .long 0x002d6ae9, "_GetFileAttributesExA@12", LC350
-  .long 0x002d6b6b, "_DeleteFileA@4", LC351
-  .long 0x003202bb, "??2@YAPAXI@Z", LC352
-  .long 0x003203e0, "_strncpy", LC353
-  .long 0x00320504, "__strnicmp", LC354
-  .long 0x00320795, "_sprintf", LC355
-  .long 0x003207ed, "_wcsncpy", LC356
-  .long 0x00320870, "_wcslen", LC357
-  .long 0x00320890, "_memmove", LC358
-  .long 0x00320e1a, "_wcscmp", LC359
-  .long 0x00320e4c, "__wcsicmp", LC360
-  .long 0x00320fc6, "_ceil", LC361
-  .long 0x00321099, "_floor", LC362
-  .long 0x003212c5, "__clearfp", LC363
-  .long 0x003212d6, "__control87", LC364
-  .long 0x00321340, "_strncmp", LC365
-  .long 0x00321379, "??3@YAXPAX@Z", LC366
-  .long 0x0032137e, "_printf", LC367
-  .long 0x00321460, "_qsort", LC368
-  .long 0x0032173b, "_atoi", LC369
-  .long 0x003217c0, "_strstr", LC370
-  .long 0x00321846, "_towlower", LC371
-  .long 0x003218f0, "_strspn", LC372
-  .long 0x00321940, "_strpbrk", LC373
-  .long 0x00321980, "__vsnprintf", LC374
-  .long 0x003219f0, "_strchr", LC375
-  .long 0x00321aae, "_time", LC376
-  .long 0x00321b42, "_fopen", LC377
-  .long 0x00321b55, "_fscanf", LC378
-  .long 0x00321b9f, "_fgets", LC379
-  .long 0x00321c71, "_fclose", LC380
-  .long 0x00321cc2, "_wcschr", LC381
-  .long 0x00321ce4, "_wcsncmp", LC382
-  .long 0x00321e15, "_iswspace", LC383
-  .long 0x00321e23, "_iswalnum", LC384
-  .long 0x00321ef9, "__vsnwprintf", LC385
-  .long 0x00321f75, "_rand", LC386
-  .long 0x00321fa0, "_strrchr", LC387
-  .long 0x003224dd, "_fread", LC388
-  .long 0x003225b8, "_fseek", LC389
-  .long 0x00322763, "_ftell", LC390
-  .long 0x003228bb, "_fwrite", LC391
-  .long 0x00322a67, "_fflush", LC392
-  .long 0x00322b81, "_vsprintf", LC393
-  .long 0x00322d01, "??_M@YGXPAXIHP6EX0@Z@Z", LC394
-  .long 0x00322d61, "??_L@YGXPAXIHP6EX0@Z1@Z", LC395
-  .long 0x00324c91, "_free", LC396
-  .long 0x00328283, "_calloc", LC397
-  .long 0x00330310, "_XGetVideoStandard@0", LC398
-  .long 0x00330339, "_XGetVideoFlags@0", LC399
-  .long 0x00330382, "_XSaveFloatingPointStateForDpc@0", LC400
-  .long 0x0033038e, "_XRestoreFloatingPointStateForDpc@0", LC401
-  .long 0x0033039a, "_XGetLanguage@0", LC402
-  .long 0x003303c7, "_XGetAutoLogonFlag@0", LC403
-  .long 0x003303f3, "_GetSystemTimeAsFileTime@4", LC404
-  .long 0x0033080a, "_XFindFirstContent@12", LC405
-  .long 0x0033095a, "_XFindNextContent@8", LC406
-  .long 0x00330df2, "_XCreateSaveGame@24", LC407
-  .long 0x00331055, "_XDeleteSaveGame@8", LC408
-  .long 0x00331125, "_XFindFirstSaveGame@8", LC409
-  .long 0x0033122f, "_XFindNextSaveGame@8", LC410
-  .long 0x00331276, "_XFindClose@4", LC411
-  .long 0x003312cc, "_VirtualAlloc@16", LC412
-  .long 0x003312fa, "_VirtualFree@12", LC413
-  .long 0x00331336, "_GlobalMemoryStatus@4", LC414
-  .long 0x00331385, "_XGetGameRegion@0", LC415
-  .long 0x003314b0, "_GetTickCount@0", LC416
-  .long 0x003314b8, "_FileTimeToSystemTime@8", LC417
-  .long 0x00331598, "_CompareFileTime@8", LC418
-  .long 0x0033198b, "_GetLocalTime@4", LC419
-  .long 0x00331a0a, "_FileTimeToLocalFileTime@8", LC420
-  .long 0x00331a35, "_CreateDirectoryA@8", LC421
-  .long 0x00331aa1, "_RemoveDirectoryA@4", LC422
-  .long 0x00331b9b, "_FindFirstFileA@8", LC423
-  .long 0x00331ca8, "_FindNextFileA@8", LC424
-  .long 0x00331cf9, "_OutputDebugStringA@4", LC425
-  .long 0x00331d2b, "_QueryPerformanceCounter@4", LC426
-  .long 0x00331d3c, "_QueryPerformanceFrequency@4", LC427
-  .long 0x00332d8f, "_XHVEngine_EnableProcessingMode@8", LC428
-  .long 0x00332d94, "_XHVEngine_SetCallbackInterface@8", LC429
-  .long 0x00332da3, "_XHVEngine_RegisterLocalTalker@8", LC430
-  .long 0x00332da8, "_XHVEngine_SetProcessingMode@12", LC431
-  .long 0x00332dad, "_XHVEngine_SetVoiceMask@12", LC432
-  .long 0x00332db2, "_XHVEngine_GetLocalTalkerStatus@12", LC433
-  .long 0x00332db7, "_XHVEngine_RegisterRemoteTalker@16", LC434
-  .long 0x00332dd3, "_XHVEngine_UnregisterRemoteTalker@16", LC435
-  .long 0x00332def, "_XHVEngine_GetRemoteTalkers@12", LC436
-  .long 0x00332df4, "_XHVEngine_SubmitIncomingVoicePacket@24", LC437
-  .long 0x00332e18, "_XHVEngine_IsTalking@16", LC438
-  .long 0x00332e34, "_XHVEngine_SetMixBinMapping@24", LC439
-  .long 0x00332e58, "_XHVEngine_SetPlaybackPriority@24", LC440
-  .long 0x00332e7c, "_XHVEngine_SetMaxPlaybackStreamsCount@8", LC441
-  .long 0x00332e81, "_XHVEngine_VoiceMailRecord@20", LC442
-  .long 0x00332e8a, "_XHVEngine_VoiceMailPlay@20", LC443
-  .long 0x00332e93, "_XHVEngine_VoiceMailStop@8", LC444
-  .long 0x00332f22, "_XHVEngine_DoWork@4", LC445
-  .long 0x00332f27, "_XHVEngine_UnregisterLocalTalker@8", LC446
-  .long 0x00333055, "_XHVEngineCreate@8", LC447
-  .long 0x003330f8, "_XHVEngine_Release@4", LC448
-  .long 0x0036c47d, "_XNetGetEthernetLinkStatus@0", LC449
-  .long 0x00379f2a, "_IDirectSound_Release@4", LC450
-  .long 0x00379f45, "_IDirectSoundBuffer_Release@4", LC451
-  .long 0x00379f5b, "_DirectSoundDoWork@0", LC452
-  .long 0x0037b5ae, "_IDirectSound_GetCaps@8", LC453
-  .long 0x0037b5ca, "_IDirectSound_GetSpeakerConfig@8", LC454
-  .long 0x0037b5e6, "_IDirectSound_GetEffectData@20", LC455
-  .long 0x0037b60d, "_IDirectSound_SetEffectData@24", LC456
-  .long 0x0037b637, "_IDirectSound_SetMixBinHeadroom@12", LC457
-  .long 0x0037b657, "_IDirectSound_SynchPlayback@4", LC458
-  .long 0x0037b66f, "_IDirectSoundBuffer_SetVolume@8", LC459
-  .long 0x0037b68b, "_IDirectSoundBuffer_SetFilter@8", LC460
-  .long 0x0037b6a7, "_IDirectSoundBuffer_SetHeadroom@8", LC461
-  .long 0x0037b6c3, "_IDirectSoundBuffer_SetMixBinVolumes@8", LC462
-  .long 0x0037b6df, "_IDirectSoundBuffer_Play@16", LC463
-  .long 0x0037b71b, "_IDirectSoundBuffer_StopEx@16", LC464
-  .long 0x0037b73f, "_IDirectSoundBuffer_Pause@8", LC465
-  .long 0x0037b75b, "_IDirectSoundBuffer_GetStatus@8", LC466
-  .long 0x0037b797, "_IDirectSoundBuffer_SetCurrentPosition@8", LC467
-  .long 0x0037b7b3, "_IDirectSoundBuffer_Lock@32", LC468
-  .long 0x0037b7e3, "_IDirectSoundBuffer_GetVoiceProperties@8", LC469
-  .long 0x0037b7ff, "_IDirectSoundStream_SetVolume@8", LC470
-  .long 0x0037b804, "_IDirectSoundStream_SetPitch@8", LC471
-  .long 0x0037b809, "_IDirectSoundStream_SetLFO@8", LC472
-  .long 0x0037b80e, "_IDirectSoundStream_SetEG@8", LC473
-  .long 0x0037b813, "_IDirectSoundStream_SetFilter@8", LC474
-  .long 0x0037b818, "_IDirectSoundStream_SetHeadroom@8", LC475
-  .long 0x0037b81d, "_IDirectSoundStream_SetMixBinVolumes@8", LC476
-  .long 0x0037b822, "_IDirectSoundStream_Pause@8", LC477
-  .long 0x0037b827, "_IDirectSoundStream_FlushEx@16", LC478
-  .long 0x0037b83f, "_IDirectSoundStream_GetVoiceProperties@8", LC479
-  .long 0x0037b844, "_DirectSoundDoWork@0", LC480
-  .long 0x0037b86d, "_XAudioDownloadEffectsImage@16", LC481
-  .long 0x0037ba6f, "_XAudioSetEffectData@12", LC482
-  .long 0x0037c5e4, "_IDirectSoundBuffer_SetMixBins@8", LC483
-  .long 0x0037c600, "_IDirectSoundBuffer_SetConeOutsideVolume@12", LC484
-  .long 0x0037c620, "_IDirectSoundBuffer_SetMaxDistance@12", LC485
-  .long 0x0037c644, "_IDirectSoundBuffer_SetMinDistance@12", LC486
-  .long 0x0037c668, "_IDirectSoundBuffer_SetPosition@20", LC487
-  .long 0x0037c69d, "_IDirectSoundBuffer_SetDopplerFactor@12", LC488
-  .long 0x0037c6c1, "_IDirectSoundBuffer_SetRolloffFactor@12", LC489
-  .long 0x0037c6e5, "_IDirectSoundBuffer_SetI3DL2Source@12", LC490
-  .long 0x0037c705, "_IDirectSoundStream_SetOutputBuffer@8", LC491
-  .long 0x0037c70a, "_IDirectSoundStream_SetMixBins@8", LC492
-  .long 0x0037cc4a, "_IDirectSoundBuffer_SetBufferData@12", LC493
-  .long 0x0037d141, "_IDirectSound_CommitDeferredSettings@4", LC494
-  .long 0x0037d4be, "_IDirectSound_CreateSoundBuffer@16", LC495
-  .long 0x0037d4e2, "_IDirectSound_CreateSoundStream@16", LC496
-  .long 0x0037d506, "_IDirectSound_SetDistanceFactor@12", LC497
-  .long 0x0037d52a, "_IDirectSound_SetRolloffFactor@12", LC498
-  .long 0x0037d54e, "_IDirectSound_SetOrientation@32", LC499
-  .long 0x0037d598, "_IDirectSound_SetPosition@20", LC500
-  .long 0x0037d5cd, "_IDirectSound_SetDopplerFactor@12", LC501
-  .long 0x0037d797, "_DirectSoundCreate@12", LC502
-  .long 0x0037d7de, "_DirectSoundCreateBuffer@8", LC503
-  .long 0x00387e31, "_WmaCreateInMemoryDecoder@20", LC504
-  .long 0x003a0620, "_XOnlineTaskContinue@4", LC505
-  .long 0x003a062b, "_XOnlineTaskClose@4", LC506
-  .long 0x003a0636, "_XOnlineGetUsers@8", LC507
-  .long 0x003a0641, "_XOnlineLogon@20", LC508
-  .long 0x003a0650, "_XOnlineLogonTaskGetResults@4", LC509
-  .long 0x003a065b, "_XOnlineChangeLogonUsers@12", LC510
-  .long 0x003a0666, "_XOnlineChangeLogonUsersTaskGetResults@8", LC511
-  .long 0x003a0671, "_XOnlineGetLogonUsers@0", LC512
-  .long 0x003a067c, "_XOnlineGetServiceInfo@8", LC513
-  .long 0x003a0687, "_XOnlineSaveLogonState@4", LC514
-  .long 0x003a0692, "_Sleep@4", LC515
-  .long 0x003a069d, "_XOnlineOfferingIsNewContentAvailable@12", LC516
-  .long 0x003a06a8, "_XOnlineMatchSessionCreate@32", LC517
-  .long 0x003a06b7, "_XOnlineMatchSessionUpdate@40", LC518
-  .long 0x003a06e7, "_XOnlineMatchSessionGetInfo@12", LC519
-  .long 0x003a06f2, "_XOnlineMatchSessionDelete@16", LC520
-  .long 0x003a0710, "_XOnlineMatchSessionFindFromID@16", LC521
-  .long 0x003a072e, "_XOnlineMatchSearch@28", LC522
-  .long 0x003a073d, "_XOnlineMatchSearchGetResults@12", LC523
-  .long 0x003a0748, "_XOnlineMatchSearchParse@16", LC524
-  .long 0x003a0753, "_XOnlineMatchSearchResultsLen@12", LC525
-  .long 0x003a075e, "_XOnlineTitleIdIsSameTitle@4", LC526
-  .long 0x003a0769, "_XOnlineTitleIdIsSameTitle@4", LC527
-  .long 0x003a0774, "_XOnlineNotificationSetState@24", LC528
-  .long 0x003a0798, "_XOnlineGetNotificationEx@12", LC529
-  .long 0x003a07a3, "_XOnlineFriendsStartup@8", LC530
-  .long 0x003a07ae, "_XOnlineFriendsEnumerate@12", LC531
-  .long 0x003a07b9, "_XOnlineFriendsEnumerateFinish@4", LC532
-  .long 0x003a07c4, "_XOnlineFriendsGetLatest@12", LC533
-  .long 0x003a07cf, "_XOnlineFriendsGetTitleName@16", LC534
-  .long 0x003a07da, "_XOnlineFriendsRemove@8", LC535
-  .long 0x003a07e5, "_XOnlineFriendsGameInvite@20", LC536
-  .long 0x003a0806, "_XOnlineFriendsAnswerRequest@12", LC537
-  .long 0x003a0811, "_XOnlineFriendsAnswerGameInvite@12", LC538
-  .long 0x003a081c, "_XOnlineFriendsJoinGame@8", LC539
-  .long 0x003a0827, "_XOnlineFriendsGetAcceptedGameInvite@4", LC540
-  .long 0x003a0832, "_XOnlineMutelistGet@24", LC541
-  .long 0x003a0841, "_XOnlineMutelistStartup@8", LC542
-  .long 0x003a084c, "_XOnlineMutelistAdd@16", LC543
-  .long 0x003a086e, "_XOnlineMutelistRemove@16", LC544
-  .long 0x003a0890, "_XOnlineFeedbackSend@32", LC545
-  .long 0x003a08c0, "_XOnlineStatWrite@16", LC546
-  .long 0x003a08cb, "_XOnlineStatRead@16", LC547
-  .long 0x003a08d6, "_XOnlineStatReadGetResult@20", LC548
-  .long 0x003a0c39, "_XOnlineStartup@4", LC549
-  .long 0x003a0d36, "_XOnlineCleanup@0", LC550
-  .long 0x003a11ae, "_XOnlineGetNatType@0", LC551
-  .long 0x003a695e, "_XOnlinePresenceAdd@16", LC552
-  .long 0x003a6969, "_XOnlinePresenceClear@4", LC553
-  .long 0x003a6f9b, "_XOnlinePresenceSubmit@4", LC554
-  .long 0x003a6fa6, "_XOnlinePresenceGetLatest@16", LC555
-  .long 0x003a8316, "_XOnlinePresenceInit@12", LC556
-  .long 0x003a8321, "_XOnlineGameInviteSend@36", LC557
-  .long 0x003a834e, "_XOnlineGameInviteAnswer@20", LC558
-  .long 0x003a835d, "_XOnlineFriendsRequestEx@28", LC559
-  .long 0x003a838a, "_XOnlineFriendsRequestByNameEx@20", LC560
-  .long 0x003a8399, "_XOnlineTeamMemberRecruit@44", LC561
-  .long 0x003a83d4, "_XOnlineTeamMemberRecruitByName@36", LC562
-  .long 0x003a8407, "_XOnlineTeamMemberAnswerRecruit@28", LC563
-  .long 0x003a9d65, "_XOnlineMessageDetailsGetResultsProperty@24", LC564
-  .long 0x003a9d74, "_XOnlineMessageDownloadAttachmentToMemory@24", LC565
-  .long 0x003a9d83, "_XOnlineMessageDownloadAttachmentToMemoryGetResults@16", LC566
-  .long 0x003a9d8e, "_XOnlineMessageCreate@32", LC567
-  .long 0x003a9db8, "_XOnlineMessageDestroy@4", LC568
-  .long 0x003a9dc3, "_XOnlineMessageSetProperty@20", LC569
-  .long 0x003ab04a, "_XOnlineMessageEnumerate@12", LC570
-  .long 0x003ab055, "_XOnlineMessageDelete@12", LC571
-  .long 0x003ab060, "_XOnlineMessageSend@24", LC572
-  .long 0x003ab2a6, "_XOnlineMessageDetails@24", LC573
-  .long 0x003ab6a6, "_XOnlineStatWriteGetResult@16", LC574
-  .long 0x003ab6b1, "_XOnlineStorageCreateServerPath@32", LC575
-  .long 0x003ab6db, "_XOnlineStorageDownload@28", LC576
-  .long 0x003ab6ea, "_XOnlineStorageDownloadToMemory@32", LC577
-  .long 0x003ab6f9, "_XOnlineStorageDownloadToMemoryGetResults@24", LC578
-  .long 0x003ad149, "_XOnlineStorageUploadByServerPath@36", LC579
-  .long 0x003ad176, "_XOnlineStorageUploadFromMemory@40", LC580
-  .long 0x003adc4c, "_XOnlineArbitrationCreateRoundID@4", LC581
-  .long 0x003ae32b, "_XOnlineArbitrationRegister@20", LC582
-  .long 0x003ae33a, "_XOnlineArbitrationExtendRound@16", LC583
-  .long 0x003ae36a, "_XOnlineArbitrationReport@28", LC584
-  .long 0x003aeba5, "_XOnlineTeamEnumerateGetResults@12", LC585
-  .long 0x003aebb0, "_XOnlineTeamMembersEnumerateGetResults@12", LC586
-  .long 0x003afb80, "_XOnlineTeamCreate@24", LC587
-  .long 0x003afb8f, "_XOnlineTeamDelete@24", LC588
-  .long 0x003afbb9, "_XOnlineTeamMemberSetProperties@40", LC589
-  .long 0x003afbf1, "_XOnlineTeamMemberRemove@36", LC590
-  .long 0x003afc26, "_XOnlineTeamEnumerateByUserXUID@24", LC591
-  .long 0x003afc50, "_XOnlineTeamGetDetails@20", LC592
-  .long 0x003afc76, "_XOnlineTeamMembersEnumerate@28", LC593
-  .long 0x003afca3, "_XOnlineTeamMemberGetDetails@20", LC594
-  .long 0x003b0254, "_XOnlineQuerySearch@40", LC595
-  .long 0x003b0263, "_XOnlineQuerySearchGetResults@20", LC596
-  .long 0x003cd0c0, "_XNetRandom@8", LC597
-  .long 0x003cd0cb, "_XNetCreateKey@8", LC598
-  .long 0x003cd0d6, "_XNetRegisterKey@8", LC599
-  .long 0x003cd0e1, "_XNetUnregisterKey@4", LC600
-  .long 0x003cd0ec, "_XNetXnAddrToInAddr@12", LC601
-  .long 0x003cd103, "_XNetTsAddrToInAddr@16", LC602
-  .long 0x003cd147, "_XNetQosListen@20", LC603
-  .long 0x003cd156, "_XNetQosLookup@48", LC604
-  .long 0x003cd172, "_XNetQosRelease@4", LC605
-  .long 0x003cd17d, "_XNetGetTitleXnAddr@4", LC606
-  .long 0x003cd188, "_socket@12", LC607
-  .long 0x003cd193, "_closesocket@4", LC608
-  .long 0x003cd19e, "_shutdown@8", LC609
-  .long 0x003cd1a9, "_ioctlsocket@12", LC610
-  .long 0x003cd1b4, "_setsockopt@20", LC611
-  .long 0x003cd1c3, "_getsockopt@20", LC612
-  .long 0x003cd1d2, "_bind@12", LC613
-  .long 0x003cd1dd, "_connect@12", LC614
-  .long 0x003cd1e8, "_select@20", LC615
-  .long 0x003cd211, "_recv@16", LC616
-  .long 0x003cd22b, "_recvfrom@24", LC617
-  .long 0x003cd23a, "_send@16", LC618
-  .long 0x003cd254, "_sendto@24", LC619
-  .long 0x003cd32d, "_XNetInAddrToXnAddr@12", LC620
-  .long 0x003cd344, "_XNetConnect@4", LC621
-  .long 0x003cd34f, "_XNetConnect@4", LC622
-  .long 0x003cd35a, "_XNetGetConnectStatus@4", LC623
-  .long 0x003cd365, "_XNetQosServiceLookup@12", LC624
-  .long 0x003cd576, "_XNetStartup@4", LC625
-  .long 0x003cd58d, "_WSAStartup@8", LC626
-  .long 0x003cd67b, "_XNetCleanup@0", LC627
-  .long 0x003cd688, "_WSACleanup@0", LC628
-  .long 0x003cd718, "_WSAGetLastError@0", LC629
-  .long 0x003cd71d, "___WSAFDIsSet@8", LC630
-  .long 0x003ce17b, "_htonl@4", LC631
-  .long 0x003ce184, "_htons@4", LC632
-  .long 0x004098c0, "_XInitDevices@8", LC633
-  .long 0x004098c5, "_XGetDeviceChanges@12", LC634
-  .long 0x00409932, "_XInputOpen@16", LC635
-  .long 0x00409988, "_XInputClose@4", LC636
-  .long 0x00409994, "_XInputGetCapabilities@8", LC637
-  .long 0x00409b6c, "_XInputGetState@8", LC638
-  .long 0x00409bdf, "_XInputSetState@8", LC639
-  .long 0x002d2008, "_ResumeThread@4", LC640
-  .long 0x002d616a, "_CreateEventA@16", LC641
-  .long 0x002d61cb, "_SetEvent@4", LC642
-  .long 0x002d640c, "_WaitForMultipleObjects@16", LC643
-  .long 0x00322e16, "_malloc", LC644
-  .long 0x0037b703, "_IDirectSoundBuffer_Stop@4", LC645
-  .long 0x0037b777, "_IDirectSoundBuffer_GetCurrentPosition@12", LC646
-  .long 0x0037c5c8, "_IDirectSoundBuffer_SetFrequency@8", LC647
+  .long 0x002d07f2, "_XLaunchNewImageA@8", LC293
+  .long 0x002d0915, "_XGetLaunchInfo@8", LC294
+  .long 0x002d09c0, "_XMemAllocDefault@8", LC295
+  .long 0x002d0a60, "_XMemFreeDefault@8", LC296
+  .long 0x002d156a, "_XPhysicalAlloc@16", LC297
+  .long 0x002d15da, "_XPhysicalProtect@12", LC298
+  .long 0x002d15ea, "_MmFreeContiguousMemory@4", LC299
+  .long 0x002d1d3e, "_GetLastError@0", LC300
+  .long 0x002d1d66, "_SetLastError@4", LC301
+  .long 0x002d1f3a, "_CloseHandle@4", LC302
+  .long 0x002d1fb6, "_SetThreadPriority@8", LC303
+  .long 0x002d2084, "_SwitchToThread@0", LC304
+  .long 0x002d21c6, "_CreateThread@24", LC305
+  .long 0x002d2234, "_GetCurrentThreadId@0", LC306
+  .long 0x002d2241, "_ReadFile@20", LC307
+  .long 0x002d232e, "_WriteFile@20", LC308
+  .long 0x002d2404, "_SetEndOfFile@4", LC309
+  .long 0x002d2488, "_SetFilePointer@16", LC310
+  .long 0x002d26b0, "_FlushFileBuffers@4", LC311
+  .long 0x002d2715, "_GetFileSize@8", LC312
+  .long 0x002d2750, "_CreateFileA@28", LC313
+  .long 0x002d57d3, "_XLoadSectionA@4", LC314
+  .long 0x002d57ee, "_XFreeSectionA@4", LC315
+  .long 0x002d5838, "_GetDiskFreeSpaceExA@16", LC316
+  .long 0x002d5d0a, "_XMountSecondaryUtilityDrive@0", LC317
+  .long 0x002d5f65, "_XGetDiskClusterSizeA@4", LC318
+  .long 0x002d61eb, "_CreateSemaphoreA@16", LC319
+  .long 0x002d6246, "_ReleaseSemaphore@12", LC320
+  .long 0x002d626c, "_CreateMutexA@12", LC321
+  .long 0x002d62c4, "_ReleaseMutex@4", LC322
+  .long 0x002d63fa, "_WaitForSingleObject@8", LC323
+  .long 0x002d6426, "_Sleep@4", LC324
+  .long 0x002d6765, "_XCalculateSignatureBegin@4", LC325
+  .long 0x002d6779, "_XCalculateSignatureUpdate@12", LC326
+  .long 0x002d67c7, "_XCalculateSignatureEnd@8", LC327
+  .long 0x002d69f8, "_SetFileAttributesA@8", LC328
+  .long 0x002d6a9e, "_GetFileAttributesA@4", LC329
+  .long 0x002d6ae9, "_GetFileAttributesExA@12", LC330
+  .long 0x002d6b6b, "_DeleteFileA@4", LC331
+  .long 0x003202bb, "??2@YAPAXI@Z", LC332
+  .long 0x003203e0, "_strncpy", LC333
+  .long 0x00320504, "__strnicmp", LC334
+  .long 0x00320795, "_sprintf", LC335
+  .long 0x003207ed, "_wcsncpy", LC336
+  .long 0x00320870, "_wcslen", LC337
+  .long 0x00320890, "_memmove", LC338
+  .long 0x00320e1a, "_wcscmp", LC339
+  .long 0x00320e4c, "__wcsicmp", LC340
+  .long 0x00320fc6, "_ceil", LC341
+  .long 0x00321099, "_floor", LC342
+  .long 0x003212c5, "__clearfp", LC343
+  .long 0x003212d6, "__control87", LC344
+  .long 0x00321340, "_strncmp", LC345
+  .long 0x00321379, "??3@YAXPAX@Z", LC346
+  .long 0x0032137e, "_printf", LC347
+  .long 0x00321460, "_qsort", LC348
+  .long 0x0032173b, "_atoi", LC349
+  .long 0x003217c0, "_strstr", LC350
+  .long 0x00321846, "_towlower", LC351
+  .long 0x003218f0, "_strspn", LC352
+  .long 0x00321940, "_strpbrk", LC353
+  .long 0x00321980, "__vsnprintf", LC354
+  .long 0x003219f0, "_strchr", LC355
+  .long 0x00321aae, "_time", LC356
+  .long 0x00321b42, "_fopen", LC357
+  .long 0x00321b55, "_fscanf", LC358
+  .long 0x00321b9f, "_fgets", LC359
+  .long 0x00321c71, "_fclose", LC360
+  .long 0x00321cc2, "_wcschr", LC361
+  .long 0x00321ce4, "_wcsncmp", LC362
+  .long 0x00321e15, "_iswspace", LC363
+  .long 0x00321e23, "_iswalnum", LC364
+  .long 0x00321ef9, "__vsnwprintf", LC365
+  .long 0x00321f75, "_rand", LC366
+  .long 0x00321fa0, "_strrchr", LC367
+  .long 0x003224dd, "_fread", LC368
+  .long 0x003225b8, "_fseek", LC369
+  .long 0x00322763, "_ftell", LC370
+  .long 0x003228bb, "_fwrite", LC371
+  .long 0x00322a67, "_fflush", LC372
+  .long 0x00322b81, "_vsprintf", LC373
+  .long 0x00322d01, "??_M@YGXPAXIHP6EX0@Z@Z", LC374
+  .long 0x00322d61, "??_L@YGXPAXIHP6EX0@Z1@Z", LC375
+  .long 0x00324c91, "_free", LC376
+  .long 0x00328283, "_calloc", LC377
+  .long 0x00330310, "_XGetVideoStandard@0", LC378
+  .long 0x00330339, "_XGetVideoFlags@0", LC379
+  .long 0x00330382, "_XSaveFloatingPointStateForDpc@0", LC380
+  .long 0x0033038e, "_XRestoreFloatingPointStateForDpc@0", LC381
+  .long 0x0033039a, "_XGetLanguage@0", LC382
+  .long 0x003303c7, "_XGetAutoLogonFlag@0", LC383
+  .long 0x003303f3, "_GetSystemTimeAsFileTime@4", LC384
+  .long 0x0033080a, "_XFindFirstContent@12", LC385
+  .long 0x0033095a, "_XFindNextContent@8", LC386
+  .long 0x00330df2, "_XCreateSaveGame@24", LC387
+  .long 0x00331055, "_XDeleteSaveGame@8", LC388
+  .long 0x00331125, "_XFindFirstSaveGame@8", LC389
+  .long 0x0033122f, "_XFindNextSaveGame@8", LC390
+  .long 0x00331276, "_XFindClose@4", LC391
+  .long 0x003312cc, "_VirtualAlloc@16", LC392
+  .long 0x003312fa, "_VirtualFree@12", LC393
+  .long 0x00331336, "_GlobalMemoryStatus@4", LC394
+  .long 0x00331385, "_XGetGameRegion@0", LC395
+  .long 0x003314b0, "_GetTickCount@0", LC396
+  .long 0x003314b8, "_FileTimeToSystemTime@8", LC397
+  .long 0x00331598, "_CompareFileTime@8", LC398
+  .long 0x0033198b, "_GetLocalTime@4", LC399
+  .long 0x00331a0a, "_FileTimeToLocalFileTime@8", LC400
+  .long 0x00331a35, "_CreateDirectoryA@8", LC401
+  .long 0x00331aa1, "_RemoveDirectoryA@4", LC402
+  .long 0x00331b9b, "_FindFirstFileA@8", LC403
+  .long 0x00331ca8, "_FindNextFileA@8", LC404
+  .long 0x00331cf9, "_OutputDebugStringA@4", LC405
+  .long 0x00331d2b, "_QueryPerformanceCounter@4", LC406
+  .long 0x00331d3c, "_QueryPerformanceFrequency@4", LC407
+  .long 0x00332d8f, "_XHVEngine_EnableProcessingMode@8", LC408
+  .long 0x00332d94, "_XHVEngine_SetCallbackInterface@8", LC409
+  .long 0x00332da3, "_XHVEngine_RegisterLocalTalker@8", LC410
+  .long 0x00332da8, "_XHVEngine_SetProcessingMode@12", LC411
+  .long 0x00332dad, "_XHVEngine_SetVoiceMask@12", LC412
+  .long 0x00332db2, "_XHVEngine_GetLocalTalkerStatus@12", LC413
+  .long 0x00332db7, "_XHVEngine_RegisterRemoteTalker@16", LC414
+  .long 0x00332dd3, "_XHVEngine_UnregisterRemoteTalker@16", LC415
+  .long 0x00332def, "_XHVEngine_GetRemoteTalkers@12", LC416
+  .long 0x00332df4, "_XHVEngine_SubmitIncomingVoicePacket@24", LC417
+  .long 0x00332e18, "_XHVEngine_IsTalking@16", LC418
+  .long 0x00332e34, "_XHVEngine_SetMixBinMapping@24", LC419
+  .long 0x00332e58, "_XHVEngine_SetPlaybackPriority@24", LC420
+  .long 0x00332e7c, "_XHVEngine_SetMaxPlaybackStreamsCount@8", LC421
+  .long 0x00332e81, "_XHVEngine_VoiceMailRecord@20", LC422
+  .long 0x00332e8a, "_XHVEngine_VoiceMailPlay@20", LC423
+  .long 0x00332e93, "_XHVEngine_VoiceMailStop@8", LC424
+  .long 0x00332f22, "_XHVEngine_DoWork@4", LC425
+  .long 0x00332f27, "_XHVEngine_UnregisterLocalTalker@8", LC426
+  .long 0x00333055, "_XHVEngineCreate@8", LC427
+  .long 0x003330f8, "_XHVEngine_Release@4", LC428
+  .long 0x0036c47d, "_XNetGetEthernetLinkStatus@0", LC429
+  .long 0x00379f2a, "_IDirectSound_Release@4", LC430
+  .long 0x00379f45, "_IDirectSoundBuffer_Release@4", LC431
+  .long 0x00379f5b, "_DirectSoundDoWork@0", LC432
+  .long 0x0037b5ae, "_IDirectSound_GetCaps@8", LC433
+  .long 0x0037b5ca, "_IDirectSound_GetSpeakerConfig@8", LC434
+  .long 0x0037b5e6, "_IDirectSound_GetEffectData@20", LC435
+  .long 0x0037b60d, "_IDirectSound_SetEffectData@24", LC436
+  .long 0x0037b637, "_IDirectSound_SetMixBinHeadroom@12", LC437
+  .long 0x0037b657, "_IDirectSound_SynchPlayback@4", LC438
+  .long 0x0037b66f, "_IDirectSoundBuffer_SetVolume@8", LC439
+  .long 0x0037b68b, "_IDirectSoundBuffer_SetFilter@8", LC440
+  .long 0x0037b6a7, "_IDirectSoundBuffer_SetHeadroom@8", LC441
+  .long 0x0037b6c3, "_IDirectSoundBuffer_SetMixBinVolumes@8", LC442
+  .long 0x0037b6df, "_IDirectSoundBuffer_Play@16", LC443
+  .long 0x0037b71b, "_IDirectSoundBuffer_StopEx@16", LC444
+  .long 0x0037b73f, "_IDirectSoundBuffer_Pause@8", LC445
+  .long 0x0037b75b, "_IDirectSoundBuffer_GetStatus@8", LC446
+  .long 0x0037b797, "_IDirectSoundBuffer_SetCurrentPosition@8", LC447
+  .long 0x0037b7b3, "_IDirectSoundBuffer_Lock@32", LC448
+  .long 0x0037b7e3, "_IDirectSoundBuffer_GetVoiceProperties@8", LC449
+  .long 0x0037b7ff, "_IDirectSoundStream_SetVolume@8", LC450
+  .long 0x0037b804, "_IDirectSoundStream_SetPitch@8", LC451
+  .long 0x0037b809, "_IDirectSoundStream_SetLFO@8", LC452
+  .long 0x0037b80e, "_IDirectSoundStream_SetEG@8", LC453
+  .long 0x0037b813, "_IDirectSoundStream_SetFilter@8", LC454
+  .long 0x0037b818, "_IDirectSoundStream_SetHeadroom@8", LC455
+  .long 0x0037b81d, "_IDirectSoundStream_SetMixBinVolumes@8", LC456
+  .long 0x0037b822, "_IDirectSoundStream_Pause@8", LC457
+  .long 0x0037b827, "_IDirectSoundStream_FlushEx@16", LC458
+  .long 0x0037b83f, "_IDirectSoundStream_GetVoiceProperties@8", LC459
+  .long 0x0037b844, "_DirectSoundDoWork@0", LC460
+  .long 0x0037b86d, "_XAudioDownloadEffectsImage@16", LC461
+  .long 0x0037ba6f, "_XAudioSetEffectData@12", LC462
+  .long 0x0037c5e4, "_IDirectSoundBuffer_SetMixBins@8", LC463
+  .long 0x0037c600, "_IDirectSoundBuffer_SetConeOutsideVolume@12", LC464
+  .long 0x0037c620, "_IDirectSoundBuffer_SetMaxDistance@12", LC465
+  .long 0x0037c644, "_IDirectSoundBuffer_SetMinDistance@12", LC466
+  .long 0x0037c668, "_IDirectSoundBuffer_SetPosition@20", LC467
+  .long 0x0037c69d, "_IDirectSoundBuffer_SetDopplerFactor@12", LC468
+  .long 0x0037c6c1, "_IDirectSoundBuffer_SetRolloffFactor@12", LC469
+  .long 0x0037c6e5, "_IDirectSoundBuffer_SetI3DL2Source@12", LC470
+  .long 0x0037c705, "_IDirectSoundStream_SetOutputBuffer@8", LC471
+  .long 0x0037c70a, "_IDirectSoundStream_SetMixBins@8", LC472
+  .long 0x0037cc4a, "_IDirectSoundBuffer_SetBufferData@12", LC473
+  .long 0x0037d141, "_IDirectSound_CommitDeferredSettings@4", LC474
+  .long 0x0037d4be, "_IDirectSound_CreateSoundBuffer@16", LC475
+  .long 0x0037d4e2, "_IDirectSound_CreateSoundStream@16", LC476
+  .long 0x0037d506, "_IDirectSound_SetDistanceFactor@12", LC477
+  .long 0x0037d52a, "_IDirectSound_SetRolloffFactor@12", LC478
+  .long 0x0037d54e, "_IDirectSound_SetOrientation@32", LC479
+  .long 0x0037d598, "_IDirectSound_SetPosition@20", LC480
+  .long 0x0037d5cd, "_IDirectSound_SetDopplerFactor@12", LC481
+  .long 0x0037d797, "_DirectSoundCreate@12", LC482
+  .long 0x0037d7de, "_DirectSoundCreateBuffer@8", LC483
+  .long 0x00387e31, "_WmaCreateInMemoryDecoder@20", LC484
+  .long 0x003a0620, "_XOnlineTaskContinue@4", LC485
+  .long 0x003a062b, "_XOnlineTaskClose@4", LC486
+  .long 0x003a0636, "_XOnlineGetUsers@8", LC487
+  .long 0x003a0641, "_XOnlineLogon@20", LC488
+  .long 0x003a0650, "_XOnlineLogonTaskGetResults@4", LC489
+  .long 0x003a065b, "_XOnlineChangeLogonUsers@12", LC490
+  .long 0x003a0666, "_XOnlineChangeLogonUsersTaskGetResults@8", LC491
+  .long 0x003a0671, "_XOnlineGetLogonUsers@0", LC492
+  .long 0x003a067c, "_XOnlineGetServiceInfo@8", LC493
+  .long 0x003a0687, "_XOnlineSaveLogonState@4", LC494
+  .long 0x003a0692, "_Sleep@4", LC495
+  .long 0x003a069d, "_XOnlineOfferingIsNewContentAvailable@12", LC496
+  .long 0x003a06a8, "_XOnlineMatchSessionCreate@32", LC497
+  .long 0x003a06b7, "_XOnlineMatchSessionUpdate@40", LC498
+  .long 0x003a06e7, "_XOnlineMatchSessionGetInfo@12", LC499
+  .long 0x003a06f2, "_XOnlineMatchSessionDelete@16", LC500
+  .long 0x003a0710, "_XOnlineMatchSessionFindFromID@16", LC501
+  .long 0x003a072e, "_XOnlineMatchSearch@28", LC502
+  .long 0x003a073d, "_XOnlineMatchSearchGetResults@12", LC503
+  .long 0x003a0748, "_XOnlineMatchSearchParse@16", LC504
+  .long 0x003a0753, "_XOnlineMatchSearchResultsLen@12", LC505
+  .long 0x003a075e, "_XOnlineTitleIdIsSameTitle@4", LC506
+  .long 0x003a0769, "_XOnlineTitleIdIsSameTitle@4", LC507
+  .long 0x003a0774, "_XOnlineNotificationSetState@24", LC508
+  .long 0x003a0798, "_XOnlineGetNotificationEx@12", LC509
+  .long 0x003a07a3, "_XOnlineFriendsStartup@8", LC510
+  .long 0x003a07ae, "_XOnlineFriendsEnumerate@12", LC511
+  .long 0x003a07b9, "_XOnlineFriendsEnumerateFinish@4", LC512
+  .long 0x003a07c4, "_XOnlineFriendsGetLatest@12", LC513
+  .long 0x003a07cf, "_XOnlineFriendsGetTitleName@16", LC514
+  .long 0x003a07da, "_XOnlineFriendsRemove@8", LC515
+  .long 0x003a07e5, "_XOnlineFriendsGameInvite@20", LC516
+  .long 0x003a0806, "_XOnlineFriendsAnswerRequest@12", LC517
+  .long 0x003a0811, "_XOnlineFriendsAnswerGameInvite@12", LC518
+  .long 0x003a081c, "_XOnlineFriendsJoinGame@8", LC519
+  .long 0x003a0827, "_XOnlineFriendsGetAcceptedGameInvite@4", LC520
+  .long 0x003a0832, "_XOnlineMutelistGet@24", LC521
+  .long 0x003a0841, "_XOnlineMutelistStartup@8", LC522
+  .long 0x003a084c, "_XOnlineMutelistAdd@16", LC523
+  .long 0x003a086e, "_XOnlineMutelistRemove@16", LC524
+  .long 0x003a0890, "_XOnlineFeedbackSend@32", LC525
+  .long 0x003a08c0, "_XOnlineStatWrite@16", LC526
+  .long 0x003a08cb, "_XOnlineStatRead@16", LC527
+  .long 0x003a08d6, "_XOnlineStatReadGetResult@20", LC528
+  .long 0x003a0c39, "_XOnlineStartup@4", LC529
+  .long 0x003a0d36, "_XOnlineCleanup@0", LC530
+  .long 0x003a11ae, "_XOnlineGetNatType@0", LC531
+  .long 0x003a695e, "_XOnlinePresenceAdd@16", LC532
+  .long 0x003a6969, "_XOnlinePresenceClear@4", LC533
+  .long 0x003a6f9b, "_XOnlinePresenceSubmit@4", LC534
+  .long 0x003a6fa6, "_XOnlinePresenceGetLatest@16", LC535
+  .long 0x003a8316, "_XOnlinePresenceInit@12", LC536
+  .long 0x003a8321, "_XOnlineGameInviteSend@36", LC537
+  .long 0x003a834e, "_XOnlineGameInviteAnswer@20", LC538
+  .long 0x003a835d, "_XOnlineFriendsRequestEx@28", LC539
+  .long 0x003a838a, "_XOnlineFriendsRequestByNameEx@20", LC540
+  .long 0x003a8399, "_XOnlineTeamMemberRecruit@44", LC541
+  .long 0x003a83d4, "_XOnlineTeamMemberRecruitByName@36", LC542
+  .long 0x003a8407, "_XOnlineTeamMemberAnswerRecruit@28", LC543
+  .long 0x003a9d65, "_XOnlineMessageDetailsGetResultsProperty@24", LC544
+  .long 0x003a9d74, "_XOnlineMessageDownloadAttachmentToMemory@24", LC545
+  .long 0x003a9d83, "_XOnlineMessageDownloadAttachmentToMemoryGetResults@16", LC546
+  .long 0x003a9d8e, "_XOnlineMessageCreate@32", LC547
+  .long 0x003a9db8, "_XOnlineMessageDestroy@4", LC548
+  .long 0x003a9dc3, "_XOnlineMessageSetProperty@20", LC549
+  .long 0x003ab04a, "_XOnlineMessageEnumerate@12", LC550
+  .long 0x003ab055, "_XOnlineMessageDelete@12", LC551
+  .long 0x003ab060, "_XOnlineMessageSend@24", LC552
+  .long 0x003ab2a6, "_XOnlineMessageDetails@24", LC553
+  .long 0x003ab6a6, "_XOnlineStatWriteGetResult@16", LC554
+  .long 0x003ab6b1, "_XOnlineStorageCreateServerPath@32", LC555
+  .long 0x003ab6db, "_XOnlineStorageDownload@28", LC556
+  .long 0x003ab6ea, "_XOnlineStorageDownloadToMemory@32", LC557
+  .long 0x003ab6f9, "_XOnlineStorageDownloadToMemoryGetResults@24", LC558
+  .long 0x003ad149, "_XOnlineStorageUploadByServerPath@36", LC559
+  .long 0x003ad176, "_XOnlineStorageUploadFromMemory@40", LC560
+  .long 0x003adc4c, "_XOnlineArbitrationCreateRoundID@4", LC561
+  .long 0x003ae32b, "_XOnlineArbitrationRegister@20", LC562
+  .long 0x003ae33a, "_XOnlineArbitrationExtendRound@16", LC563
+  .long 0x003ae36a, "_XOnlineArbitrationReport@28", LC564
+  .long 0x003aeba5, "_XOnlineTeamEnumerateGetResults@12", LC565
+  .long 0x003aebb0, "_XOnlineTeamMembersEnumerateGetResults@12", LC566
+  .long 0x003afb80, "_XOnlineTeamCreate@24", LC567
+  .long 0x003afb8f, "_XOnlineTeamDelete@24", LC568
+  .long 0x003afbb9, "_XOnlineTeamMemberSetProperties@40", LC569
+  .long 0x003afbf1, "_XOnlineTeamMemberRemove@36", LC570
+  .long 0x003afc26, "_XOnlineTeamEnumerateByUserXUID@24", LC571
+  .long 0x003afc50, "_XOnlineTeamGetDetails@20", LC572
+  .long 0x003afc76, "_XOnlineTeamMembersEnumerate@28", LC573
+  .long 0x003afca3, "_XOnlineTeamMemberGetDetails@20", LC574
+  .long 0x003b0254, "_XOnlineQuerySearch@40", LC575
+  .long 0x003b0263, "_XOnlineQuerySearchGetResults@20", LC576
+  .long 0x003cd0c0, "_XNetRandom@8", LC577
+  .long 0x003cd0cb, "_XNetCreateKey@8", LC578
+  .long 0x003cd0d6, "_XNetRegisterKey@8", LC579
+  .long 0x003cd0e1, "_XNetUnregisterKey@4", LC580
+  .long 0x003cd0ec, "_XNetXnAddrToInAddr@12", LC581
+  .long 0x003cd103, "_XNetTsAddrToInAddr@16", LC582
+  .long 0x003cd147, "_XNetQosListen@20", LC583
+  .long 0x003cd156, "_XNetQosLookup@48", LC584
+  .long 0x003cd172, "_XNetQosRelease@4", LC585
+  .long 0x003cd17d, "_XNetGetTitleXnAddr@4", LC586
+  .long 0x003cd188, "_socket@12", LC587
+  .long 0x003cd193, "_closesocket@4", LC588
+  .long 0x003cd19e, "_shutdown@8", LC589
+  .long 0x003cd1a9, "_ioctlsocket@12", LC590
+  .long 0x003cd1b4, "_setsockopt@20", LC591
+  .long 0x003cd1c3, "_getsockopt@20", LC592
+  .long 0x003cd1d2, "_bind@12", LC593
+  .long 0x003cd1dd, "_connect@12", LC594
+  .long 0x003cd1e8, "_select@20", LC595
+  .long 0x003cd211, "_recv@16", LC596
+  .long 0x003cd22b, "_recvfrom@24", LC597
+  .long 0x003cd23a, "_send@16", LC598
+  .long 0x003cd254, "_sendto@24", LC599
+  .long 0x003cd32d, "_XNetInAddrToXnAddr@12", LC600
+  .long 0x003cd344, "_XNetConnect@4", LC601
+  .long 0x003cd34f, "_XNetConnect@4", LC602
+  .long 0x003cd35a, "_XNetGetConnectStatus@4", LC603
+  .long 0x003cd365, "_XNetQosServiceLookup@12", LC604
+  .long 0x003cd576, "_XNetStartup@4", LC605
+  .long 0x003cd58d, "_WSAStartup@8", LC606
+  .long 0x003cd67b, "_XNetCleanup@0", LC607
+  .long 0x003cd688, "_WSACleanup@0", LC608
+  .long 0x003cd718, "_WSAGetLastError@0", LC609
+  .long 0x003cd71d, "___WSAFDIsSet@8", LC610
+  .long 0x003ce17b, "_htonl@4", LC611
+  .long 0x003ce184, "_htons@4", LC612
+  .long 0x004098c0, "_XInitDevices@8", LC613
+  .long 0x004098c5, "_XGetDeviceChanges@12", LC614
+  .long 0x00409932, "_XInputOpen@16", LC615
+  .long 0x00409988, "_XInputClose@4", LC616
+  .long 0x00409994, "_XInputGetCapabilities@8", LC617
+  .long 0x00409b6c, "_XInputGetState@8", LC618
+  .long 0x00409bdf, "_XInputSetState@8", LC619
+  .long 0x002d2008, "_ResumeThread@4", LC620
+  .long 0x002d616a, "_CreateEventA@16", LC621
+  .long 0x002d61cb, "_SetEvent@4", LC622
+  .long 0x002d640c, "_WaitForMultipleObjects@16", LC623
+  .long 0x00322e16, "_malloc", LC624
+  .long 0x0037b703, "_IDirectSoundBuffer_Stop@4", LC625
+  .long 0x0037b777, "_IDirectSoundBuffer_GetCurrentPosition@12", LC626
+  .long 0x0037c5c8, "_IDirectSoundBuffer_SetFrequency@8", LC627
   .long 0,0,0
 .globl _h2n_game_patches
 _h2n_game_patches:
-  .long 0x1d2f0, "?function_1d2f0@@YG_NPAUD3DSurface@@PAE@Z", LC648
-  .long 0x439d0, GB439d0, LC649
-  .long 0x15ca10, "?function_15ca10@@YIXXZ", LC650
+  .long 0x1d2f0, "?function_1d2f0@@YG_NPAUD3DSurface@@PAE@Z", LC628
+  .long 0x439d0, GB439d0, LC629
+  .long 0x15ca10, "?function_15ca10@@YIXXZ", LC630
   .long 0,0,0
 .globl _h2n_pointer_retail
 _h2n_pointer_retail:
   .long 0xd4e60
   .long 0xdd360
   .long 0xde4c0
-  .long 0xe7fb0
   .long 0xec4f0
   .long 0xefde0
   .long 0xf8200
   .long 0xfdfb0
-  .long 0xff5f0
   .long 0x106790
   .long 0x10b4d0
   .long 0x118700
-  .long 0x1253d0
-  .long 0x1264c0
   .long 0x215690
   .long 0x318c10
   .long 0
@@ -2161,7 +2137,6 @@ _h2n_all_functions:
   .long 0x0005ed90, "?network_session_handle_peer_properties@@YG_NPAVc_class_58d20@@JPBUs_network_message_peer_properties@@@Z"
   .long 0x0005ee70, "?network_session_handle_delegate_leader@@YG_NPAVc_class_58d20@@JPBUs_network_message_peer_identity@@@Z"
   .long 0x0005ef20, "?network_session_handle_boot_machine@@YG_NPAVc_class_58d20@@JPBUs_network_message_peer_identity@@@Z"
-  .long 0x0005efd0, "?network_session_handle_player_add@@YG_NPAVc_class_58d20@@JRBX@Z"
   .long 0x0005f120, "?network_session_handle_player_refuse@@YI_NPAVc_class_58d20@@PBUs_network_message_player_refuse@@J@Z"
   .long 0x0005f190, "?network_session_handle_player_remove@@YI_NPAVc_class_58d20@@JPBUs_network_message_player_remove@@@Z"
   .long 0x0005f230, "?network_session_handle_player_properties@@YI_NPAVc_class_58d20@@JPBUs_network_message_player_properties@@@Z"
@@ -2627,7 +2602,6 @@ _h2n_all_functions:
   .long 0x00076aa0, "?network_observer_attach_channel@@YIJPAUs_network_observer@@JPBUXNADDR@@@Z"
   .long 0x00076ef0, "?network_observer_channel_dispose@@YIXPAUs_network_observer@@J@Z"
   .long 0x00076f50, "?network_observer_channel_check_connect@@YIXPAUs_network_observer@@J@Z"
-  .long 0x00076ff0, "?network_observer_update_connection@@YIXRAUs_network_observer@@J@Z"
   .long 0x00077330, "?network_observer_set_channel_state@@YIXPAUs_network_observer@@JJ@Z"
   .long 0x000773a0, "?network_observer_check_channel_activity@@YIXPAUs_network_observer@@J@Z"
   .long 0x00077480, "?network_observer_channel_probe@@YIXPAUs_network_observer@@J@Z"
@@ -3702,7 +3676,7 @@ _h2n_all_functions:
   .long 0x000a99f0, "?function_a99f0@@YIXJPAJ@Z"
   .long 0x000a9a70, "?function_a9a70@@YIXJPAUs_z_copy_state@@@Z"
   .long 0x000a9b40, "?function_a9b40@@YIXJPAUs_z_copy_state@@@Z"
-  .long 0x000a9f20, "??_Gc_reference_a9f20@@UAEPAXI@Z"
+  .long 0x000a9ef0, "??_Gc_sized_reference_a9ef0@@UAEPAXI@Z"
   .long 0x000a9f70, "?function_a9f70@@YGJJJPBTpoint3f@@@Z"
   .long 0x000aa260, "?function_aa260@@YIXJJPBTvector3f@@JPBTpoint3f@@000@Z"
   .long 0x000aa4d0, "?function_aa4d0@@YIMJPBJMPBUs_relevance_observers@@PA_N@Z"
@@ -4362,7 +4336,6 @@ _h2n_all_functions:
   .long 0x000d88f0, "?function_d88f0@@YGFJJ@Z"
   .long 0x000d8a40, "?function_d8a40@@YIXJJM@Z"
   .long 0x000d8ae0, "?function_d8ae0@@YIPAFJJPAF@Z"
-  .long 0x000d8b50, "?function_d8b50@@YI_NPAM0PADPBE_N@Z"
   .long 0x000d8cb0, "?function_d8cb0@@YIXJPBUs_damage_effect_definition@@PAUs_type_1e6529@@PAUs_damage_region_accumulator@@@Z"
   .long 0x000d9020, "?function_d9020@@YIMJPBE0PBUs_type_1e6529@@@Z"
   .long 0x000d9110, "?function_d9110@@YIXJPBUs_damage_effect_definition@@PAUs_type_1e6529@@PAUs_damage_region_accumulator@@@Z"
@@ -4684,7 +4657,6 @@ _h2n_all_functions:
   .long 0x000fd4c0, "?projectile_get_material_response@@YGPAUs_projectile_material_response@@PBUs_projectile_definition@@Vc_type_47f957@@@Z"
   .long 0x000fd560, "?function_fd560@@YIXJJFPBTpoint3f@@PBTvector3f@@@Z"
   .long 0x000fd740, "?function_fd740@@YIXPBTpoint3f@@PBEJFPAJ22222@Z"
-  .long 0x000fd7d0, "?function_fd7d0@@YIXJPBTpoint3f@@PBEJJPAJ22222@Z"
   .long 0x000fd8b0, "?function_fd8b0@@YIMJJ@Z"
   .long 0x000fd910, "?function_fd910@@YIXXZ"
   .long 0x000fd980, "?function_fd980@@YGXJ@Z"
@@ -5154,7 +5126,6 @@ _h2n_all_functions:
   .long 0x0011e800, "?function_11e800@@YI_NPBTpoint3f@@000PAM1@Z"
   .long 0x0011ea30, "?function_11ea30@@YIJPBTpoint3f@@PBTvector3f@@01M@Z"
   .long 0x0011eed0, "?function_11eed0@@YI_NPAM0MMMM_NMM@Z"
-  .long 0x0011f0d0, "?function_11f0d0@@YIXPATvector3f@@0PBT1@MMM@Z"
   .long 0x0011f470, "?function_11f470@@YIEMMM@Z"
   .long 0x0011f4f0, "?function_11f4f0@@YIXPBMPBUreal_bounds@@JPAJ@Z"
   .long 0x0011f580, "?function_11f580@@YIXPBMJPAMPBJ@Z"
@@ -5795,6 +5766,7 @@ _h2n_all_functions:
   .long 0x00146e30, "?function_146e30@@YIPAVc_havok_abstract_allocator@@XZ"
   .long 0x00146fd0, "?function_146fd0@@YIJXZ"
   .long 0x00147090, "?function_147090@@YIJXZ"
+  .long 0x001470f0, "??_Gc_game_havok_memory@@UAEPAXI@Z"
   .long 0x00147110, "?allocate@c_game_havok_memory@@UAEPAXJJ@Z"
   .long 0x00147160, "?deallocate@c_game_havok_memory@@UAEXPAX@Z"
   .long 0x001471e0, "?allocate_aligned@c_game_havok_memory@@UAEPAXJJJ@Z"
@@ -5814,6 +5786,7 @@ _h2n_all_functions:
   .long 0x0014752c, "?main_menu_open@@YGPAVc_class_1473c9@@PAUs_screen_parameters@@@Z"
   .long 0x0014756a, "??0c_main_menu_screen@@QAE@JJG@Z"
   .long 0x001475a3, "?get_load_proc@c_main_menu_screen@@UAEP6GPAVc_class_1473c9@@PAUs_screen_parameters@@@ZXZ"
+  .long 0x001475a9, "??_Gc_mp_controller_settings_screen@@UAEPAXI@Z"
   .long 0x001475c7, "?mp_pause_game_open@@YGPAVc_class_1473c9@@PAUs_screen_parameters@@@Z"
   .long 0x00147605, "??0c_mp_pause_game_screen@@QAE@JJG@Z"
   .long 0x0014763a, "?get_load_proc@c_mp_pause_game_screen@@UAEP6GPAVc_class_1473c9@@PAUs_screen_parameters@@@ZXZ"
@@ -6603,7 +6576,6 @@ _h2n_all_functions:
   .long 0x0017d9a0, "?function_17d9a0@@YIXPBUtransform4x3f@@PBMPAUs_decal_quad_17d9a0@@@Z"
   .long 0x0017dd80, "?function_17dd80@@YGXPBUs_decal_mesh_view@@PBUs_decal_quad_17d9a0@@PAUs_decal_output_17dd80@@J_NMFPAJPAF45@Z"
   .long 0x0017e490, "?function_17e490@@YIJJFPBTpoint3f@@MJPAPAUs_decal_bound_17e490@@@Z"
-  .long 0x0017e670, "?function_17e670@@YIXPAUs_effect_source@@PBTpoint3f@@JPBTvector3f@@MJJJ@Z"
   .long 0x0017ed70, "?decal_placement_copy@@YIXPBUs_decal_placement@@PAU1@@Z"
   .long 0x0017ee20, "?function_17ee20@@YI_NPBUs_decal_mesh_view@@PBUtransform4x3f@@JPBUs_decal_placement@@PBTvector3f@@M_NJJ@Z"
   .long 0x0017ef10, "?function_17ef10@@YI_NPBUtransform4x3f@@JPBUs_decal_placement@@PBTvector3f@@M_NJJPAUs_decal_preparation_17ef10@@PAUs_decal_chain_state_17ee20@@@Z"
@@ -6612,7 +6584,7 @@ _h2n_all_functions:
   .long 0x00180c60, "?vector3d_pack@@YIKPBTvector3f@@@Z"
   .long 0x00180d80, "?function_180d80@@YGJPBUs_180d84@@PBUtransform4x3f@@JPBUs_cluster_query@@_NPBUs_180d81@@PAUs_180d83@@@Z"
   .long 0x00181800, "?function_181800@@YIJPBUs_sphere_frustum@@PBTpoint3f@@M@Z"
-  .long 0x00181a60, "??_Gc_query_callback@@UAEPAXI@Z"
+  .long 0x00181a10, "??_Gc_query_array_collector@@UAEPAXI@Z"
   .long 0x00181a80, "?function_181a80@@YIPAUs_section_lists@@PAU1@J_N@Z"
   .long 0x00181bd0, "?function_181bd0@@YIPAUs_list_rigid_bodies@@JPAU1@@Z"
   .long 0x00181cf0, "?function_181cf0@@YIXJJPAJJJ0@Z"
@@ -6624,7 +6596,6 @@ _h2n_all_functions:
   .long 0x00182180, "?function_182180@@YI_NPBVhkShape@@@Z"
   .long 0x001821d0, "?function_1821d0@@YGXJMPAUs_query_batch_result@@J@Z"
   .long 0x001822f0, "?collect@c_query_batch_collector@@UAEXPBUs_batch_contact@@@Z"
-  .long 0x001827d0, "??_Gc_query_collector@@UAEPAXI@Z"
   .long 0x00182800, "?function_182800@c_bounded_query_world@@QAE_NPAUs_vehicle_ray@@J@Z"
   .long 0x001829b0, "?query@c_nearest_query_callback@@UAEXPAUs_node@@PBUs_query_hit@@@Z"
   .long 0x00182aa0, "?function_182aa0@@YGMPAVc_extent_shape@@PAM1@Z"
@@ -6698,7 +6669,6 @@ _h2n_all_functions:
   .long 0x00188ea0, "?vector3d_decompress@@YIPATvector3f@@KPAT1@@Z"
   .long 0x00188f90, "?looping_sound_new_attached@@YIJJJFJ@Z"
   .long 0x00189010, "?function_189010@@YI_NJJ@Z"
-  .long 0x00189060, "?function_189060@@YIJJFMPBTpoint3f@@PBTvector3f@@J@Z"
   .long 0x001890c0, "?function_1890c0@@YIJPBUs_sound_label_play@@JFPBTpoint3f@@PBTvector3f@@@Z"
   .long 0x001891d0, "?function_1891d0@@YIJJJPBUs_sound_label_play@@@Z"
   .long 0x00189210, "?function_189210@@YIJJPBUs_sound_label_play@@J@Z"
@@ -6806,6 +6776,7 @@ _h2n_all_functions:
   .long 0x0018f372, "??0c_unknown_249fa3@@QAE@G@Z"
   .long 0x0018f3ba, "?get_item_data@c_unknown_249fa3@@UAEPAXXZ"
   .long 0x0018f3c1, "?get_items@c_unknown_249fa3@@UAEPAXPAJ@Z"
+  .long 0x0018f3d4, "??_Gc_unknown_249fa3@@UAEPAXI@Z"
   .long 0x0018f3f0, "??1c_list_24a64d@@UAE@XZ"
   .long 0x0018f40e, "??1c_unknown_249fa3@@UAE@XZ"
   .long 0x0018f42d, "?profile_mode_screen_load@@YGPAVc_class_1473c9@@PAUs_screen_parameters@@@Z"
@@ -7169,6 +7140,7 @@ _h2n_all_functions:
   .long 0x0019b97a, "?handle_button@c_dialog_ok_screen@@QAEXPAPAUs_controller_reference@@PAJ@Z"
   .long 0x0019b9a7, "?v10@c_dialog_ok_screen@@UAE_NPAUs_widget_event@@@Z"
   .long 0x0019b9ac, "??0c_dialog_choice_list@@QAE@G@Z"
+  .long 0x0019ba48, "??_Gc_dialog_choice_list@@UAEPAXI@Z"
   .long 0x0019ba66, "??1c_dialog_choice_list@@UAE@XZ"
   .long 0x0019ba9c, "?v20@c_dialog_choice_list@@UAEXPAVc_class_1a2c81@@J@Z"
   .long 0x0019bb1e, "?handle_item@c_dialog_choice_list@@QAEXPAPAUs_controller_reference@@PAJ@Z"
@@ -7287,7 +7259,6 @@ _h2n_all_functions:
   .long 0x001a1a00, "?free_pages@c_page_heap@@UAEXPAEJJ@Z"
   .long 0x001a1a80, "?get_page_size@c_page_heap@@UAEJXZ"
   .long 0x001a1a90, "?allocate_pages@c_page_heap@@UAEPAXJJJ@Z"
-  .long 0x001a1c20, "??_Gc_page_heap@@UAEPAXI@Z"
   .long 0x001a1c3e, "?motion_sensor_add_nearby_object@@YIXPAUs_motion_sensor_player@@J@Z"
   .long 0x001a1c8e, "?motion_sensor_add_other_object@s_motion_sensor_player@@QAEXJ@Z"
   .long 0x001a1cb5, "?motion_sensor_remove_object@@YIXPAUs_motion_sensor_player@@J@Z"
@@ -7498,7 +7469,6 @@ _h2n_all_functions:
   .long 0x001af0a0, "?function_1af0a0@@YGFJPAUs_slot@@0@Z"
   .long 0x001af160, "?function_1af160@@YI_NJPAUs_1af160@@@Z"
   .long 0x001af530, "?function_1af530@@YI_NJPAJ0@Z"
-  .long 0x001af5c0, "?function_1af5c0@@YIJJJPBTpoint3f@@J@Z"
   .long 0x001af810, "?function_1af810@@YG_NJPAUs_slot@@@Z"
   .long 0x001afb30, "?function_1afb30@@YGXJPAUs_slot@@@Z"
   .long 0x001afcf0, "?function_1afcf0@@YGXJPAUs_slot@@@Z"
@@ -7806,9 +7776,9 @@ _h2n_all_functions:
   .long 0x001c2390, "?construct_shapes@s_part_table@@QAEXXZ"
   .long 0x001c2460, "?get_shape@s_part_table@@QAEPAVc_part@@J@Z"
   .long 0x001c2480, "?function_1c2480@@YAXPAX@Z"
+  .long 0x001c24a0, "??_Gc_1c24a0@@UAEPAXI@Z"
   .long 0x001c24d0, "?function_1c24d0@@YAXPAX@Z"
   .long 0x001c24f0, "??_Gc_contact_presence@@UAEPAXI@Z"
-  .long 0x001c2520, "??_Gpair_collection_filter@@UAEPAXI@Z"
   .long 0x001c2560, "?function_1c2560@@YAXPAX@Z"
   .long 0x001c25a0, "?function_1c25a0@@YIXXZ"
   .long 0x001c2600, "?function_1c2600@@YIXXZ"
@@ -7928,10 +7898,8 @@ _h2n_all_functions:
   .long 0x001c86d0, "?ai_importance_compare@@YG_NPBX00@Z"
   .long 0x001c8700, "?ai_importance_list_build@@YGXJPAUs_ai_importance_list@@J@Z"
   .long 0x001c88c0, "?function_1c88c0@@YGJJPAXJPA_N0J@Z"
-  .long 0x001c8940, "?function_1c8940@@YIXPAUs_ai_capsule_view@@JJ@Z"
   .long 0x001c89b0, "?function_1c89b0@@YGFJFPAUs_ai_capsule_view@@@Z"
   .long 0x001c8d20, "?function_1c8d20@@YI_NJJPBTpoint3f@@PBTvector3f@@PAJ@Z"
-  .long 0x001c8df0, "?function_1c8df0@@YGFFFPBTpoint3f@@J0J_N11PAJ@Z"
   .long 0x001c9290, "?function_1c9290@@YI_NJPBTpoint3f@@PBTvector3f@@MMJ_N@Z"
   .long 0x001c9500, "?function_1c9500@@YI_NJJ_N@Z"
   .long 0x001c9580, "?function_1c9580@@YIJJ_N@Z"
@@ -8108,7 +8076,6 @@ _h2n_all_functions:
   .long 0x001d44f0, "?function_1d44f0@@YG_NPAUs_havok_component@@PATpoint3f@@PAM@Z"
   .long 0x001d4880, "?hit@c_contact_presence@@UAEXPBXPBUs_contact_body_view@@@Z"
   .long 0x001d48f0, "?function_1d48f0@@YI_NPATpoint3f@@PAUs_havok_component@@JJPBT1@PBTvector3f@@PAUs_location@@MM_N2J@Z"
-  .long 0x001d5120, "?function_1d5120@@YI_NPAUs_havok_component@@JJJMPAJJ@Z"
   .long 0x001d5460, "?havok_component_impact_find@@YIJPAUs_havok_component@@PBUs_havok_impact_contact@@_N@Z"
   .long 0x001d5500, "?havok_component_impact_make_room@@YI_NJPAUs_havok_component@@M@Z"
   .long 0x001d56a0, "?function_1d56a0@@YIXPAUs_havok_component@@@Z"
@@ -8244,7 +8211,6 @@ _h2n_all_functions:
   .long 0x001e1740, "?function_1e1740@@YIXJJ@Z"
   .long 0x001e17d0, "?function_1e17d0@@YIXJJ@Z"
   .long 0x001e18f0, "?function_1e18f0@@YIXJJJJ@Z"
-  .long 0x001e1a00, "?function_1e1a00@@YGXJJ@Z"
   .long 0x001e1de0, "?function_1e1de0@@YI_NJ@Z"
   .long 0x001e1e50, "?function_1e1e50@@YI_NJPATvector3f@@@Z"
   .long 0x001e1f20, "?function_1e1f20@@YIJJ@Z"
@@ -8387,7 +8353,9 @@ _h2n_all_functions:
   .long 0x001eb2a0, "?removed@c_shape_contact_listener@@UAEXPBUs_contact_body@@0@Z"
   .long 0x001eb320, "??_Gc_shape_reference@@UAEPAXI@Z"
   .long 0x001eb350, "??1c_shape_reference@@UAE@XZ"
+  .long 0x001eb3b0, "??_Gc_shape_adapter_a@@UAEPAXI@Z"
   .long 0x001eb3e0, "??_Gc_shape_adapter_b@@UAEPAXI@Z"
+  .long 0x001eb410, "??_Gc_shape_arrays@@UAEPAXI@Z"
   .long 0x001eb440, "??1c_shape_arrays@@UAE@XZ"
   .long 0x001eb4c0, "??1c_shape_pair@@UAE@XZ"
   .long 0x001eb550, "?function_1eb550@@YIXXZ"
@@ -8417,7 +8385,6 @@ _h2n_all_functions:
   .long 0x001edd00, "??0c_vertex_shape@@QAE@PAUs_shape_source@@EJJJPBUtransform4x3f@@@Z"
   .long 0x001eded0, "?get_bounds@c_vertex_shape@@UAEXPBXMPAX@Z"
   .long 0x001edf40, "?v3@c_vertex_shape@@UAEXXZ"
-  .long 0x001edf50, "?ray_test@c_vertex_shape@@UAEXPA_NPBUs_shape_ray@@PAUs_shape_ray_result@@@Z"
   .long 0x001ee340, "?get_first_vertex@c_vertex_shape@@UAEXPAU__m128@@@Z"
   .long 0x001ee350, "?get_supporting_vertex@c_vertex_shape@@UAEXPBU__m128@@PAU2@@Z"
   .long 0x001ee3d0, "?gather_vertices@c_vertex_shape@@UAEXPBGJPAU__m128@@@Z"
@@ -8427,6 +8394,7 @@ _h2n_all_functions:
   .long 0x001ee4a0, "?next_index@c_count_interface@@UAEJK@Z"
   .long 0x001ee4d0, "?make_shape@c_count_interface@@UAEPAUc_vertex_shape@@JPAX@Z"
   .long 0x001ee500, "?make_transformed_shape@c_count_interface@@QAEPAUc_vertex_shape@@JJPAXPBUtransform4x3f@@@Z"
+  .long 0x001ee530, "??_Gc_shape_owner@@UAEPAXI@Z"
   .long 0x001ee560, "??1c_shape_owner@@UAE@XZ"
   .long 0x001ee5b0, "?function_1ee5b0@@YIXPAUc_shape_owner@@PBU__m128@@_N2PAUs_surface_key_array@@@Z"
   .long 0x001ee800, "?query_sphere@c_shape_owner@@UAEXPBU__m128@@PAUs_surface_key_array@@@Z"
@@ -8456,7 +8424,6 @@ _h2n_all_functions:
   .long 0x001f03e0, "?function_1f03e0@@YIXPAUs_shape_state@@@Z"
   .long 0x001f0450, "?function_1f0450@@YGXPAUs_shape_state@@PAEPBUs_shape_carrier_contact@@@Z"
   .long 0x001f0870, "?function_1f0870@@YIXPAEPBTvector3f@@PBUs_shape_carrier_contact@@0@Z"
-  .long 0x001f1460, "?function_1f1460@@YIXPBUs_shape_state@@PATvector3f@@1PBE@Z"
   .long 0x001f1930, "?function_1f1930@@YIXPAUs_shape_side@@PBUs_shape_contact@@@Z"
   .long 0x001f19c0, "?function_1f19c0@@YIXPBEPAUs_shape_state@@PAE@Z"
   .long 0x001f1df0, "?function_1f1df0@@YIXPAUs_shape_state@@JJPBTvector3f@@@Z"
@@ -8520,8 +8487,6 @@ _h2n_all_functions:
   .long 0x001f99d0, "?function_1f99d0@@YIMJJFPBUpoint2f@@00PBUs_obstacle_list@@@Z"
   .long 0x001f9e70, "?function_1f9e70@@YIMJJPBUpoint2f@@PBTvector2f@@111M_N@Z"
   .long 0x001fa3a0, "?function_1fa3a0@@YIJJJJJPBTpoint3f@@@Z"
-  .long 0x001fa590, "?function_1fa590@@YIJJPBUs_tree2d@@PBUpoint2f@@@Z"
-  .long 0x001fa5e0, "?function_1fa5e0@@YIPAJJPBUs_tree2d@@J@Z"
   .long 0x001fa600, "?function_1fa600@@YIXPATvector3f@@G@Z"
   .long 0x001fa6b0, "?function_1fa6b0@@YI_NPBUs_pathfinding_data@@PBUs_pathfinding_node@@@Z"
   .long 0x001fa720, "?function_1fa720@@YIPAUs_pathfinding_edge@@PAUs_edge_iterator@@@Z"
@@ -8973,7 +8938,6 @@ _h2n_all_functions:
   .long 0x00218e50, "?function_218e50@@YIMJFFJ@Z"
   .long 0x00218f10, "?sound_definition_rate_limit_pitch_range@@YIFJPBUs_sound_definition@@@Z"
   .long 0x00218f50, "?function_218f50@@YIFPAUs_looping_playback_definition@@FM@Z"
-  .long 0x00219070, "?function_219070@@YIFJPBUs_sound_definition@@@Z"
   .long 0x00219110, "?function_219110@@YIFPAUs_set_ref@@FPAKF1PA_N_N@Z"
   .long 0x00219290, "?function_219290@@YIJPAUs_permutation_group@@F@Z"
   .long 0x002192b0, "?function_2192b0@s_animation_state@@QAEXPAUs_animation_ref@@E@Z"
@@ -9093,7 +9057,6 @@ _h2n_all_functions:
   .long 0x00220b90, "?sound_driver_voice_new@@YIFKK@Z"
   .long 0x00220e00, "?sound_driver_voice_update@@YIXJPBUs_sound_driver_voice_parameters@@@Z"
   .long 0x00220fd0, "?function_220fd0@@YIXPBUs_sound_driver_volumes@@@Z"
-  .long 0x002211e0, "?sound_driver_voice_environment_set@@YIXJM@Z"
   .long 0x00221490, "?function_221490@@YIXPAPAUIDirectSoundBuffer@@@Z"
   .long 0x002215d0, "?function_2215d0@@YIXPAUs_mixbin_list@@PAUs_mixbin_settings@@PAUIDirectSoundStream@@@Z"
   .long 0x002216f0, "?function_2216f0@@YIXPAUs_mixbin_list@@PAUs_mixbin_settings@@PAUIDirectSoundBuffer@@@Z"
@@ -9380,6 +9343,7 @@ _h2n_all_functions:
   .long 0x0022f118, "?get_load_proc@c_press_start_screen@@UAEP6GPAVc_class_1473c9@@PAUs_screen_parameters@@@ZXZ"
   .long 0x0022f11e, "?press_start_screen_open@@YGPAVc_class_1473c9@@PAUs_screen_parameters@@@Z"
   .long 0x0022f15d, "??0c_press_start_screen@@QAE@JJG@Z"
+  .long 0x0022f1b2, "??_Gc_press_start_screen@@UAEPAXI@Z"
   .long 0x0022f1ce, "??1c_press_start_screen@@UAE@XZ"
   .long 0x0022f1f7, "?v18@c_press_start_screen@@UAEXPAX@Z"
   .long 0x0022f28c, "?v3@c_press_start_screen@@UAEXXZ"
@@ -9479,13 +9443,11 @@ _h2n_all_functions:
   .long 0x002312c2, "?function_2312c2@@YGPAVc_class_1473c9@@PAUs_screen_parameters@@@Z"
   .long 0x00231304, "??0c_clan_options_screen@@QAE@JJG@Z"
   .long 0x00231339, "?get_load_proc@c_clan_options_screen@@UAEP6GPAVc_class_1473c9@@PAUs_screen_parameters@@@ZXZ"
-  .long 0x0023133f, "??_Gc_clan_options_screen@@UAEPAXI@Z"
   .long 0x0023135d, "??1c_clan_options_list@@UAE@XZ"
   .long 0x00231393, "??1c_clan_options_screen@@UAE@XZ"
   .long 0x002313a8, "?function_2313a8@@YGPAVc_class_1473c9@@PAUs_screen_parameters@@@Z"
   .long 0x002313ea, "??0c_friends_options_screen@@QAE@JJG@Z"
   .long 0x0023141f, "?get_load_proc@c_friends_options_screen@@UAEP6GPAVc_class_1473c9@@PAUs_screen_parameters@@@ZXZ"
-  .long 0x00231425, "??_Gc_friends_options_screen@@UAEPAXI@Z"
   .long 0x00231443, "??1c_friends_options_list@@UAE@XZ"
   .long 0x00231479, "??1c_friends_options_screen@@UAE@XZ"
   .long 0x0023148e, "??0c_y_menu_tab_screen@@QAE@JJG@Z"
@@ -9494,6 +9456,7 @@ _h2n_all_functions:
   .long 0x002316d0, "??1c_y_menu_friends_list@@UAE@XZ"
   .long 0x00231703, "?v10@c_y_menu_friends_screen@@UAE_NPAUs_widget_event@@@Z"
   .long 0x0023179c, "??0c_y_menu_recent_players_screen@@QAE@JJG@Z"
+  .long 0x002317d2, "??_Gc_y_menu_recent_players_screen@@UAEPAXI@Z"
   .long 0x002317f0, "??1c_y_menu_recent_players_list@@UAE@XZ"
   .long 0x00231826, "??1c_y_menu_recent_players_screen@@UAE@XZ"
   .long 0x0023183b, "?v10@c_y_menu_recent_players_screen@@UAE_NPAUs_widget_event@@@Z"
@@ -9502,6 +9465,7 @@ _h2n_all_functions:
   .long 0x002318d1, "?v10@c_y_menu_players_screen@@UAE_NPAUs_widget_event@@@Z"
   .long 0x00231995, "?online_y_menu_open@@YGPAVc_class_1473c9@@PAUs_screen_parameters@@@Z"
   .long 0x002319d6, "??0c_online_y_menu_screen@@QAE@JJG@Z"
+  .long 0x00231a5d, "??_Gc_online_y_menu_screen@@UAEPAXI@Z"
   .long 0x00231a7b, "??1c_online_y_menu_screen@@UAE@XZ"
   .long 0x00231ac4, "?v17@c_online_y_menu_screen@@UAEXXZ"
   .long 0x00231ae9, "?v18@c_online_y_menu_screen@@UAEXPAX@Z"
@@ -9575,6 +9539,7 @@ _h2n_all_functions:
   .long 0x00232d67, "??0s_postgame_team@@QAE@XZ"
   .long 0x00232d77, "?function_232d77@@YIXXZ"
   .long 0x002331a2, "??0c_postgame_statistics_screen@@QAE@JJJG@Z"
+  .long 0x00233289, "??_Gc_postgame_statistics_screen@@UAEPAXI@Z"
   .long 0x002332a7, "??1c_postgame_statistics_screen_4593c0@@UAE@XZ"
   .long 0x002332bc, "??1c_postgame_statistics_screen@@UAE@XZ"
   .long 0x00233319, "??1c_postgame_statistics_list@@UAE@XZ"
@@ -9610,6 +9575,7 @@ _h2n_all_functions:
   .long 0x002342ac, "??0c_postgame_statistics_list_459680@@QAE@_NG@Z"
   .long 0x002342e9, "?fill_row@c_postgame_statistics_list_459680@@UAEXPAVc_class_1a2c81@@J@Z"
   .long 0x002344cc, "??0c_postgame_statistics_list_459620@@QAE@_NG@Z"
+  .long 0x00234509, "??_Gc_postgame_statistics_list@@UAEPAXI@Z"
   .long 0x00234527, "?fill_row@c_postgame_statistics_list_459620@@UAEXPAVc_class_1a2c81@@J@Z"
   .long 0x0023469d, "??0c_postgame_statistics_list_4595c0@@QAE@_NG@Z"
   .long 0x002346c8, "?handle_item@c_postgame_statistics_list_4595c0@@UAEXPAPAUs_controller_reference@@PAJ@Z"
@@ -9797,6 +9763,7 @@ _h2n_all_functions:
   .long 0x002377f6, "?v17@c_keyboard_key_widget@@UAEJXZ"
   .long 0x0023784f, "?function_23784f@@YGPAVc_class_1473c9@@PAUs_screen_parameters@@@Z"
   .long 0x0023788f, "??0c_virtual_keyboard_screen@@QAE@JJG@Z"
+  .long 0x00237958, "??_Gc_virtual_keyboard_screen@@UAEPAXI@Z"
   .long 0x00237976, "??1c_virtual_keyboard_screen@@UAE@XZ"
   .long 0x00237998, "?v18@c_virtual_keyboard_screen@@UAEXPAX@Z"
   .long 0x00237a74, "?update_title@c_virtual_keyboard_screen@@QAEXXZ"
@@ -10103,6 +10070,7 @@ _h2n_all_functions:
   .long 0x0024b416, "?function_24b416@@YIGPBU_XONLINE_USER@@0@Z"
   .long 0x0024b4a9, "?function_24b4a9@@YGPAVc_class_1473c9@@PAUs_screen_parameters@@@Z"
   .long 0x0024b4e7, "??0c_gamertag_select_screen@@QAE@JJG@Z"
+  .long 0x0024b519, "??_Gc_gamertag_select_screen@@UAEPAXI@Z"
   .long 0x0024b537, "??1c_gamertag_select_screen@@UAE@XZ"
   .long 0x0024b54c, "?v10@c_gamertag_select_screen@@UAE_NPAUs_widget_event@@@Z"
   .long 0x0024b584, "?v3@c_gamertag_select_screen@@UAEXXZ"
@@ -10124,7 +10092,6 @@ _h2n_all_functions:
   .long 0x0024bac5, "?function_24bac5@@YIXPAX@Z"
   .long 0x0024bae6, "?get_focused_item@c_class_1474e8@@QAEPAVc_class_1a2c81@@XZ"
   .long 0x0024bb00, "??0c_class_1474e8@@QAE@G@Z"
-  .long 0x0024bb44, "??_Gc_class_1474e8@@UAEPAXI@Z"
   .long 0x0024bb60, "?v1@c_widget@@UAEXXZ"
   .long 0x0024bb9c, "?v9@c_widget@@UAEXXZ"
   .long 0x0024bbd0, "?v10@c_widget@@UAEXXZ"
@@ -10228,7 +10195,6 @@ _h2n_all_functions:
   .long 0x0024fa23, "?session_lobby_screen_any_team_valid@@YIJPBUs_session_screen_state@@@Z"
   .long 0x0024fa4c, "?session_lobby_screen_load@@YGPAVc_class_1473c9@@PAUs_screen_parameters@@@Z"
   .long 0x0024fa88, "??0c_session_lobby_screen@@QAE@JJG@Z"
-  .long 0x0024fb86, "??_Gc_session_lobby_screen@@UAEPAXI@Z"
   .long 0x0024fba2, "??1c_session_lobby_screen@@UAE@XZ"
   .long 0x0024fbea, "?session_lobby_screen_enter@@YIXPAVc_session_lobby_screen@@@Z"
   .long 0x0024fc53, "?v18@c_session_lobby_screen@@UAEXPAX@Z"
@@ -10291,7 +10257,6 @@ _h2n_all_functions:
   .long 0x00251977, "?function_251977@@YIXPAVc_class_1a2c81@@J@Z"
   .long 0x002519bb, "?function_2519bb@@YGPAVc_class_1473c9@@PAUs_screen_parameters@@@Z"
   .long 0x002519f7, "??0c_matchmaking_screen@@QAE@JJG@Z"
-  .long 0x00251a73, "??_Gc_matchmaking_screen@@UAEPAXI@Z"
   .long 0x00251a91, "??1c_matchmaking_screen@@UAE@XZ"
   .long 0x00251aa6, "?v18@c_matchmaking_screen@@UAEXPAX@Z"
   .long 0x00251afa, "?v10@c_matchmaking_screen@@UAE_NPAUs_widget_event@@@Z"
@@ -10308,7 +10273,6 @@ _h2n_all_functions:
   .long 0x002521f2, "?get_load_proc@c_session_joining_screen@@UAEP6GPAVc_class_1473c9@@PAUs_screen_parameters@@@ZXZ"
   .long 0x002521f8, "?session_joining_screen_load@@YGPAVc_class_1473c9@@PAUs_screen_parameters@@@Z"
   .long 0x00252237, "??0c_session_joining_screen@@QAE@JJG@Z"
-  .long 0x00252280, "??_Gc_session_joining_screen@@UAEPAXI@Z"
   .long 0x0025229e, "??1c_session_joining_screen@@UAE@XZ"
   .long 0x002522d7, "?v18@c_session_joining_screen@@UAEXPAX@Z"
   .long 0x00252325, "?v3@c_session_joining_screen@@UAEXXZ"
@@ -10341,7 +10305,6 @@ _h2n_all_functions:
   .long 0x002531c9, "?function_2531c9@@YGPAVc_class_1473c9@@PAUs_screen_parameters@@@Z"
   .long 0x0025320d, "?get_load_proc@c_network_squad_browser_screen@@UAEP6GPAVc_class_1473c9@@PAUs_screen_parameters@@@ZXZ"
   .long 0x00253221, "??0c_network_squad_browser_screen@@QAE@JJG_N@Z"
-  .long 0x00253268, "??_Gc_network_squad_browser_screen@@UAEPAXI@Z"
   .long 0x00253286, "??1c_network_squad_browser_screen@@UAE@XZ"
   .long 0x0025329b, "?v19@c_network_squad_browser_screen@@UAEXXZ"
   .long 0x00253319, "?v2@c_network_squad_browser_screen@@UAEXXZ"
@@ -10531,7 +10494,6 @@ _h2n_all_functions:
   .long 0x00261ec0, "?function_261ec0@@YG_NJJPAUs_261d20_entry@@PAFJPAUs_prop_search@@@Z"
   .long 0x00262180, "?function_262180@@YGFJJJPAUs_261d20_entry@@PAFJPAUs_prop_search@@F@Z"
   .long 0x002623a0, "?function_2623a0@@YI_NPBUs_reference_filter_view@@JPAUs_actor_view@@Us_reference@@@Z"
-  .long 0x002624d0, "?function_2624d0@@YI_NPAUs_261d20_entry@@Us_reference@@@Z"
   .long 0x00262590, "?function_262590@@YI_NJUs_reference@@_N@Z"
   .long 0x00262640, "?function_262640@@YI_NFFUs_reference@@@Z"
   .long 0x002626b0, "?function_2626b0@@YI?AUs_reference@@JU1@JPAE_N2@Z"
@@ -10700,7 +10662,6 @@ _h2n_all_functions:
   .long 0x0026f290, "?function_26f290@@YIMF@Z"
   .long 0x0026f2d0, "?function_26f2d0@@YI_NPBTpoint3f@@0PBUs_path_settings@@@Z"
   .long 0x0026f360, "?function_26f360@@YI_NPBTpoint3f@@0PBUs_path_settings@@@Z"
-  .long 0x0026f3f0, "?function_26f3f0@@YI_NPAUs_pathfinding_data@@JPBUs_type_c3b527@@JPAUs_type_f17a25@@1JPAJPAU2@3@Z"
   .long 0x0026f8f0, "?function_26f8f0@@YI_NPBUs_object_marker@@@Z"
   .long 0x0026f930, "?function_26f930@@YIFJPAUs_object_marker@@FG@Z"
   .long 0x0026f990, "?function_26f990@@YI_NJJMPAUs_object_marker@@PATpoint3f@@@Z"
@@ -10826,7 +10787,6 @@ _h2n_all_functions:
   .long 0x00277790, "?function_277790@@YI_NJJ@Z"
   .long 0x002777d0, "??_Gc_interface_2777d0@@UAEPAXI@Z"
   .long 0x002777f0, "??1c_interface_2777f0@@UAE@XZ"
-  .long 0x00277800, "??_Gc_interface_2777f0@@UAEPAXI@Z"
   .long 0x00277820, "?test@c_callback_277820@@UAE?AVhkBool@@PAX0@Z"
   .long 0x00277840, "??0c_interface_277890@@QAE@XZ"
   .long 0x002778e0, "?slot1@c_interface_277890@@UAEXPAVhkEntity@@@Z"
@@ -10840,6 +10800,7 @@ _h2n_all_functions:
   .long 0x00278300, "?function_278300@@YIXPAUs_278300_references@@@Z"
   .long 0x00278370, "?function_278370@c_278370@@UAEXPAUs_278371@@@Z"
   .long 0x002784c0, "??0c_2784c0@@QAE@PAVc_2784c4@@@Z"
+  .long 0x002789b0, "??_Gc_object_2789b0@@UAEPAXI@Z"
   .long 0x002789f0, "?function_2789f0@c_2789f0@@UAEXPAUs_2789f1@@@Z"
   .long 0x00278a70, "?slot2@c_callback_2789b0@@UAEXPAUs_278a70_event@@@Z"
   .long 0x00278ae0, "?slot4@c_callback_2789b0@@UAEXPAX@Z"
@@ -11831,6 +11792,7 @@ _h2n_all_functions:
   .long 0x002b136d, "?function_2b136d@@YGPAVc_class_1473c9@@PAUs_screen_parameters@@@Z"
   .long 0x002b13b3, "??0c_level_select_screen@@QAE@JJG_N@Z"
   .long 0x002b13ea, "?get_load_proc@c_level_select_screen@@UAEP6GPAVc_class_1473c9@@PAUs_screen_parameters@@@ZXZ"
+  .long 0x002b13fe, "??_Gc_level_select_screen@@UAEPAXI@Z"
   .long 0x002b141c, "??1c_campaign_level_handles_list@@UAE@XZ"
   .long 0x002b1452, "??1c_level_select_screen@@UAE@XZ"
   .long 0x002b1467, "?function_2b1467@@YGPAVc_class_1473c9@@PAUs_screen_parameters@@@Z"
@@ -11848,10 +11810,12 @@ _h2n_all_functions:
   .long 0x002b1942, "??0c_list_45af88@@QAE@G@Z"
   .long 0x002b198a, "?get_item_count@c_list_45af88@@UAEJXZ"
   .long 0x002b198e, "?get_items@c_list_45af88@@UAEPAXPAJ@Z"
+  .long 0x002b19a1, "??_Gc_list_45af88@@UAEPAXI@Z"
   .long 0x002b19bd, "??1c_list_45af88@@UAE@XZ"
   .long 0x002b19dc, "?function_2b19dc@@YGPAVc_class_1473c9@@PAUs_screen_parameters@@@Z"
   .long 0x002b1a1c, "??0c_screen_45b0b8@@QAE@JJG@Z"
   .long 0x002b1a7c, "?get_load_proc@c_screen_45b0b8@@UAEP6GPAVc_class_1473c9@@PAUs_screen_parameters@@@ZXZ"
+  .long 0x002b1a82, "??_Gc_screen_45b0b8@@UAEPAXI@Z"
   .long 0x002b1a9e, "??1c_screen_45b0b8@@UAE@XZ"
   .long 0x002b1ab3, "??0c_variant_game_engine_type_screen@@QAE@JJGJ_N00@Z"
   .long 0x002b1b01, "?function_2b1b01@@YGPAVc_class_1473c9@@PAUs_screen_parameters@@@Z"
@@ -11860,7 +11824,6 @@ _h2n_all_functions:
   .long 0x002b1bc9, "?function_2b1bc9@@YGPAVc_class_1473c9@@PAUs_screen_parameters@@@Z"
   .long 0x002b1c0b, "?v17@c_variant_game_engine_type_screen@@UAEXXZ"
   .long 0x002b1c30, "?get_load_proc@c_variant_game_engine_type_screen@@UAEP6GPAVc_class_1473c9@@PAUs_screen_parameters@@@ZXZ"
-  .long 0x002b1c61, "??_Gc_variant_game_engine_type_screen@@UAEPAXI@Z"
   .long 0x002b1c7f, "??1c_game_engine_variant_category_list@@UAE@XZ"
   .long 0x002b1cb5, "??1c_variant_game_engine_type_screen@@UAE@XZ"
   .long 0x002b1cca, "??0c_class_232671@@QAE@G@Z"
@@ -11868,6 +11831,7 @@ _h2n_all_functions:
   .long 0x002b1d6e, "?v20@c_class_232671@@UAEXPAVc_class_1a2c81@@J@Z"
   .long 0x002b1da9, "?handle_item@c_class_232671@@QAEXPAPAUs_controller_reference@@PAJ@Z"
   .long 0x002b1e08, "??0c_playlist_saved_game_file_list@@QAE@G@Z"
+  .long 0x002b1eb0, "??_Gc_playlist_saved_game_file_list@@UAEPAXI@Z"
   .long 0x002b1ece, "??0s_playlist_entry@@QAE@XZ"
   .long 0x002b1ed5, "?v1@c_playlist_saved_game_file_list@@UAEXXZ"
   .long 0x002b1eef, "?playlist_list_focus_playlist@@YIXPAVc_playlist_saved_game_file_list@@@Z"
@@ -11904,9 +11868,11 @@ _h2n_all_functions:
   .long 0x002b2d7d, "?get_item_count@c_y_menu_friends_list@@UAEJXZ"
   .long 0x002b2d81, "?function_2b2d81@@YIJPAUs_screen_view_2b2d@@@Z"
   .long 0x002b2d9a, "??0c_y_menu_friends_list@@QAE@G@Z"
+  .long 0x002b2dfd, "??_Gc_y_menu_friends_list@@UAEPAXI@Z"
   .long 0x002b2e19, "?v1@c_y_menu_friends_list@@UAEXXZ"
   .long 0x002b2e31, "?v3@c_y_menu_friends_list@@UAEXXZ"
   .long 0x002b2e6b, "??0c_y_menu_list@@QAE@G@Z"
+  .long 0x002b2e9f, "??_Gc_y_menu_list@@UAEPAXI@Z"
   .long 0x002b2ebd, "??1c_y_menu_list@@UAE@XZ"
   .long 0x002b2ed4, "?function_2b2ed4@@YGXPAVc_y_menu_list@@_N1PAVc_class_1a2c81@@PAUs_friend@@@Z"
   .long 0x002b37fd, "?v20@c_y_menu_friends_list@@UAEXPAVc_class_1a2c81@@J@Z"
@@ -11948,13 +11914,11 @@ _h2n_all_functions:
   .long 0x002b45f0, "??0c_button_settings_screen@@QAE@JJG@Z"
   .long 0x002b463d, "?v19@c_button_settings_screen@@UAEXXZ"
   .long 0x002b4682, "?get_load_proc@c_button_settings_screen@@UAEP6GPAVc_class_1473c9@@PAUs_screen_parameters@@@ZXZ"
-  .long 0x002b4688, "??_Gc_thumbstick_settings_screen@@UAEPAXI@Z"
   .long 0x002b46a6, "?function_2b46a6@@YGPAVc_class_1473c9@@PAUs_screen_parameters@@@Z"
   .long 0x002b46e4, "?function_2b46e4@@YGPAVc_class_1473c9@@PAUs_screen_parameters@@@Z"
   .long 0x002b4729, "??0c_auto_level_settings_screen@@QAE@JJG@Z"
   .long 0x002b475b, "?v19@c_auto_level_settings_screen@@UAEXXZ"
   .long 0x002b4783, "?get_load_proc@c_auto_level_settings_screen@@UAEP6GPAVc_class_1473c9@@PAUs_screen_parameters@@@ZXZ"
-  .long 0x002b4789, "??_Gc_invert_look_settings_screen@@UAEPAXI@Z"
   .long 0x002b47a7, "?function_2b47a7@@YGPAVc_class_1473c9@@PAUs_screen_parameters@@@Z"
   .long 0x002b47e5, "?function_2b47e5@@YGPAVc_class_1473c9@@PAUs_screen_parameters@@@Z"
   .long 0x002b482a, "??0c_vibration_settings_screen@@QAE@JJG@Z"
@@ -11985,10 +11949,10 @@ _h2n_all_functions:
   .long 0x002b5324, "?handle_item@c_squad_privacy_setting_list@@QAEXPAPAUs_controller_reference@@PAJ@Z"
   .long 0x002b5361, "?function_2b5361@@YIXPAVc_squad_privacy_setting_list@@@Z"
   .long 0x002b53a7, "??1c_clan_member_privileges_list@@UAE@XZ"
+  .long 0x002b53ea, "??_Gc_clan_member_privileges_list@@UAEPAXI@Z"
   .long 0x002b5406, "?function_2b5406@@YGPAVc_class_1473c9@@PAUs_screen_parameters@@@Z"
   .long 0x002b5444, "??0c_clan_member_privileges_screen@@QAE@JJG@Z"
   .long 0x002b5479, "?get_load_proc@c_clan_member_privileges_screen@@UAEP6GPAVc_class_1473c9@@PAUs_screen_parameters@@@ZXZ"
-  .long 0x002b547f, "??_Gc_clan_member_privileges_screen@@UAEPAXI@Z"
   .long 0x002b549d, "??1c_clan_member_privileges_screen@@UAE@XZ"
   .long 0x002b54b2, "?function_2b54b2@@YGPAVc_class_1473c9@@PAUs_screen_parameters@@@Z"
   .long 0x002b54f4, "??0c_y_menu_player_selected_list@@QAE@G@Z"
@@ -12055,7 +12019,6 @@ _h2n_all_functions:
   .long 0x002b7714, "?function_2b7714@@YGPAVc_class_1473c9@@PAUs_screen_parameters@@@Z"
   .long 0x002b7752, "??0c_controller_settings_screen@@QAE@JJG@Z"
   .long 0x002b7784, "?get_load_proc@c_controller_settings_screen@@UAEP6GPAVc_class_1473c9@@PAUs_screen_parameters@@@ZXZ"
-  .long 0x002b778a, "??_Gc_variant_editing_screen@@UAEPAXI@Z"
   .long 0x002b77a8, "?function_2b77a8@@YGPAVc_class_1473c9@@PAUs_screen_parameters@@@Z"
   .long 0x002b77e6, "??0c_multiplayer_settings_screen@@QAE@JJG@Z"
   .long 0x002b7818, "?get_load_proc@c_multiplayer_settings_screen@@UAEP6GPAVc_class_1473c9@@PAUs_screen_parameters@@@ZXZ"
@@ -12087,7 +12050,6 @@ _h2n_all_functions:
   .long 0x002b80e9, "?xbox_live_message_send_screen_load_type4@@YGPAVc_class_1473c9@@PAUs_screen_parameters@@@Z"
   .long 0x002b80f9, "?get_load_proc@c_xbox_live_message_send_screen@@UAEP6GPAVc_class_1473c9@@PAUs_screen_parameters@@@ZXZ"
   .long 0x002b8143, "??0c_xbox_live_message_send_screen@@QAE@JJG@Z"
-  .long 0x002b8186, "??_Gc_xbox_live_message_send_screen@@UAEPAXI@Z"
   .long 0x002b81a4, "??1c_xbox_live_message_send_screen@@UAE@XZ"
   .long 0x002b81b9, "?v10@c_xbox_live_message_send_screen@@UAE_NPAUs_widget_event@@@Z"
   .long 0x002b81cb, "?v3@c_xbox_live_message_send_screen@@UAEXXZ"
@@ -12099,11 +12061,12 @@ _h2n_all_functions:
   .long 0x002b8497, "?handle_item@c_potential_squad_leader_player_list@@QAEXPAPAUs_controller_reference@@PAJ@Z"
   .long 0x002b8536, "?function_2b8536@@YGPAVc_class_1473c9@@PAUs_screen_parameters@@@Z"
   .long 0x002b8572, "??0c_screen_45c0e0@@QAE@JJG@Z"
-  .long 0x002b85a6, "??_Gc_screen_45c0e0@@UAEPAXI@Z"
   .long 0x002b85c4, "??1c_screen_45c0e0@@UAE@XZ"
   .long 0x002b85d9, "?v18@c_screen_45c0e0@@UAEXPAX@Z"
   .long 0x002b862d, "??1c_feedback_list@@UAE@XZ"
+  .long 0x002b8670, "??_Gc_feedback_list@@UAEPAXI@Z"
   .long 0x002b868e, "??0c_live_feedback_dialog_screen@@QAE@JJGJ@Z"
+  .long 0x002b86c7, "??_Gc_live_feedback_dialog_screen@@UAEPAXI@Z"
   .long 0x002b86e5, "??1c_live_feedback_dialog_screen@@UAE@XZ"
   .long 0x002b86fa, "??0c_feedback_list@@QAE@GJ@Z"
   .long 0x002b88d1, "?v20@c_feedback_list@@UAEXPAVc_class_1a2c81@@J@Z"
@@ -12123,7 +12086,6 @@ _h2n_all_functions:
   .long 0x002b8bf0, "??1c_thumbstick_settings_screen@@UAE@XZ"
   .long 0x002b8c05, "?function_2b8c05@@YIXJJGP6G_NJJ@ZJJPAJ@Z"
   .long 0x002b8c51, "??0c_list_45c318@@QAE@G@Z"
-  .long 0x002b8cb1, "??_Gc_voice_through_tv_list@@UAEPAXI@Z"
   .long 0x002b8ccf, "?v20@c_list_45c318@@UAEXPAVc_class_1a2c81@@J@Z"
   .long 0x002b8d07, "?handle_item@c_list_45c318@@QAEXPAPAUs_controller_reference@@PAJ@Z"
   .long 0x002b8d50, "?set_choices@c_list_45c318@@QAEXJPAJ@Z"
@@ -12147,6 +12109,7 @@ _h2n_all_functions:
   .long 0x002ba666, "?function_2ba666@@YGPAVc_class_1473c9@@PAUs_screen_parameters@@@Z"
   .long 0x002ba6a4, "?function_2ba6a4@@YG_NJ@Z"
   .long 0x002ba6ae, "??0c_actions_list@@QAE@G@Z"
+  .long 0x002ba744, "??_Gc_actions_list@@UAEPAXI@Z"
   .long 0x002ba762, "??1c_actions_list@@UAE@XZ"
   .long 0x002ba798, "?v20@c_actions_list@@UAEXPAVc_class_1a2c81@@J@Z"
   .long 0x002ba7e3, "?handle_item@c_actions_list@@QAEXPAPAUs_controller_reference@@PAJ@Z"
@@ -12160,6 +12123,7 @@ _h2n_all_functions:
   .long 0x002baa9b, "?function_2baa9b@@YGPAVc_class_1473c9@@PAUs_screen_parameters@@@Z"
   .long 0x002baae7, "?function_2baae7@@YGPAVc_class_1473c9@@PAUs_screen_parameters@@@Z"
   .long 0x002bab33, "??0c_actions_screen@@QAE@JJG@Z"
+  .long 0x002bab6f, "??_Gc_actions_screen@@UAEPAXI@Z"
   .long 0x002bab8d, "??1c_actions_screen@@UAE@XZ"
   .long 0x002baba2, "?v19@c_actions_screen@@UAEXXZ"
   .long 0x002bac02, "?get_load_proc@c_actions_screen@@UAEP6GPAVc_class_1473c9@@PAUs_screen_parameters@@@ZXZ"
@@ -12167,7 +12131,6 @@ _h2n_all_functions:
   .long 0x002bac52, "??0c_text_widget_32@@QAE@J@Z"
   .long 0x002bac6a, "??0c_text_widget_458940@@QAE@J@Z"
   .long 0x002bac82, "??0c_widget_45c4d0@@QAE@JG@Z"
-  .long 0x002bac9a, "??_Gc_class_1a2c81@@UAEPAXI@Z"
   .long 0x002bacbc, "?function_2bacbc@@YIXPAVc_class_1a2c81@@PAUs_widget_group_definition@@PAUs_widget_point@@@Z"
   .long 0x002baeb1, "?function_2baeb1@@YIPAVc_text_widget_45a5e0@@PAVc_class_1a2c81@@JPAUs_text_block@@@Z"
   .long 0x002baf38, "?function_2baf38@@YIPAVc_widget_45adf0@@PAVc_class_1a2c81@@PAUs_widget_block_24@@@Z"
@@ -12191,7 +12154,6 @@ _h2n_all_functions:
   .long 0x002bb4a9, "?get_load_proc@c_difficulty_screen@@UAEP6GPAVc_class_1473c9@@PAUs_screen_parameters@@@ZXZ"
   .long 0x002bb4bd, "??1c_handicap_settings_screen@@UAE@XZ"
   .long 0x002bb4d2, "??0c_squad_setting_list@@QAE@G@Z"
-  .long 0x002bb731, "??_Gc_multiplayer_settings_edit_list@@UAEPAXI@Z"
   .long 0x002bb74f, "?v20@c_squad_setting_list@@UAEXPAVc_class_1a2c81@@J@Z"
   .long 0x002bb7dd, "?v10@c_squad_setting_list@@UAE_NPAUs_widget_event@@@Z"
   .long 0x002bb801, "?handle_item@c_squad_setting_list@@QAEXPAPAUs_controller_reference@@PAJ@Z"
@@ -12207,7 +12169,6 @@ _h2n_all_functions:
   .long 0x002bbaad, "?function_2bbaad@@YIJPAVc_squad_setting_list@@@Z"
   .long 0x002bbacb, "?function_2bbacb@@YGPAVc_class_1473c9@@PAUs_screen_parameters@@@Z"
   .long 0x002bbb07, "??0c_squad_settings_screen@@QAE@JJG@Z"
-  .long 0x002bbb3a, "??_Gc_squad_settings_screen@@UAEPAXI@Z"
   .long 0x002bbb58, "??1c_squad_settings_screen@@UAE@XZ"
   .long 0x002bbb6d, "?v18@c_squad_settings_screen@@UAEXPAX@Z"
   .long 0x002bbbf6, "?v3@c_squad_settings_screen@@UAEXXZ"
@@ -12325,7 +12286,6 @@ _h2n_all_functions:
   .long 0x002c4e10, "?function_2c4e10@@YIXPAUplayback_unit_control_view@@PAPBEE@Z"
   .long 0x002c4e9c, "?get_item_count@c_campaign_level_handles_list@@UAEJXZ"
   .long 0x002c4ea0, "??0c_campaign_level_handles_list@@QAE@G_N@Z"
-  .long 0x002c4fd7, "??_Gc_campaign_level_handles_list@@UAEPAXI@Z"
   .long 0x002c4ff5, "?v1@c_campaign_level_handles_list@@UAEXXZ"
   .long 0x002c5049, "?v20@c_campaign_level_handles_list@@UAEXPAVc_class_1a2c81@@J@Z"
   .long 0x002c509c, "?handle_item@c_campaign_level_handles_list@@QAEXPAPAUs_controller_reference@@PAJ@Z"
@@ -12337,6 +12297,7 @@ _h2n_all_functions:
   .long 0x002c55c4, "?function_2c55c4@@YG_NJ@Z"
   .long 0x002c55f4, "?get_item_count@c_game_engine_variant_category_list@@UAEJXZ"
   .long 0x002c55f8, "??0c_game_engine_variant_category_list@@QAE@G@Z"
+  .long 0x002c573b, "??_Gc_game_engine_variant_category_list@@UAEPAXI@Z"
   .long 0x002c5759, "?v1@c_game_engine_variant_category_list@@UAEXXZ"
   .long 0x002c5782, "?select_variant_engine@c_game_engine_variant_category_list@@QAEXXZ"
   .long 0x002c5823, "?v20@c_game_engine_variant_category_list@@UAEXPAVc_class_1a2c81@@J@Z"
@@ -12415,7 +12376,6 @@ _h2n_all_functions:
   .long 0x002c7a9f, "?get_load_proc@c_screen_45d140@@UAEP6GPAVc_class_1473c9@@PAUs_screen_parameters@@@ZXZ"
   .long 0x002c7ab3, "?get_load_proc@c_variant_parameter_setting_screen@@UAEP6GPAVc_class_1473c9@@PAUs_screen_parameters@@@ZXZ"
   .long 0x002c7ac7, "??0c_list_45d078@@QAE@G@Z"
-  .long 0x002c7b29, "??_Gc_list_45d078@@UAEPAXI@Z"
   .long 0x002c7b47, "??1c_list_45d078@@UAE@XZ"
   .long 0x002c7b7d, "?v17@c_list_45d078@@UAEXXZ"
   .long 0x002c7c56, "?v20@c_list_45d078@@UAEXPAVc_class_1a2c81@@J@Z"
@@ -12442,10 +12402,12 @@ _h2n_all_functions:
   .long 0x002c8719, "?handle_item@c_controller_settings_edit_list@@QAEXPAPAUs_controller_reference@@PAJ@Z"
   .long 0x002c87be, "??0c_screen_45d2b8@@QAE@JJJGPAX@Z"
   .long 0x002c87fe, "?v10@c_screen_45d2b8@@UAE_NPAUs_widget_event@@@Z"
+  .long 0x002c883c, "??_Gc_class_1473c9@@UAEPAXI@Z"
   .long 0x002c8858, "?function_2c8858@@YGPAVc_class_1473c9@@PAUs_screen_parameters@@@Z"
   .long 0x002c8896, "?function_2c8896@@YGPAVc_class_1473c9@@PAUs_screen_parameters@@@Z"
   .long 0x002c88d5, "??0c_screen_45d328@@QAE@JJGJ@Z"
   .long 0x002c8920, "?get_load_proc@c_screen_45d328@@UAEP6GPAVc_class_1473c9@@PAUs_screen_parameters@@@ZXZ"
+  .long 0x002c8936, "??_Gc_screen_45d328@@UAEPAXI@Z"
   .long 0x002c8954, "?function_2c8954@@YIPAVc_class_1473c9@@PAUs_screen_parameters@@J@Z"
   .long 0x002c8998, "?function_2c8998@@YGPAVc_class_1473c9@@PAUs_screen_parameters@@@Z"
   .long 0x002c89a8, "?function_2c89a8@@YGPAVc_class_1473c9@@PAUs_screen_parameters@@@Z"
@@ -12512,7 +12474,6 @@ _h2n_all_functions:
   .long 0x002c9e69, "??1c_class_2c9e69@@UAE@XZ"
   .long 0x002c9e9f, "??1c_custom_game_profile_screen@@UAE@XZ"
   .long 0x002c9eb4, "??0c_class_2c9e69@@QAE@G@Z"
-  .long 0x002c9f55, "??_Gc_class_2c9e69@@UAEPAXI@Z"
   .long 0x002c9f73, "?v1@c_class_2c9e69@@UAEXXZ"
   .long 0x002c9fa2, "?select_last_variant@c_class_2c9e69@@QAEXXZ"
   .long 0x002c9ff4, "?v20@c_class_2c9e69@@UAEXPAVc_class_1a2c81@@J@Z"
@@ -12588,7 +12549,6 @@ _h2n_all_functions:
   .long 0x002d7210, "?v1@c_a@@UAEIPADI@Z"
   .long 0x002d7240, "?v2@c_a@@UAEXPBD@Z"
   .long 0x002d7270, "??0c_reference_name_registry@@QAE@XZ"
-  .long 0x002d72c0, "??_Gc_reference_name_registry@@UAEPAXI@Z"
   .long 0x002d72f0, "??1c_reference_name_registry@@UAE@XZ"
   .long 0x002d73a0, "?function_2d73a0@@YAPAVc_reference_name_registry@@XZ"
   .long 0x002d73f0, "?function_2d73f0@@YAXPAVerror_handler_2d97d0@@@Z"
@@ -12610,6 +12570,7 @@ _h2n_all_functions:
   .long 0x002d7920, "?status@stdio_reader_2d7880@@UAE?AUbool_2d9e00@@XZ"
   .long 0x002d7930, "?seek@stdio_reader_2d7880@@UAEJJJ@Z"
   .long 0x002d7950, "?tell@stdio_reader_2d7880@@UAEJXZ"
+  .long 0x002d7960, "??_Gstdio_reader_2d7880@@UAEPAXI@Z"
   .long 0x002d7990, "??1stdio_reader_2d7880@@UAE@XZ"
   .long 0x002d79c0, "?open_writer@debug_stream_factory_2d76f0@@UAEPAVstream_writer_2d9e40@@PBD@Z"
   .long 0x002d7aa0, "??0stdio_writer_2d7aa0@@QAE@PBD@Z"
@@ -12619,6 +12580,7 @@ _h2n_all_functions:
   .long 0x002d7b50, "?status@stdio_writer_2d7aa0@@UAE?AUbool_2d9e00@@XZ"
   .long 0x002d7b70, "?seek@stdio_writer_2d7aa0@@UAEJJJ@Z"
   .long 0x002d7b90, "?tell@stdio_writer_2d7aa0@@UAEJXZ"
+  .long 0x002d7ba0, "??_Gstdio_writer_2d7aa0@@UAEPAXI@Z"
   .long 0x002d7bd0, "??1stdio_writer_2d7aa0@@UAE@XZ"
   .long 0x002d7c00, "?write@debug_writer_2d7c00@@UAEHPBXH@Z"
   .long 0x002d7ca0, "?initialize_registered_services_2d7ca0@@YAXXZ"
@@ -12637,6 +12599,7 @@ _h2n_all_functions:
   .long 0x002d8380, "?set_enabled@error_handler_2d8030@@UAEXJ_N@Z"
   .long 0x002d8410, "?remove@id_values_2d8410@@QAEHABJ@Z"
   .long 0x002d8460, "?get@id_values_2d8410@@QAEPAJABJ@Z"
+  .long 0x002d84e0, "??_Gerror_handler_2d8030@@UAEPAXI@Z"
   .long 0x002d8510, "??1error_handler_2d8030@@UAE@XZ"
   .long 0x002d85a0, "?get@location_counts_2d8280@@QAEPAJABUlocation_2d8280@@@Z"
   .long 0x002d8640, "?count_location@error_handler_2d8030@@UAEXPBDJ@Z"
@@ -12646,6 +12609,7 @@ _h2n_all_functions:
   .long 0x002d8890, "?function_2d8890@@YAXXZ"
   .long 0x002d88a0, "??1scratch_owner_2d88a0@@UAE@XZ"
   .long 0x002d8910, "?function_2d8910@@YAXJ@Z"
+  .long 0x002d8960, "??_Gscratch_owner_2d88a0@@UAEPAXI@Z"
   .long 0x002d8990, "?function_2d8990@@YAPAVscratch_owner_2d88a0@@XZ"
   .long 0x002d89d0, "?function_2d89d0@strings_2d89d0@@QAEXPBDI@Z"
   .long 0x002d8ab0, "?function_2d8ab0@c_2d8ab0@@QAEXXZ"
@@ -12670,7 +12634,6 @@ _h2n_all_functions:
   .long 0x002d9060, "?function_2d9060@class_2d9060@@QAEJXZ"
   .long 0x002d9070, "?function_2d9070@@YAPAUclass_2d9070@@PAU1@@Z"
   .long 0x002d9090, "??0stream_holder_2d8e70@@QAE@PAVreferenced_2d88a0@@@Z"
-  .long 0x002d90b0, "??_Gstream_holder_2d8e70@@UAEPAXI@Z"
   .long 0x002d90e0, "??0stream_holder_2d8e70@@QAE@PADJUflag_2d8e70@@@Z"
   .long 0x002d9160, "?function_2d9160@@YAXPAXJJ@Z"
   .long 0x002d91d0, "?function_2d91d0@@YAXPAXJ@Z"
@@ -12695,7 +12658,6 @@ _h2n_all_functions:
   .long 0x002d96c0, "??0eight_values_2d96c0@@QAE@ABUvalues_2d96c0@@@Z"
   .long 0x002d9710, "?is_in@class_2d9710_link@@QBE?AUbool_2d9710@@PAVclass_2d9710_owner@@@Z"
   .long 0x002d9750, "??0eight_values_2d96c0@@QAE@JJJJJJJJ@Z"
-  .long 0x002d97a0, "??_Gclass_2d97a0@@UAEPAXI@Z"
   .long 0x002d97d0, "?function_2d97d0@@YAXPBD@Z"
   .long 0x002d9840, "?seek@stream_writer_2d9e40@@UAEJJJ@Z"
   .long 0x002d9850, "?function_2d9850@class_2d99d0@@QAEHXZ"
@@ -12709,6 +12671,7 @@ _h2n_all_functions:
   .long 0x002d9b00, "?seek@buffered_2d9c00@@UAEJJJ@Z"
   .long 0x002d9b20, "?tell@buffered_2d9c00@@UAEJXZ"
   .long 0x002d9b40, "??1buffered_2d9c00@@UAE@XZ"
+  .long 0x002d9bd0, "??_Gbuffered_2d9c00@@UAEPAXI@Z"
   .long 0x002d9c00, "??0buffered_2d9c00@@QAE@PAVreader_2d9c80@@J@Z"
   .long 0x002d9c80, "?skip@reader_2d9c80@@UAEJJ@Z"
   .long 0x002d9ce0, "?flush@buffered_writer_2d9e40@@QAEHXZ"
@@ -12716,6 +12679,7 @@ _h2n_all_functions:
   .long 0x002d9df0, "?flush_stream@buffered_writer_2d9e40@@UAEXXZ"
   .long 0x002d9e00, "?status@buffered_writer_2d9e40@@UAE?AUbool_2d9e00@@XZ"
   .long 0x002d9e40, "??1buffered_writer_2d9e40@@UAE@XZ"
+  .long 0x002d9ed0, "??_Gbuffered_writer_2d9e40@@UAEPAXI@Z"
   .long 0x002d9f00, "??0memory_stream_2d9f00@@QAE@PADJ_N@Z"
   .long 0x002d9f80, "??0buffered_writer_2d9e40@@QAE@PAVstream_writer_2d9e40@@J@Z"
   .long 0x002da000, "?function_2da000@@YAXPBVclass_2d9570@@PAUs_2d9570@@@Z"
@@ -12775,6 +12739,7 @@ _h2n_all_functions:
   .long 0x002dbef0, "?function_2dbef0@class_2dbef0@@QAEJXZ"
   .long 0x002dbf00, "?function_2dbf00@class_2dbef0@@QAEJXZ"
   .long 0x002dbf10, "??0c_2dbfc0@@QAE@ABUinfo_2dbf10@@@Z"
+  .long 0x002dbf90, "??_Gclass_2dbc40@@UAEPAXI@Z"
   .long 0x002dbfc0, "??0c_2dbfc0@@QAE@JPAXM@Z"
   .long 0x002dc030, "??0s_2dc030@@QAE@XZ"
   .long 0x002dc060, "?function_2dc060@@YAPAVc_2dbfc0@@ABUinfo_2dbf10@@@Z"
@@ -12866,6 +12831,7 @@ _h2n_all_functions:
   .long 0x002dfb30, "??0c_2dfbf0@@QAE@ABUpair_filter_settings_2dfb30@@@Z"
   .long 0x002dfba0, "??_Ec_2dfbf0@@WM@AEPAXI@Z"
   .long 0x002dfbb0, "??_Ec_2dfbf0@@WBA@AEPAXI@Z"
+  .long 0x002dfbc0, "??_Gc_2dfbf0@@UAEPAXI@Z"
   .long 0x002dfbf0, "??0c_2dfbf0@@QAE@XZ"
   .long 0x002dfcc0, "?function_2dfcc0@quantized_boxes_2dfcc0@@QAEXPAUquantized_box_2dfcc0@@JPBG@Z"
   .long 0x002dfdc0, "?function_2dfdc0@quantized_boxes_2dfcc0@@QAEXPAUquantized_box_2dfcc0@@JPBG@Z"
@@ -13000,6 +12966,7 @@ _h2n_all_functions:
   .long 0x002e93e0, "??0stack_elements_2e93e0@@QAE@J@Z"
   .long 0x002e9480, "??1stack_elements_2e93e0@@QAE@XZ"
   .long 0x002e9530, "??1bounded_2e9530@@UAE@XZ"
+  .long 0x002e95a0, "??_Gbounded_2e9530@@UAEPAXI@Z"
   .long 0x002e95d0, "??0bounded_2e9530@@QAE@J@Z"
   .long 0x002e9620, "?function_2e9620@@YAPAVbounded_2e9530@@JJJJ@Z"
   .long 0x002e9680, "?function_2e9680@bounded_2e9530@@QAEXPBUdescription_2e9210@@PAPAUtyped_2e9210@@PBUcontext_2e9210@@@Z"
@@ -13050,7 +13017,6 @@ _h2n_all_functions:
   .long 0x002ec940, "?function_2ec940@class_2ebc50@@QAEXPBXPBUbody_2ebc80@@0PAUhit_list_2ec940@@@Z"
   .long 0x002ec9a0, "?function_2ec9a0@swapped_keyed_list_2ecb80@@QAEXPAPAUtyped_2edd00@@PBUdescription_2edd00@@PBUcontext_2edd00@@@Z"
   .long 0x002ec9c0, "?function_2ec9c0@@YAPAVkeyed_list_2ec680@@PBUdescription_2edd00@@PAPAUtyped_2edd00@@PBUcontext_2edd00@@J@Z"
-  .long 0x002eca20, "??_Garray_owner_2ec820@@UAEPAXI@Z"
   .long 0x002eca50, "?function_2eca50@class_2ebc50@@QAEXPBXPBUbody_2ebc80@@PBUquery_2eca50@@PAX3@Z"
   .long 0x002ecb70, "??1derived_2ecb70@@UAE@XZ"
   .long 0x002ecb80, "?function_2ecb80@@YAPAVswapped_keyed_list_2ecb80@@PAPAUtyped_2edd00@@PBUdescription_2edd00@@PBUcontext_2edd00@@J@Z"
@@ -13225,6 +13191,7 @@ _h2n_all_functions:
   .long 0x002f94a0, "?function_2f94a0@class_2f90a0@@QAEXPBX00PAUhit_collector_2f88a0@@@Z"
   .long 0x002f9500, "??_Gholder_2f9380@@UAEPAXI@Z"
   .long 0x002f9530, "?function_2f9530@class_2fec10@@QAEXPBX00PAX1@Z"
+  .long 0x002f9620, "??_Gderived_2f9620@@UAEPAXI@Z"
   .long 0x002f9650, "??1derived_2f9620@@UAE@XZ"
   .long 0x002f9660, "?function_2f9660@@YAPAVsized_2ed170@@PAPAVtyped_2ed170@@PBUparts_description_2f8ff0@@PAPAUdispatcher_2ed170@@J@Z"
   .long 0x002f96d0, "?function_2f96d0@@YAXPAUs_1c3a40@@@Z"
@@ -13489,10 +13456,9 @@ _h2n_all_functions:
   .long 0x0030b2a0, "?function_30b2a0@class_30b2a0@@QAEXPAUvalue_30b2a0@@_N@Z"
   .long 0x0030b340, "??0class_30b340@@QAE@PAVreferenced_2d88a0@@J@Z"
   .long 0x0030b3a0, "??1class_30b3a0@@UAE@XZ"
-  .long 0x0030b450, "??_Gclass_315950@@UAEPAXI@Z"
   .long 0x0030b480, "??0c_contact_query_bounds_volume@@QAE@PBUc_contact_query_bounds_info@@@Z"
   .long 0x0030b510, "??1class_30b510@@UAE@XZ"
-  .long 0x0030b590, "??_Gclass_30b3a0@@UAEPAXI@Z"
+  .long 0x0030b5c0, "??_Gclass_30b510@@UAEPAXI@Z"
   .long 0x0030b5f0, "?function_30b5f0@@YAXPBVplaced_shape_312800@@PAUdescription_315ba0@@@Z"
   .long 0x0030b600, "?function_30b600@@YAXPAVplaced_shape_312800@@PBUdescription_315ba0@@@Z"
   .long 0x0030b610, "?function_30b610@class_30b610@@QAEPAUobject_4805b8@@XZ"
@@ -13511,6 +13477,7 @@ _h2n_all_functions:
   .long 0x0030bab0, "?function_30bab0@class_30bab0@@QAEXPAUitem_30bab0@@_N@Z"
   .long 0x0030bb50, "??0c_contact_query_transform_volume@@QAE@PBUc_contact_query_transform_info@@@Z"
   .long 0x0030bb90, "??1c_contact_query_transform_volume@@UAE@XZ"
+  .long 0x0030bc10, "??_Gc_contact_query_transform_volume@@UAEPAXI@Z"
   .long 0x0030bc40, "?body_is_simulating@hkRigidBody@@QBE?AVhkBool@@XZ"
   .long 0x0030bc60, "?activate@hkRigidBody@@QAEXXZ"
   .long 0x0030bc90, "?activate@c_physics_body_island_view@@QAEXXZ"
@@ -13536,7 +13503,6 @@ _h2n_all_functions:
   .long 0x0030c200, "?function_30c200@object_30c200@@QBEXPAUrecord_30c200@@@Z"
   .long 0x0030c330, "?function_30c330@class_30c330@@QAEXPBX@Z"
   .long 0x0030c3a0, "?function_30c3a0@class_30c3a0@@QAEFJJJJ@Z"
-  .long 0x0030c3b0, "??_Gclass_30c3b0@@UAEPAXI@Z"
   .long 0x0030c3e0, "?remove@c_world_callback_registration@@QAEXPAX@Z"
   .long 0x0030c420, "?function_30c420@class_30c420@@QAEXPAVlistener_30c420@@@Z"
   .long 0x0030c470, "?detach@c_library_30c470@@QAEXPAX@Z"
@@ -13544,6 +13510,7 @@ _h2n_all_functions:
   .long 0x0030c4d0, "?function_30c4d0@class_30c4d0@@QAEXPAUs_30c4d0_event@@@Z"
   .long 0x0030c500, "?function_30c500@c_3101c0@@QAEXXZ"
   .long 0x0030c560, "?function_30c560@class_30c560@@QAEXPAVreferenced_2d88a0@@@Z"
+  .long 0x0030c610, "??_Gclass_30c640@@UAEPAXI@Z"
   .long 0x0030c640, "??1class_30c640@@UAE@XZ"
   .long 0x0030c650, "?function_30c650@pointers_30c650@@QAEXJPBU1@@Z"
   .long 0x0030c720, "?function_30c720@class_30c720@@QAEPAJJJJ@Z"
@@ -13562,7 +13529,6 @@ _h2n_all_functions:
   .long 0x0030cd50, "?function_30cd50@hkWorld@@QAEXPAX@Z"
   .long 0x0030cda0, "?function_30cda0@c_1d1261@@QAEXXZ"
   .long 0x0030ce20, "?function_30ce20@hkWorld@@QAEXXZ"
-  .long 0x0030cea0, "??_Gclass_30cea0@@UAEPAXI@Z"
   .long 0x0030d130, "?release@class_30d130@@QAEXXZ"
   .long 0x0030d160, "?function_30d160@class_30d160@@QAEXJJ@Z"
   .long 0x0030d1b0, "??0listeners_30d1b0@@QAE@XZ"
@@ -13614,7 +13580,6 @@ _h2n_all_functions:
   .long 0x00310900, "?function_310900@c_3101c0@@QAEXPAVc_2dfbf0@@Us_30cb70@@@Z"
   .long 0x003109b0, "?function_3109b0@world_3109b0@@QAEXPAX@Z"
   .long 0x00310a70, "??1class_310a70@@UAE@XZ"
-  .long 0x003110d0, "??_Gclass_310a70@@UAEPAXI@Z"
   .long 0x00311100, "?function_311100@c_311100@@QAEXPBUs_311100@@@Z"
   .long 0x00311120, "?function_311120@@YAXPAUs_311120@@@Z"
   .long 0x00311140, "?function_311140@@YAPAVc_3101c0@@ABUs_3111d0@@@Z"
@@ -13632,6 +13597,7 @@ _h2n_all_functions:
   .long 0x00311410, "??1class_311410@@UAE@XZ"
   .long 0x003114b0, "?function_3114b0@@YAXPAUs_3114b0@@@Z"
   .long 0x003114d0, "??0class_3114d0@@QAE@PBX0@Z"
+  .long 0x00311570, "??_Gclass_311410@@UAEPAXI@Z"
   .long 0x003115a0, "?function_3115a0@class_3115a0@@QBEXPAUdescription_3115a0@@@Z"
   .long 0x00311690, "?update@c_library_311690@@QAEXJ@Z"
   .long 0x003117b0, "?function_3117b0@bounded_shape_3117b0@@QAEXXZ"
@@ -13716,6 +13682,7 @@ _h2n_all_functions:
   .long 0x003141f0, "?info@lane_a_ball_socket@@UBEXPAUlane_a_constraint_info@@@Z"
   .long 0x00314220, "?build@lane_a_ball_socket@@UAEXPBUlane_a_solver_input@@PAUlane_a_solver_output@@@Z"
   .long 0x00314270, "??0lane_a_ball_socket@@QAE@PBUc_component_joint_snapshot_4@@@Z"
+  .long 0x003142c0, "??_Glane_a_ball_socket@@UAEPAXI@Z"
   .long 0x003142f0, "?import_description@lane_a_ball_socket@@QAEXPBUc_component_joint_snapshot_4@@@Z"
   .long 0x00314320, "??0s_314320@@QAE@XZ"
   .long 0x00314350, "?export_motion_limits_314350@@YAXPAVc_314710@@PAUs_314320@@@Z"
@@ -13728,6 +13695,7 @@ _h2n_all_functions:
   .long 0x003144b0, "?function_3144b0@c_314710@@UAE?AUs_1d1870@@PAX@Z"
   .long 0x00314580, "?function_314580@c_314710@@UAE?AUs_1d1870@@PAX@Z"
   .long 0x00314650, "?update_radius_squared@c_314710@@QAEMPBVshape_bounds_314650@@@Z"
+  .long 0x003146e0, "??_Gc_314710@@UAEPAXI@Z"
   .long 0x00314710, "??0c_314710@@QAE@PAVhkEntity@@@Z"
   .long 0x003147c0, "??0c_314710@@QAE@PBUs_314320@@@Z"
   .long 0x00314830, "?export_spring_314830@@YAXPAVlane_a_spring@@PAUc_component_joint_snapshot_3@@@Z"
@@ -13820,6 +13788,7 @@ _h2n_all_functions:
   .long 0x00317c00, "?function_317c00@narrow_phase_317c00@@QAEXPBX@Z"
   .long 0x00317d30, "?function_317d30@narrow_phase_317c00@@QAEXPBX0@Z"
   .long 0x00317d90, "?function_317d90@class_317d90@@QBEXPAUid_pairs_317d90@@@Z"
+  .long 0x00317fe0, "??_Gowner_317280@@UAEPAXI@Z"
   .long 0x00318010, "?function_318010@@YAXPAUlistener_world_315d20@@PAX@Z"
   .long 0x00318080, "?function_318080@@YAXPAUlistener_world_315d20@@PAX@Z"
   .long 0x003180f0, "?function_3180f0@@YAXPAUlistener_world_315d20@@PAX@Z"
@@ -13862,6 +13831,7 @@ _h2n_all_functions:
   .long 0x003192a0, "?query@c_query_3192a0@@QBE?AUs_query_result_3192a0@@PBX@Z"
   .long 0x003192b0, "??1kind_reference_3192b0@@UAE@XZ"
   .long 0x003192c0, "??0kind_object_3192b0@@QAE@XZ"
+  .long 0x003192d0, "??_Gkind_object_3192b0@@UAEPAXI@Z"
   .long 0x00319300, "?function_319300@quaternion_319300@@QAEXABV1@0@Z"
   .long 0x003193c0, "??0class_3193c0@@QAE@PBX0@Z"
   .long 0x00319430, "?export_state@class_3193c0@@UBEPADJJPAUlane_a_motion_output@@@Z"
@@ -13904,6 +13874,7 @@ _h2n_all_functions:
   .long 0x0031a7f0, "?snapshot_into@body_31a7f0@@QBEXPAV1@@Z"
   .long 0x0031a860, "?function_31a860@class_31a860@@QAEJXZ"
   .long 0x0031a870, "??0class_31a870@@QAE@PBX0@Z"
+  .long 0x0031a890, "??_Gclass_31a890@@UAEPAXI@Z"
   .long 0x0031a8c0, "?function_31a8c0@motion_31a8c0@@QAEPBUsolver_result_31a8c0@@PBMMPBU2@@Z"
   .long 0x0031aaa0, "?set@class_31aaa0@@QAEXM@Z"
   .long 0x0031aac0, "?function_31aac0@class_31aac0@@QAEJXZ"
@@ -13930,11 +13901,11 @@ _h2n_all_functions:
   .long 0x0031b970, "?export_base@lane_a_constraint@@QBEXPAUlane_a_constraint_description@@@Z"
   .long 0x0031b990, "?event_2@lane_a_constraint@@UAEXPAVhkEntity@@@Z"
   .long 0x0031b9b0, "??1lane_a_constraint_interface@@UAE@XZ"
-  .long 0x0031b9c0, "??_Glane_a_constraint_interface@@UAEPAXI@Z"
   .long 0x0031b9e0, "??1lane_a_constraint@@UAE@XZ"
   .long 0x0031bab0, "??_Elane_a_constraint@@W7AEPAXI@Z"
   .long 0x0031bac0, "?set_entity_a@lane_a_constraint@@QAEXPAVhkEntity@@@Z"
   .long 0x0031bb30, "?set_entity_b@lane_a_constraint@@QAEXPAVhkEntity@@@Z"
+  .long 0x0031bba0, "??_Glane_a_constraint@@UAEPAXI@Z"
   .long 0x0031bbd0, "??0lane_a_constraint@@QAE@PBUlane_a_constraint_description@@@Z"
   .long 0x0031bc60, "??0lane_b_constraint_aggregate@@QAE@XZ"
   .long 0x0031bc70, "?function_31bc70@@YIPAXPAX@Z"
@@ -13984,9 +13955,9 @@ _h2n_all_functions:
   .long 0x003725e0, "?approximate_angle_3725e0@@YAMMM@Z"
   .long 0x00372680, "??1pointer_storage_372680@@UAE@XZ"
   .long 0x003726f0, "?allocate_pointer_storage_3726f0@@YAPAVpointer_storage_372680@@XZ"
+  .long 0x00372730, "??_Gpointer_storage_372680@@UAEPAXI@Z"
   .long 0x00372760, "??1record_buffer_372760@@QAE@XZ"
   .long 0x00372790, "?allocate_record_storage_372790@@YAPAVrecord_storage_372800@@XZ"
-  .long 0x003727d0, "??_Grecord_storage_372800@@UAEPAXI@Z"
   .long 0x00372800, "??1record_storage_372800@@UAE@XZ"
   .long 0x003728b0, "??1slot_table_372a40@@QAE@XZ"
   .long 0x003728c0, "?function_3728c0@dispatcher_3728c0@@QAEXPBUpair_30d870@@J0JPAVpair_listener_315a10@@@Z"
@@ -14185,478 +14156,458 @@ LC175: .asciz "?function_1e4e0@@YI_NJPBTpoint3f@@P6GXPAX@ZPBX@Z"
 LC176: .asciz "?function_0497a0@@YIXPAUs_view_source@@PAUs_view_result@@PAUs_view_camera@@PAUs_view_flags@@PBTvector3f@@4MPAJPAUvector4f@@6@Z"
 LC177: .asciz "?function_4b5d0@@YIX_NJJMMPAUs_133f70@@PBTpoint3f@@0@Z"
 LC178: .asciz "?function_55e10@@YGJPAUs_voice_channel@@PAEJ_N@Z"
-LC179: .asciz "?function_64d70@@YG_NPAUs_session_browser_summary@@@Z"
-LC180: .asciz "?function_67ee0@@YIXXZ"
-LC181: .asciz "?function_6b4a0@@YIXXZ"
-LC182: .asciz "?online_tasks_dispose_all@@YIXXZ"
-LC183: .asciz "?function_6d4c0@@YGXPAX@Z"
-LC184: .asciz "?v7@c_helper_b@@UAE_NXZ"
-LC185: .asciz "?function_074aa0@@YIXXZ"
-LC186: .asciz "?connection_v05@s_network_observer@@UAE_NJ_N00PA_N1PAJ2JPAE@Z"
-LC187: .asciz "?network_observer_update_connection@@YIXRAUs_network_observer@@J@Z"
-LC188: .asciz "?function_81780@@YGXJ@Z"
-LC189: .asciz "?function_83610@@YGXPAUs_simulation_world_owner@@PAJPAUs_simulation_player_update@@@Z"
-LC190: .asciz "?bungienet_user_voice_apply@@YG_NPAUs_bungienet_user_request@@@Z"
-LC191: .asciz "?function_97d80@c_aggregate_450cf4@@UAEJPAKPAUs_request@@@Z"
-LC192: .asciz "?v27@c_device_type@@UAEJJJJJ@Z"
-LC193: .asciz "?v22@c_object_type_definition@@UAE_NPAUs_entity@@JPAUs_entity_info@@JJJ@Z"
-LC194: .asciz "?function_a9f70@@YGJJJPBTpoint3f@@@Z"
-LC195: .asciz "?function_b7430@@YG_NJPBTpoint3f@@PBTvector3f@@1PBUs_location@@_N333@Z"
-LC196: .asciz "?function_b7b40@@YGJPAX@Z"
-LC197: .asciz "?function_b8540@@YGXJ@Z"
-LC198: .asciz "?function_bd090@@YGXJ@Z"
-LC199: .asciz "?function_bd610@@YGPBUtransform4x3f@@JPBEPBU1@@Z"
-LC200: .asciz "?function_be240@@YGXJKPBUcolor3f@@@Z"
-LC201: .asciz "?function_be8e0@@YG_NJ@Z"
-LC202: .asciz "?function_c1d90@@YGXPBUs_light_frame_ab@@PBUs_light_shape_ab@@PAUs_light_projection_ab@@PAF@Z"
-LC203: .asciz "?function_c2d00@@YGXJ@Z"
-LC204: .asciz "?function_c4410@@YG_NJPBXPA_N@Z"
-LC205: .asciz "?function_c58f0@@YG_NJ@Z"
-LC206: .asciz "?function_c60c0@@YG_NJ@Z"
-LC207: .asciz "?function_cd7b0@@YG_NJJPA_N@Z"
-LC208: .asciz "?function_d1e10@@YGJPBXPAUs_effect_color_query@@J_N@Z"
-LC209: .asciz "?function_d4e60@@YIXF@Z"
-LC210: .asciz "?function_f0760@@YGXJP6GXJPAUs_graph_tag@@PAVc_animation_channel@@MMMPAX@Z2@Z"
-LC211: .asciz "?function_f6d10@@YG_NJJPAMPA_N@Z"
-LC212: .asciz "?function_104150@@YGXJF@Z"
-LC213: .asciz "?device_export_function@@YG_NJJPAMPA_N@Z"
-LC214: .asciz "?function_110ab0@@YG_NJ@Z"
-LC215: .asciz "?function_112070@@YGXJPBKJPAUreal_quaternion_transform@@@Z"
-LC216: .asciz "?function_113980@@YGXJJ_NMPAUs_animation_state@@PAUs_graph_pair_iterator@@JPAUtransform4x3f@@@Z"
-LC217: .asciz "?function_1161f0@@YGXPAUs_chain_record@@PAUs_chain_definition@@M@Z"
-LC218: .asciz "?function_127010@@YIJF@Z"
-LC219: .asciz "?function_1282d0@@YIXXZ"
-LC220: .asciz "?function_1295e0@@YG_NF@Z"
-LC221: .asciz "?function_12bad0@@YI_NXZ"
-LC222: .asciz "?game_loop_tick@@YIXXZ"
-LC223: .asciz "?function_14df40@@YG_NPAJ@Z"
-LC224: .asciz "?function_1554b0@@YIXM@Z"
-LC225: .asciz "?function_158140@@YIXXZ"
-LC226: .asciz "?function_15c6f0@@YIXXZ"
-LC227: .asciz "?function_15eb20@@YI_NJ@Z"
-LC228: .asciz "?function_1608e0@@YGXJPAUs_score_panel_1608e0@@M@Z"
-LC229: .asciz "?function_169510@@YG_NJ_NKKPBTpoint3f@@PBTvector3f@@JJPAUs_collision_result_1697c0@@@Z"
-LC230: .asciz "?function_170fd0@@YGXJ@Z"
-LC231: .asciz "?function_172840@@YG_NJPAUs_pool@@PAUs_short_list_table@@PAUs_ring_buffer@@PAUs_polygon_cache_173520@@@Z"
-LC232: .asciz "?collect@c_query_batch_collector@@UAEXPBUs_batch_contact@@@Z"
-LC233: .asciz "?function_186ab0@@YGXJMMPAUs_player_action@@@Z"
-LC234: .asciz "?function_187ec0@@YI_NXZ"
-LC235: .asciz "?function_18ca20@@YGXJJPBUs_sound_permutation@@M@Z"
-LC236: .asciz "?function_18dc90@@YGXPAUs_portal_path_bsp@@JPBTpoint3f@@MPAJ2222@Z"
-LC237: .asciz "?function_195ed0@@YIXXZ"
-LC238: .asciz "?function_19e1c0@@YIJPAUs_event@@JPBGPAGJ@Z"
-LC239: .asciz "?function_1a83e0@@YG_NJPAFPAMPAUpoint2f@@PA_N@Z"
-LC240: .asciz "?function_1a9760@@YGXJPAUs_slot@@@Z"
-LC241: .asciz "?function_1aa0d0@@YG_NJPAUs_slot@@@Z"
-LC242: .asciz "?function_1aab50@@YG_NJPAUs_slot@@@Z"
-LC243: .asciz "?function_1ae680@@YGFJPAUs_slot@@@Z"
-LC244: .asciz "?function_1b7e40@@YGFJ@Z"
-LC245: .asciz "?function_1ba090@@YGJJPAUs_slot@@@Z"
-LC246: .asciz "?function_1ba8c0@@YGXJPAUs_slot@@PAUs_slot_target_list@@@Z"
-LC247: .asciz "?function_1c4590@@YGXJ@Z"
-LC248: .asciz "?function_1c4c50@@YG_NJJPBTpoint3f@@PBTvector3f@@1PAJPAT2@3@Z"
-LC249: .asciz "?function_1c89b0@@YGFJFPAUs_ai_capsule_view@@@Z"
-LC250: .asciz "?function_1c9830@@YGXFF_N0@Z"
-LC251: .asciz "?function_1d24a0@@YGXPAUs_havok_component@@M@Z"
-LC252: .asciz "?function_1d3920@@YGXPAEPAKM@Z"
-LC253: .asciz "?function_1d77d0@@YGXPAUs_havok_component@@PAUs_physics_model_owner@@@Z"
-LC254: .asciz "?function_1d87b0@@YGXPAUs_havok_component_rigid_body@@JPAUs_havok_component@@@Z"
-LC255: .asciz "?function_1e0850@@YGJJJPBUs_203780@@_N@Z"
-LC256: .asciz "?function_1e1a00@@YGXJJ@Z"
-LC257: .asciz "?function_1e9fa0@@YGXPAXJJGE@Z"
-LC258: .asciz "?ray_test@c_vertex_shape@@UAEXPA_NPBUs_shape_ray@@PAUs_shape_ray_result@@@Z"
-LC259: .asciz "?function_1f6090@@YGXJPBTvector3f@@PAT1@PAF1PA_N3@Z"
-LC260: .asciz "?function_1fbac0@@YGXJJ_NJPAUs_1fbac0_event@@@Z"
-LC261: .asciz "?function_1fc7e0@@YGXJ@Z"
-LC262: .asciz "?function_202a00@@YGXJJ@Z"
-LC263: .asciz "?function_208070@@YGXFJ_N@Z"
-LC264: .asciz "?function_2090a0@@YIXXZ"
-LC265: .asciz "?function_215900@@YGXJJPAGPAJ_N@Z"
-LC266: .asciz "?function_215e60@@YGXJ@Z"
-LC267: .asciz "?function_217c40@@YIXXZ"
-LC268: .asciz "?looping_sound_update_locations@@YIXXZ"
-LC269: .asciz "?allocate_aligned@c_havok_fixed_memory@@UAEPAXJJJ@Z"
-LC270: .asciz "?function_22fc08@@YGXPAVc_class_1473c9@@@Z"
-LC271: .asciz "?function_2393ae@@YGXJJ@Z"
-LC272: .asciz "?function_23aad0@@YGXJJJ@Z"
-LC273: .asciz "?function_24a691@c_list_24a64d@@UAEPBGJ_N@Z"
-LC274: .asciz "?v3@c_matchmaking_list@@UAEXXZ"
-LC275: .asciz "?v3@c_4way_signin_screen@@UAEXXZ"
-LC276: .asciz "?function_256810@@YGFJPAUs_slot@@@Z"
-LC277: .asciz "?function_25f290@@YGXJPAUs_type_967e20@@FPAUs_type_b36ac5@@@Z"
-LC278: .asciz "?function_261d20@@YGFJPAUs_261d20_entry@@JPBUs_2605d0_request@@@Z"
-LC279: .asciz "?function_2732e0@@YI_NJ@Z"
-LC280: .asciz "?function_276380@@YI_NJ@Z"
-LC281: .asciz "?function_2769d0@@YIXJ@Z"
-LC282: .asciz "?function_279410@@YA_NPBUs_component_contact_pair@@PAVhkEntity@@1MMM@Z"
-LC283: .asciz "?function_27dff0@@YIXXZ"
-LC284: .asciz "?function_281b60@@YIXXZ"
-LC285: .asciz "?function_2902b0@@YGXJJJJMMPBUtransform4x3f@@F@Z"
-LC286: .asciz "?function_2919e0@@YGXPAUs_ai_scene@@PAUs_ai_scene_assignment@@PAFFFFJJJ@Z"
-LC287: .asciz "?function_296580@@YIXJ@Z"
-LC288: .asciz "?function_29bab0@@YGXJJPBTvector3f@@PAT1@PAF1PA_N3F@Z"
-LC289: .asciz "?function_29e0f0@@YG_NPBTpoint3f@@JUs_reference@@PAUs_29de21@@PAUs_29e0f9@@@Z"
-LC290: .asciz "?function_2b2ed4@@YGXPAVc_y_menu_list@@_N1PAVc_class_1a2c81@@PAUs_friend@@@Z"
-LC291: .asciz "?function_2c2060@@YGXPAUs_type_f17a25@@FPBUs_path_step_view@@PAFPAU2@PA_N@Z"
-LC292: .asciz "?v19@c_variant_parameter_setting_screen@@UAEXXZ"
-LC293: .asciz "?v10@c_screen_45d2b8@@UAE_NPAUs_widget_event@@@Z"
-LC294: .asciz "?function_2ce7b0@@YGKKPBEK@Z"
-LC295: .asciz "?function_2ce9e0@@YGJPAUs_block_state@@PAUs_inflate_stream@@J@Z"
-LC296: .asciz "?function_30e720@c_311100@@QAEXXZ"
-LC297: .asciz "??0c_library_329d20@@QAE@XZ"
-LC298: .asciz "??0c_library_32a850@@QAE@PAX0JJJJ00JJJJJ@Z"
-LC299: .asciz "?function_3e0450@@YGXPAX0@Z"
-LC300: .asciz "?function_3e0af0@@YGPAXPBDK@Z"
-LC301: .asciz "?function_3e2330@@YGHPAX@Z"
-LC302: .asciz "?function_3e2630@@YGHPAXKPAKK@Z"
-LC303: .asciz "?function_3e2680@@YGHPAXKPAKPAJK@Z"
-LC304: .asciz "?BinkSetMemory@@YGHP6GPAXK@ZP6GXPAX@Z@Z"
-LC305: .asciz "?function_3e2830@@YGHPAX0JJJJK@Z"
-LC306: .asciz "?function_3e2870@@YGHPAX@Z"
-LC307: .asciz "?function_3e2e50@@YGXPAX@Z"
-LC308: .asciz "?function_3e2ff0@@YGXPAX@Z"
-LC309: .asciz "?function_3e3c90@@YGPAXPAX@Z"
-LC310: .asciz "?function_11dd80@@YIXPBUreal_quaternion_transform@@PAU1@@Z"
-LC311: .asciz "?function_26c590@@YI_NPBUs_pathfinding_data@@PBTpoint3f@@JJPBTvector3f@@MPBUs_path_location@@PAUs_path_trace_result@@@Z"
-LC312: .asciz "?function_298d90@@YIXJJPBUs_298c30@@PBUpoint2f@@11M11@Z"
-LC313: .asciz "_XLaunchNewImageA@8"
-LC314: .asciz "_XGetLaunchInfo@8"
-LC315: .asciz "_XMemAllocDefault@8"
-LC316: .asciz "_XMemFreeDefault@8"
-LC317: .asciz "_XPhysicalAlloc@16"
-LC318: .asciz "_XPhysicalProtect@12"
-LC319: .asciz "_MmFreeContiguousMemory@4"
-LC320: .asciz "_GetLastError@0"
-LC321: .asciz "_SetLastError@4"
-LC322: .asciz "_CloseHandle@4"
-LC323: .asciz "_SetThreadPriority@8"
-LC324: .asciz "_SwitchToThread@0"
-LC325: .asciz "_CreateThread@24"
-LC326: .asciz "_GetCurrentThreadId@0"
-LC327: .asciz "_ReadFile@20"
-LC328: .asciz "_WriteFile@20"
-LC329: .asciz "_SetEndOfFile@4"
-LC330: .asciz "_SetFilePointer@16"
-LC331: .asciz "_FlushFileBuffers@4"
-LC332: .asciz "_GetFileSize@8"
-LC333: .asciz "_CreateFileA@28"
-LC334: .asciz "_XLoadSectionA@4"
-LC335: .asciz "_XFreeSectionA@4"
-LC336: .asciz "_GetDiskFreeSpaceExA@16"
-LC337: .asciz "_XMountSecondaryUtilityDrive@0"
-LC338: .asciz "_XGetDiskClusterSizeA@4"
-LC339: .asciz "_CreateSemaphoreA@16"
-LC340: .asciz "_ReleaseSemaphore@12"
-LC341: .asciz "_CreateMutexA@12"
-LC342: .asciz "_ReleaseMutex@4"
-LC343: .asciz "_WaitForSingleObject@8"
-LC344: .asciz "_Sleep@4"
-LC345: .asciz "_XCalculateSignatureBegin@4"
-LC346: .asciz "_XCalculateSignatureUpdate@12"
-LC347: .asciz "_XCalculateSignatureEnd@8"
-LC348: .asciz "_SetFileAttributesA@8"
-LC349: .asciz "_GetFileAttributesA@4"
-LC350: .asciz "_GetFileAttributesExA@12"
-LC351: .asciz "_DeleteFileA@4"
-LC352: .asciz "??2@YAPAXI@Z"
-LC353: .asciz "_strncpy"
-LC354: .asciz "__strnicmp"
-LC355: .asciz "_sprintf"
-LC356: .asciz "_wcsncpy"
-LC357: .asciz "_wcslen"
-LC358: .asciz "_memmove"
-LC359: .asciz "_wcscmp"
-LC360: .asciz "__wcsicmp"
-LC361: .asciz "_ceil"
-LC362: .asciz "_floor"
-LC363: .asciz "__clearfp"
-LC364: .asciz "__control87"
-LC365: .asciz "_strncmp"
-LC366: .asciz "??3@YAXPAX@Z"
-LC367: .asciz "_printf"
-LC368: .asciz "_qsort"
-LC369: .asciz "_atoi"
-LC370: .asciz "_strstr"
-LC371: .asciz "_towlower"
-LC372: .asciz "_strspn"
-LC373: .asciz "_strpbrk"
-LC374: .asciz "__vsnprintf"
-LC375: .asciz "_strchr"
-LC376: .asciz "_time"
-LC377: .asciz "_fopen"
-LC378: .asciz "_fscanf"
-LC379: .asciz "_fgets"
-LC380: .asciz "_fclose"
-LC381: .asciz "_wcschr"
-LC382: .asciz "_wcsncmp"
-LC383: .asciz "_iswspace"
-LC384: .asciz "_iswalnum"
-LC385: .asciz "__vsnwprintf"
-LC386: .asciz "_rand"
-LC387: .asciz "_strrchr"
-LC388: .asciz "_fread"
-LC389: .asciz "_fseek"
-LC390: .asciz "_ftell"
-LC391: .asciz "_fwrite"
-LC392: .asciz "_fflush"
-LC393: .asciz "_vsprintf"
-LC394: .asciz "??_M@YGXPAXIHP6EX0@Z@Z"
-LC395: .asciz "??_L@YGXPAXIHP6EX0@Z1@Z"
-LC396: .asciz "_free"
-LC397: .asciz "_calloc"
-LC398: .asciz "_XGetVideoStandard@0"
-LC399: .asciz "_XGetVideoFlags@0"
-LC400: .asciz "_XSaveFloatingPointStateForDpc@0"
-LC401: .asciz "_XRestoreFloatingPointStateForDpc@0"
-LC402: .asciz "_XGetLanguage@0"
-LC403: .asciz "_XGetAutoLogonFlag@0"
-LC404: .asciz "_GetSystemTimeAsFileTime@4"
-LC405: .asciz "_XFindFirstContent@12"
-LC406: .asciz "_XFindNextContent@8"
-LC407: .asciz "_XCreateSaveGame@24"
-LC408: .asciz "_XDeleteSaveGame@8"
-LC409: .asciz "_XFindFirstSaveGame@8"
-LC410: .asciz "_XFindNextSaveGame@8"
-LC411: .asciz "_XFindClose@4"
-LC412: .asciz "_VirtualAlloc@16"
-LC413: .asciz "_VirtualFree@12"
-LC414: .asciz "_GlobalMemoryStatus@4"
-LC415: .asciz "_XGetGameRegion@0"
-LC416: .asciz "_GetTickCount@0"
-LC417: .asciz "_FileTimeToSystemTime@8"
-LC418: .asciz "_CompareFileTime@8"
-LC419: .asciz "_GetLocalTime@4"
-LC420: .asciz "_FileTimeToLocalFileTime@8"
-LC421: .asciz "_CreateDirectoryA@8"
-LC422: .asciz "_RemoveDirectoryA@4"
-LC423: .asciz "_FindFirstFileA@8"
-LC424: .asciz "_FindNextFileA@8"
-LC425: .asciz "_OutputDebugStringA@4"
-LC426: .asciz "_QueryPerformanceCounter@4"
-LC427: .asciz "_QueryPerformanceFrequency@4"
-LC428: .asciz "_XHVEngine_EnableProcessingMode@8"
-LC429: .asciz "_XHVEngine_SetCallbackInterface@8"
-LC430: .asciz "_XHVEngine_RegisterLocalTalker@8"
-LC431: .asciz "_XHVEngine_SetProcessingMode@12"
-LC432: .asciz "_XHVEngine_SetVoiceMask@12"
-LC433: .asciz "_XHVEngine_GetLocalTalkerStatus@12"
-LC434: .asciz "_XHVEngine_RegisterRemoteTalker@16"
-LC435: .asciz "_XHVEngine_UnregisterRemoteTalker@16"
-LC436: .asciz "_XHVEngine_GetRemoteTalkers@12"
-LC437: .asciz "_XHVEngine_SubmitIncomingVoicePacket@24"
-LC438: .asciz "_XHVEngine_IsTalking@16"
-LC439: .asciz "_XHVEngine_SetMixBinMapping@24"
-LC440: .asciz "_XHVEngine_SetPlaybackPriority@24"
-LC441: .asciz "_XHVEngine_SetMaxPlaybackStreamsCount@8"
-LC442: .asciz "_XHVEngine_VoiceMailRecord@20"
-LC443: .asciz "_XHVEngine_VoiceMailPlay@20"
-LC444: .asciz "_XHVEngine_VoiceMailStop@8"
-LC445: .asciz "_XHVEngine_DoWork@4"
-LC446: .asciz "_XHVEngine_UnregisterLocalTalker@8"
-LC447: .asciz "_XHVEngineCreate@8"
-LC448: .asciz "_XHVEngine_Release@4"
-LC449: .asciz "_XNetGetEthernetLinkStatus@0"
-LC450: .asciz "_IDirectSound_Release@4"
-LC451: .asciz "_IDirectSoundBuffer_Release@4"
-LC452: .asciz "_DirectSoundDoWork@0"
-LC453: .asciz "_IDirectSound_GetCaps@8"
-LC454: .asciz "_IDirectSound_GetSpeakerConfig@8"
-LC455: .asciz "_IDirectSound_GetEffectData@20"
-LC456: .asciz "_IDirectSound_SetEffectData@24"
-LC457: .asciz "_IDirectSound_SetMixBinHeadroom@12"
-LC458: .asciz "_IDirectSound_SynchPlayback@4"
-LC459: .asciz "_IDirectSoundBuffer_SetVolume@8"
-LC460: .asciz "_IDirectSoundBuffer_SetFilter@8"
-LC461: .asciz "_IDirectSoundBuffer_SetHeadroom@8"
-LC462: .asciz "_IDirectSoundBuffer_SetMixBinVolumes@8"
-LC463: .asciz "_IDirectSoundBuffer_Play@16"
-LC464: .asciz "_IDirectSoundBuffer_StopEx@16"
-LC465: .asciz "_IDirectSoundBuffer_Pause@8"
-LC466: .asciz "_IDirectSoundBuffer_GetStatus@8"
-LC467: .asciz "_IDirectSoundBuffer_SetCurrentPosition@8"
-LC468: .asciz "_IDirectSoundBuffer_Lock@32"
-LC469: .asciz "_IDirectSoundBuffer_GetVoiceProperties@8"
-LC470: .asciz "_IDirectSoundStream_SetVolume@8"
-LC471: .asciz "_IDirectSoundStream_SetPitch@8"
-LC472: .asciz "_IDirectSoundStream_SetLFO@8"
-LC473: .asciz "_IDirectSoundStream_SetEG@8"
-LC474: .asciz "_IDirectSoundStream_SetFilter@8"
-LC475: .asciz "_IDirectSoundStream_SetHeadroom@8"
-LC476: .asciz "_IDirectSoundStream_SetMixBinVolumes@8"
-LC477: .asciz "_IDirectSoundStream_Pause@8"
-LC478: .asciz "_IDirectSoundStream_FlushEx@16"
-LC479: .asciz "_IDirectSoundStream_GetVoiceProperties@8"
-LC480: .asciz "_DirectSoundDoWork@0"
-LC481: .asciz "_XAudioDownloadEffectsImage@16"
-LC482: .asciz "_XAudioSetEffectData@12"
-LC483: .asciz "_IDirectSoundBuffer_SetMixBins@8"
-LC484: .asciz "_IDirectSoundBuffer_SetConeOutsideVolume@12"
-LC485: .asciz "_IDirectSoundBuffer_SetMaxDistance@12"
-LC486: .asciz "_IDirectSoundBuffer_SetMinDistance@12"
-LC487: .asciz "_IDirectSoundBuffer_SetPosition@20"
-LC488: .asciz "_IDirectSoundBuffer_SetDopplerFactor@12"
-LC489: .asciz "_IDirectSoundBuffer_SetRolloffFactor@12"
-LC490: .asciz "_IDirectSoundBuffer_SetI3DL2Source@12"
-LC491: .asciz "_IDirectSoundStream_SetOutputBuffer@8"
-LC492: .asciz "_IDirectSoundStream_SetMixBins@8"
-LC493: .asciz "_IDirectSoundBuffer_SetBufferData@12"
-LC494: .asciz "_IDirectSound_CommitDeferredSettings@4"
-LC495: .asciz "_IDirectSound_CreateSoundBuffer@16"
-LC496: .asciz "_IDirectSound_CreateSoundStream@16"
-LC497: .asciz "_IDirectSound_SetDistanceFactor@12"
-LC498: .asciz "_IDirectSound_SetRolloffFactor@12"
-LC499: .asciz "_IDirectSound_SetOrientation@32"
-LC500: .asciz "_IDirectSound_SetPosition@20"
-LC501: .asciz "_IDirectSound_SetDopplerFactor@12"
-LC502: .asciz "_DirectSoundCreate@12"
-LC503: .asciz "_DirectSoundCreateBuffer@8"
-LC504: .asciz "_WmaCreateInMemoryDecoder@20"
-LC505: .asciz "_XOnlineTaskContinue@4"
-LC506: .asciz "_XOnlineTaskClose@4"
-LC507: .asciz "_XOnlineGetUsers@8"
-LC508: .asciz "_XOnlineLogon@20"
-LC509: .asciz "_XOnlineLogonTaskGetResults@4"
-LC510: .asciz "_XOnlineChangeLogonUsers@12"
-LC511: .asciz "_XOnlineChangeLogonUsersTaskGetResults@8"
-LC512: .asciz "_XOnlineGetLogonUsers@0"
-LC513: .asciz "_XOnlineGetServiceInfo@8"
-LC514: .asciz "_XOnlineSaveLogonState@4"
-LC515: .asciz "_Sleep@4"
-LC516: .asciz "_XOnlineOfferingIsNewContentAvailable@12"
-LC517: .asciz "_XOnlineMatchSessionCreate@32"
-LC518: .asciz "_XOnlineMatchSessionUpdate@40"
-LC519: .asciz "_XOnlineMatchSessionGetInfo@12"
-LC520: .asciz "_XOnlineMatchSessionDelete@16"
-LC521: .asciz "_XOnlineMatchSessionFindFromID@16"
-LC522: .asciz "_XOnlineMatchSearch@28"
-LC523: .asciz "_XOnlineMatchSearchGetResults@12"
-LC524: .asciz "_XOnlineMatchSearchParse@16"
-LC525: .asciz "_XOnlineMatchSearchResultsLen@12"
-LC526: .asciz "_XOnlineTitleIdIsSameTitle@4"
-LC527: .asciz "_XOnlineTitleIdIsSameTitle@4"
-LC528: .asciz "_XOnlineNotificationSetState@24"
-LC529: .asciz "_XOnlineGetNotificationEx@12"
-LC530: .asciz "_XOnlineFriendsStartup@8"
-LC531: .asciz "_XOnlineFriendsEnumerate@12"
-LC532: .asciz "_XOnlineFriendsEnumerateFinish@4"
-LC533: .asciz "_XOnlineFriendsGetLatest@12"
-LC534: .asciz "_XOnlineFriendsGetTitleName@16"
-LC535: .asciz "_XOnlineFriendsRemove@8"
-LC536: .asciz "_XOnlineFriendsGameInvite@20"
-LC537: .asciz "_XOnlineFriendsAnswerRequest@12"
-LC538: .asciz "_XOnlineFriendsAnswerGameInvite@12"
-LC539: .asciz "_XOnlineFriendsJoinGame@8"
-LC540: .asciz "_XOnlineFriendsGetAcceptedGameInvite@4"
-LC541: .asciz "_XOnlineMutelistGet@24"
-LC542: .asciz "_XOnlineMutelistStartup@8"
-LC543: .asciz "_XOnlineMutelistAdd@16"
-LC544: .asciz "_XOnlineMutelistRemove@16"
-LC545: .asciz "_XOnlineFeedbackSend@32"
-LC546: .asciz "_XOnlineStatWrite@16"
-LC547: .asciz "_XOnlineStatRead@16"
-LC548: .asciz "_XOnlineStatReadGetResult@20"
-LC549: .asciz "_XOnlineStartup@4"
-LC550: .asciz "_XOnlineCleanup@0"
-LC551: .asciz "_XOnlineGetNatType@0"
-LC552: .asciz "_XOnlinePresenceAdd@16"
-LC553: .asciz "_XOnlinePresenceClear@4"
-LC554: .asciz "_XOnlinePresenceSubmit@4"
-LC555: .asciz "_XOnlinePresenceGetLatest@16"
-LC556: .asciz "_XOnlinePresenceInit@12"
-LC557: .asciz "_XOnlineGameInviteSend@36"
-LC558: .asciz "_XOnlineGameInviteAnswer@20"
-LC559: .asciz "_XOnlineFriendsRequestEx@28"
-LC560: .asciz "_XOnlineFriendsRequestByNameEx@20"
-LC561: .asciz "_XOnlineTeamMemberRecruit@44"
-LC562: .asciz "_XOnlineTeamMemberRecruitByName@36"
-LC563: .asciz "_XOnlineTeamMemberAnswerRecruit@28"
-LC564: .asciz "_XOnlineMessageDetailsGetResultsProperty@24"
-LC565: .asciz "_XOnlineMessageDownloadAttachmentToMemory@24"
-LC566: .asciz "_XOnlineMessageDownloadAttachmentToMemoryGetResults@16"
-LC567: .asciz "_XOnlineMessageCreate@32"
-LC568: .asciz "_XOnlineMessageDestroy@4"
-LC569: .asciz "_XOnlineMessageSetProperty@20"
-LC570: .asciz "_XOnlineMessageEnumerate@12"
-LC571: .asciz "_XOnlineMessageDelete@12"
-LC572: .asciz "_XOnlineMessageSend@24"
-LC573: .asciz "_XOnlineMessageDetails@24"
-LC574: .asciz "_XOnlineStatWriteGetResult@16"
-LC575: .asciz "_XOnlineStorageCreateServerPath@32"
-LC576: .asciz "_XOnlineStorageDownload@28"
-LC577: .asciz "_XOnlineStorageDownloadToMemory@32"
-LC578: .asciz "_XOnlineStorageDownloadToMemoryGetResults@24"
-LC579: .asciz "_XOnlineStorageUploadByServerPath@36"
-LC580: .asciz "_XOnlineStorageUploadFromMemory@40"
-LC581: .asciz "_XOnlineArbitrationCreateRoundID@4"
-LC582: .asciz "_XOnlineArbitrationRegister@20"
-LC583: .asciz "_XOnlineArbitrationExtendRound@16"
-LC584: .asciz "_XOnlineArbitrationReport@28"
-LC585: .asciz "_XOnlineTeamEnumerateGetResults@12"
-LC586: .asciz "_XOnlineTeamMembersEnumerateGetResults@12"
-LC587: .asciz "_XOnlineTeamCreate@24"
-LC588: .asciz "_XOnlineTeamDelete@24"
-LC589: .asciz "_XOnlineTeamMemberSetProperties@40"
-LC590: .asciz "_XOnlineTeamMemberRemove@36"
-LC591: .asciz "_XOnlineTeamEnumerateByUserXUID@24"
-LC592: .asciz "_XOnlineTeamGetDetails@20"
-LC593: .asciz "_XOnlineTeamMembersEnumerate@28"
-LC594: .asciz "_XOnlineTeamMemberGetDetails@20"
-LC595: .asciz "_XOnlineQuerySearch@40"
-LC596: .asciz "_XOnlineQuerySearchGetResults@20"
-LC597: .asciz "_XNetRandom@8"
-LC598: .asciz "_XNetCreateKey@8"
-LC599: .asciz "_XNetRegisterKey@8"
-LC600: .asciz "_XNetUnregisterKey@4"
-LC601: .asciz "_XNetXnAddrToInAddr@12"
-LC602: .asciz "_XNetTsAddrToInAddr@16"
-LC603: .asciz "_XNetQosListen@20"
-LC604: .asciz "_XNetQosLookup@48"
-LC605: .asciz "_XNetQosRelease@4"
-LC606: .asciz "_XNetGetTitleXnAddr@4"
-LC607: .asciz "_socket@12"
-LC608: .asciz "_closesocket@4"
-LC609: .asciz "_shutdown@8"
-LC610: .asciz "_ioctlsocket@12"
-LC611: .asciz "_setsockopt@20"
-LC612: .asciz "_getsockopt@20"
-LC613: .asciz "_bind@12"
-LC614: .asciz "_connect@12"
-LC615: .asciz "_select@20"
-LC616: .asciz "_recv@16"
-LC617: .asciz "_recvfrom@24"
-LC618: .asciz "_send@16"
-LC619: .asciz "_sendto@24"
-LC620: .asciz "_XNetInAddrToXnAddr@12"
-LC621: .asciz "_XNetConnect@4"
-LC622: .asciz "_XNetConnect@4"
-LC623: .asciz "_XNetGetConnectStatus@4"
-LC624: .asciz "_XNetQosServiceLookup@12"
-LC625: .asciz "_XNetStartup@4"
-LC626: .asciz "_WSAStartup@8"
-LC627: .asciz "_XNetCleanup@0"
-LC628: .asciz "_WSACleanup@0"
-LC629: .asciz "_WSAGetLastError@0"
-LC630: .asciz "___WSAFDIsSet@8"
-LC631: .asciz "_htonl@4"
-LC632: .asciz "_htons@4"
-LC633: .asciz "_XInitDevices@8"
-LC634: .asciz "_XGetDeviceChanges@12"
-LC635: .asciz "_XInputOpen@16"
-LC636: .asciz "_XInputClose@4"
-LC637: .asciz "_XInputGetCapabilities@8"
-LC638: .asciz "_XInputGetState@8"
-LC639: .asciz "_XInputSetState@8"
-LC640: .asciz "_ResumeThread@4"
-LC641: .asciz "_CreateEventA@16"
-LC642: .asciz "_SetEvent@4"
-LC643: .asciz "_WaitForMultipleObjects@16"
-LC644: .asciz "_malloc"
-LC645: .asciz "_IDirectSoundBuffer_Stop@4"
-LC646: .asciz "_IDirectSoundBuffer_GetCurrentPosition@12"
-LC647: .asciz "_IDirectSoundBuffer_SetFrequency@8"
-LC648: .asciz "?function_1d2f0@@YG_NPAUD3DSurface@@PAE@Z"
-LC649: .asciz "?function_439d0@@YIPAXJ@Z"
-LC650: .asciz "?function_15ca10@@YIXXZ"
+LC179: .asciz "?function_6b4a0@@YIXXZ"
+LC180: .asciz "?online_tasks_dispose_all@@YIXXZ"
+LC181: .asciz "?function_6d4c0@@YGXPAX@Z"
+LC182: .asciz "?function_074aa0@@YIXXZ"
+LC183: .asciz "?connection_v05@s_network_observer@@UAE_NJ_N00PA_N1PAJ2JPAE@Z"
+LC184: .asciz "?network_observer_update_connection@@YIXPAUs_network_observer@@J@Z"
+LC185: .asciz "?function_81780@@YGXJ@Z"
+LC186: .asciz "?function_83610@@YGXPAUs_simulation_world_owner@@PAJPAUs_simulation_player_update@@@Z"
+LC187: .asciz "?bungienet_user_voice_apply@@YG_NPAUs_bungienet_user_request@@@Z"
+LC188: .asciz "?v27@c_device_type@@UAEJJJJJ@Z"
+LC189: .asciz "?v22@c_object_type_definition@@UAE_NPAUs_entity@@JPAUs_entity_info@@JJJ@Z"
+LC190: .asciz "?function_a9f70@@YGJJJPBTpoint3f@@@Z"
+LC191: .asciz "?function_b7430@@YG_NJPBTpoint3f@@PBTvector3f@@1PBUs_location@@_N333@Z"
+LC192: .asciz "?function_b7b40@@YGJPAX@Z"
+LC193: .asciz "?function_b8540@@YGXJ@Z"
+LC194: .asciz "?function_bd090@@YGXJ@Z"
+LC195: .asciz "?function_bd610@@YGPBUtransform4x3f@@JPBEPBU1@@Z"
+LC196: .asciz "?function_be240@@YGXJKPBUcolor3f@@@Z"
+LC197: .asciz "?function_c1d90@@YGXPBUs_light_frame_ab@@PBUs_light_shape_ab@@PAUs_light_projection_ab@@PAF@Z"
+LC198: .asciz "?function_c2d00@@YGXJ@Z"
+LC199: .asciz "?function_c4410@@YG_NJPBXPA_N@Z"
+LC200: .asciz "?function_c58f0@@YG_NJ@Z"
+LC201: .asciz "?function_c60c0@@YG_NJ@Z"
+LC202: .asciz "?function_cd7b0@@YG_NJJPA_N@Z"
+LC203: .asciz "?function_d1e10@@YGJPBXPAUs_effect_color_query@@J_N@Z"
+LC204: .asciz "?function_d4e60@@YIXF@Z"
+LC205: .asciz "?function_f0760@@YGXJP6GXJPAUs_graph_tag@@PAVc_animation_channel@@MMMPAX@Z2@Z"
+LC206: .asciz "?function_f6d10@@YG_NJJPAMPA_N@Z"
+LC207: .asciz "?function_104150@@YGXJF@Z"
+LC208: .asciz "?function_110ab0@@YG_NJ@Z"
+LC209: .asciz "?function_112070@@YGXJPBKJPAUreal_quaternion_transform@@@Z"
+LC210: .asciz "?function_113980@@YGXJJ_NMPAUs_animation_state@@PAUs_graph_pair_iterator@@JPAUtransform4x3f@@@Z"
+LC211: .asciz "?function_1161f0@@YGXPAUs_chain_record@@PAUs_chain_definition@@M@Z"
+LC212: .asciz "?function_127010@@YIJF@Z"
+LC213: .asciz "?function_1282d0@@YIXXZ"
+LC214: .asciz "?game_loop_tick@@YIXXZ"
+LC215: .asciz "?function_14df40@@YG_NPAJ@Z"
+LC216: .asciz "?function_1554b0@@YIXM@Z"
+LC217: .asciz "?function_158140@@YIXXZ"
+LC218: .asciz "?function_15c6f0@@YIXXZ"
+LC219: .asciz "?function_1608e0@@YGXJPAUs_score_panel_1608e0@@M@Z"
+LC220: .asciz "?function_170fd0@@YGXJ@Z"
+LC221: .asciz "?function_172840@@YG_NJPAUs_pool@@PAUs_short_list_table@@PAUs_ring_buffer@@PAUs_polygon_cache_173520@@@Z"
+LC222: .asciz "?collect@c_query_batch_collector@@UAEXPBUs_batch_contact@@@Z"
+LC223: .asciz "?function_186ab0@@YGXJMMPAUs_player_action@@@Z"
+LC224: .asciz "?function_18ca20@@YGXJJPBUs_sound_permutation@@M@Z"
+LC225: .asciz "?function_18dc90@@YGXPAUs_portal_path_bsp@@JPBTpoint3f@@MPAJ2222@Z"
+LC226: .asciz "?function_195ed0@@YIXXZ"
+LC227: .asciz "?function_19e1c0@@YIJPAUs_event@@JPBGPAGJ@Z"
+LC228: .asciz "?function_1a83e0@@YG_NJPAFPAMPAUpoint2f@@PA_N@Z"
+LC229: .asciz "?function_1aa0d0@@YG_NJPAUs_slot@@@Z"
+LC230: .asciz "?function_1aab50@@YG_NJPAUs_slot@@@Z"
+LC231: .asciz "?function_1ae680@@YGFJPAUs_slot@@@Z"
+LC232: .asciz "?function_1b7e40@@YGFJ@Z"
+LC233: .asciz "?function_1ba090@@YGJJPAUs_slot@@@Z"
+LC234: .asciz "?function_1ba8c0@@YGXJPAUs_slot@@PAUs_slot_target_list@@@Z"
+LC235: .asciz "?function_1c4590@@YGXJ@Z"
+LC236: .asciz "?function_1c89b0@@YGFJFPAUs_ai_capsule_view@@@Z"
+LC237: .asciz "?function_1c9830@@YGXFF_N0@Z"
+LC238: .asciz "?function_1d24a0@@YGXPAUs_havok_component@@M@Z"
+LC239: .asciz "?function_1d3920@@YGXPAEPAKM@Z"
+LC240: .asciz "?function_1d77d0@@YGXPAUs_havok_component@@PAUs_physics_model_owner@@@Z"
+LC241: .asciz "?function_1d87b0@@YGXPAUs_havok_component_rigid_body@@JPAUs_havok_component@@@Z"
+LC242: .asciz "?function_1e0850@@YGJJJPBUs_203780@@_N@Z"
+LC243: .asciz "?function_1e1a00@@YGXJ_N@Z"
+LC244: .asciz "?function_1e9fa0@@YGXPAXJJGE@Z"
+LC245: .asciz "?function_1f6090@@YGXJPBTvector3f@@PAT1@PAF1PA_N3@Z"
+LC246: .asciz "?function_1fbac0@@YGXJJ_NJPAUs_1fbac0_event@@@Z"
+LC247: .asciz "?function_1fc7e0@@YGXJ@Z"
+LC248: .asciz "?function_202a00@@YGXJJ@Z"
+LC249: .asciz "?function_215e60@@YGXJ@Z"
+LC250: .asciz "?function_217c40@@YIXXZ"
+LC251: .asciz "?looping_sound_update_locations@@YIXXZ"
+LC252: .asciz "?allocate_aligned@c_havok_fixed_memory@@UAEPAXJJJ@Z"
+LC253: .asciz "?function_22fc08@@YGXPAVc_class_1473c9@@@Z"
+LC254: .asciz "?function_2393ae@@YGXJJ@Z"
+LC255: .asciz "?function_24a691@c_list_24a64d@@UAEPBGJ_N@Z"
+LC256: .asciz "?v3@c_matchmaking_list@@UAEXXZ"
+LC257: .asciz "?v3@c_4way_signin_screen@@UAEXXZ"
+LC258: .asciz "?function_25f290@@YGXJPAUs_type_967e20@@FPAUs_type_b36ac5@@@Z"
+LC259: .asciz "?function_261d20@@YGFJPAUs_261d20_entry@@JPBUs_2605d0_request@@@Z"
+LC260: .asciz "?function_2732e0@@YI_NJ@Z"
+LC261: .asciz "?function_276380@@YI_NJ@Z"
+LC262: .asciz "?function_2769d0@@YIXJ@Z"
+LC263: .asciz "?function_279410@@YA_NPBUs_component_contact_pair@@PAVhkEntity@@1MMM@Z"
+LC264: .asciz "?function_27dff0@@YIXXZ"
+LC265: .asciz "?function_281b60@@YIXXZ"
+LC266: .asciz "?function_2902b0@@YGXJJJJMMPBUtransform4x3f@@F@Z"
+LC267: .asciz "?function_2919e0@@YGXPAUs_ai_scene@@PAUs_ai_scene_assignment@@PAFFFFJJJ@Z"
+LC268: .asciz "?function_296580@@YIXJ@Z"
+LC269: .asciz "?function_29bab0@@YGXJJPBTvector3f@@PAT1@PAF1PA_N3F@Z"
+LC270: .asciz "?function_29e0f0@@YG_NPBTpoint3f@@JUs_reference@@PAUs_29de21@@PAUs_29e0f9@@@Z"
+LC271: .asciz "?function_2b2ed4@@YGXPAVc_y_menu_list@@_N1PAVc_class_1a2c81@@PAUs_friend@@@Z"
+LC272: .asciz "?function_2c2060@@YGXPAUs_type_f17a25@@FPBUs_path_step_view@@PAFPAU2@PA_N@Z"
+LC273: .asciz "?v19@c_variant_parameter_setting_screen@@UAEXXZ"
+LC274: .asciz "?v10@c_screen_45d2b8@@UAE_NPAUs_widget_event@@@Z"
+LC275: .asciz "?function_2ce7b0@@YGKKPBEK@Z"
+LC276: .asciz "?function_2ce9e0@@YGJPAUs_block_state@@PAUs_inflate_stream@@J@Z"
+LC277: .asciz "??0c_library_329d20@@QAE@XZ"
+LC278: .asciz "??0c_library_32a850@@QAE@PAX0JJJJ00JJJJJ@Z"
+LC279: .asciz "?function_3e0450@@YGXPAX0@Z"
+LC280: .asciz "?function_3e0af0@@YGPAXPBDK@Z"
+LC281: .asciz "?function_3e2330@@YGHPAX@Z"
+LC282: .asciz "?function_3e2630@@YGHPAXKPAKK@Z"
+LC283: .asciz "?function_3e2680@@YGHPAXKPAKPAJK@Z"
+LC284: .asciz "?BinkSetMemory@@YGHP6GPAXK@ZP6GXPAX@Z@Z"
+LC285: .asciz "?function_3e2830@@YGHPAX0JJJJK@Z"
+LC286: .asciz "?function_3e2870@@YGHPAX@Z"
+LC287: .asciz "?function_3e2e50@@YGXPAX@Z"
+LC288: .asciz "?function_3e2ff0@@YGXPAX@Z"
+LC289: .asciz "?function_3e3c90@@YGPAXPAX@Z"
+LC290: .asciz "?function_11dd80@@YIXPBUreal_quaternion_transform@@PAU1@@Z"
+LC291: .asciz "?function_26c590@@YI_NPBUs_pathfinding_data@@PBTpoint3f@@JJPBTvector3f@@MPBUs_path_location@@PAUs_path_trace_result@@@Z"
+LC292: .asciz "?function_298d90@@YIXJJPBUs_298c30@@PBUpoint2f@@11M11@Z"
+LC293: .asciz "_XLaunchNewImageA@8"
+LC294: .asciz "_XGetLaunchInfo@8"
+LC295: .asciz "_XMemAllocDefault@8"
+LC296: .asciz "_XMemFreeDefault@8"
+LC297: .asciz "_XPhysicalAlloc@16"
+LC298: .asciz "_XPhysicalProtect@12"
+LC299: .asciz "_MmFreeContiguousMemory@4"
+LC300: .asciz "_GetLastError@0"
+LC301: .asciz "_SetLastError@4"
+LC302: .asciz "_CloseHandle@4"
+LC303: .asciz "_SetThreadPriority@8"
+LC304: .asciz "_SwitchToThread@0"
+LC305: .asciz "_CreateThread@24"
+LC306: .asciz "_GetCurrentThreadId@0"
+LC307: .asciz "_ReadFile@20"
+LC308: .asciz "_WriteFile@20"
+LC309: .asciz "_SetEndOfFile@4"
+LC310: .asciz "_SetFilePointer@16"
+LC311: .asciz "_FlushFileBuffers@4"
+LC312: .asciz "_GetFileSize@8"
+LC313: .asciz "_CreateFileA@28"
+LC314: .asciz "_XLoadSectionA@4"
+LC315: .asciz "_XFreeSectionA@4"
+LC316: .asciz "_GetDiskFreeSpaceExA@16"
+LC317: .asciz "_XMountSecondaryUtilityDrive@0"
+LC318: .asciz "_XGetDiskClusterSizeA@4"
+LC319: .asciz "_CreateSemaphoreA@16"
+LC320: .asciz "_ReleaseSemaphore@12"
+LC321: .asciz "_CreateMutexA@12"
+LC322: .asciz "_ReleaseMutex@4"
+LC323: .asciz "_WaitForSingleObject@8"
+LC324: .asciz "_Sleep@4"
+LC325: .asciz "_XCalculateSignatureBegin@4"
+LC326: .asciz "_XCalculateSignatureUpdate@12"
+LC327: .asciz "_XCalculateSignatureEnd@8"
+LC328: .asciz "_SetFileAttributesA@8"
+LC329: .asciz "_GetFileAttributesA@4"
+LC330: .asciz "_GetFileAttributesExA@12"
+LC331: .asciz "_DeleteFileA@4"
+LC332: .asciz "??2@YAPAXI@Z"
+LC333: .asciz "_strncpy"
+LC334: .asciz "__strnicmp"
+LC335: .asciz "_sprintf"
+LC336: .asciz "_wcsncpy"
+LC337: .asciz "_wcslen"
+LC338: .asciz "_memmove"
+LC339: .asciz "_wcscmp"
+LC340: .asciz "__wcsicmp"
+LC341: .asciz "_ceil"
+LC342: .asciz "_floor"
+LC343: .asciz "__clearfp"
+LC344: .asciz "__control87"
+LC345: .asciz "_strncmp"
+LC346: .asciz "??3@YAXPAX@Z"
+LC347: .asciz "_printf"
+LC348: .asciz "_qsort"
+LC349: .asciz "_atoi"
+LC350: .asciz "_strstr"
+LC351: .asciz "_towlower"
+LC352: .asciz "_strspn"
+LC353: .asciz "_strpbrk"
+LC354: .asciz "__vsnprintf"
+LC355: .asciz "_strchr"
+LC356: .asciz "_time"
+LC357: .asciz "_fopen"
+LC358: .asciz "_fscanf"
+LC359: .asciz "_fgets"
+LC360: .asciz "_fclose"
+LC361: .asciz "_wcschr"
+LC362: .asciz "_wcsncmp"
+LC363: .asciz "_iswspace"
+LC364: .asciz "_iswalnum"
+LC365: .asciz "__vsnwprintf"
+LC366: .asciz "_rand"
+LC367: .asciz "_strrchr"
+LC368: .asciz "_fread"
+LC369: .asciz "_fseek"
+LC370: .asciz "_ftell"
+LC371: .asciz "_fwrite"
+LC372: .asciz "_fflush"
+LC373: .asciz "_vsprintf"
+LC374: .asciz "??_M@YGXPAXIHP6EX0@Z@Z"
+LC375: .asciz "??_L@YGXPAXIHP6EX0@Z1@Z"
+LC376: .asciz "_free"
+LC377: .asciz "_calloc"
+LC378: .asciz "_XGetVideoStandard@0"
+LC379: .asciz "_XGetVideoFlags@0"
+LC380: .asciz "_XSaveFloatingPointStateForDpc@0"
+LC381: .asciz "_XRestoreFloatingPointStateForDpc@0"
+LC382: .asciz "_XGetLanguage@0"
+LC383: .asciz "_XGetAutoLogonFlag@0"
+LC384: .asciz "_GetSystemTimeAsFileTime@4"
+LC385: .asciz "_XFindFirstContent@12"
+LC386: .asciz "_XFindNextContent@8"
+LC387: .asciz "_XCreateSaveGame@24"
+LC388: .asciz "_XDeleteSaveGame@8"
+LC389: .asciz "_XFindFirstSaveGame@8"
+LC390: .asciz "_XFindNextSaveGame@8"
+LC391: .asciz "_XFindClose@4"
+LC392: .asciz "_VirtualAlloc@16"
+LC393: .asciz "_VirtualFree@12"
+LC394: .asciz "_GlobalMemoryStatus@4"
+LC395: .asciz "_XGetGameRegion@0"
+LC396: .asciz "_GetTickCount@0"
+LC397: .asciz "_FileTimeToSystemTime@8"
+LC398: .asciz "_CompareFileTime@8"
+LC399: .asciz "_GetLocalTime@4"
+LC400: .asciz "_FileTimeToLocalFileTime@8"
+LC401: .asciz "_CreateDirectoryA@8"
+LC402: .asciz "_RemoveDirectoryA@4"
+LC403: .asciz "_FindFirstFileA@8"
+LC404: .asciz "_FindNextFileA@8"
+LC405: .asciz "_OutputDebugStringA@4"
+LC406: .asciz "_QueryPerformanceCounter@4"
+LC407: .asciz "_QueryPerformanceFrequency@4"
+LC408: .asciz "_XHVEngine_EnableProcessingMode@8"
+LC409: .asciz "_XHVEngine_SetCallbackInterface@8"
+LC410: .asciz "_XHVEngine_RegisterLocalTalker@8"
+LC411: .asciz "_XHVEngine_SetProcessingMode@12"
+LC412: .asciz "_XHVEngine_SetVoiceMask@12"
+LC413: .asciz "_XHVEngine_GetLocalTalkerStatus@12"
+LC414: .asciz "_XHVEngine_RegisterRemoteTalker@16"
+LC415: .asciz "_XHVEngine_UnregisterRemoteTalker@16"
+LC416: .asciz "_XHVEngine_GetRemoteTalkers@12"
+LC417: .asciz "_XHVEngine_SubmitIncomingVoicePacket@24"
+LC418: .asciz "_XHVEngine_IsTalking@16"
+LC419: .asciz "_XHVEngine_SetMixBinMapping@24"
+LC420: .asciz "_XHVEngine_SetPlaybackPriority@24"
+LC421: .asciz "_XHVEngine_SetMaxPlaybackStreamsCount@8"
+LC422: .asciz "_XHVEngine_VoiceMailRecord@20"
+LC423: .asciz "_XHVEngine_VoiceMailPlay@20"
+LC424: .asciz "_XHVEngine_VoiceMailStop@8"
+LC425: .asciz "_XHVEngine_DoWork@4"
+LC426: .asciz "_XHVEngine_UnregisterLocalTalker@8"
+LC427: .asciz "_XHVEngineCreate@8"
+LC428: .asciz "_XHVEngine_Release@4"
+LC429: .asciz "_XNetGetEthernetLinkStatus@0"
+LC430: .asciz "_IDirectSound_Release@4"
+LC431: .asciz "_IDirectSoundBuffer_Release@4"
+LC432: .asciz "_DirectSoundDoWork@0"
+LC433: .asciz "_IDirectSound_GetCaps@8"
+LC434: .asciz "_IDirectSound_GetSpeakerConfig@8"
+LC435: .asciz "_IDirectSound_GetEffectData@20"
+LC436: .asciz "_IDirectSound_SetEffectData@24"
+LC437: .asciz "_IDirectSound_SetMixBinHeadroom@12"
+LC438: .asciz "_IDirectSound_SynchPlayback@4"
+LC439: .asciz "_IDirectSoundBuffer_SetVolume@8"
+LC440: .asciz "_IDirectSoundBuffer_SetFilter@8"
+LC441: .asciz "_IDirectSoundBuffer_SetHeadroom@8"
+LC442: .asciz "_IDirectSoundBuffer_SetMixBinVolumes@8"
+LC443: .asciz "_IDirectSoundBuffer_Play@16"
+LC444: .asciz "_IDirectSoundBuffer_StopEx@16"
+LC445: .asciz "_IDirectSoundBuffer_Pause@8"
+LC446: .asciz "_IDirectSoundBuffer_GetStatus@8"
+LC447: .asciz "_IDirectSoundBuffer_SetCurrentPosition@8"
+LC448: .asciz "_IDirectSoundBuffer_Lock@32"
+LC449: .asciz "_IDirectSoundBuffer_GetVoiceProperties@8"
+LC450: .asciz "_IDirectSoundStream_SetVolume@8"
+LC451: .asciz "_IDirectSoundStream_SetPitch@8"
+LC452: .asciz "_IDirectSoundStream_SetLFO@8"
+LC453: .asciz "_IDirectSoundStream_SetEG@8"
+LC454: .asciz "_IDirectSoundStream_SetFilter@8"
+LC455: .asciz "_IDirectSoundStream_SetHeadroom@8"
+LC456: .asciz "_IDirectSoundStream_SetMixBinVolumes@8"
+LC457: .asciz "_IDirectSoundStream_Pause@8"
+LC458: .asciz "_IDirectSoundStream_FlushEx@16"
+LC459: .asciz "_IDirectSoundStream_GetVoiceProperties@8"
+LC460: .asciz "_DirectSoundDoWork@0"
+LC461: .asciz "_XAudioDownloadEffectsImage@16"
+LC462: .asciz "_XAudioSetEffectData@12"
+LC463: .asciz "_IDirectSoundBuffer_SetMixBins@8"
+LC464: .asciz "_IDirectSoundBuffer_SetConeOutsideVolume@12"
+LC465: .asciz "_IDirectSoundBuffer_SetMaxDistance@12"
+LC466: .asciz "_IDirectSoundBuffer_SetMinDistance@12"
+LC467: .asciz "_IDirectSoundBuffer_SetPosition@20"
+LC468: .asciz "_IDirectSoundBuffer_SetDopplerFactor@12"
+LC469: .asciz "_IDirectSoundBuffer_SetRolloffFactor@12"
+LC470: .asciz "_IDirectSoundBuffer_SetI3DL2Source@12"
+LC471: .asciz "_IDirectSoundStream_SetOutputBuffer@8"
+LC472: .asciz "_IDirectSoundStream_SetMixBins@8"
+LC473: .asciz "_IDirectSoundBuffer_SetBufferData@12"
+LC474: .asciz "_IDirectSound_CommitDeferredSettings@4"
+LC475: .asciz "_IDirectSound_CreateSoundBuffer@16"
+LC476: .asciz "_IDirectSound_CreateSoundStream@16"
+LC477: .asciz "_IDirectSound_SetDistanceFactor@12"
+LC478: .asciz "_IDirectSound_SetRolloffFactor@12"
+LC479: .asciz "_IDirectSound_SetOrientation@32"
+LC480: .asciz "_IDirectSound_SetPosition@20"
+LC481: .asciz "_IDirectSound_SetDopplerFactor@12"
+LC482: .asciz "_DirectSoundCreate@12"
+LC483: .asciz "_DirectSoundCreateBuffer@8"
+LC484: .asciz "_WmaCreateInMemoryDecoder@20"
+LC485: .asciz "_XOnlineTaskContinue@4"
+LC486: .asciz "_XOnlineTaskClose@4"
+LC487: .asciz "_XOnlineGetUsers@8"
+LC488: .asciz "_XOnlineLogon@20"
+LC489: .asciz "_XOnlineLogonTaskGetResults@4"
+LC490: .asciz "_XOnlineChangeLogonUsers@12"
+LC491: .asciz "_XOnlineChangeLogonUsersTaskGetResults@8"
+LC492: .asciz "_XOnlineGetLogonUsers@0"
+LC493: .asciz "_XOnlineGetServiceInfo@8"
+LC494: .asciz "_XOnlineSaveLogonState@4"
+LC495: .asciz "_Sleep@4"
+LC496: .asciz "_XOnlineOfferingIsNewContentAvailable@12"
+LC497: .asciz "_XOnlineMatchSessionCreate@32"
+LC498: .asciz "_XOnlineMatchSessionUpdate@40"
+LC499: .asciz "_XOnlineMatchSessionGetInfo@12"
+LC500: .asciz "_XOnlineMatchSessionDelete@16"
+LC501: .asciz "_XOnlineMatchSessionFindFromID@16"
+LC502: .asciz "_XOnlineMatchSearch@28"
+LC503: .asciz "_XOnlineMatchSearchGetResults@12"
+LC504: .asciz "_XOnlineMatchSearchParse@16"
+LC505: .asciz "_XOnlineMatchSearchResultsLen@12"
+LC506: .asciz "_XOnlineTitleIdIsSameTitle@4"
+LC507: .asciz "_XOnlineTitleIdIsSameTitle@4"
+LC508: .asciz "_XOnlineNotificationSetState@24"
+LC509: .asciz "_XOnlineGetNotificationEx@12"
+LC510: .asciz "_XOnlineFriendsStartup@8"
+LC511: .asciz "_XOnlineFriendsEnumerate@12"
+LC512: .asciz "_XOnlineFriendsEnumerateFinish@4"
+LC513: .asciz "_XOnlineFriendsGetLatest@12"
+LC514: .asciz "_XOnlineFriendsGetTitleName@16"
+LC515: .asciz "_XOnlineFriendsRemove@8"
+LC516: .asciz "_XOnlineFriendsGameInvite@20"
+LC517: .asciz "_XOnlineFriendsAnswerRequest@12"
+LC518: .asciz "_XOnlineFriendsAnswerGameInvite@12"
+LC519: .asciz "_XOnlineFriendsJoinGame@8"
+LC520: .asciz "_XOnlineFriendsGetAcceptedGameInvite@4"
+LC521: .asciz "_XOnlineMutelistGet@24"
+LC522: .asciz "_XOnlineMutelistStartup@8"
+LC523: .asciz "_XOnlineMutelistAdd@16"
+LC524: .asciz "_XOnlineMutelistRemove@16"
+LC525: .asciz "_XOnlineFeedbackSend@32"
+LC526: .asciz "_XOnlineStatWrite@16"
+LC527: .asciz "_XOnlineStatRead@16"
+LC528: .asciz "_XOnlineStatReadGetResult@20"
+LC529: .asciz "_XOnlineStartup@4"
+LC530: .asciz "_XOnlineCleanup@0"
+LC531: .asciz "_XOnlineGetNatType@0"
+LC532: .asciz "_XOnlinePresenceAdd@16"
+LC533: .asciz "_XOnlinePresenceClear@4"
+LC534: .asciz "_XOnlinePresenceSubmit@4"
+LC535: .asciz "_XOnlinePresenceGetLatest@16"
+LC536: .asciz "_XOnlinePresenceInit@12"
+LC537: .asciz "_XOnlineGameInviteSend@36"
+LC538: .asciz "_XOnlineGameInviteAnswer@20"
+LC539: .asciz "_XOnlineFriendsRequestEx@28"
+LC540: .asciz "_XOnlineFriendsRequestByNameEx@20"
+LC541: .asciz "_XOnlineTeamMemberRecruit@44"
+LC542: .asciz "_XOnlineTeamMemberRecruitByName@36"
+LC543: .asciz "_XOnlineTeamMemberAnswerRecruit@28"
+LC544: .asciz "_XOnlineMessageDetailsGetResultsProperty@24"
+LC545: .asciz "_XOnlineMessageDownloadAttachmentToMemory@24"
+LC546: .asciz "_XOnlineMessageDownloadAttachmentToMemoryGetResults@16"
+LC547: .asciz "_XOnlineMessageCreate@32"
+LC548: .asciz "_XOnlineMessageDestroy@4"
+LC549: .asciz "_XOnlineMessageSetProperty@20"
+LC550: .asciz "_XOnlineMessageEnumerate@12"
+LC551: .asciz "_XOnlineMessageDelete@12"
+LC552: .asciz "_XOnlineMessageSend@24"
+LC553: .asciz "_XOnlineMessageDetails@24"
+LC554: .asciz "_XOnlineStatWriteGetResult@16"
+LC555: .asciz "_XOnlineStorageCreateServerPath@32"
+LC556: .asciz "_XOnlineStorageDownload@28"
+LC557: .asciz "_XOnlineStorageDownloadToMemory@32"
+LC558: .asciz "_XOnlineStorageDownloadToMemoryGetResults@24"
+LC559: .asciz "_XOnlineStorageUploadByServerPath@36"
+LC560: .asciz "_XOnlineStorageUploadFromMemory@40"
+LC561: .asciz "_XOnlineArbitrationCreateRoundID@4"
+LC562: .asciz "_XOnlineArbitrationRegister@20"
+LC563: .asciz "_XOnlineArbitrationExtendRound@16"
+LC564: .asciz "_XOnlineArbitrationReport@28"
+LC565: .asciz "_XOnlineTeamEnumerateGetResults@12"
+LC566: .asciz "_XOnlineTeamMembersEnumerateGetResults@12"
+LC567: .asciz "_XOnlineTeamCreate@24"
+LC568: .asciz "_XOnlineTeamDelete@24"
+LC569: .asciz "_XOnlineTeamMemberSetProperties@40"
+LC570: .asciz "_XOnlineTeamMemberRemove@36"
+LC571: .asciz "_XOnlineTeamEnumerateByUserXUID@24"
+LC572: .asciz "_XOnlineTeamGetDetails@20"
+LC573: .asciz "_XOnlineTeamMembersEnumerate@28"
+LC574: .asciz "_XOnlineTeamMemberGetDetails@20"
+LC575: .asciz "_XOnlineQuerySearch@40"
+LC576: .asciz "_XOnlineQuerySearchGetResults@20"
+LC577: .asciz "_XNetRandom@8"
+LC578: .asciz "_XNetCreateKey@8"
+LC579: .asciz "_XNetRegisterKey@8"
+LC580: .asciz "_XNetUnregisterKey@4"
+LC581: .asciz "_XNetXnAddrToInAddr@12"
+LC582: .asciz "_XNetTsAddrToInAddr@16"
+LC583: .asciz "_XNetQosListen@20"
+LC584: .asciz "_XNetQosLookup@48"
+LC585: .asciz "_XNetQosRelease@4"
+LC586: .asciz "_XNetGetTitleXnAddr@4"
+LC587: .asciz "_socket@12"
+LC588: .asciz "_closesocket@4"
+LC589: .asciz "_shutdown@8"
+LC590: .asciz "_ioctlsocket@12"
+LC591: .asciz "_setsockopt@20"
+LC592: .asciz "_getsockopt@20"
+LC593: .asciz "_bind@12"
+LC594: .asciz "_connect@12"
+LC595: .asciz "_select@20"
+LC596: .asciz "_recv@16"
+LC597: .asciz "_recvfrom@24"
+LC598: .asciz "_send@16"
+LC599: .asciz "_sendto@24"
+LC600: .asciz "_XNetInAddrToXnAddr@12"
+LC601: .asciz "_XNetConnect@4"
+LC602: .asciz "_XNetConnect@4"
+LC603: .asciz "_XNetGetConnectStatus@4"
+LC604: .asciz "_XNetQosServiceLookup@12"
+LC605: .asciz "_XNetStartup@4"
+LC606: .asciz "_WSAStartup@8"
+LC607: .asciz "_XNetCleanup@0"
+LC608: .asciz "_WSACleanup@0"
+LC609: .asciz "_WSAGetLastError@0"
+LC610: .asciz "___WSAFDIsSet@8"
+LC611: .asciz "_htonl@4"
+LC612: .asciz "_htons@4"
+LC613: .asciz "_XInitDevices@8"
+LC614: .asciz "_XGetDeviceChanges@12"
+LC615: .asciz "_XInputOpen@16"
+LC616: .asciz "_XInputClose@4"
+LC617: .asciz "_XInputGetCapabilities@8"
+LC618: .asciz "_XInputGetState@8"
+LC619: .asciz "_XInputSetState@8"
+LC620: .asciz "_ResumeThread@4"
+LC621: .asciz "_CreateEventA@16"
+LC622: .asciz "_SetEvent@4"
+LC623: .asciz "_WaitForMultipleObjects@16"
+LC624: .asciz "_malloc"
+LC625: .asciz "_IDirectSoundBuffer_Stop@4"
+LC626: .asciz "_IDirectSoundBuffer_GetCurrentPosition@12"
+LC627: .asciz "_IDirectSoundBuffer_SetFrequency@8"
+LC628: .asciz "?function_1d2f0@@YG_NPAUD3DSurface@@PAE@Z"
+LC629: .asciz "?function_439d0@@YIPAXJ@Z"
+LC630: .asciz "?function_15ca10@@YIXXZ"
 .text
 GB439d0: movl %eax, %ecx
   jmp "?function_439d0@@YIPAXJ@Z"

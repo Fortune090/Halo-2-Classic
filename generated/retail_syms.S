@@ -365,6 +365,8 @@
 "?g_device_setup_storage@@3Us_device_setup_storage@@A" = 0x43ed80
 .globl "?g_43f220@@3PAEA"
 "?g_43f220@@3PAEA" = 0x43f220
+.globl "?g_43f408@@3QAY0BF@$$CBEA"
+"?g_43f408@@3QAY0BF@$$CBEA" = 0x43f408
 .globl "?g_43fa1c@@3QBUs_render_mode_44370@@B"
 "?g_43fa1c@@3QBUs_render_mode_44370@@B" = 0x43fa1c
 .globl "?g_440070@@3PAEA"
@@ -429,6 +431,8 @@
 "?g_44a1c0@@3Us_sound_source_callbacks@@B" = 0x44a1c0
 .globl "?g_44a1e0@@3Us_sound_source_callbacks@@B"
 "?g_44a1e0@@3Us_sound_source_callbacks@@B" = 0x44a1e0
+.globl "?g_44a2a0@@3Us_sound_driver_reverb@@B"
+"?g_44a2a0@@3Us_sound_driver_reverb@@B" = 0x44a2a0
 .globl "?g_44ac18@@3MB"
 "?g_44ac18@@3MB" = 0x44ac18
 .globl "?g_44ad90@@3PAUfiring_position_pre_evaluator@@A"
@@ -647,6 +651,8 @@
 "??_7c_1c2d40@@6Bc_contact_rule_fallback@@@" = 0x4555ec
 .globl "??_7c_1d19d0@@6B@"
 "??_7c_1d19d0@@6B@" = 0x455950
+.globl "??_7c_contact_presence@@6B@"
+"??_7c_contact_presence@@6B@" = 0x455970
 .globl "??_7class_2fdcf0@@6B@"
 "??_7class_2fdcf0@@6B@" = 0x455d48
 .globl "??_7box_2fe6d0@@6B@"
@@ -2899,8 +2905,8 @@
 "?g_4d87f0@@3PAUs_flagged@@A" = 0x4d87f0
 .globl "?g_4d87f4@@3JA"
 "?g_4d87f4@@3JA" = 0x4d87f4
-.globl "?g_4d87f8@@3PAUs_allocator_globals@@A"
-"?g_4d87f8@@3PAUs_allocator_globals@@A" = 0x4d87f8
+.globl "?g_network_heap@@3Us_network_heap_globals@@A"
+"?g_network_heap@@3Us_network_heap_globals@@A" = 0x4d87f8
 .globl "?g_4d87fc@@3PAXA"
 "?g_4d87fc@@3PAXA" = 0x4d87fc
 .globl "?g_4d8800@@3Us_user_settings_payload@@A"
@@ -3287,8 +3293,6 @@
 "?g_4f55e1@@3_NA" = 0x4f55e1
 .globl "?g_4f55e4@@3_NA"
 "?g_4f55e4@@3_NA" = 0x4f55e4
-.globl "?g_4f55e5@@3_NA"
-"?g_4f55e5@@3_NA" = 0x4f55e5
 .globl "?g_4f55e6@@3_NA"
 "?g_4f55e6@@3_NA" = 0x4f55e6
 .globl "?g_4f55e7@@3_NA"

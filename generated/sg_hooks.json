@@ -1,0 +1,175 @@
+[
+ {
+  "symbol": "?function_12b450@@YIXXZ",
+  "wrapper": "@sg_w_main@0",
+  "callers": "all",
+  "calls": 1
+ },
+ {
+  "symbol": "_XInputGetState@8",
+  "wrapper": "_sg_w_input@8",
+  "callers": "all",
+  "calls": 1
+ },
+ {
+  "symbol": "?function_13c780@@YIXXZ",
+  "wrapper": "@sg_w_hud@0",
+  "callers": "all",
+  "calls": 1
+ },
+ {
+  "symbol": "?function_13c20@@YIXXZ",
+  "wrapper": "@sg_w_late@0",
+  "callers": [
+   "2c790"
+  ],
+  "calls": 1
+ },
+ {
+  "symbol": "?function_2c790@@YGXPBE@Z",
+  "wrapper": "_sg_w_hud_view@4",
+  "callers": "all",
+  "calls": 1
+ },
+ {
+  "symbol": "?function_106030@@YI_NJ@Z",
+  "wrapper": "@sg_w_inf_ammo@4",
+  "callers": "all",
+  "calls": 5
+ },
+ {
+  "symbol": "?function_102fb0@@YGXJF@Z",
+  "wrapper": "_sg_w_fire@8",
+  "callers": "all",
+  "calls": 2
+ },
+ {
+  "symbol": "?function_d7b80@@YGXPAUs_type_1e6529@@JFFFPBTvector3f@@@Z",
+  "wrapper": "_sg_w_damage@24",
+  "callers": "all",
+  "calls": 20
+ },
+ {
+  "symbol": "?function_daaa0@@YIXPAUs_damage_info@@JPBUs_damage_owner@@JMPAUs_damage_region_accumulator@@@Z",
+  "wrapper": "@sg_w_region_damage@24",
+  "callers": "all",
+  "calls": 3
+ },
+ {
+  "symbol": "?function_12b790@@YIXXZ",
+  "wrapper": "@sg_w_save@0",
+  "callers": "all",
+  "calls": 2
+ },
+ {
+  "symbol": "?game_revert_countdown_update@@YIXXZ",
+  "wrapper": "@sg_w_revert@0",
+  "callers": "all",
+  "calls": 1
+ },
+ {
+  "symbol": "?function_e4680@@YI_NJ@Z",
+  "wrapper": "@sg_w_jump@4",
+  "callers": "all",
+  "calls": 1
+ },
+ {
+  "symbol": "?function_e3700@@YIXJ@Z",
+  "wrapper": "@sg_w_fall@4",
+  "callers": "all",
+  "calls": 2
+ },
+ {
+  "symbol": "?game_finish@@YIXXZ",
+  "wrapper": "@sg_w_finish@0",
+  "callers": [
+   "2a99b0"
+  ],
+  "calls": 1
+ },
+ {
+  "symbol": "?function_223080@@YIXJJJPAUs_223080@@JJPBUs_223081@@@Z",
+  "wrapper": "@sg_w_view_build@28",
+  "callers": "all",
+  "calls": 1
+ },
+ {
+  "symbol": "?function_1917eb@@YIXXZ",
+  "wrapper": "@sg_w_hud_draw@0",
+  "callers": "all",
+  "calls": 1
+ },
+ {
+  "symbol": "?first_person_weapon_get_marker@@YI_NJJPATpoint3f@@PATvector3f@@1@Z",
+  "wrapper": "@sg_w_fp_marker@20",
+  "callers": "all",
+  "calls": 2
+ },
+ {
+  "symbol": "?function_155760@@YIJJ@Z",
+  "wrapper": "@sg_w_perspective@4",
+  "callers": [
+   "2b990",
+   "2bcd0",
+   "3d2c0",
+   "3e9c0",
+   "1662c1",
+   "166cd1",
+   "166d75",
+   "16ebf0",
+   "174220",
+   "178eb0",
+   "179020",
+   "179880"
+  ],
+  "calls": 13
+ },
+ {
+  "symbol": "?function_155810@@YIFJPAF@Z",
+  "wrapper": "@sg_w_cam_mode@8",
+  "callers": "all",
+  "calls": 3
+ },
+ {
+  "symbol": "?player_control_get_camera@@YIXJPAUs_player_control_camera@@@Z",
+  "wrapper": "@sg_w_cam_target@8",
+  "callers": "all",
+  "calls": 3
+ },
+ {
+  "symbol": "?function_261ec0@@YG_NJJPAUs_261d20_entry@@PAFJPAUs_prop_search@@@Z",
+  "wrapper": "_sg_w_fp_gather@24",
+  "callers": "all",
+  "calls": 1
+ },
+ {
+  "symbol": "?function_11c470@@YI_NJPBTpoint3f@@@Z",
+  "wrapper": "@sg_w_tvt@8",
+  "callers": [
+   "2a0e40",
+   "29f6c0",
+   "291670",
+   "11c5f0"
+  ],
+  "calls": 4
+ },
+ {
+  "symbol": "_D3DDevice_DrawIndexedVertices@12",
+  "wrapper": "_sg_w_draw_indexed@12",
+  "callers": "all",
+  "calls": 8
+ },
+ {
+  "symbol": "_D3DDevice_DrawVertices@12",
+  "wrapper": "_sg_w_draw_vertices@12",
+  "callers": "all",
+  "calls": 3
+ },
+ {
+  "symbol": "?function_0222d0@@YIXW4_D3DRENDERSTATETYPE@@K@Z",
+  "wrapper": "@sg_w_frame_state@8",
+  "callers": [
+   "132d0"
+  ]
+ }
+]
